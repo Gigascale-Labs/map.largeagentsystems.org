@@ -1,10 +1,17 @@
-<!DOCTYPE html><!--  Last Published: Fri Sep 27 2024 11:36:14 GMT+0000 (Coordinated Universal Time)  -->
-<html data-wf-page="6543fd14b488ee6d5e7078f6" data-wf-site="65380b51b01b69a63d681e04">
+<!DOCTYPE html><!--  Last Published: Thu Dec 04 2025 15:22:42 GMT+0000 (Coordinated Universal Time)  -->
+<html data-wf-page="6543fd14b488ee6d5e7078f6" data-wf-site="65380b51b01b69a63d681e04" lang="en">
 <head>
   <meta charset="utf-8">
   <title>Donation guide – AISafety.com</title>
+  <meta content="A short guide on how to donate most effectively to the AI safety field." name="description">
   <meta content="Donation guide – AISafety.com" property="og:title">
+  <meta content="A short guide on how to donate most effectively to the AI safety field." property="og:description">
+  <meta content="https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/6901a5563546f2b30147d318_link%20preview%20NEW.png" property="og:image">
   <meta content="Donation guide – AISafety.com" property="twitter:title">
+  <meta content="A short guide on how to donate most effectively to the AI safety field." property="twitter:description">
+  <meta content="https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/6901a5563546f2b30147d318_link%20preview%20NEW.png" property="twitter:image">
+  <meta property="og:type" content="website">
+  <meta content="summary_large_image" name="twitter:card">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <link href="css/normalize.css" rel="stylesheet" type="text/css">
   <link href="css/webflow.css" rel="stylesheet" type="text/css">
@@ -31,335 +38,420 @@
   })();
 </script>
   <!--  End Matomo Code  -->
-  <!--  [Attributes by Finsweet] CMS Load  -->
-  <script async="" src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmsload@1/cmsload.js"></script>
+  <script>
+(function () {
+  const selector = '.featured-card';
+  const minWidth = 992; // only run at desktop and up
+  function equalizeHeights() {
+    const els = Array.from(document.querySelectorAll(selector));
+    if (!els.length) return;
+    // reset heights
+    els.forEach(el => el.style.height = '');
+    // only apply on desktop
+    if (window.innerWidth < minWidth) return;
+    // measure tallest
+    let max = 0;
+    els.forEach(el => {
+      const h = el.offsetHeight;
+      if (h > max) max = h;
+    });
+    // set height
+    els.forEach(el => el.style.height = max + 'px');
+  }
+  // run on load + resize
+  window.addEventListener('load', equalizeHeights);
+  window.addEventListener('resize', () => {
+    clearTimeout(window._eqTimeout);
+    window._eqTimeout = setTimeout(equalizeHeights, 120);
+  });
+})();
+</script>
+  <!-- 
+<style>
+* {
+  outline: 1px solid red !important;
+}
+</style>
+ -->
 </head>
 <body>
-  <div id="nav" data-animation="default" data-collapse="all" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="nav w-nav">
-    <div class="nav-container">
-      <a href="index.html" class="w-inline-block">
-        <h2>AISafety.com</h2>
-      </a>
-      <div class="nav-container-button hover-opacity w-nav-button"><img src="images/Menu-WHITE-RESIZED.svg" loading="lazy" alt="" class="image-3"></div>
+  <div>
+    <div class="w-embed">
+      <style>
+.nav-item, .button-secondary {
+   transition: background-color 0.05s ease-in-out, box-shadow 0.05s ease-in-out;
+}
+.card, .featured-card {
+	transition: background-color 0.05s ease-in-out;
+}
+.button-primary {
+	transition: opacity 0.05s ease-in-out;
+}
+.filter-count {
+    font-size: 13px;
+    color: #717F80;
+    margin-left: 2px;
+}
+.hero-bg {
+  transform: translateX(-50%);
+}
+.nav-menu {
+	backdrop-filter: none;
+}
+/* Fix for mobile background image - UPDATED */
+@media (max-width: 991px) {
+  .hero-bg {
+    transform: translateX(-50%) !important;
+    left: 50% !important;
+    width: 100% !important;
+    min-width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    position: absolute !important;
+    top: 0 !important;
+  }
+  .hero-bg img {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+    object-fit: cover !important;
+    object-position: center !important;
+  }
+}
+.card_full_width-right_card, .card-full-width-2-left-card, .card-half-width_bottom-card, .card-full-width-right-card-light {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.cards-grid {
+	row-gap: 40px;
+}
+@media (max-width: 991px) {
+  .cards-grid {
+    row-gap: 24px;
+  }
+}
+.truncate { text-overflow: ellipsis; }
+body:not(.nav-ready) #desktop-nav .nav-item {
+  visibility: hidden !important;
+}
+.nav-item-last {
+  cursor: pointer;
+}
+.nav-overflow-dropdown {
+	position: absolute;
+	top: 48px !important;
+  right: 0;
+	background: #0E2628 !important;
+  border: 1px solid #2A3F41 !important;
+  border-radius: 16px !important;
+  max-width: 266px !important;
+  width: calc(100vw - 40px) !important;
+  box-shadow: 0 12px 24px rgba(0, 25, 27, 0.5) !important;
+  padding: 24px 24px 16px 24px !important;
+  z-index: 5;
+}
+@media (max-width: 990px) {
+  #desktop-nav .nav-item {
+    margin-bottom: 8px;
+  }
+  #desktop-nav .nav-item:last-child {
+    margin-bottom: 0;
+  }
+}
+</style>
     </div>
-    <nav role="navigation" class="nav-menu padding-top-80px w-nav-menu">
-      <div class="container-default padding-128px w-container">
-        <div class="w-layout-grid grid-4-4-4 padding-56px mobile">
-          <a id="w-node-_22578ad6-1bf1-a944-da59-8cf47cf10d9b-e25e99d3" href="courses.html" class="landing-resource_card_flex w-inline-block"><img src="images/book.svg" loading="lazy" id="w-node-_22578ad6-1bf1-a944-da59-8cf47cf10d9c-e25e99d3" alt="">
-            <div>
-              <p class="paragraph-large-bold padding-16px">Courses</p>
-              <p>Curricula and reading lists for self-led learning at all levels</p>
-            </div>
+    <div class="hero-bg"><img loading="lazy" src="images/bg.svg" alt=""></div>
+    <div id="nav" data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="nav w-nav">
+      <div class="nav-container">
+        <a href="index.html" class="brand padding-right-24px w-nav-brand"><img loading="lazy" src="images/logo.svg" alt="" class="display-block"></a>
+        <nav role="navigation" id="desktop-nav" class="nav-menu w-nav-menu">
+          <a id="nav-events" href="events-and-training.html" class="nav-item w-inline-block">
+            <div class="nav-item-icon drop-shadow-dark"><img width="16" height="16" alt="" src="images/calendar.svg" loading="lazy"></div>
+            <p class="paragraph-small-bold">Events &amp; training</p>
+            <p data-count="events" class="paragraph-xs color-teal-300"></p>
           </a>
-          <a id="w-node-_22578ad6-1bf1-a944-da59-8cf47cf10da2-e25e99d3" href="communities.html" class="landing-resource_card_flex w-inline-block"><img src="images/people.svg" loading="lazy" id="w-node-_22578ad6-1bf1-a944-da59-8cf47cf10da3-e25e99d3" alt="">
-            <div>
-              <p class="paragraph-large-bold padding-16px">Communities</p>
-              <p>Local and online groups – including forums, Facebook, Slack, and Discord</p>
-            </div>
+          <a id="nav-map" href="map.html" class="nav-item w-inline-block">
+            <div class="nav-item-icon drop-shadow-dark"><img width="16" height="16" alt="" src="images/map.svg" loading="lazy"></div>
+            <p class="paragraph-small-bold">Field map</p>
+            <p data-count="map" class="paragraph-xs color-teal-300"></p>
           </a>
-          <a id="w-node-_22578ad6-1bf1-a944-da59-8cf47cf10da9-e25e99d3" href="projects.html" class="landing-resource_card_flex w-inline-block"><img src="images/building-blocks.svg" loading="lazy" id="w-node-_22578ad6-1bf1-a944-da59-8cf47cf10daa-e25e99d3" alt="">
-            <div>
-              <p class="paragraph-large-bold padding-16px">Projects</p>
-              <p>Online initiatives seeking your volunteer help – all skill levels welcome</p>
-            </div>
+          <a id="nav-communities" href="communities.html" class="nav-item w-inline-block">
+            <div class="nav-item-icon drop-shadow-dark"><img width="16" height="16" alt="" src="images/globe.svg" loading="lazy"></div>
+            <p class="paragraph-small-bold">Communities</p>
+            <p data-count="communities" class="paragraph-xs color-teal-300"></p>
           </a>
-        </div>
-        <div class="w-layout-grid grid-4-4-4 padding-56px mobile">
-          <a id="w-node-_22578ad6-1bf1-a944-da59-8cf47cf10dc7-e25e99d3" href="jobs.html" class="landing-resource_card_flex w-inline-block"><img src="images/briefcase.svg" loading="lazy" id="w-node-_22578ad6-1bf1-a944-da59-8cf47cf10dc8-e25e99d3" alt="">
-            <div>
-              <p class="paragraph-large-bold padding-16px">Jobs</p>
-              <p>A list of all current open positions in AI Safety</p>
-            </div>
+          <a id="nav-self-study" href="self-study.html" class="nav-item w-inline-block">
+            <div class="nav-item-icon drop-shadow-dark"><img width="16" height="16" alt="" src="images/book.svg" loading="lazy"></div>
+            <p class="paragraph-small-bold">Self-study</p>
+            <p data-count="study" class="paragraph-xs color-teal-300"></p>
           </a>
-          <a id="w-node-_22578ad6-1bf1-a944-da59-8cf47cf10dce-e25e99d3" href="events-and-training.html" class="landing-resource_card_flex w-inline-block"><img src="images/calendar.svg" loading="lazy" id="w-node-_22578ad6-1bf1-a944-da59-8cf47cf10dcf-e25e99d3" alt="">
-            <div>
-              <p class="paragraph-large-bold padding-16px">Events &amp; training</p>
-              <p>Gatherings and training programs, both online and in-person</p>
-            </div>
+          <a id="nav-jobs" href="jobs.html" class="nav-item w-inline-block">
+            <div class="nav-item-icon drop-shadow-dark"><img width="16" height="16" alt="" src="images/briefcase.svg" loading="lazy"></div>
+            <p class="paragraph-small-bold">Jobs</p>
+            <p data-count="jobs" class="paragraph-xs color-teal-300"></p>
           </a>
-          <a id="w-node-_22578ad6-1bf1-a944-da59-8cf47cf10dd5-e25e99d3" href="funders.html" class="landing-resource_card_flex w-inline-block"><img src="images/piggy-bank.svg" loading="lazy" id="w-node-_22578ad6-1bf1-a944-da59-8cf47cf10dd6-e25e99d3" alt="">
-            <div>
-              <p class="paragraph-large-bold padding-16px">Funders</p>
-              <p>Organizations providing financial support for your projects</p>
-            </div>
+          <a id="nav-funding" href="funding.html" class="nav-item w-inline-block">
+            <div class="nav-item-icon drop-shadow-dark"><img width="16" height="16" alt="" src="images/coins.svg" loading="lazy"></div>
+            <p class="paragraph-small-bold">Funding</p>
+            <p data-count="funding" class="paragraph-xs color-teal-300"></p>
           </a>
-        </div>
-        <div class="w-layout-grid grid-4-4-4 padding-80px">
-          <a id="w-node-_22578ad6-1bf1-a944-da59-8cf47cf10ddd-e25e99d3" href="landscape-map.html" class="landing-resource_card_flex w-inline-block"><img src="images/map.svg" loading="lazy" id="w-node-_22578ad6-1bf1-a944-da59-8cf47cf10dde-e25e99d3" alt="">
-            <div>
-              <p class="paragraph-large-bold padding-16px">Landscape map</p>
-              <p>An overview of the organizations, programs, and projects in the AI Safety space</p>
-            </div>
-          </a>
-          <a id="w-node-_22578ad6-1bf1-a944-da59-8cf47cf10de4-e25e99d3" href="https://aisafety.info/questions/9OGZ/" target="_blank" class="landing-resource_card_flex w-inline-block"><img src="images/letters.svg" loading="lazy" id="w-node-_22578ad6-1bf1-a944-da59-8cf47cf10de5-e25e99d3" alt="">
-            <div>
-              <p class="paragraph-large-bold padding-16px">AI Safety guide</p>
-              <p>A comprehensive introduction to AI Safety, written and curated by our team and affiliates</p>
-            </div>
-          </a>
-          <a id="w-node-_22578ad6-1bf1-a944-da59-8cf47cf10deb-e25e99d3" href="donation-guide.html" aria-current="page" class="landing-resource_card_flex w-inline-block w--current"><img src="images/hand.svg" loading="lazy" id="w-node-_22578ad6-1bf1-a944-da59-8cf47cf10dec-e25e99d3" alt="">
-            <div>
-              <p class="paragraph-large-bold padding-16px">Donation guide</p>
-              <p>How to donate most effectively with the funding and time you have</p>
-            </div>
-          </a>
-        </div>
-        <div class="w-layout-grid grid-4-4-4">
-          <div>
-            <p class="padding-32px">We&#x27;re a global team of volunteers from various disciplines who believe AI poses a grave risk of extinction to humanity.</p>
-            <a href="about.html" class="paragraph-default-bold hover-opacity">Learn more about us <span class="color-grey">→</span></a>
+          <div id="nav-overflow" href="#" class="nav-item-last">
+            <p class="paragraph-small-bold"></p>
           </div>
-        </div>
+        </nav>
+        <div class="menu-button w-nav-button"><img loading="lazy" src="images/hamburger.svg" alt="" class="hamburger"></div>
       </div>
-    </nav>
+    </div>
   </div>
   <div class="container-default w-container">
-    <h1 class="padding-80px padding-top-80px">Donation guide</h1>
-    <p class="color-white padding-32px">Choose an annual donation amount:</p>
-    <div data-current="Tab 1" data-easing="ease" data-duration-in="300" data-duration-out="100" class="tabs-flex padding-128px w-tabs">
-      <div class="tabs-menu w-tab-menu">
-        <a data-w-tab="Tab 1" class="tab-link elevation w-inline-block w-tab-link w--current">
-          <div class="paragraph-large color-white">$1–1,000</div>
+    <h1 class="padding-top-56px padding-8px">Donation guide</h1>
+    <div id="Last-update2" class="padding-40px paragraph-small color-teal-300">Last updated: 12 June 2025</div>
+    <h2 class="width-7-col padding-56px">This guide can help you determine the most effective way to <span class="color-light-teal">financially support work on AI safety,</span> given the funds and time you have available.</h2>
+    <p class="padding-32px">Choose a donation amount:</p>
+    <div data-current="Tab 1" data-easing="ease" data-duration-in="300" data-duration-out="100" class="flex-gap-56px w-tabs">
+      <div class="tabs-menu width-3-col w-tab-menu">
+        <a data-w-tab="Tab 1" class="tab-link w-inline-block w-tab-link w--current">
+          <p>$1–1,000</p>
         </a>
-        <a data-w-tab="Tab 2" class="tab-link elevation w-inline-block w-tab-link">
-          <div class="paragraph-large color-white">$1,000–10,000</div>
+        <a data-w-tab="Tab 2" class="tab-link w-inline-block w-tab-link">
+          <p>$1,000–10,000</p>
         </a>
-        <a data-w-tab="Tab 3" class="tab-link elevation w-inline-block w-tab-link">
-          <div class="paragraph-large color-white">$10,000–100,000</div>
+        <a data-w-tab="Tab 3" class="tab-link w-inline-block w-tab-link">
+          <p>$10,000–100,000</p>
         </a>
-        <a data-w-tab="Tab 4" class="tab-link elevation w-inline-block w-tab-link">
-          <div class="paragraph-large color-white">$100,000+</div>
+        <a data-w-tab="Tab 4" class="tab-link w-inline-block w-tab-link">
+          <p>$100,000+</p>
         </a>
       </div>
-      <div id="Tabs-Content" class="tabs-content w-tab-content">
+      <div id="Tabs-Content" class="width-9-col w-tab-content">
         <div data-w-tab="Tab 1" class="w-tab-pane w--tab-active">
-          <div id="w-node-_3518ba8c-ea46-49b7-dfd5-f6a69bfd7051-5e7078f6">
-            <h2 id="w-node-ae6e81b1-7f8f-5a22-6407-4bb62b1082a9-5e7078f6" class="padding-24px">$1–1,000 annual donation</h2>
-            <p class="padding-80px">AI safety is funding-limited at the moment and every bit counts.</p>
-            <div class="w-layout-grid donating-inner_grid padding-80px">
-              <div id="w-node-_4d68d045-732a-ee56-10ea-44e1f237467f-5e7078f6">
-                <p id="w-node-d3bab129-007f-bd43-848f-f3254c362d52-5e7078f6" class="padding-8px">If you have</p>
-                <p id="w-node-_02fed63e-47de-705f-e543-1b4c66cff54b-5e7078f6" class="paragraph-large-bold">5 minutes–1 hour</p>
-              </div>
-              <div id="w-node-_67f99b40-f0cc-ef0c-394e-ba3e06bc7dab-5e7078f6">
-                <p id="w-node-a98ce4a1-d1c4-d0eb-9b00-7b07a383ca64-5e7078f6" class="paragraph-bottom-margin">You can delegate to experienced grantmakers who know of more good opportunities than they can fund.</p>
-                <p id="w-node-_1f67cab5-f6f9-c62b-62c6-0e3c16854485-5e7078f6">Donate to a fund, such as the <a href="https://www.airiskfund.com/" target="_blank" class="inline color-white">AI Risk Mitigation Fund</a>. Grantmakers evaluate projects on behalf of donors and choose the projects they think are most effective to fund. Alternatively, you can donate to a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="inline color-white">donor lottery</a> which gives you a chance to direct a larger amount of money.</p>
-              </div>
+          <h2 class="padding-24px">$1–1,000 donation</h2>
+          <p class="padding-56px width-7-col">AI safety is funding-limited at the moment and every bit counts.<br></p>
+          <div class="w-layout-grid flex-gap-56px padding-40px">
+            <div id="w-node-_4d68d045-732a-ee56-10ea-44e1f237467f-5e7078f6" class="width-3-col">
+              <p class="color-teal-300 paragraph-small">If you have</p>
+              <p id="w-node-_02fed63e-47de-705f-e543-1b4c66cff54b-5e7078f6" class="paragraph-default-bold">5 minutes–1 hour</p>
             </div>
-            <div class="div-divider margin-80px"></div>
-            <div class="w-layout-grid donating-inner_grid padding-80px">
-              <div id="w-node-_772af182-783f-8955-273e-8f42a1c176d9-5e7078f6">
-                <p id="w-node-_772af182-783f-8955-273e-8f42a1c176da-5e7078f6" class="padding-8px">If you have</p>
-                <p id="w-node-_772af182-783f-8955-273e-8f42a1c176dc-5e7078f6" class="paragraph-large-bold">1–50 hours</p>
-              </div>
-              <div id="w-node-_772af182-783f-8955-273e-8f42a1c176de-5e7078f6">
-                <p id="w-node-_772af182-783f-8955-273e-8f42a1c176e1-5e7078f6" class="paragraph-bottom-margin">With some time, you might be able to find good opportunities yourself. Otherwise you can delegate to experienced grantmakers.</p>
-                <p id="w-node-_645e0205-fd7c-5d78-afb6-dcda3b77f05c-5e7078f6" class="paragraph-bottom-margin">Either donate to a fund, such as the <a href="https://www.airiskfund.com/" target="_blank" class="inline color-white">AI Risk Mitigation Fund</a>, donate to a specific project that you think effectively tackles the issues of AI safety if you have one in mind, delegate to someone in your network if you know someone whose opinion in this area you trust, or send money via a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="inline color-white">donor lottery</a> to give you a chance to direct a much larger amount and dedicate your time to researching where it should go.</p>
-                <p id="w-node-_961e7ecf-53c4-0afa-435d-0eb40cd9f606-5e7078f6">We recommend exploring <a href="https://manifund.org/" target="_blank" class="inline color-white">Manifund</a>, which allows you to &quot;invest&quot; in projects you think will be impactful, or nominate regrantors to decide on your behalf. <a href="https://givewiki.org/" target="_blank" class="inline color-white">GiveWiki</a> and the <a href="https://www.nonlinear.org/network.html" target="_blank" class="inline color-white">Nonlinear Network</a> are other platforms where you can choose projects to fund.</p>
-              </div>
+            <div id="w-node-_67f99b40-f0cc-ef0c-394e-ba3e06bc7dab-5e7078f6" class="width-6-col">
+              <p class="padding-12px">You can delegate to experienced grantmakers who know of more good opportunities than they can fund.</p>
+              <p>Donate to a fund, such as the <a href="https://www.airiskfund.com/" target="_blank" class="display-inline color-teal">AI Risk Mitigation Fund</a>. Grantmakers evaluate projects on behalf of donors and choose the projects they think are most effective to fund. Alternatively, you can donate to a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="display-inline color-teal">donor lottery</a> which gives you a chance to direct a larger amount of money.</p>
             </div>
-            <div class="div-divider margin-80px"></div>
-            <div class="w-layout-grid donating-inner_grid padding-80px">
-              <div id="w-node-a212db34-0df2-36ae-d450-f7eea9654933-5e7078f6">
-                <p id="w-node-a212db34-0df2-36ae-d450-f7eea9654934-5e7078f6" class="padding-8px">If you have</p>
-                <p id="w-node-a212db34-0df2-36ae-d450-f7eea9654936-5e7078f6" class="paragraph-large-bold">Ongoing commitment</p>
-              </div>
-              <div id="w-node-a212db34-0df2-36ae-d450-f7eea9654938-5e7078f6">
-                <p id="w-node-a212db34-0df2-36ae-d450-f7eea965493b-5e7078f6" class="paragraph-bottom-margin">By studying more before donating, you donate not just your money but your cognition to find and assess opportunities which big grantmakers – who have less time per unit of money – might miss.</p>
-                <p id="w-node-_83ebdeb6-3e38-81d7-f6bc-cede43431e0d-5e7078f6" class="paragraph-bottom-margin">
-                  <a href="https://aisafety.info/" target="_blank" class="inline color-white">Read up</a> to understand the problem, get involved in the <a href="communities.html" class="inline color-white">community</a>, and fund projects or individuals who you think are doing the best work.
-                </p>
-                <p id="w-node-_36a46c15-ee16-4058-c24c-dd6ff728766b-5e7078f6" class="paragraph-bottom-margin">Consider engaging with researchers in the comments sections of their research posts on <a href="https://www.lesswrong.com/tag/ai?sortedBy=magic" target="_blank" class="inline color-white">LessWrong</a>.</p>
-                <p id="w-node-_07508903-b76e-f848-a509-1ac4ffad9bd8-5e7078f6" class="paragraph-bottom-margin">Either donate to a specific project that you think effectively tackles the issues of AI safety if you have one in mind, delegate to someone in your network if you know someone whose opinions in this area you trust, or send money via a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="inline color-white">donor lottery</a> to give you a chance to direct a much larger amount and dedicate your time to researching where it should go.</p>
-                <p id="w-node-_761e3846-a58c-38a4-f0f9-0f1e3c4e1bbf-5e7078f6" class="paragraph-bottom-margin">We recommend exploring <a href="https://manifund.org/" target="_blank" class="inline color-white">Manifund</a>, which allows you to &quot;invest&quot; in projects you think will be impactful, or nominate regrantors to decide on your behalf. <a href="https://givewiki.org/" target="_blank" class="inline color-white">GiveWiki</a> and the <a href="https://www.nonlinear.org/network.html" target="_blank" class="inline color-white">Nonlinear Network</a> are other platforms where you can choose projects to fund.</p>
-                <p id="w-node-d4591713-29d9-f8d8-6e08-9cbc63659d9d-5e7078f6" class="paragraph-bottom-margin">Donating to a fund such as the <a href="https://www.airiskfund.com/" target="_blank" class="inline color-white">AI Risk Mitigation Fund</a> is a good fallback option.</p>
-              </div>
-            </div>
-            <div class="div-divider margin-80px"></div>
           </div>
-          <div class="w-layout-grid donating-inner_grid">
-            <div id="w-node-_6fae78f5-bdb7-43e8-cf26-8b72e93fe944-5e7078f6">
-              <p id="w-node-_6fae78f5-bdb7-43e8-cf26-8b72e93fe945-5e7078f6" class="padding-8px">If you have</p>
-              <p id="w-node-_6fae78f5-bdb7-43e8-cf26-8b72e93fe947-5e7078f6" class="paragraph-large-bold">Major focus</p>
+          <div class="div-divider margin-40px"></div>
+          <div class="w-layout-grid flex-gap-56px padding-40px">
+            <div id="w-node-_772af182-783f-8955-273e-8f42a1c176d9-5e7078f6" class="width-3-col">
+              <p class="color-teal-300 paragraph-small">If you have</p>
+              <p id="w-node-_772af182-783f-8955-273e-8f42a1c176dc-5e7078f6" class="paragraph-default-bold">1–50 hours</p>
             </div>
-            <div id="w-node-_6fae78f5-bdb7-43e8-cf26-8b72e93fe949-5e7078f6">
-              <p id="w-node-_6fae78f5-bdb7-43e8-cf26-8b72e93fe94a-5e7078f6" class="paragraph-bottom-margin">By studying more before you donate, you donate not just your money but your cognition to find and assess opportunities which big grantmakers – who have less time per unit of money – might miss.</p>
-              <p id="w-node-_6fae78f5-bdb7-43e8-cf26-8b72e93fe94c-5e7078f6" class="paragraph-bottom-margin">
+            <div id="w-node-_772af182-783f-8955-273e-8f42a1c176de-5e7078f6">
+              <p id="w-node-_772af182-783f-8955-273e-8f42a1c176e1-5e7078f6" class="padding-12px">With some time, you might be able to find good opportunities yourself. Otherwise you can delegate to experienced grantmakers.</p>
+              <p class="padding-12px">Either donate to a fund, such as the <a href="https://www.airiskfund.com/" target="_blank" class="display-inline color-teal">AI Risk Mitigation Fund</a>, donate to a specific project that you think effectively tackles the issues of AI safety if you have one in mind, delegate to someone in your network if you know someone whose opinion in this area you trust, or send money via a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="display-inline color-teal">donor lottery</a> to give you a chance to direct a much larger amount and dedicate your time to researching where it should go.</p>
+              <p>We recommend exploring <a href="https://manifund.org/" target="_blank" class="display-inline color-teal">Manifund</a>, which allows you to &quot;invest&quot; in projects you think will be impactful, or nominate regrantors to decide on your behalf. <a href="https://givewiki.org/" target="_blank" class="display-inline color-teal">GiveWiki</a> and the <a href="https://www.nonlinear.org/network.html" target="_blank" class="display-inline color-teal">Nonlinear Network</a> are other platforms where you can choose projects to fund.</p>
+            </div>
+          </div>
+          <div class="div-divider margin-40px"></div>
+          <div class="w-layout-grid flex-gap-56px padding-40px">
+            <div id="w-node-a212db34-0df2-36ae-d450-f7eea9654933-5e7078f6" class="width-3-col">
+              <p class="color-teal-300 paragraph-small">If you have</p>
+              <p id="w-node-a212db34-0df2-36ae-d450-f7eea9654936-5e7078f6" class="paragraph-default-bold">Ongoing commitment</p>
+            </div>
+            <div id="w-node-a212db34-0df2-36ae-d450-f7eea9654938-5e7078f6">
+              <p id="w-node-a212db34-0df2-36ae-d450-f7eea965493b-5e7078f6" class="padding-12px">By studying more before donating, you donate not just your money but your cognition to find and assess opportunities which big grantmakers – who have less time per unit of money – might miss.</p>
+              <p class="padding-12px">
                 <a href="https://aisafety.info/" target="_blank" class="inline color-white">Read up</a> to understand the problem, get involved in the <a href="communities.html" target="_blank" class="inline color-white">community</a>, and fund projects or individuals who you think are doing the best work.
               </p>
-              <p id="w-node-_6fae78f5-bdb7-43e8-cf26-8b72e93fe954-5e7078f6" class="paragraph-bottom-margin">Consider self-funding to try and <a href="https://aisafety.info/questions/8TJV/How-can-I-help" target="_blank" class="inline color-white">tackle the problem yourself</a>, either directly as a researcher or by using your existing skills to support the field.</p>
-              <p id="w-node-_6fae78f5-bdb7-43e8-cf26-8b72e93fe959-5e7078f6" class="paragraph-bottom-margin">Either donate to a specific project that you think effectively tackles the issues of AI safety if you have one in mind, delegate to someone in your network if you know someone whose opinions in this area you trust, or send money via a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="inline color-white">donor lottery</a> to give you a chance to direct a much larger amount and dedicate your time to researching where it should go.</p>
-              <p id="w-node-_6fae78f5-bdb7-43e8-cf26-8b72e93fe95e-5e7078f6" class="paragraph-bottom-margin">We recommend exploring <a href="https://manifund.org/" target="_blank" class="inline color-white">Manifund</a>, which allows you to &quot;invest&quot; in projects you think will be impactful, or nominate regrantors to decide on your behalf. <a href="https://givewiki.org/" target="_blank" class="inline color-white">GiveWiki</a> and the <a href="https://www.nonlinear.org/network.html" target="_blank" class="inline color-white">Nonlinear Network</a> are other platforms where you can choose projects to fund.</p>
-              <p id="w-node-_6fae78f5-bdb7-43e8-cf26-8b72e93fe969-5e7078f6">Donating to a fund such as the <a href="https://www.airiskfund.com/" target="_blank" class="inline color-white">AI Risk Mitigation Fund</a> is a good fallback option.</p>
+              <p class="padding-12px">Consider engaging with researchers in the comments sections of their research posts on <a href="https://www.lesswrong.com/w/ai" target="_blank" class="display-inline color-teal">LessWrong</a>.</p>
+              <p class="padding-12px">Either donate to a specific project that you think effectively tackles the issues of AI safety if you have one in mind, delegate to someone in your network if you know someone whose opinions in this area you trust, or send money via a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="display-inline color-teal">donor lottery</a> to give you a chance to direct a much larger amount and dedicate your time to researching where it should go.</p>
+              <p class="padding-12px">We recommend exploring <a href="https://manifund.org/" target="_blank" class="display-inline color-teal">Manifund</a>, which allows you to &quot;invest&quot; in projects you think will be impactful, or nominate regrantors to decide on your behalf. <a href="https://givewiki.org/" target="_blank" class="display-inline color-teal">GiveWiki</a> and the <a href="https://www.nonlinear.org/network.html" target="_blank" class="display-inline color-teal">Nonlinear Network</a> are other platforms where you can choose projects to fund.</p>
+              <p>Donating to a fund such as the <a href="https://www.airiskfund.com/" target="_blank" class="display-inline color-teal">AI Risk Mitigation Fund</a> is a good fallback option.</p>
+            </div>
+          </div>
+          <div class="div-divider margin-40px"></div>
+          <div class="w-layout-grid flex-gap-56px">
+            <div id="w-node-_6fae78f5-bdb7-43e8-cf26-8b72e93fe944-5e7078f6" class="width-3-col">
+              <p class="color-teal-300 paragraph-small">If you have</p>
+              <p id="w-node-_6fae78f5-bdb7-43e8-cf26-8b72e93fe947-5e7078f6" class="paragraph-default-bold">Major focus</p>
+            </div>
+            <div id="w-node-_6fae78f5-bdb7-43e8-cf26-8b72e93fe949-5e7078f6">
+              <p id="w-node-_6fae78f5-bdb7-43e8-cf26-8b72e93fe94a-5e7078f6" class="padding-12px">By studying more before you donate, you donate not just your money but your cognition to find and assess opportunities which big grantmakers – who have less time per unit of money – might miss.</p>
+              <p class="padding-12px">
+                <a href="https://aisafety.info/" target="_blank" class="inline color-white">Read up</a> to understand the problem, get involved in the <a href="communities.html" target="_blank" class="inline color-white">community</a>, and fund projects or individuals who you think are doing the best work.
+              </p>
+              <p class="padding-12px">Consider self-funding to try and <a href="https://aisafety.info/how-can-i-help" target="_blank" class="display-inline color-teal">tackle the problem yourself</a>, either directly as a researcher or by using your existing skills to support the field.</p>
+              <p class="padding-12px">Either donate to a specific project that you think effectively tackles the issues of AI safety if you have one in mind, delegate to someone in your network if you know someone whose opinions in this area you trust, or send money via a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="display-inline color-teal">donor lottery</a> to give you a chance to direct a much larger amount and dedicate your time to researching where it should go.</p>
+              <p class="padding-12px">We recommend exploring <a href="https://manifund.org/" target="_blank" class="display-inline color-teal">Manifund</a>, which allows you to &quot;invest&quot; in projects you think will be impactful, or nominate regrantors to decide on your behalf. <a href="https://givewiki.org/" target="_blank" class="display-inline color-teal">GiveWiki</a> and the <a href="https://www.nonlinear.org/network.html" target="_blank" class="display-inline color-teal">Nonlinear Network</a> are other platforms where you can choose projects to fund.</p>
+              <p>Donating to a fund such as the <a href="https://www.airiskfund.com/" target="_blank" class="display-inline color-teal">AI Risk Mitigation Fund</a> is a good fallback option.</p>
             </div>
           </div>
         </div>
         <div data-w-tab="Tab 2" class="w-tab-pane">
-          <div>
-            <h2 id="w-node-_2ef08f75-570d-0207-41cd-0859d10ae125-5e7078f6" class="padding-24px">$1,000–10,000 annual donation</h2>
-            <p id="w-node-_2ef08f75-570d-0207-41cd-0859d10ae130-5e7078f6" class="padding-80px">AI safety is funding-limited at the moment and notable donations can make a big difference.</p>
-            <div class="w-layout-grid donating-inner_grid padding-80px">
-              <div id="w-node-_2ef08f75-570d-0207-41cd-0859d10ae128-5e7078f6">
-                <p id="w-node-_2ef08f75-570d-0207-41cd-0859d10ae129-5e7078f6" class="padding-8px">If you have</p>
-                <p id="w-node-_2ef08f75-570d-0207-41cd-0859d10ae12b-5e7078f6" class="paragraph-large-bold">5 minutes–1 hour</p>
-              </div>
-              <div id="w-node-_2ef08f75-570d-0207-41cd-0859d10ae12d-5e7078f6">
-                <p class="paragraph-bottom-margin">You can delegate to experienced grantmakers who know of more good opportunities than they can fund.</p>
-                <p>Donate to a fund, such as the <a href="https://www.airiskfund.com/" target="_blank" class="inline color-white">AI Risk Mitigation Fund</a>. Grantmakers evaluate projects on behalf of donors and choose the projects they think are most effective to fund.</p>
-              </div>
+          <h2 class="padding-24px">$1,000 – 10,000 donation</h2>
+          <p class="padding-56px width-7-col">AI safety is funding-limited at the moment and notable donations can make a big difference.<br></p>
+          <div class="w-layout-grid flex-gap-56px padding-40px">
+            <div id="w-node-_2b0cc5a2-ad93-7fd9-ca16-b556b8099767-5e7078f6" class="width-3-col">
+              <p class="color-teal-300 paragraph-small">If you have</p>
+              <p id="w-node-_2b0cc5a2-ad93-7fd9-ca16-b556b809976a-5e7078f6" class="paragraph-default-bold">5 minutes–1 hour</p>
             </div>
-            <div class="div-divider margin-80px"></div>
-            <div class="w-layout-grid donating-inner_grid padding-80px">
-              <div id="w-node-_2ef08f75-570d-0207-41cd-0859d10ae138-5e7078f6">
-                <p id="w-node-_2ef08f75-570d-0207-41cd-0859d10ae139-5e7078f6" class="padding-8px">If you have</p>
-                <p id="w-node-_2ef08f75-570d-0207-41cd-0859d10ae13b-5e7078f6" class="paragraph-large-bold">1–50 hours</p>
-              </div>
-              <div id="w-node-_2ef08f75-570d-0207-41cd-0859d10ae13d-5e7078f6">
-                <p class="paragraph-bottom-margin">With some time, you might be able to find good opportunities yourself, otherwise you can delegate to experienced grantmakers.</p>
-                <p class="paragraph-bottom-margin">Either donate to a fund, such as the <a href="https://www.airiskfund.com/" target="_blank" class="inline color-white">AI Risk Mitigation Fund</a>, donate to specific projects that you think effectively tackle the issues of AI safety if you have some in mind, delegate to someone in your network if you know someone whose opinions in this area you trust, or send money via a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="inline color-white">donor lottery</a> to give you a chance to direct a much larger amount and dedicate your time to researching where it should go.</p>
-                <p>We recommend exploring <a href="https://manifund.org/" target="_blank" class="inline color-white">Manifund</a>, which allows you to &quot;invest&quot; in projects you think will be impactful, or nominate regrantors to decide on your behalf. <a href="https://givewiki.org/" target="_blank" class="inline color-white">GiveWiki</a> and the <a href="https://www.nonlinear.org/network.html" target="_blank" class="inline color-white">Nonlinear Network</a> are other platforms where you can choose projects to fund.</p>
-              </div>
+            <div id="w-node-_2b0cc5a2-ad93-7fd9-ca16-b556b809976c-5e7078f6" class="width-6-col">
+              <p class="padding-12px">You can delegate to experienced grantmakers who know of more good opportunities than they can fund.</p>
+              <p>Donate to a fund, such as the <a href="#" class="display-inline color-teal">AI Risk Mitigation Fund</a>. Grantmakers evaluate projects on behalf of donors and choose the projects they think are most effective to fund.</p>
             </div>
-            <div class="div-divider margin-80px"></div>
-            <div class="w-layout-grid donating-inner_grid padding-80px">
-              <div id="w-node-_2ef08f75-570d-0207-41cd-0859d10ae148-5e7078f6">
-                <p id="w-node-_2ef08f75-570d-0207-41cd-0859d10ae149-5e7078f6" class="padding-8px">If you have</p>
-                <p id="w-node-_2ef08f75-570d-0207-41cd-0859d10ae14b-5e7078f6" class="paragraph-large-bold">Ongoing commitment</p>
-              </div>
-              <div id="w-node-_2ef08f75-570d-0207-41cd-0859d10ae14d-5e7078f6">
-                <p class="paragraph-bottom-margin">By studying more before you donate, you donate not just your money but your cognition to find and assess opportunities which big grantmakers – who have less time per unit of money – might miss.</p>
-                <p class="paragraph-bottom-margin">
-                  <a href="https://aisafety.info/" target="_blank" class="inline color-white">Read up</a> to understand the problem, get involved in the <a href="communities.html" class="inline color-white">community</a>, and fund projects or individuals who you think are doing the best work.
-                </p>
-                <p class="paragraph-bottom-margin">Consider engaging with researchers in the comments sections of their research posts on <a href="https://www.lesswrong.com/tag/ai?sortedBy=magic" target="_blank" class="inline color-white">LessWrong</a>.</p>
-                <p>Donating to a fund such as the <a href="https://www.airiskfund.com/" target="_blank" class="inline color-white">AI Risk Mitigation Fund</a> or to a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="inline color-white">donor lottery</a> is a good fallback option.</p>
-              </div>
+          </div>
+          <div class="div-divider margin-40px"></div>
+          <div class="w-layout-grid flex-gap-56px padding-40px">
+            <div id="w-node-_2b0cc5a2-ad93-7fd9-ca16-b556b8099779-5e7078f6" class="width-3-col">
+              <p class="color-teal-300 paragraph-small">If you have</p>
+              <p id="w-node-_2b0cc5a2-ad93-7fd9-ca16-b556b809977c-5e7078f6" class="paragraph-default-bold">1–50 hours</p>
             </div>
-            <div class="div-divider margin-80px"></div>
-            <div class="w-layout-grid donating-inner_grid">
-              <div id="w-node-_0024e2d5-46df-6403-0f98-da85e36aee8b-5e7078f6">
-                <p id="w-node-_0024e2d5-46df-6403-0f98-da85e36aee8c-5e7078f6" class="padding-8px">If you have</p>
-                <p id="w-node-_0024e2d5-46df-6403-0f98-da85e36aee8e-5e7078f6" class="paragraph-large-bold">Major focus</p>
-              </div>
-              <div id="w-node-_0024e2d5-46df-6403-0f98-da85e36aee90-5e7078f6">
-                <p class="paragraph-bottom-margin">By studying more before you donate, you donate not just your money but your cognition to find and assess opportunities which big grantmakers – who have less time per unit of money – might miss.</p>
-                <p class="paragraph-bottom-margin">
-                  <a href="https://aisafety.info/" target="_blank" class="inline color-white">Read up</a> to understand the problem, get involved in the <a href="communities.html" class="inline color-white">community</a>, and fund projects or individuals who you think are doing the best work.
-                </p>
-                <p class="paragraph-bottom-margin">Consider self-funding to try and <a href="https://aisafety.info/questions/8TJV/How-can-I-help" target="_blank" class="inline color-white">tackle the problem yourself</a>, either directly as a researcher or by using your existing skills to support the field.</p>
-                <p>Donating to a fund such as the <a href="https://www.airiskfund.com/" target="_blank" class="inline color-white">AI Risk Mitigation Fund</a> or to a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="inline color-white">donor lottery</a> is a good fallback option.</p>
-              </div>
+            <div id="w-node-_2b0cc5a2-ad93-7fd9-ca16-b556b809977e-5e7078f6">
+              <p id="w-node-_2b0cc5a2-ad93-7fd9-ca16-b556b809977f-5e7078f6" class="padding-12px">With some time, you might be able to find good opportunities yourself, otherwise you can delegate to experienced grantmakers.</p>
+              <p class="padding-12px">Either donate to a fund, such as the <a href="https://www.airiskfund.com/" target="_blank" class="display-inline color-teal">AI Risk Mitigation Fund</a>, donate to specific projects that you think effectively tackle the issues of AI safety if you have some in mind, delegate to someone in your network if you know someone whose opinions in this area you trust, or send money via a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="display-inline color-teal">donor lottery</a> to give you a chance to direct a much larger amount and dedicate your time to researching where it should go.</p>
+              <p>We recommend exploring <a href="https://manifund.org/" target="_blank" class="display-inline color-teal">Manifund</a>, which allows you to &quot;invest&quot; in projects you think will be impactful, or nominate regrantors to decide on your behalf. <a href="https://givewiki.org/" target="_blank" class="inline color-white">GiveWiki</a> and the <a href="https://www.nonlinear.org/network.html" target="_blank" class="display-inline color-teal">Nonlinear Network</a> are other platforms where you can choose projects to fund.</p>
+            </div>
+          </div>
+          <div class="div-divider margin-40px"></div>
+          <div class="w-layout-grid flex-gap-56px padding-40px">
+            <div id="w-node-_2b0cc5a2-ad93-7fd9-ca16-b556b8099796-5e7078f6" class="width-3-col">
+              <p class="color-teal-300 paragraph-small">If you have</p>
+              <p id="w-node-_2b0cc5a2-ad93-7fd9-ca16-b556b8099799-5e7078f6" class="paragraph-default-bold">Ongoing commitment</p>
+            </div>
+            <div id="w-node-_2b0cc5a2-ad93-7fd9-ca16-b556b809979b-5e7078f6">
+              <p id="w-node-_2b0cc5a2-ad93-7fd9-ca16-b556b809979c-5e7078f6" class="padding-12px">By studying more before donating, you donate not just your money but your cognition to find and assess opportunities which big grantmakers – who have less time per unit of money – might miss.</p>
+              <p class="padding-12px">
+                <a href="https://aisafety.info/" target="_blank" class="inline color-white">Read up</a> to understand the problem, get involved in the <a href="communities.html" target="_blank" class="display-inline color-teal">community</a>, and fund projects or individuals who you think are doing the best work.
+              </p>
+              <p class="padding-12px">Consider engaging with researchers in the comments sections of their research posts on <a href="https://www.lesswrong.com/w/ai" target="_blank" class="display-inline color-teal">LessWrong</a>.</p>
+              <p class="padding-12px">Either donate to a specific project that you think effectively tackles the issues of AI safety if you have one in mind, delegate to someone in your network if you know someone whose opinions in this area you trust, or send money via a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="display-inline color-teal">donor lottery</a> to give you a chance to direct a much larger amount and dedicate your time to researching where it should go.</p>
+              <p class="padding-12px">We recommend exploring <a href="https://manifund.org/" target="_blank" class="inline color-white">Manifund</a>, which allows you to &quot;invest&quot; in projects you think will be impactful, or nominate regrantors to decide on your behalf. <a href="https://givewiki.org/" target="_blank" class="display-inline color-teal">GiveWiki</a> and the <a href="https://www.nonlinear.org/network.html" target="_blank" class="display-inline color-teal">Nonlinear Network</a> are other platforms where you can choose projects to fund.</p>
+              <p>Donating to a fund such as the <a href="https://www.airiskfund.com/" target="_blank" class="display-inline color-teal">AI Risk Mitigation Fund</a> is a good fallback option.</p>
+            </div>
+          </div>
+          <div class="div-divider margin-40px"></div>
+          <div class="w-layout-grid flex-gap-56px">
+            <div id="w-node-_2b0cc5a2-ad93-7fd9-ca16-b556b80997c2-5e7078f6" class="width-3-col">
+              <p class="color-teal-300 paragraph-small">If you have</p>
+              <p id="w-node-_2b0cc5a2-ad93-7fd9-ca16-b556b80997c5-5e7078f6" class="paragraph-default-bold">Major focus</p>
+            </div>
+            <div id="w-node-_2b0cc5a2-ad93-7fd9-ca16-b556b80997c7-5e7078f6">
+              <p id="w-node-_2b0cc5a2-ad93-7fd9-ca16-b556b80997c8-5e7078f6" class="padding-12px">By studying more before you donate, you donate not just your money but your cognition to find and assess opportunities which big grantmakers – who have less time per unit of money – might miss.</p>
+              <p class="padding-12px">
+                <a href="https://aisafety.info/" target="_blank" class="display-inline color-teal">Read up</a> to understand the problem, get involved in the <a href="communities.html" target="_blank" class="display-inline color-teal">community</a>, and fund projects or individuals who you think are doing the best work.
+              </p>
+              <p class="padding-12px">Consider self-funding to try and <a href="https://aisafety.info/how-can-i-help" target="_blank" class="inline color-white">tackle the problem yourself</a>, either directly as a researcher or by using your existing skills to support the field.</p>
+              <p class="padding-12px">Either donate to a specific project that you think effectively tackles the issues of AI safety if you have one in mind, delegate to someone in your network if you know someone whose opinions in this area you trust, or send money via a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="display-inline color-teal">donor lottery</a> to give you a chance to direct a much larger amount and dedicate your time to researching where it should go.</p>
+              <p class="padding-12px">We recommend exploring <a href="https://manifund.org/" target="_blank" class="display-inline color-teal">Manifund</a>, which allows you to &quot;invest&quot; in projects you think will be impactful, or nominate regrantors to decide on your behalf. <a href="https://givewiki.org/" target="_blank" class="display-inline color-teal">GiveWiki</a> and the <a href="https://www.nonlinear.org/network.html" target="_blank" class="display-inline color-teal">Nonlinear Network</a> are other platforms where you can choose projects to fund.</p>
+              <p>Donating to a fund such as the <a href="https://www.airiskfund.com/" target="_blank" class="display-inline color-teal">AI Risk Mitigation Fund</a> is a good fallback option.</p>
             </div>
           </div>
         </div>
         <div data-w-tab="Tab 3" class="w-tab-pane">
-          <div>
-            <h2 id="w-node-_17038845-74cf-414f-a35e-896c6840fecf-5e7078f6" class="padding-24px">$10,000–100,000 annual donation</h2>
-            <p class="padding-80px">At this scale of donation, you could enable grantmakers to support someone working on AI safety full-time, or provide significant support to an organization.</p>
-            <div class="w-layout-grid donating-inner_grid padding-80px">
-              <div id="w-node-_17038845-74cf-414f-a35e-896c6840fed2-5e7078f6">
-                <p id="w-node-_17038845-74cf-414f-a35e-896c6840fed3-5e7078f6" class="padding-8px">If you have</p>
-                <p id="w-node-_17038845-74cf-414f-a35e-896c6840fed5-5e7078f6" class="paragraph-large-bold">5 minutes–1 hour</p>
-              </div>
-              <div id="w-node-_17038845-74cf-414f-a35e-896c6840fed7-5e7078f6">
-                <p id="w-node-_17038845-74cf-414f-a35e-896c6840fed8-5e7078f6">Donate to a fund, such as the <a href="https://www.airiskfund.com/" target="_blank" class="inline color-white">AI Risk Mitigation Fund</a>. Grantmakers evaluate projects on behalf of donors and choose the projects they think are most effective to fund.</p>
-              </div>
+          <h2 class="padding-24px">$10,000–100,000 donation</h2>
+          <p class="padding-56px width-7-col">At this scale of donation, you could enable grantmakers to support someone working on AI safety full-time, or provide significant support to an organization.<br></p>
+          <div class="w-layout-grid flex-gap-56px padding-40px">
+            <div id="w-node-b00525fe-a250-bbe6-a1b9-7ee942759a43-5e7078f6" class="width-3-col">
+              <p class="color-teal-300 paragraph-small">If you have</p>
+              <p id="w-node-b00525fe-a250-bbe6-a1b9-7ee942759a46-5e7078f6" class="paragraph-default-bold">5 minutes–1 hour</p>
             </div>
-            <div class="div-divider margin-80px"></div>
-            <div class="w-layout-grid donating-inner_grid padding-80px">
-              <div id="w-node-_17038845-74cf-414f-a35e-896c6840fedf-5e7078f6">
-                <p id="w-node-_17038845-74cf-414f-a35e-896c6840fee0-5e7078f6" class="padding-8px">If you have</p>
-                <p id="w-node-_17038845-74cf-414f-a35e-896c6840fee2-5e7078f6" class="paragraph-large-bold">1–50 hours</p>
-              </div>
-              <div id="w-node-_17038845-74cf-414f-a35e-896c6840fee4-5e7078f6">
-                <p id="w-node-_17038845-74cf-414f-a35e-896c6840fee5-5e7078f6" class="paragraph-bottom-margin">Either donate to a fund, such as the <a href="https://www.airiskfund.com/" target="_blank" class="inline color-white">AI Risk Mitigation Fund</a>, donate to specific projects that you think effectively tackle the issues of AI safety if you have some in mind, delegate to someone in your network if you know someone whose opinions in this area you trust, or send money via a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="inline color-white">donor lottery</a> to give you a chance to direct a much larger amount and dedicate your time to researching where it should go.</p>
-                <p id="w-node-e3cb2027-8746-f310-7a44-a121f414b4ed-5e7078f6">We recommend exploring <a href="https://manifund.org/" target="_blank" class="inline color-white">Manifund</a>, which allows you to &quot;invest&quot; in projects you think will be impactful, or nominate regrantors to decide on your behalf. <a href="https://givewiki.org/" target="_blank" class="inline color-white">GiveWiki</a> and the <a href="https://www.nonlinear.org/network.html" target="_blank" class="inline color-white">Nonlinear Network</a> are other platforms where you can choose projects to fund.</p>
-              </div>
+            <div id="w-node-b00525fe-a250-bbe6-a1b9-7ee942759a48-5e7078f6" class="width-6-col">
+              <p>Donate to a fund, such as the <a href="https://www.airiskfund.com/" target="_blank" class="display-inline color-teal">AI Risk Mitigation Fund</a>. Grantmakers evaluate projects on behalf of donors and choose the projects they think are most effective to fund.</p>
             </div>
-            <div class="div-divider margin-80px"></div>
-            <div class="w-layout-grid donating-inner_grid padding-80px">
-              <div id="w-node-_17038845-74cf-414f-a35e-896c6840feec-5e7078f6">
-                <p id="w-node-_17038845-74cf-414f-a35e-896c6840feed-5e7078f6" class="padding-8px">If you have</p>
-                <p id="w-node-_17038845-74cf-414f-a35e-896c6840feef-5e7078f6" class="paragraph-large-bold">Ongoing commitment</p>
-              </div>
-              <div id="w-node-_17038845-74cf-414f-a35e-896c6840fef1-5e7078f6">
-                <p class="paragraph-bottom-margin">
-                  <a href="https://aisafety.info/" target="_blank" class="inline color-white">Read up</a> to understand the problem, get involved in the <a href="communities.html" class="inline color-white">community</a>, and fund projects or individuals who you think are doing the best work.
-                </p>
-                <p class="paragraph-bottom-margin">Consider engaging with researchers in the comments sections of their research posts on <a href="https://www.lesswrong.com/tag/ai?sortedBy=magic" target="_blank" class="inline color-white">LessWrong</a>.</p>
-                <p>Donating to a fund such as the <a href="https://www.airiskfund.com/" target="_blank" class="inline color-white">AI Risk Mitigation Fund</a> is a good fallback option.</p>
-              </div>
+          </div>
+          <div class="div-divider margin-40px"></div>
+          <div class="w-layout-grid flex-gap-56px padding-40px">
+            <div id="w-node-b00525fe-a250-bbe6-a1b9-7ee942759a55-5e7078f6" class="width-3-col">
+              <p class="color-teal-300 paragraph-small">If you have</p>
+              <p id="w-node-b00525fe-a250-bbe6-a1b9-7ee942759a58-5e7078f6" class="paragraph-default-bold">1–50 hours</p>
             </div>
-            <div class="div-divider margin-80px"></div>
-            <div class="w-layout-grid donating-inner_grid">
-              <div id="w-node-_735668e9-4e6b-eba0-5773-56518bf9bd5f-5e7078f6">
-                <p id="w-node-_735668e9-4e6b-eba0-5773-56518bf9bd60-5e7078f6" class="padding-8px">If you have</p>
-                <p id="w-node-_735668e9-4e6b-eba0-5773-56518bf9bd62-5e7078f6" class="paragraph-large-bold">Major focus</p>
-              </div>
-              <div id="w-node-_735668e9-4e6b-eba0-5773-56518bf9bd64-5e7078f6">
-                <p class="paragraph-bottom-margin">
-                  <a href="https://aisafety.info/" target="_blank" class="inline color-white">Read up</a> to understand the problem, get involved in the <a href="communities.html" class="inline color-white">community</a>, and fund projects or individuals who you think are doing the best work.
-                </p>
-                <p class="paragraph-bottom-margin">Consider self-funding to try and <a href="https://aisafety.info/questions/8TJV/How-can-I-help" target="_blank" class="inline color-white">tackle the problem yourself</a>, either directly as a researcher or by using your existing skills to support the field.</p>
-                <p>Donating to a fund such as the <a href="https://www.airiskfund.com/" target="_blank" class="inline color-white">AI Risk Mitigation Fund</a> is a good fallback option.</p>
-              </div>
+            <div id="w-node-b00525fe-a250-bbe6-a1b9-7ee942759a5a-5e7078f6">
+              <p id="w-node-b00525fe-a250-bbe6-a1b9-7ee942759a5b-5e7078f6" class="padding-12px">Either donate to a fund, such as the <a href="https://www.airiskfund.com/" target="_blank" class="display-inline color-teal">AI Risk Mitigation Fund</a>, donate to specific projects that you think effectively tackle the issues of AI safety if you have some in mind, delegate to someone in your network if you know someone whose opinions in this area you trust, or send money via a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="display-inline color-teal">donor lottery</a> to give you a chance to direct a much larger amount and dedicate your time to researching where it should go.</p>
+              <p>We recommend exploring <a href="https://manifund.org/" target="_blank" class="display-inline color-teal">Manifund</a>, which allows you to &quot;invest&quot; in projects you think will be impactful, or nominate regrantors to decide on your behalf. <a href="https://givewiki.org/" target="_blank" class="display-inline color-teal">GiveWiki</a> and the <a href="https://www.nonlinear.org/network.html" target="_blank" class="display-inline color-teal">Nonlinear Network</a> are other platforms where you can choose projects to fund.</p>
+            </div>
+          </div>
+          <div class="div-divider margin-40px"></div>
+          <div class="w-layout-grid flex-gap-56px padding-40px">
+            <div id="w-node-b00525fe-a250-bbe6-a1b9-7ee942759a72-5e7078f6" class="width-3-col">
+              <p class="color-teal-300 paragraph-small">If you have</p>
+              <p id="w-node-b00525fe-a250-bbe6-a1b9-7ee942759a75-5e7078f6" class="paragraph-default-bold">Ongoing commitment</p>
+            </div>
+            <div id="w-node-b00525fe-a250-bbe6-a1b9-7ee942759a77-5e7078f6">
+              <p id="w-node-b00525fe-a250-bbe6-a1b9-7ee942759a78-5e7078f6" class="padding-12px">
+                <a href="https://aisafety.info/" target="_blank" class="display-inline color-teal">Read up</a> to understand the problem, get involved in the <a href="https://www.aisafety.com/communities" target="_blank" class="display-inline color-teal">community</a>, and fund projects or individuals who you think are doing the best work.
+              </p>
+              <p class="padding-12px">Consider engaging with researchers in the comments sections of their research posts on <a href="https://www.lesswrong.com/w/ai" target="_blank" class="display-inline color-teal">LessWrong</a>.</p>
+              <p>Donating to a fund such as the <a href="https://www.airiskfund.com/" target="_blank" class="display-inline color-teal">AI Risk Mitigation Fund</a> is a good fallback option.</p>
+            </div>
+          </div>
+          <div class="div-divider margin-40px"></div>
+          <div class="w-layout-grid flex-gap-56px">
+            <div id="w-node-b00525fe-a250-bbe6-a1b9-7ee942759a9e-5e7078f6" class="width-3-col">
+              <p class="color-teal-300 paragraph-small">If you have</p>
+              <p id="w-node-b00525fe-a250-bbe6-a1b9-7ee942759aa1-5e7078f6" class="paragraph-default-bold">Major focus</p>
+            </div>
+            <div id="w-node-b00525fe-a250-bbe6-a1b9-7ee942759aa3-5e7078f6">
+              <p id="w-node-b00525fe-a250-bbe6-a1b9-7ee942759aa4-5e7078f6" class="padding-12px">
+                <a href="https://aisafety.info/" target="_blank" class="display-inline color-teal">Read up</a> to understand the problem, get involved in the <a href="https://www.aisafety.com/communities" target="_blank" class="display-inline color-teal">community</a>, and fund projects or individuals who you think are doing the best work.
+              </p>
+              <p class="padding-12px">
+                <a href="https://aisafety.info/" target="_blank" class="inline color-white">Consider self-funding to try and tackle the problem yourself, either directly as a researcher or by using your existing skills to support the field.</a>
+              </p>
+              <p>Donating to a fund such as the <a href="https://www.airiskfund.com/" target="_blank" class="display-inline color-teal">AI Risk Mitigation Fund</a> is a good fallback option.<br></p>
             </div>
           </div>
         </div>
         <div data-w-tab="Tab 4" class="w-tab-pane">
-          <div>
-            <h2 id="w-node-_600dcdcc-6a52-5db8-cdda-07869fad3573-5e7078f6" class="padding-32px">$100,000+ annual donation</h2>
-            <p id="w-node-_392026c2-24a6-3dfd-55a2-3d8cc272c1aa-5e7078f6" class="padding-80px">You can provide significant support to several organizations, and could also support many full-time researchers. The total funding for AI safety was around $150 million in 2023; you can be a notable fraction of the funding ecosystem if you care and can dedicate the funds.</p>
-            <div class="w-layout-grid donating-inner_grid padding-80px">
-              <div id="w-node-_600dcdcc-6a52-5db8-cdda-07869fad3576-5e7078f6">
-                <p id="w-node-_600dcdcc-6a52-5db8-cdda-07869fad3577-5e7078f6" class="padding-8px">If you have</p>
-                <p id="w-node-_600dcdcc-6a52-5db8-cdda-07869fad3579-5e7078f6" class="paragraph-large-bold">5 minutes–1 hour</p>
-              </div>
-              <div id="w-node-_600dcdcc-6a52-5db8-cdda-07869fad357b-5e7078f6">
-                <p>Either delegate to someone in your network who you think has a good understanding of the challenge (possibly by sponsoring them as an <a href="https://survivalandflourishing.fund/s-process.html" target="_blank" class="inline color-white">S-process recommender</a>, which will give them infrastructure and a menu of applications), or donate to a fund such as the <a href="https://www.airiskfund.com/" target="_blank" class="inline color-white">AI Risk Mitigation Fund</a> where grantmakers evaluate projects on behalf of donors.</p>
-              </div>
+          <h2 class="padding-24px">$100,000+ donation</h2>
+          <p class="padding-56px width-7-col">You can provide significant support to several organizations, and could also support many full-time researchers. The total funding for AI safety was around $150 million in 2023; you can be a notable fraction of the funding ecosystem if you care and can dedicate the funds.</p>
+          <div class="w-layout-grid flex-gap-56px padding-40px">
+            <div id="w-node-cf271f12-d249-5be3-83b1-a776e4e16c87-5e7078f6" class="width-3-col">
+              <p class="color-teal-300 paragraph-small">If you have</p>
+              <p id="w-node-cf271f12-d249-5be3-83b1-a776e4e16c8a-5e7078f6" class="paragraph-default-bold">5 minutes–1 hour</p>
             </div>
-            <div class="div-divider margin-80px"></div>
-            <div class="w-layout-grid donating-inner_grid padding-80px">
-              <div id="w-node-_600dcdcc-6a52-5db8-cdda-07869fad3583-5e7078f6">
-                <p id="w-node-_600dcdcc-6a52-5db8-cdda-07869fad3584-5e7078f6" class="padding-8px">If you have</p>
-                <p id="w-node-_600dcdcc-6a52-5db8-cdda-07869fad3586-5e7078f6" class="paragraph-large-bold">1–50 hours</p>
-              </div>
-              <div id="w-node-_600dcdcc-6a52-5db8-cdda-07869fad3588-5e7078f6">
-                <p class="paragraph-bottom-margin">Some high impact ideas include sponsoring an <a href="https://survivalandflourishing.fund/s-process.html" target="_blank" class="inline color-white">S-process recommender</a> whose judgment you trust, which will will give them infrastructure and a menu of applications, or donate to a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="inline color-white">donor lottery</a> which can amplify your donation.</p>
-                <p>Alternatively, either donate to a fund – such as the <a href="https://www.airiskfund.com/" target="_blank" class="inline color-white">AI Risk Mitigation Fund</a> – or to specific projects that you think effectively tackle the issues of AI safety, or select individuals to donate to directly. We recommend exploring <a href="https://manifund.org/" target="_blank" class="inline color-white">Manifund</a>, which allows you to &quot;invest&quot; in projects you think will be impactful, or nominate regrantors to decide on your behalf. <a href="https://givewiki.org/" target="_blank" class="inline color-white">Givewiki</a> and the <a href="https://www.nonlinear.org/network.html" target="_blank" class="inline color-white">Nonlinear Network</a> are similar platforms where you can choose projects to fund.</p>
-              </div>
+            <div id="w-node-cf271f12-d249-5be3-83b1-a776e4e16c8c-5e7078f6" class="width-6-col">
+              <p>Either delegate to someone in your network who you think has a good understanding of the challenge (possibly by sponsoring them as an <a href="https://survivalandflourishing.fund/s-process.html" target="_blank" class="display-inline color-teal">S-process recommender</a>, which will give them infrastructure and a menu of applications), or donate to a fund such as the <a href="https://www.airiskfund.com/" target="_blank" class="display-inline color-teal">AI Risk Mitigation Fund</a> where grantmakers evaluate projects on behalf of donors.</p>
             </div>
-            <div class="div-divider margin-80px"></div>
-            <div class="w-layout-grid donating-inner_grid padding-80px">
-              <div id="w-node-_600dcdcc-6a52-5db8-cdda-07869fad3590-5e7078f6">
-                <p id="w-node-_600dcdcc-6a52-5db8-cdda-07869fad3591-5e7078f6" class="padding-8px">If you have</p>
-                <p id="w-node-_600dcdcc-6a52-5db8-cdda-07869fad3593-5e7078f6" class="paragraph-large-bold">Ongoing commitment</p>
-              </div>
-              <div id="w-node-_600dcdcc-6a52-5db8-cdda-07869fad3595-5e7078f6">
-                <p id="w-node-_600dcdcc-6a52-5db8-cdda-07869fad3596-5e7078f6" class="paragraph-bottom-margin">
-                  <a href="https://aisafety.info/" target="_blank" class="inline color-white">Read up</a> to understand the problem, get involved in the <a href="communities.html" class="inline color-white">community</a>, and fund projects or individuals who you think are doing the best work.
-                </p>
-                <p id="w-node-e202cfc2-3f37-c543-6b34-da46c5bda37c-5e7078f6" class="paragraph-bottom-margin">Consider engaging with researchers in the comments sections of their research posts <a href="https://www.lesswrong.com/tag/ai?sortedBy=magic" target="_blank" class="inline color-white">LessWrong</a>.</p>
-                <p id="w-node-dd0fd0cc-00ee-824a-26e3-9f3fb1b68c80-5e7078f6" class="paragraph-bottom-margin">Some high impact ideas for donating include sponsoring an <a href="https://survivalandflourishing.fund/s-process.html" target="_blank" class="inline color-white">S-process recommender</a> whose judgment you trust, which will give them infrastructure and a menu of applications, or donate to a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="inline color-white">donor lottery</a> which can amplify your donation.</p>
-                <p id="w-node-_114a12fc-0aff-a099-7a1b-3c1685640046-5e7078f6">Alternatively, either donate to a fund – such as the <a href="https://www.airiskfund.com/" target="_blank" class="inline color-white">AI Risk Mitigation Fund</a> – or to specific projects that you think effectively tackle the issues of AI safety, or select individuals to donate to directly. We recommend exploring <a href="https://manifund.org/" target="_blank" class="inline color-white">Manifund</a>, which allows you to &quot;invest&quot; in projects you think will be impactful.</p>
-              </div>
+          </div>
+          <div class="div-divider margin-40px"></div>
+          <div class="w-layout-grid flex-gap-56px padding-40px">
+            <div id="w-node-cf271f12-d249-5be3-83b1-a776e4e16c99-5e7078f6" class="width-3-col">
+              <p class="color-teal-300 paragraph-small">If you have</p>
+              <p id="w-node-cf271f12-d249-5be3-83b1-a776e4e16c9c-5e7078f6" class="paragraph-default-bold">1–50 hours</p>
             </div>
-            <div class="div-divider margin-80px"></div>
-            <div class="w-layout-grid donating-inner_grid">
-              <div id="w-node-c0fc45f9-dc8e-1023-d2aa-28010bc48083-5e7078f6">
-                <p id="w-node-c0fc45f9-dc8e-1023-d2aa-28010bc48084-5e7078f6" class="padding-8px">If you have</p>
-                <p id="w-node-c0fc45f9-dc8e-1023-d2aa-28010bc48086-5e7078f6" class="paragraph-large-bold">Major focus</p>
-              </div>
-              <div id="w-node-c0fc45f9-dc8e-1023-d2aa-28010bc48088-5e7078f6">
-                <p id="w-node-c0fc45f9-dc8e-1023-d2aa-28010bc48089-5e7078f6" class="paragraph-bottom-margin">
-                  <a href="https://aisafety.info/" target="_blank" class="inline color-white">Read up</a> to understand the problem, get involved in the <a href="communities.html" class="inline color-white">community</a>, and fund projects or individuals who you think are doing the best work.
-                </p>
-                <p id="w-node-_42ed2ad2-efc2-79d6-85bb-b4c2609b706e-5e7078f6" class="paragraph-bottom-margin">Consider self-funding to try and <a href="https://aisafety.info/questions/8TJV/How-can-I-help" target="_blank" class="inline color-white">tackle the problem yourself</a>, either directly as a researcher or by using your existing skills to support the field. You can also skill up to improve your abilities as a grantmaker.</p>
-                <p id="w-node-f316848d-1597-ea16-9999-84138a485044-5e7078f6" class="paragraph-bottom-margin">Consider engaging with researchers in the comments sections of their research posts on <a href="https://www.lesswrong.com/tag/ai?sortedBy=magic" target="_blank" class="inline color-white">LessWrong</a>.</p>
-                <p id="w-node-_00c162c0-3bfd-afdb-2423-4d5f3bd3c768-5e7078f6" class="paragraph-bottom-margin">Some high impact ideas for donating include sponsoring an <a href="https://survivalandflourishing.fund/s-process.html" target="_blank" class="inline color-white">S-process recommender</a> whose judgment you trust, which will give them infrastructure and a menu of applications, or donate to a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="inline color-white">donor lottery</a> which can amplify your donation.</p>
-                <p id="w-node-e00ed4f2-b53d-2f18-d4bc-d7a068b8ea2b-5e7078f6">Alternatively, either donate to a fund – such as the <a href="https://www.airiskfund.com/" target="_blank" class="inline color-white">AI Risk Mitigation Fund</a> – or to specific projects that you think effectively tackle the issues of AI safety, or select individuals to donate to directly. We recommend exploring <a href="https://manifund.org/" target="_blank" class="inline color-white">Manifund</a>, which allows you to &quot;invest&quot; in projects you think will be impactful.</p>
-              </div>
+            <div id="w-node-cf271f12-d249-5be3-83b1-a776e4e16c9e-5e7078f6">
+              <p id="w-node-cf271f12-d249-5be3-83b1-a776e4e16c9f-5e7078f6" class="padding-12px">Some high impact ideas include sponsoring an <a href="https://survivalandflourishing.fund/s-process.html" target="_blank" class="display-inline color-teal">S-process recommender</a> whose judgment you trust, which will will give them infrastructure and a menu of applications, or donate to a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="display-inline color-teal">donor lottery</a> which can amplify your donation.</p>
+              <p>Alternatively, either donate to a fund – such as the <a href="https://www.airiskfund.com/" target="_blank" class="display-inline color-teal">AI Risk Mitigation Fund</a> – or to specific projects that you think effectively tackle the issues of AI safety, or select individuals to donate to directly. We recommend exploring <a href="https://manifund.org/" target="_blank" class="display-inline color-teal">Manifund</a>, which allows you to &quot;invest&quot; in projects you think will be impactful, or nominate regrantors to decide on your behalf. <a href="https://givewiki.org/" target="_blank" class="display-inline color-teal">GiveWiki</a> and the <a href="https://www.nonlinear.org/network.html" target="_blank" class="display-inline color-teal">Nonlinear Network</a> are similar platforms where you can choose projects to fund.</p>
+            </div>
+          </div>
+          <div class="div-divider margin-40px"></div>
+          <div class="w-layout-grid flex-gap-56px padding-40px">
+            <div id="w-node-cf271f12-d249-5be3-83b1-a776e4e16cb6-5e7078f6" class="width-3-col">
+              <p class="color-teal-300 paragraph-small">If you have</p>
+              <p id="w-node-cf271f12-d249-5be3-83b1-a776e4e16cb9-5e7078f6" class="paragraph-default-bold">Ongoing commitment</p>
+            </div>
+            <div id="w-node-cf271f12-d249-5be3-83b1-a776e4e16cbb-5e7078f6">
+              <p id="w-node-cf271f12-d249-5be3-83b1-a776e4e16cbc-5e7078f6" class="padding-12px">
+                <a href="https://aisafety.info/" target="_blank" class="display-inline color-teal">Read up</a> to understand the problem, get involved in the <a href="https://www.aisafety.com/communities" target="_blank" class="display-inline color-teal">community</a>, and fund projects or individuals who you think are doing the best work.
+              </p>
+              <p class="padding-12px">Consider engaging with researchers in the comments sections of their research posts <a href="https://www.lesswrong.com/w/ai" target="_blank" class="display-inline color-teal">LessWrong</a>.</p>
+              <p>Alternatively, either donate to a fund – such as the <a href="https://www.airiskfund.com/" target="_blank" class="display-inline color-teal">AI Risk Mitigation Fund</a> – or to specific projects that you think effectively tackle the issues of AI safety, or select individuals to donate to directly. We recommend exploring <a href="https://manifund.org/" target="_blank" class="display-inline color-teal">Manifund</a>, which allows you to &quot;invest&quot; in projects you think will be impactful.</p>
+            </div>
+          </div>
+          <div class="div-divider margin-40px"></div>
+          <div class="w-layout-grid flex-gap-56px">
+            <div id="w-node-cf271f12-d249-5be3-83b1-a776e4e16ce2-5e7078f6" class="width-3-col">
+              <p class="color-teal-300 paragraph-small">If you have</p>
+              <p id="w-node-cf271f12-d249-5be3-83b1-a776e4e16ce5-5e7078f6" class="paragraph-default-bold">Major focus</p>
+            </div>
+            <div id="w-node-cf271f12-d249-5be3-83b1-a776e4e16ce7-5e7078f6">
+              <p id="w-node-cf271f12-d249-5be3-83b1-a776e4e16ce8-5e7078f6" class="padding-12px">
+                <a href="https://aisafety.info/" target="_blank" class="display-inline color-teal">Read up</a> to understand the problem, get involved in the <a href="https://www.aisafety.com/communities" target="_blank" class="display-inline color-teal">community</a>, and fund projects or individuals who you think are doing the best work.
+              </p>
+              <p class="padding-12px">
+                <a href="https://aisafety.info/" target="_blank" class="inline color-white">Consider self-funding to try and tackle the problem yourself, either directly as a researcher or by using your existing skills to support the field. You can also skill up to improve your abilities as a grantmaker.</a>
+              </p>
+              <p class="padding-12px">Consider engaging with researchers in the comments sections of their research posts on <a href="https://www.lesswrong.com/w/ai" target="_blank" class="display-inline color-teal">LessWrong</a>.</p>
+              <p class="padding-12px">Some high impact ideas for donating include sponsoring an <a href="https://survivalandflourishing.fund/s-process.html" target="_blank" class="display-inline color-teal">S-process recommender</a> whose judgment you trust, which will give them infrastructure and a menu of applications, or donate to a <a href="https://www.givingwhatwecan.org/donor-lottery" target="_blank" class="display-inline color-teal">donor lottery</a> which can amplify your donation.</p>
+              <p>Alternatively, either donate to a fund – such as the <a href="https://www.airiskfund.com/" target="_blank" class="display-inline color-teal">AI Risk Mitigation Fund</a> – or to specific projects that you think effectively tackle the issues of AI safety, or select individuals to donate to directly. We recommend exploring <a href="https://manifund.org/" target="_blank" class="display-inline color-teal">Manifund</a>, which allows you to &quot;invest&quot; in projects you think will be impactful.<br></p>
             </div>
           </div>
         </div>
@@ -367,29 +459,1131 @@
     </div>
   </div>
   <div>
-    <div class="div-divider margin-128px"></div>
-    <div class="container-narrow w-container">
-      <div class="w-layout-grid footer padding-128px">
-        <div>
-          <h2 class="padding-24px">AISafety.com</h2>
-          <p class="padding-32px">We&#x27;re a global team of volunteers and professionals from various disciplines who believe AI poses a grave risk of extinction to humanity.</p>
-          <div class="flex-horizontal_center">
-            <a href="about.html" class="paragraph-default-bold hover-opacity">Learn more about us <span class="color-grey">→</span></a>
-          </div>
+    <div class="container-default padding-top-192px w-container">
+      <div class="flex-gap-56px margin-128px">
+        <div class="width-6-col"><img loading="lazy" src="images/logo.svg" alt="" class="display-block padding-24px">
+          <p class="padding-32px paragraph-small width-4-col">We&#x27;re a global team of volunteers and professionals from various disciplines who believe AI poses a grave risk of extinction to humanity.</p>
+          <a href="about.html" class="button-secondary shadow-text">Learn more about us</a>
         </div>
-        <div>
-          <p class="paragraph-default-bold padding-24px">Partner projects</p>
-          <a id="w-node-f9b61385-475d-dbea-5f27-70388aa7c4fc-8aa7c4ed" href="https://aisafety.info/" target="_blank" class="padding-8px">AISafety.info</a>
-          <a href="https://alignment.dev/" target="_blank">Alignment Ecosystem Development</a>
-          <p class="paragraph-default-bold padding-24px padding-above">Suggestions</p>
-          <p class="padding-32px">Please contact us <a href="https://discord.gg/WQG8FAGqun" target="_blank" class="inline color-white">via Discord</a> to propose additions, corrections, or improvements.</p>
+        <div class="paragraph-small width-3-col">
+          <p class="paragraph-small-bold padding-16px">Help us out</p>
+          <a id="w-node-_5fb03552-e339-94d5-fa09-0e6ee40f957d-8aa7c4ed" href="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form" target="_blank" class="padding-8px opacity-80 hover-60">Suggest a correction</a>
+          <a href="feedback.html" class="padding-8px opacity-80 hover-60">Give anonymous feedback</a>
+          <a href="https://www.every.org/alignment-ecosystem-development" target="_blank" class="opacity-80 hover-60">Donate</a>
+        </div>
+        <div class="paragraph-small width-3-col">
+          <p class="paragraph-small-bold padding-16px">Newsletters</p>
+          <a id="w-node-_5fb03552-e339-94d5-fa09-0e6ee40f9584-8aa7c4ed" href="https://aisafetyeventsandtraining.substack.com/" target="_blank" class="padding-8px opacity-80 hover-60">AI Safety Events &amp; Training</a>
+          <a href="https://aisafetyfunding.substack.com/" target="_blank" class="padding-8px opacity-80 hover-60">AI Safety Funding (coming soon)</a>
+          <a href="https://aisafetycom.substack.com/" target="_blank" class="opacity-80 hover-60">AISafety.com Updates</a>
         </div>
       </div>
-      <p class="paragraph-small centered_text padding-16px">(ɔ) 2024 · This site is released under a CC BY-SA license</p>
+      <div class="div-divider margin-24px"></div>
+      <div class="footer-bottom padding-24px">
+        <div class="flex-gap-8px hide-mobile"><img width="80" loading="lazy" alt="" src="images/thumbnails.png">
+          <p class="paragraph-xs">Maintained by AI safety community-builders</p>
+        </div>
+        <p class="paragraph-xs opacity-80">(ɔ) 2025 · This site is released under a CC BY-SA license</p>
+      </div>
     </div>
   </div>
+  <a href="#up-button-anchor" data-w-id="7eb0a381-c248-7943-2c08-01c173293d7b" class="up-button w-button">⌃</a>
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=65380b51b01b69a63d681e04" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="js/webflow.js" type="text/javascript"></script>
+  <script>
+let normalize = null;
+let updateLastUpdatedOn = null;
+if (document.querySelector('input[name="search-bar"]')) {
+    normalize = function(text) {
+        if (typeof text !== 'string') {
+            console.warn('Normalize function received non-string input. Type:', typeof text, 'Value:', text);
+            return '';
+        }
+        let cleanedText = text;
+        cleanedText = cleanedText.replace(/\s*\([^)]*\)\s*$/, '').trim();
+        cleanedText = cleanedText.replace(/\s*[\(\[]\s*\d+\s*[\)\]]\s*$/, '').trim();
+        cleanedText = cleanedText.toLowerCase();
+        cleanedText = cleanedText.replace(/\u2013|\u2014/g, '-');
+        cleanedText = cleanedText.replace(/\s+/g, '-');
+        cleanedText = cleanedText.replace(/-+/g, '-');
+        cleanedText = cleanedText.replace(/[^a-z0-9-]/g, '');
+        cleanedText = cleanedText.replace(/^-+|-+$/g, '');
+        return cleanedText;
+    };
+    updateLastUpdatedOn = () => {
+        let lastUpdated = new Date(0);
+        const dataWidgetCardValue = typeof dataWidgetCard !== 'undefined' ? dataWidgetCard : "job-card";
+        document.querySelectorAll(`[data-widget="${dataWidgetCardValue}"]`).forEach(card => {
+            if (card.dataset.modified) {
+                const cardDate = new Date(card.dataset.modified);
+                if (cardDate > lastUpdated && !isNaN(cardDate)) {
+                    lastUpdated = cardDate;
+                }
+            }
+        });
+        if (lastUpdated.getTime() !== 0) {
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            const formattedDate = new Intl.DateTimeFormat('en-GB', options).format(lastUpdated);
+            const lastUpdateElement = document.getElementById("Last-update");
+            if (lastUpdateElement) {
+                lastUpdateElement.textContent = `Last updated: ${formattedDate}`;
+            }
+            const lastUpdateElement2 = document.getElementById("Last-update2");
+            if (lastUpdateElement2) {
+                lastUpdateElement2.textContent = `Last updated: ${formattedDate}`;
+            }
+        }
+    };
+    const filterResults = (settings) => {
+        if (!settings) {
+            return;
+        }
+        if (typeof shouldCardBeShown !== 'function') {
+            console.error("shouldCardBeShown function is not defined. filterResults cannot operate.");
+            return;
+        }
+        let visibleCount = 0;
+        let hiddenCount = 0;
+        const dataWidgetCardValue = typeof dataWidgetCard !== 'undefined' ? dataWidgetCard : "job-card";
+        document.querySelectorAll(`[data-widget="${dataWidgetCardValue}"]`).forEach(card => {
+            let displayWrapper = card.parentElement && card.parentElement.parentElement ? card.parentElement.parentElement : card.parentElement || card;
+            if (shouldCardBeShown(settings, card)) {
+                displayWrapper.style.display = '';
+                visibleCount++;
+            } else {
+                displayWrapper.style.display = 'none';
+                hiddenCount++;
+            }
+        });
+    };
+    const getSettings = () => {
+        if (typeof normalize !== 'function') {
+            console.error("Normalize function is not available for getSettings.");
+            return {};
+        }
+        return Array.from(document.querySelectorAll('[data-widget="search-option"] form'))
+            .reduce((options, optionsBlock) => {
+                const name = optionsBlock.dataset.name;
+                if (name) {
+                    options[name] = Array.from(optionsBlock.getElementsByTagName('input'))
+                        .filter(i => i.previousElementSibling && i.previousElementSibling.classList.contains('w--redirected-checked'))
+                        .map(i => (normalize(i.name)));
+                }
+                return options;
+            }, { searchPhrase: document.getElementsByName('search-bar')[0]?.value.trim().toLowerCase() || '' });
+    };
+    const checkboxEventListener = (elem) => {
+        elem.addEventListener('click', (e) => setTimeout(() => {
+            if (typeof filterResults === 'function' && typeof getSettings === 'function') {
+                filterResults(getSettings());
+            }
+        }, 100));
+    };
+    document.querySelectorAll('[data-widget="search-option"] form .w-checkbox-input').forEach(checkboxEventListener);
+    document.querySelectorAll('[data-widget="search-option"] form input[type="checkbox"]').forEach(checkboxEventListener);
+    const searchBarInput = document.querySelector('input[name="search-bar"]');
+    if (searchBarInput) {
+        searchBarInput.addEventListener('input', () => {
+            if (typeof filterResults === 'function' && typeof getSettings === 'function') {
+                filterResults(getSettings());
+            }
+        });
+    }
+    const searchBarForm = document.querySelector('form[data-name="Search bar"]');
+    if (searchBarForm) {
+        searchBarForm.addEventListener('submit', (e) => e.preventDefault());
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof normalizeCards === 'function') normalizeCards();
+        if (typeof updateLastUpdatedOn === 'function') updateLastUpdatedOn();
+        if (typeof dataWidgetCard === 'undefined' || dataWidgetCard !== "job-card") {
+             if (typeof filterResults === 'function' && typeof getSettings === 'function') filterResults(getSettings());
+        }
+        if (typeof connectLinks === 'function') connectLinks();
+    });
+}
+</script>
+  <style>
+/* Prevent horizontal scrolling */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+.nav-blur {
+  -webkit-backdrop-filter: blur(32px);
+  backdrop-filter: blur(32px);
+  background: rgba(5, 24, 26, 0.5);
+}
+</style>
+  <script>
+  let navbar;
+  let navMenu;
+  let spacer;
+  let previousScrollY;
+  let isSticky = false;
+  let isVisible = true;
+  let scrollUpDistance = 0;
+  let menuIsOpen = false;
+  let navbarOriginalPosition = '';
+  const scrollUpThreshold = 50;
+  const styleEl = document.createElement('style');
+  styleEl.textContent = `
+    .w-nav-overlay {
+      max-height: 100vh;
+      overflow-y: auto !important;
+    }
+  `;
+  document.head.appendChild(styleEl);
+  document.addEventListener('DOMContentLoaded', function() {
+    navbar = document.querySelector('#nav');
+    if (!navbar) return;
+    navMenu = navbar.querySelector('.w-nav-menu');
+    spacer = document.createElement('div');
+    previousScrollY = window.scrollY;
+    spacer.style.height = `${navbar.offsetHeight}px`;
+    navbar.style.transition = 'transform 0.2s ease-in-out, position 0s linear';
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', function() {
+      if (spacer && navbar) {
+        spacer.style.height = `${navbar.offsetHeight}px`;
+      }
+      handleScroll();
+    });
+    const menuButton = document.querySelector('.w-nav-button');
+    if (menuButton) {
+      menuButton.addEventListener('click', function() {
+        setTimeout(function() {
+          menuIsOpen = isNavMenuOpen();
+          handleNavMenuToggle();
+        }, 50);
+      });
+    }
+    handleScroll();
+  });
+  function isNavMenuOpen() {
+    const menuButton = document.querySelector('.w-nav-button');
+    return !!(menuButton && menuButton.classList.contains('w--open'));
+  }
+  function handleNavMenuToggle() {
+    if (!navbar) return;
+    if (menuIsOpen) {
+      navbarOriginalPosition = navbar.style.position === 'fixed' ? 'fixed' : 'relative';
+      if (isSticky || navbar.style.position === 'fixed') {
+        navbar.style.position = 'fixed';
+        navbar.style.top = '0';
+        navbar.style.transform = 'translateY(0)';
+        navbar?.classList?.add?.('nav-blur');
+      } else {
+        navbar.style.transform = 'translateY(0)';
+      }
+      isVisible = true;
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      handleScroll();
+    }
+  }
+  function handleScroll() {
+    if (!navbar) return;
+    if (menuIsOpen) return;
+    const currentScrollY = window.scrollY;
+    const navHeight = navbar.offsetHeight;
+    if (currentScrollY < navHeight / 2) {
+      if (isSticky) {
+        if (navbar.parentNode && navbar.parentNode.contains(spacer)) {
+          navbar.parentNode.removeChild(spacer);
+        }
+      }
+      navbar.style.position = 'relative';
+      navbar.style.top = '';
+      navbar.style.transform = 'translateY(0)';
+      isSticky = false;
+      isVisible = true;
+      scrollUpDistance = 0;
+      if (navbar && navbar.classList) navbar.classList.remove('nav-blur');
+    }
+    else if (currentScrollY < previousScrollY) {
+      scrollUpDistance += previousScrollY - currentScrollY;
+      if (scrollUpDistance > scrollUpThreshold || !isVisible) {
+        if (!isSticky) {
+          navbar.style.position = 'fixed';
+          navbar.style.top = '0';
+          navbar.style.width = '100%';
+          navbar.style.left = '0';
+          if (navbar.parentNode && !navbar.parentNode.contains(spacer)) {
+            navbar.parentNode.insertBefore(spacer, navbar);
+          }
+          spacer.style.height = `${navHeight}px`;
+          isSticky = true;
+          if (navbar && navbar.classList) navbar.classList.add('nav-blur');
+        }
+        if (!isVisible) {
+          navbar.style.transform = 'translateY(0)';
+          isVisible = true;
+        }
+      }
+    }
+    else if (currentScrollY > previousScrollY && currentScrollY > navHeight) {
+      scrollUpDistance = 0;
+      if (isVisible && isSticky) {
+        navbar.style.transform = 'translateY(-100%)';
+        isVisible = false;
+      }
+    }
+    previousScrollY = currentScrollY;
+  }
+</script>
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const upButton = document.querySelector('.up-button'); 
+  if (upButton) {
+    upButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      if (typeof navbar !== 'undefined' && navbar) {
+        if (typeof menuIsOpen !== 'undefined') menuIsOpen = false;
+        if (typeof isSticky !== 'undefined') isSticky = false;
+        if (typeof isVisible !== 'undefined') isVisible = true;
+        if (typeof scrollUpDistance !== 'undefined') scrollUpDistance = 0;
+        navbar.style.position = 'relative';
+        navbar.style.top = '';
+        navbar.style.transform = 'translateY(0)';
+        if (typeof spacer !== 'undefined' && spacer && navbar.parentNode && navbar.parentNode.contains(spacer)) {
+          navbar.parentNode.removeChild(spacer);
+        }
+        if (typeof handleScroll === 'function') {
+            if (typeof previousScrollY !== 'undefined') previousScrollY = 0;
+            handleScroll();
+        }
+      }
+    });
+  }
+});
+</script>
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+    function getPageName() {
+        const path = window.location.pathname.toLowerCase();
+        if (path.includes('/self-study')) return 'Self-Study';
+        if (path.includes('/events-and-training')) return 'Events and Training';
+        if (path.includes('/communities')) return 'Communities';
+        if (path.includes('/projects')) return 'Projects';
+        if (path.includes('/funders')) return 'Funders';
+        if (path.includes('/advisors')) return 'Advisors';
+        if (path.includes('/jobs')) return 'Jobs';
+        if (path === '/' || path === '') return 'Homepage';
+        if (path.includes('/map')) return 'Map';
+        if (path.includes('/media-channels')) return 'Media Channels';
+        if (path.includes('/donation-guide')) return 'Donation guide';
+        const segments = path.split('/').filter(Boolean);
+        return segments[segments.length - 1].replace(/-/g, ' ');
+    }
+    function getListingName(linkElement) {
+        const collectionItem = linkElement.closest('.w-dyn-item') || 
+                              linkElement.closest('[role="listitem"]') ||
+                              linkElement.closest('.collection-item');
+        if (collectionItem) {
+            const heading = collectionItem.querySelector('h1, h2, h3, h4, h5, h6');
+            if (heading && heading.textContent.trim()) {
+                return heading.textContent.trim();
+            }
+            const titleSelectors = [
+                '[class*="title"]',
+                '[class*="name"]', 
+                '[class*="heading"]',
+                '.text-block-link',
+                '.listing-title',
+                '.course-name',
+                '.organization-name',
+                '.project-name'
+            ];
+            for (let selector of titleSelectors) {
+                const titleElement = collectionItem.querySelector(selector);
+                if (titleElement && titleElement.textContent.trim()) {
+                    const text = titleElement.textContent.trim();
+                    if (!text.match(/^(Length|Category|Organizer|Type|Location|Date):?$/i)) {
+                        return text;
+                    }
+                }
+            }
+            const textBlocks = collectionItem.querySelectorAll('div, p, span');
+            for (let block of textBlocks) {
+                const text = block.textContent.trim();
+                if (text.length > 3 && text.length < 150 && 
+                    !text.match(/^(Length|Category|Organizer|Type|Location|Date|weeks?|months?|days?):?$/i) &&
+                    !block.querySelector('*')) {
+                    if (!text.match(/^[\d\-\/]+$/) && !text.match(/^\d+\s*weeks?$/i)) {
+                        return text;
+                    }
+                }
+            }
+        }
+        const linkText = linkElement.textContent.trim();
+        if (linkText && linkText.length > 2 && linkText !== 'Learn More' && linkText !== 'View Details') {
+            return linkText.substring(0, 100);
+        }
+        const href = linkElement.getAttribute('href');
+        if (href && !href.startsWith('http')) {
+            const urlParts = href.split('/').filter(Boolean);
+            const lastPart = urlParts[urlParts.length - 1];
+            return lastPart.replace(/-/g, ' ').replace(/_/g, ' ');
+        }
+        return 'Unknown Listing';
+    }
+    const listingSelectors = [
+        '.w-dyn-item a',
+        '.w-dyn-item .link-block',
+        '[role="listitem"] a',
+        '.collection-item a',
+        '.collection-list a',
+        '.collection-list-wrapper a',
+        'a.link-block',
+        '#database-top_grid a',
+        '#database-outer_grid a',
+        '.w-dyn-list a'
+    ];
+    const allLinks = document.querySelectorAll(listingSelectors.join(', '));
+    const uniqueLinks = new Map();
+    allLinks.forEach(link => {
+        if (link.href && 
+            !link.href.includes('#') && 
+            !link.href.includes('mailto:') &&
+            !link.href.includes('tel:')) {
+            if (link.closest('nav') || 
+                link.closest('footer') || 
+                link.closest('.navbar') || 
+                link.closest('.navigation')) {
+                return;
+            }
+            if (!uniqueLinks.has(link.href)) {
+                uniqueLinks.set(link.href, link);
+            }
+        }
+    });
+    const listingLinks = Array.from(uniqueLinks.values());
+    listingLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            let listingName = getListingName(link);
+            const pageName = getPageName();
+            if (listingName === 'Unknown Listing' && link.href) {
+                const urlName = link.href.split('/').pop().replace(/[-_]/g, ' ');
+                if (urlName && urlName.length > 2) {
+                    listingName = urlName;
+                }
+            }
+            if (typeof _paq !== 'undefined') {
+                _paq.push(['trackEvent', 
+                    'Listings - ' + pageName,
+                    listingName,
+                    link.href || '',
+                    1
+                ]);
+            }
+        });
+    });
+});
+</script>
+  <script>
+  window.equalizeCardHeights = function() {
+    var cards = document.querySelectorAll('.card');
+    var featuredCards = document.querySelectorAll('.card-featured');
+    function groupByRow(elements) {
+      var rows = {};
+      elements.forEach(function(element) {
+        if (element.style.display === 'none' || element.offsetParent === null) {
+          return;
+        }
+        element.style.height = '';
+        var top = element.offsetTop;
+        var rowKey = null;
+        for (var key in rows) {
+          if (Math.abs(parseInt(key) - top) < 5) {
+            rowKey = key;
+            break;
+          }
+        }
+        if (!rowKey) {
+          rowKey = top.toString();
+          rows[rowKey] = [];
+        }
+        rows[rowKey].push(element);
+      });
+      return rows;
+    }
+    function setEqualHeightByRow(elements) {
+      elements.forEach(function(element) {
+        element.style.height = '';
+      });
+      var rows = groupByRow(elements);
+      for (var rowKey in rows) {
+        var rowElements = rows[rowKey];
+        var maxHeight = 0;
+        rowElements.forEach(function(element) {
+          maxHeight = Math.max(maxHeight, element.offsetHeight);
+        });
+        rowElements.forEach(function(element) {
+          element.style.height = maxHeight + 'px';
+        });
+      }
+    }
+    if (cards.length > 0) {
+      setEqualHeightByRow(cards);
+    }
+    if (featuredCards.length > 0) {
+      setEqualHeightByRow(featuredCards);
+    }
+  };
+  window.addEventListener('load', function () {
+    window.equalizeCardHeights();
+    var resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        window.equalizeCardHeights();
+      }, 250);
+    });
+  }); 
+  window.requestHeightUpdate = function() {
+    setTimeout(function() {
+      if (typeof window.equalizeCardHeights === 'function') {
+        window.equalizeCardHeights();
+      }
+    }, 100);
+  };
+  document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('input', function(e) {
+      if (e.target.matches('input[name="search-bar"], [data-widget*="search"] input, [data-widget*="filter"] input')) {
+        window.requestHeightUpdate();
+      }
+    });
+    document.addEventListener('click', function(e) {
+      if (e.target.matches('.w-checkbox *, [data-widget*="filter"] *, [data-widget*="search"] *')) {
+        window.requestHeightUpdate();
+      }
+    });
+    setTimeout(function() {
+      if (typeof window.applyFilters === 'function' && !window.applyFilters._patched) {
+        var originalApplyFilters = window.applyFilters;
+        window.applyFilters = function() {
+          var result = originalApplyFilters.apply(this, arguments);
+          window.requestHeightUpdate();
+          return result;
+        };
+        window.applyFilters._patched = true;
+      }
+      if (typeof window.filterResults === 'function' && !window.filterResults._patched) {
+        var originalFilterResults = window.filterResults;
+        window.filterResults = function() {
+          var result = originalFilterResults.apply(this, arguments);
+          window.requestHeightUpdate();
+          return result;
+        };
+        window.filterResults._patched = true;
+      }
+    }, 500);
+  });
+  document.querySelectorAll('a[target="_blank"]').forEach(a=>{if(!a.rel) a.rel = 'noopener';});
+</script>
+  <script>
+(function() {
+    'use strict';
+    if (window.__navCountsInitialized) {
+        console.log('Nav counts already initialized, skipping');
+        return;
+    }
+    const AIRTABLE_TOKEN = 'SECRET';
+    const AIRTABLE_CONFIG = {
+        baseId: 'appF8XfZUGXtfi40E',
+        tableId: 'tblx0L8qJEaLBxJFS',
+        viewName: 'viwHl72bJxCb2SfrL'
+    };
+    const COLLECTIONS = {
+        'map': '/map',
+        'communities': '/communities',
+        'study': '/self-study',
+        'jobs': '/jobs',
+        'funding': '/funders',
+        'media': '/media-channels',
+        'advisors': '/advisors',
+        'projects': '/projects'
+    };
+    const countCache = {};
+    const CACHE_KEY = 'nav_counts_cache';
+    const CACHE_DURATION = 3600000;
+    function getStoredCounts() {
+        try {
+            const stored = localStorage.getItem(CACHE_KEY);
+            if (stored) {
+                const { counts, timestamp } = JSON.parse(stored);
+                if (Date.now() - timestamp < CACHE_DURATION) {
+                    return counts;
+                }
+            }
+        } catch (e) {
+            console.error('Error reading cache:', e);
+        }
+        return null;
+    }
+    function storeAllCounts(counts) {
+        try {
+            localStorage.setItem(CACHE_KEY, JSON.stringify({
+                counts: counts,
+                timestamp: Date.now()
+            }));
+        } catch (e) {
+            console.error('Error storing cache:', e);
+        }
+    }
+    async function fetchAirtableCount(collectionType) {
+        try {
+            console.log(`\n========== Fetching ${collectionType} from Airtable ==========`);
+            if (countCache[collectionType]) {
+                console.log(`Cache hit for ${collectionType}: ${countCache[collectionType]}`);
+                return countCache[collectionType];
+            }
+            const url = `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableId}?view=${encodeURIComponent(AIRTABLE_CONFIG.viewName)}`;
+            let totalRecords = 0;
+            let offset = null;
+            do {
+                const fetchUrl = offset ? `${url}&offset=${offset}` : url;
+                const response = await fetch(fetchUrl, {
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_TOKEN}`
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error(`Airtable API error: ${response.status}`);
+                }
+                const data = await response.json();
+                totalRecords += data.records.length;
+                offset = data.offset;
+                console.log(`Fetched ${data.records.length} records, total so far: ${totalRecords}`);
+            } while (offset);
+            console.log(`✓ Final Airtable count for ${collectionType}: ${totalRecords}`);
+            console.log(`==========================================\n`);
+            countCache[collectionType] = totalRecords;
+            return totalRecords;
+        } catch (error) {
+            console.error(`Error fetching Airtable count for ${collectionType}:`, error);
+            return 0;
+        }
+    }
+    async function fetchCollectionCount(collectionPath) {
+        try {
+            console.log(`\n========== Fetching: ${collectionPath} ==========`);
+            if (countCache[collectionPath]) {
+                console.log(`Cache hit for ${collectionPath}: ${countCache[collectionPath]}`);
+                return countCache[collectionPath];
+            }
+            const response = await fetch(collectionPath);
+            console.log(`Response status: ${response.status}`);
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            let count = 0;
+            let method = '';
+            const multiListPages = ['/jobs', '/map', '/communities'];
+            if (multiListPages.some(page => collectionPath.includes(page))) {
+                const cardItems = doc.querySelectorAll('.card');
+                const filteredCards = Array.from(cardItems).filter(item => {
+                    if (item.closest('nav') || 
+                        item.closest('footer') || 
+                        item.closest('header') ||
+                        item.closest('.navbar')) {
+                        return false;
+                    }
+                    if (collectionPath.includes('/map') && item.closest('.hidden-for-map')) {
+                        return false;
+                    }
+                    return true;
+                });
+                console.log(`${collectionPath} page: Found ${filteredCards.length} .card elements after filtering`);
+                if (filteredCards.length > 0) {
+                    count = filteredCards.length;
+                    if (collectionPath.includes('/map')) {
+                        count = Math.max(0, count - 4);
+                        method = '.card (filtered, -4 special)';
+                    } else {
+                        method = '.card (filtered)';
+                    }
+                }
+            }
+            if (count === 0) {
+                const selectors = ['.w-dyn-item', '.card', '[data-widget]'];
+                let maxCount = 0;
+                let bestSelector = '';
+                for (const selector of selectors) {
+                    const items = doc.querySelectorAll(selector);
+                    const filteredItems = Array.from(items).filter(item => {
+                        return !item.closest('nav') && 
+                               !item.closest('footer') && 
+                               !item.closest('header');
+                    });
+                    if (filteredItems.length > maxCount) {
+                        maxCount = filteredItems.length;
+                        bestSelector = selector;
+                    }
+                }
+                count = maxCount;
+                method = bestSelector;
+            }
+            // Apply individual adjustments per page
+            if (collectionPath.includes('/communities')) {
+                count = count + 2;
+                method += ' (+2 adjustment)';
+            } else if (collectionPath.includes('/jobs')) {
+                count = Math.max(0, count - 2);
+                method += ' (-2 adjustment)';
+            } else if (collectionPath.includes('/funders')) {
+                count = Math.max(0, count - 1);
+                method += ' (-1 adjustment)';
+            } else if (collectionPath.includes('/media-channels')) {
+                count = Math.max(0, count - 2);
+                method += ' (-2 adjustment)';
+            } else if (collectionPath.includes('/projects')) {
+                count = count + 1;
+                method += ' (+1 adjustment)';
+            }
+            console.log(`✓ Final count for ${collectionPath}: ${count} (${method})`);
+            countCache[collectionPath] = count;
+            return count;
+        } catch (error) {
+            console.error(`Error fetching count for ${collectionPath}:`, error);
+            return 0;
+        }
+    }
+    function updateNavCount(element, count) {
+        if (element) {
+            element.textContent = count;
+        }
+    }
+    async function updateAllCounts() {
+        const countElements = document.querySelectorAll('[data-count]');
+        console.log('Found elements with data-count:', countElements.length);
+        const storedCounts = getStoredCounts();
+        const collectionTypes = new Set();
+        const missingTypes = new Set();
+        countElements.forEach(element => {
+            const collectionType = element.getAttribute('data-count');
+            if (collectionType) {
+                collectionTypes.add(collectionType);
+                if (!storedCounts || !storedCounts[collectionType]) {
+                    missingTypes.add(collectionType);
+                }
+            }
+        });
+        if (storedCounts) {
+            console.log('Using cached counts from localStorage');
+            countElements.forEach(element => {
+                const collectionType = element.getAttribute('data-count');
+                if (storedCounts[collectionType]) {
+                    updateNavCount(element, storedCounts[collectionType]);
+                }
+            });
+        }
+        if (missingTypes.size === 0) {
+            console.log('All counts are cached, no fetching needed');
+            return;
+        }
+        console.log('Fetching missing counts for:', Array.from(missingTypes));
+        const countsObject = storedCounts ? { ...storedCounts } : {};
+        missingTypes.forEach(collectionType => {
+            console.log(`Processing: ${collectionType}`);
+            if (collectionType === 'events') {
+                fetchAirtableCount(collectionType).then(count => {
+                    console.log(`Count for ${collectionType}: ${count}`);
+                    countsObject[collectionType] = count;
+                    document.querySelectorAll(`[data-count="${collectionType}"]`).forEach(el => {
+                        updateNavCount(el, count);
+                    });
+                    storeAllCounts(countsObject);
+                });
+            } else {
+                const collectionPath = COLLECTIONS[collectionType];
+                if (collectionPath) {
+                    fetchCollectionCount(collectionPath).then(count => {
+                        console.log(`Count for ${collectionType}: ${count}`);
+                        countsObject[collectionType] = count;
+                        document.querySelectorAll(`[data-count="${collectionType}"]`).forEach(el => {
+                            updateNavCount(el, count);
+                        });
+                        storeAllCounts(countsObject);
+                    });
+                }
+            }
+        });
+    }
+    function init() {
+        updateAllCounts();
+        window.__navCountsInitialized = true;
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+    window.updateAllCounts = updateAllCounts;    
+})();
+</script>
+  <script>
+(function() {
+    'use strict';
+    if (window.__navResizerInitialized) return;
+    window.__navResizerInitialized = true;
+    const ICON_URLS = {
+        'calendar': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68c80b473977a2ff65933e6e_calendar.svg',
+        'map': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68c80b473977a2ff65933e68_map.svg',
+        'globe': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68c80b473977a2ff65933e66_globe.svg',
+        'book': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68c80b473977a2ff65933e65_book.svg',
+        'briefcase': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68c80b473977a2ff65933e67_briefcase.svg',
+        'coins': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68c80b473977a2ff65933e69_coins.svg',
+        'megaphone': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68d42ac460f38d726c77e711_megaphone.svg',
+        'person': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68d42ac480c20512b447d230_person.svg',
+        'clipboard': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68d42ac4137a0e0fb202f082_clipboard.svg',
+        'heart': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68d42ac420ba583740174c8e_heart.svg'
+    };
+    const NAV_ITEMS = [
+        { id: 'nav-events', href: '/events-and-training', title: 'Events & training', icon: 'calendar', dataCount: 'events' },
+        { id: 'nav-map', href: '/map', title: 'Field map', icon: 'map', dataCount: 'map' },
+        { id: 'nav-communities', href: '/communities', title: 'Communities', icon: 'globe', dataCount: 'communities' },
+        { id: 'nav-courses', href: '/self-study', title: 'Self-study', icon: 'book', dataCount: 'study' },
+        { id: 'nav-jobs', href: '/jobs', title: 'Jobs', icon: 'briefcase', dataCount: 'jobs' },
+        { id: 'nav-funding', href: '/funders', title: 'Funding', icon: 'coins', dataCount: 'funding' },
+        { id: 'nav-media', href: '/media-channels', title: 'Media channels', icon: 'megaphone', dataCount: 'media' },
+        { id: 'nav-advisors', href: '/advisors', title: 'Advisors', icon: 'person', dataCount: 'advisors' },
+        { id: 'nav-projects', href: '/projects', title: 'Volunteer projects', icon: 'clipboard', dataCount: 'projects' },
+        { id: 'nav-donation', href: '/donation-guide', title: 'Donation guide', icon: 'heart' }
+    ];
+    const MIN_VISIBLE = 3;
+    const MAX_VISIBLE = 6;
+    const OVERFLOW_WIDTH = 65;
+    const BUFFER = 40;
+    let hiddenItems = [];
+    function getStoredCounts() {
+        try {
+            const stored = localStorage.getItem('nav_counts_cache');
+            if (stored) {
+                const { counts, timestamp } = JSON.parse(stored);
+                if (Date.now() - timestamp < 3600000) return counts;
+            }
+        } catch (e) {}
+        return null;
+    }
+    function createNavItem(item) {
+        const counts = getStoredCounts();
+        const count = counts && counts[item.dataCount] ? counts[item.dataCount] : '';
+        const threeDigit = ['jobs', 'map', 'communities'].includes(item.dataCount) ? '20px' : '15px';
+        return `<a href="${item.href}" class="nav-item w-inline-block" data-nav-id="${item.id}">
+            <div class="nav-item-icon drop-shadow-dark">
+                <img width="16" height="16" alt="" src="${ICON_URLS[item.icon]}" loading="lazy">
+            </div>
+            <p class="paragraph-small-bold">${item.title}</p>
+            ${item.dataCount ? `<p class="paragraph-xs color-teal-300" data-count="${item.dataCount}" style="min-width:${threeDigit};display:inline-block;">${count}</p>` : ''}
+        </a>`;
+    }
+    function updateOverflow() {
+        const btn = document.querySelector('.nav-item-last');
+        if (!btn) return;
+        if (hiddenItems.length > 0) {
+            btn.style.display = '';
+            const text = btn.querySelector('.paragraph-small-bold');
+            if (text) text.textContent = `+${hiddenItems.length}`;
+        } else {
+            btn.style.display = 'none';
+        }
+    }
+    function rebuildNav() {
+        const nav = document.getElementById('desktop-nav');
+        const overflow = document.querySelector('.nav-item-last');
+        const container = document.querySelector('.nav-container');
+        const logo = container?.querySelector('.w-nav-brand') || container?.querySelector('[class*="brand"]');
+        const burger = container?.querySelector('.w-nav-button') || container?.querySelector('.menu-button');
+        if (!nav || !overflow || !container) return;
+        if (window.innerWidth < 990) {
+            const items = nav.querySelectorAll('.nav-item:not(.nav-item-last)');
+            items.forEach(el => el.remove());
+            overflow.style.display = 'none';
+            const frag = document.createDocumentFragment();
+            NAV_ITEMS.forEach(item => {
+                const div = document.createElement('div');
+                div.innerHTML = createNavItem(item);
+                frag.appendChild(div.firstElementChild);
+            });
+            nav.appendChild(frag);
+            document.body.classList.add('nav-ready');
+            if (typeof updateAllCounts === 'function') setTimeout(updateAllCounts, 100);
+            return;
+        }
+        const items = nav.querySelectorAll('.nav-item:not(.nav-item-last)');
+        items.forEach(el => el.remove());
+        const containerWidth = container.getBoundingClientRect().width;
+        const logoWidth = logo ? logo.getBoundingClientRect().width : 0;
+        const burgerWidth = burger ? burger.getBoundingClientRect().width : 0;
+        const availWidth = containerWidth - logoWidth - burgerWidth - BUFFER;
+        let usedWidth = 0;
+        const visible = [];
+        hiddenItems = [];
+        let itemWidths = [];
+        NAV_ITEMS.forEach((item) => {
+            const temp = document.createElement('div');
+            temp.innerHTML = createNavItem(item);
+            temp.style.cssText = 'position:absolute;visibility:hidden;display:inline-block;';
+            document.body.appendChild(temp);
+            const itemWidth = temp.firstElementChild.getBoundingClientRect().width;
+            itemWidths.push(itemWidth);
+            document.body.removeChild(temp);
+        });
+        let totalWidth = itemWidths.reduce((a, b) => a + b, 0);
+        let needsOverflow = totalWidth > availWidth;
+        let spaceForItems = needsOverflow ? availWidth - OVERFLOW_WIDTH : availWidth;
+        NAV_ITEMS.forEach((item, idx) => {
+            const itemWidth = itemWidths[idx];
+            if (visible.length < MIN_VISIBLE) {
+                visible.push(item);
+                usedWidth += itemWidth;
+            } else if (visible.length < MAX_VISIBLE && usedWidth + itemWidth <= spaceForItems) {
+                visible.push(item);
+                usedWidth += itemWidth;
+            } else {
+                hiddenItems.push(item);
+            }
+        });
+        const frag = document.createDocumentFragment();
+        visible.forEach(item => {
+            const div = document.createElement('div');
+            div.innerHTML = createNavItem(item);
+            frag.appendChild(div.firstElementChild);
+        });
+        nav.insertBefore(frag, overflow);
+        updateOverflow();
+        setupDropdown();
+        document.body.classList.add('nav-ready');
+        if (typeof updateAllCounts === 'function') {
+            setTimeout(updateAllCounts, 100);
+        }
+    }
+    function setupDropdown() {
+        const btn = document.querySelector('.nav-item-last');
+        if (!btn || hiddenItems.length === 0) return;
+        let dropdown = btn.querySelector('.nav-overflow-dropdown');
+        if (dropdown) dropdown.remove();
+        dropdown = document.createElement('div');
+        dropdown.className = 'nav-overflow-dropdown';
+        dropdown.style.display = 'none';
+        hiddenItems.forEach(item => {
+            const div = document.createElement('div');
+            div.innerHTML = createNavItem(item);
+            const link = div.firstElementChild;
+            link.style.cssText = 'display:flex;margin-bottom:8px;';
+            dropdown.appendChild(link);
+        });
+        btn.style.position = 'relative';
+        btn.appendChild(dropdown);
+        btn.onclick = (e) => {
+            if (e.target.closest('.nav-overflow-dropdown a')) {
+                return;
+            }
+            e.preventDefault();
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        };
+        document.addEventListener('click', (e) => {
+            if (!btn.contains(e.target)) dropdown.style.display = 'none';
+        });
+    }
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(rebuildNav, 150);
+    });
+    function init() {
+        const nav = document.getElementById('desktop-nav');
+        if (!nav) {
+            setTimeout(init, 200);
+            return;
+        }
+        setTimeout(rebuildNav, 100);
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+    window.debugNav = { rebuild: rebuildNav, hidden: () => hiddenItems };
+})();
+</script>
+  <script>
+(function() {
+    'use strict';
+    const DATES_CACHE_KEY = 'homepage_dates_cache';
+    const DATES_CACHE_DURATION = 3600000;
+    function parseCustomDate(dateString) {
+        const cleanDate = dateString.replace('Last updated: ', '').trim();
+        const months = {
+            'january': 0, 'february': 1, 'march': 2, 'april': 3, 
+            'may': 4, 'june': 5, 'july': 6, 'august': 7,
+            'september': 8, 'october': 9, 'november': 10, 'december': 11
+        };
+        const parts = cleanDate.split(' ');
+        if (parts.length !== 3) return null;
+        const day = parseInt(parts[0]);
+        const month = months[parts[1].toLowerCase()];
+        const year = parseInt(parts[2]);
+        if (isNaN(day) || month === undefined || isNaN(year)) return null;
+        return new Date(year, month, day);
+    }
+    function formatRelativeTime(date) {
+        const now = new Date();
+        const diffMs = now - date;
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        if (diffDays === 0) return 'Updated today';
+        if (diffDays === 1) return 'Updated yesterday';
+        if (diffDays < 7) return `Updated ${diffDays} days ago`;
+        if (diffDays < 14) return 'Updated 1 week ago';
+        if (diffDays < 30) {
+            const weeks = Math.floor(diffDays / 7);
+            return `Updated ${weeks} week${weeks > 1 ? 's' : ''} ago`;
+        }
+        if (diffDays < 60) return 'Updated 1 month ago';
+        const months = Math.floor(diffDays / 30);
+        return `Updated ${months} months ago`;
+    }
+    function getCachedDates() {
+        try {
+            const stored = localStorage.getItem(DATES_CACHE_KEY);
+            if (stored) {
+                const { dates, timestamp } = JSON.parse(stored);
+                if (Date.now() - timestamp < DATES_CACHE_DURATION) {
+                    return dates;
+                }
+            }
+        } catch (e) {
+            console.error('Error reading dates cache:', e);
+        }
+        return null;
+    }
+    function cacheDates(dates) {
+        try {
+            localStorage.setItem(DATES_CACHE_KEY, JSON.stringify({
+                dates: dates,
+                timestamp: Date.now()
+            }));
+        } catch (e) {
+            console.error('Error storing dates cache:', e);
+        }
+    }
+    async function fetchPageDate(pageUrl) {
+        try {
+            console.log(`Fetching date from: ${pageUrl}`);
+            const response = await fetch(pageUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const nonCardPages = ['/events-and-training', '/donation-guide'];
+            const isNonCardPage = nonCardPages.some(page => pageUrl.includes(page));
+            if (isNonCardPage) {
+                let lastUpdateElement = doc.getElementById('Last-update2');
+                if (!lastUpdateElement) {
+                    lastUpdateElement = doc.getElementById('Last-update');
+                }
+                if (!lastUpdateElement) {
+                    console.warn(`No Last-update or Last-update2 element found on ${pageUrl}`);
+                    return null;
+                }
+                const dateText = lastUpdateElement.textContent.trim();
+                console.log(`Found date text: ${dateText}`);
+                const date = parseCustomDate(dateText);
+                if (!date) {
+                    console.warn(`Could not parse date: ${dateText}`);
+                    return null;
+                }
+                return date;
+            }
+            let lastUpdated = new Date(0);
+            let foundCards = 0;
+            const cardSelectors = ['[data-widget]', '.card', '.w-dyn-item'];
+            for (const selector of cardSelectors) {
+                const cards = doc.querySelectorAll(selector);
+                cards.forEach(card => {
+                    if (card.dataset.modified) {
+                        foundCards++;
+                        const cardDate = new Date(card.dataset.modified);
+                        if (cardDate > lastUpdated && !isNaN(cardDate.getTime())) {
+                            lastUpdated = cardDate;
+                        }
+                    }
+                });
+                if (foundCards > 0) break;
+            }
+            if (foundCards === 0) {
+                console.warn(`No cards with data-modified found on ${pageUrl}`);
+                return null;
+            }
+            if (lastUpdated.getTime() === 0) {
+                console.warn(`No valid dates found on ${pageUrl}`);
+                return null;
+            }
+            console.log(`Found ${foundCards} cards, most recent date: ${lastUpdated.toISOString()}`);
+            return lastUpdated;
+        } catch (error) {
+            console.error(`Error fetching date from ${pageUrl}:`, error);
+            return null;
+        }
+    }
+    async function updateHomepageDates() {
+        const dateElements = document.querySelectorAll('.date[data-source-page], .date-alt[data-source-page]');
+        if (dateElements.length === 0) {
+            console.log('No date elements with data-source-page found');
+            return;
+        }
+        console.log(`Found ${dateElements.length} date elements to update`);
+        const cachedDates = getCachedDates();
+        const freshDates = {};
+        for (const element of dateElements) {
+            const pageUrl = element.getAttribute('data-source-page');
+            if (!pageUrl) continue;
+            let date = null;
+            if (cachedDates && cachedDates[pageUrl]) {
+                date = new Date(cachedDates[pageUrl]);
+                console.log(`Using cached date for ${pageUrl}`);
+            } else {
+                date = await fetchPageDate(pageUrl);
+                if (date) {
+                    freshDates[pageUrl] = date.toISOString();
+                }
+            }
+            if (date) {
+                const relativeText = formatRelativeTime(date);
+                element.textContent = relativeText;
+                console.log(`Updated ${pageUrl}: ${relativeText}`);
+            }
+        }
+        if (Object.keys(freshDates).length > 0) {
+            cacheDates({ ...cachedDates, ...freshDates });
+        }
+    }
+    function init() {
+        const isHomepage = window.location.pathname === '/' || window.location.pathname === '';
+        if (!isHomepage) {
+            console.log('Not on homepage, skipping date updates');
+            return;
+        }
+        console.log('Initializing homepage date updates');
+        updateHomepageDates();
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+</script>
   <script>
 document.querySelectorAll('.Tab-Link').forEach(function(elem) {
   elem.addEventListener('click', function() {

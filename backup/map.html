@@ -1,0 +1,2722 @@
+<!DOCTYPE html><!--  Last Published: Thu Dec 04 2025 15:22:42 GMT+0000 (Coordinated Universal Time)  -->
+<html data-wf-page="6773ce398f9d17dcb8ce4ce4" data-wf-site="65380b51b01b69a63d681e04" lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Field Map – AISafety.com</title>
+  <meta content="Map displaying the main organizations, projects, and programs currently operating in the AI safety space." name="description">
+  <meta content="Field Map – AISafety.com" property="og:title">
+  <meta content="Map displaying the main organizations, projects, and programs currently operating in the AI safety space." property="og:description">
+  <meta content="https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/6901a5563546f2b30147d318_link%20preview%20NEW.png" property="og:image">
+  <meta content="Field Map – AISafety.com" property="twitter:title">
+  <meta content="Map displaying the main organizations, projects, and programs currently operating in the AI safety space." property="twitter:description">
+  <meta content="https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/6901a5563546f2b30147d318_link%20preview%20NEW.png" property="twitter:image">
+  <meta property="og:type" content="website">
+  <meta content="summary_large_image" name="twitter:card">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="css/webflow.css" rel="stylesheet" type="text/css">
+  <link href="css/sacreddesign-e06ccbb898ec7f5290b6edbfa8.webflow.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script type="text/javascript">WebFont.load({  google: {    families: ["Inter:100,200,300,regular,500,600,700,800,900"]  }});</script>
+  <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="images/webclip.png" rel="apple-touch-icon"><!--  Matomo  -->
+  <script>
+  var _paq = window._paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(["disableCookies"]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="https://aisafety.matomo.cloud/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src='https://cdn.matomo.cloud/aisafety.matomo.cloud/matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+  <!--  End Matomo Code  -->
+  <script>
+(function () {
+  const selector = '.featured-card';
+  const minWidth = 992; // only run at desktop and up
+  function equalizeHeights() {
+    const els = Array.from(document.querySelectorAll(selector));
+    if (!els.length) return;
+    // reset heights
+    els.forEach(el => el.style.height = '');
+    // only apply on desktop
+    if (window.innerWidth < minWidth) return;
+    // measure tallest
+    let max = 0;
+    els.forEach(el => {
+      const h = el.offsetHeight;
+      if (h > max) max = h;
+    });
+    // set height
+    els.forEach(el => el.style.height = max + 'px');
+  }
+  // run on load + resize
+  window.addEventListener('load', equalizeHeights);
+  window.addEventListener('resize', () => {
+    clearTimeout(window._eqTimeout);
+    window._eqTimeout = setTimeout(equalizeHeights, 120);
+  });
+})();
+</script>
+  <!-- 
+<style>
+* {
+  outline: 1px solid red !important;
+}
+</style>
+ -->
+</head>
+<body>
+  <div>
+    <div class="w-embed">
+      <style>
+.nav-item, .button-secondary {
+   transition: background-color 0.05s ease-in-out, box-shadow 0.05s ease-in-out;
+}
+.card, .featured-card {
+	transition: background-color 0.05s ease-in-out;
+}
+.button-primary {
+	transition: opacity 0.05s ease-in-out;
+}
+.filter-count {
+    font-size: 13px;
+    color: #717F80;
+    margin-left: 2px;
+}
+.hero-bg {
+  transform: translateX(-50%);
+}
+.nav-menu {
+	backdrop-filter: none;
+}
+/* Fix for mobile background image - UPDATED */
+@media (max-width: 991px) {
+  .hero-bg {
+    transform: translateX(-50%) !important;
+    left: 50% !important;
+    width: 100% !important;
+    min-width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    position: absolute !important;
+    top: 0 !important;
+  }
+  .hero-bg img {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+    object-fit: cover !important;
+    object-position: center !important;
+  }
+}
+.card_full_width-right_card, .card-full-width-2-left-card, .card-half-width_bottom-card, .card-full-width-right-card-light {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.cards-grid {
+	row-gap: 40px;
+}
+@media (max-width: 991px) {
+  .cards-grid {
+    row-gap: 24px;
+  }
+}
+.truncate { text-overflow: ellipsis; }
+body:not(.nav-ready) #desktop-nav .nav-item {
+  visibility: hidden !important;
+}
+.nav-item-last {
+  cursor: pointer;
+}
+.nav-overflow-dropdown {
+	position: absolute;
+	top: 48px !important;
+  right: 0;
+	background: #0E2628 !important;
+  border: 1px solid #2A3F41 !important;
+  border-radius: 16px !important;
+  max-width: 266px !important;
+  width: calc(100vw - 40px) !important;
+  box-shadow: 0 12px 24px rgba(0, 25, 27, 0.5) !important;
+  padding: 24px 24px 16px 24px !important;
+  z-index: 5;
+}
+@media (max-width: 990px) {
+  #desktop-nav .nav-item {
+    margin-bottom: 8px;
+  }
+  #desktop-nav .nav-item:last-child {
+    margin-bottom: 0;
+  }
+}
+</style>
+    </div>
+    <div class="hero-bg"><img loading="lazy" src="images/bg.svg" alt=""></div>
+    <div id="nav" data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="nav w-nav">
+      <div class="nav-container">
+        <a href="index.html" class="brand padding-right-24px w-nav-brand"><img loading="lazy" src="images/logo.svg" alt="" class="display-block"></a>
+        <nav role="navigation" id="desktop-nav" class="nav-menu w-nav-menu">
+          <a id="nav-events" href="events-and-training.html" class="nav-item w-inline-block">
+            <div class="nav-item-icon drop-shadow-dark"><img width="16" height="16" alt="" src="images/calendar.svg" loading="lazy"></div>
+            <p class="paragraph-small-bold">Events &amp; training</p>
+            <p data-count="events" class="paragraph-xs color-teal-300"></p>
+          </a>
+          <a id="nav-map" href="map.html" aria-current="page" class="nav-item w-inline-block w--current">
+            <div class="nav-item-icon drop-shadow-dark"><img width="16" height="16" alt="" src="images/map.svg" loading="lazy"></div>
+            <p class="paragraph-small-bold">Field map</p>
+            <p data-count="map" class="paragraph-xs color-teal-300"></p>
+          </a>
+          <a id="nav-communities" href="communities.html" class="nav-item w-inline-block">
+            <div class="nav-item-icon drop-shadow-dark"><img width="16" height="16" alt="" src="images/globe.svg" loading="lazy"></div>
+            <p class="paragraph-small-bold">Communities</p>
+            <p data-count="communities" class="paragraph-xs color-teal-300"></p>
+          </a>
+          <a id="nav-self-study" href="self-study.html" class="nav-item w-inline-block">
+            <div class="nav-item-icon drop-shadow-dark"><img width="16" height="16" alt="" src="images/book.svg" loading="lazy"></div>
+            <p class="paragraph-small-bold">Self-study</p>
+            <p data-count="study" class="paragraph-xs color-teal-300"></p>
+          </a>
+          <a id="nav-jobs" href="jobs.html" class="nav-item w-inline-block">
+            <div class="nav-item-icon drop-shadow-dark"><img width="16" height="16" alt="" src="images/briefcase.svg" loading="lazy"></div>
+            <p class="paragraph-small-bold">Jobs</p>
+            <p data-count="jobs" class="paragraph-xs color-teal-300"></p>
+          </a>
+          <a id="nav-funding" href="funding.html" class="nav-item w-inline-block">
+            <div class="nav-item-icon drop-shadow-dark"><img width="16" height="16" alt="" src="images/coins.svg" loading="lazy"></div>
+            <p class="paragraph-small-bold">Funding</p>
+            <p data-count="funding" class="paragraph-xs color-teal-300"></p>
+          </a>
+          <div id="nav-overflow" href="#" class="nav-item-last">
+            <p class="paragraph-small-bold"></p>
+          </div>
+        </nav>
+        <div class="menu-button w-nav-button"><img loading="lazy" src="images/hamburger.svg" alt="" class="hamburger"></div>
+      </div>
+    </div>
+  </div>
+  <div class="padding-24px w-embed w-script">
+    <div class="code-embed w-embed w-script">
+      <script src="https://d3js.org/d3.v7.min.js"></script>
+      <div id="d3-map" style="position: relative; width: 100%; margin: 0; padding: 0; overflow: hidden; transform-origin: top center;"></div>
+      <div id="tooltip" class="hidden"></div>
+      <div id="fixed-button" class="scroll-button">View cards <img src="images/arrow-down.svg" alt="View as cards">
+      </div>
+      <div id="map-controls">
+        <div class="map-control-group">
+          <button id="zoom-in" class="map-control-button top" title="Zoom in"><span>+</span></button>
+          <button id="zoom-out" class="map-control-button middle" title="Zoom out"><span>−</span></button>
+          <button id="recenter" class="map-control-button bottom" title="Reset view">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <script>
+// --- JAVASCRIPT (Unchanged from previous version) ---
+document.addEventListener('DOMContentLoaded', () => {
+  // ADDED: Prevent scrolling when mouse is over the map
+  document.getElementById("d3-map").addEventListener("wheel", function(event) {
+    event.preventDefault();
+  }, {passive: false});
+	const {svgGroup, svg, zoom, width, height} = drawMap();
+  setEmbedModeIfNeeded({ svg, svgGroup, zoom, width, height });
+	const gridSize = drawGrid(svgGroup, width, height);
+  const areaLabels = labelAreas(svgGroup, gridSize);
+  labelTitle(svgGroup, gridSize);
+  setupScrollButton();
+  // ADDED: Setup zoom controls
+  setupZoomControls(svg, zoom);
+  // CHANGED: Query for map-listing instead of maps-card
+  const cards = document.querySelectorAll("[data-widget='maps-listing']");
+  cards.forEach((cardEl, i) => {
+  	if (cardShouldBeHidden(cardEl)) return;
+    const dataDiv = cardEl.querySelector("div[xx]") || cardEl;
+    // Find an image in the card element
+    let logoURL = "";
+    const imgElement = cardEl.querySelector('img');
+    if (imgElement && imgElement.src) {
+      logoURL = imgElement.src;
+      // Get highest resolution version by removing any resize parameters
+      logoURL = logoURL.replace(/-\d+x\d+/, '').replace(/-p-\d+/, '');
+    } else {
+      // Fall back to original approach if no image element found
+      logoURL = dataDiv.getAttribute("logo") || "";
+    }
+    const linkURL = dataDiv.getAttribute("link") || "#";
+    const longLabel = dataDiv.getAttribute("LongLabel") || "";
+    const labelName = dataDiv.getAttribute("Label_notreservedname") || "";
+    const description = dataDiv.getAttribute("Description") || "";
+    const category = dataDiv.getAttribute("data-category") || "";
+		const xAttr = dataDiv.getAttribute("xx");
+    const yAttr = dataDiv.getAttribute("yy");
+    const sizeValue = (dataDiv.getAttribute("scale") || "medium").toLowerCase();
+    const linkEl = makeLinkEl(svgGroup, xAttr, yAttr, gridSize, linkURL);
+		const { combinedPillScale, iconSize } = drawLogo(linkEl, sizeValue, logoURL);
+    const { gapRect, labelHeight, labelWidth } = drawLabel(linkEl, combinedPillScale, iconSize, labelName, longLabel, i);
+    addUnifiedHoverArea(linkEl, iconSize, labelHeight, labelWidth, combinedPillScale);
+    addToolTip(linkEl, gapRect, longLabel, description, xAttr, yAttr);
+  }); //End cards.foreach
+});
+// ADDED: Function to set up zoom controls
+function setupZoomControls(svg, zoom) {
+  // Initial view state to use for reset
+  const initialTransform = d3.zoomIdentity;
+  // Zoom in button
+  document.getElementById('zoom-in').addEventListener('click', function() {
+    zoom.scaleBy(svg.transition().duration(300), 1.5);
+  });
+  // Zoom out button
+  document.getElementById('zoom-out').addEventListener('click', function() {
+    zoom.scaleBy(svg.transition().duration(300), 0.75);
+  });
+  // Reset/recenter button
+  document.getElementById('recenter').addEventListener('click', function() {
+    svg.transition().duration(500).call(zoom.transform, initialTransform);
+  });
+  // Add mobile touch handlers to fix sticky button issue
+  const isMobile = window.innerWidth < 768;
+  if (isMobile) {
+    const buttons = document.querySelectorAll('.map-control-button');
+    buttons.forEach(button => {
+      button.addEventListener('touchend', function() {
+        // Explicitly remove focus after a short delay
+        setTimeout(() => {
+          this.blur();
+          // Optionally force removing hover styles if needed
+          this.classList.remove('hover-effect'); // Example class
+         }, 100);
+      });
+       // Add a class on touchstart for visual feedback if desired
+       button.addEventListener('touchstart', function() {
+         this.classList.add('hover-effect');
+       });
+       // Ensure hover effect is removed on touch cancel as well
+       button.addEventListener('touchcancel', function() {
+         this.classList.remove('hover-effect');
+         setTimeout(() => { this.blur(); }, 100);
+       });
+    });
+  }
+}
+// Add a targeted hover area specifically in the space between the circle and the pill
+function addUnifiedHoverArea(linkEl, iconSize, labelHeight, labelWidth, combinedPillScale) {
+  // Adjusted from 12 to 11
+  const labelOffset = 11 * combinedPillScale;
+  // Calculate the bridge dimensions - just cover the gap between circle and label
+  // Make the bridge slightly wider than the circle but not as wide as before
+  const bridgeWidth = iconSize * 0.8; // 80% of circle width
+  // Position the hit area to only cover the gap and a small portion of both elements
+  const hitArea = linkEl.append("rect")
+    .attr("x", -bridgeWidth / 2)
+    .attr("y", iconSize / 2 - 2) // Slightly overlap with circle
+    .attr("width", bridgeWidth)
+    .attr("height", labelOffset + 4) // Cover gap plus small overlap with both elements
+    .attr("fill", "rgba(0,0,0,0)") // Completely transparent
+    .style("pointer-events", "all"); // Capture all mouse events
+  // Move this unified hit area to the back so it doesn't interfere with clicks on other elements
+  hitArea.lower();
+  return hitArea;
+}
+function setupScrollButton() {
+  // Get the button element
+  const button = document.getElementById('fixed-button');
+  // -------- SCROLL BUTTON CONFIGURATION --------
+  // You can adjust these settings to change the button behavior
+  const scrollOffset = 0;      // Additional offset from bottom of map (in pixels)
+  // ---------------------------------------------
+  button.addEventListener('click', function() {
+    // Get the map element
+    const mapElement = document.getElementById("d3-map");
+    const mapRect = mapElement.getBoundingClientRect();
+    // Calculate how much to scroll to position the bottom of the embed at the top of viewport
+    const scrollAmount = window.scrollY + mapRect.bottom + scrollOffset;
+    // Custom smooth scroll with more abrupt ease-out
+    const startPosition = window.scrollY;
+    const distance = scrollAmount - startPosition;
+    const duration = 500; // ms - much faster scrolling
+    const startTime = performance.now();
+    function step(currentTime) {
+      const elapsedTime = currentTime - startTime;
+      if (elapsedTime < duration) {
+        const progress = elapsedTime / duration;
+        // Modified ease-out function - more abrupt deceleration
+        // Uses quadratic (power of 2) instead of cubic (power of 3) for less gradual slowing
+        const easeOutQuad = 1 - Math.pow(1 - progress, 2);
+        window.scrollTo(0, startPosition + distance * easeOutQuad);
+        window.requestAnimationFrame(step);
+      } else {
+        window.scrollTo(0, scrollAmount);
+      }
+    }
+    window.requestAnimationFrame(step);
+  });
+  // Add hover effect
+  button.addEventListener('mouseover', function() {
+    this.classList.add('hover');
+  });
+  button.addEventListener('mouseout', function() {
+    this.classList.remove('hover');
+  });
+}
+function makeLinkEl(svgGroup, xAttr, yAttr, gridSize, linkURL){
+    const xPos = parseFloat(xAttr) * gridSize;
+    const yPos = parseFloat(yAttr) * gridSize;
+    //logConsistentPositions(xPos, yPos, xAttr, yAttr, sizeValue, labelName, category, longLabel, usedCoords, areaLabels);
+		const itemGroup = svgGroup.append("g").attr("transform", `translate(${xPos}, ${yPos})`);
+    const linkEl = itemGroup.append("a").attr("xlink:href", linkURL).attr("target", "_blank").attr("class", "mapItem");
+    return linkEl;
+}
+function cardShouldBeHidden(cardEl){
+    const dataDiv = cardEl.querySelector("div[xx]") || cardEl;
+    if (dataDiv.classList.contains("w-condition-invisible")) return true;
+    // Removed the iOS small scale filter line - this was causing small items to be hidden on iOS
+    const xAttr = dataDiv.getAttribute("xx");
+    const yAttr = dataDiv.getAttribute("yy");
+    if (!xAttr || !yAttr) {console.log("Card missing coordinates:" + dataDiv.getAttribute("LongLabel")); return true; }
+    return false;
+}
+function drawMap(){
+	// Map dimensions
+	const width = 2485;
+  const height = 1355;
+  let BACKGROUND_IMAGE_URL = "https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/67e5dce03ad758280cd8367c_Map%201.5.1.svg";
+  const paddingFactor = 1.1;
+  const paddedWidth = width * paddingFactor;
+  const paddedHeight = height * paddingFactor;
+  const svg = d3.select("#d3-map").append("svg")
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .attr("viewBox", `0 0 ${paddedWidth} ${paddedHeight}`)
+    .attr("preserveAspectRatio", "xMidYMin meet"); // Aligned to top instead of center
+  // Add offset for the reduced padding
+  const svgGroup = svg.append("g")
+    .attr("transform", `translate(${(paddedWidth - width) / 2}, ${(paddedHeight - height) / 20})`);
+  // Check if on mobile to determine max zoom
+  const isMobile = window.innerWidth < 768;
+  const maxZoom = isMobile ? 25 : 8;
+  // Set up zoom behavior
+  const zoom = d3.zoom()
+    .scaleExtent([0.5, maxZoom])
+    .on("zoom", (event) => {
+      // Check if on mobile (screen width < 768px)
+      const isMobile = window.innerWidth < 768;
+      // ADDED: Hide tooltip on mobile when dragging
+      if (isMobile) {
+        // Hide the tooltip on mobile when zooming/dragging
+        d3.select("#tooltip").classed("hidden", true);
+        // On mobile, don't apply constraints
+        svgGroup.attr("transform", `translate(${event.transform.x + (paddedWidth - width) / 2}, ${event.transform.y + (paddedHeight - height) / 20}) scale(${event.transform.k})`);
+      } else {
+        // On desktop, apply constraints to keep map in viewport
+        // Calculate new position
+        let newX = event.transform.x + (paddedWidth - width) / 2;
+        let newY = event.transform.y + (paddedHeight - height) / 20;
+        const scale = event.transform.k;
+        // Get SVG element dimensions
+        const svgRect = svg.node().getBoundingClientRect();
+        const svgWidth = svgRect.width;
+        const svgHeight = svgRect.height;
+        // Calculate scaled map dimensions
+        const scaledWidth = width * scale;
+        const scaledHeight = height * scale;
+        // Calculate boundaries to keep map partially visible
+        // Ensure at least 20% of the map width/height is always visible
+        const minVisiblePortion = 0.2;
+        const maxX = svgWidth - scaledWidth * minVisiblePortion;
+        const minX = scaledWidth * minVisiblePortion - scaledWidth;
+        const maxY = svgHeight - scaledHeight * minVisiblePortion;
+        const minY = scaledHeight * minVisiblePortion - scaledHeight;
+        // Apply constraints
+        newX = Math.min(Math.max(newX, minX), maxX);
+        newY = Math.min(Math.max(newY, minY), maxY);
+        svgGroup.attr("transform", `translate(${newX}, ${newY}) scale(${scale})`);
+      }
+    });
+  svg.call(zoom);
+  setupShadowFilters(svg);
+  // Add the background image
+  svgGroup.append("image")
+    .attr("xlink:href", BACKGROUND_IMAGE_URL)
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", width)
+    .attr("height", height);
+  return {svgGroup, svg, zoom, width, height};
+}
+function setEmbedModeIfNeeded({ svg, svgGroup, zoom, width, height }) {
+  const params = new URLSearchParams(location.search);
+  if (params.get('mode') !== 'embed') {
+    console.log('[Embed] Not in embed mode; skipping.');
+    return;
+  }
+  console.log('[Embed] mode=embed detected.');
+  try {
+    // A) Hide top nav / hamburger on the map page
+    const nav = document.querySelector('#nav, .w-nav, nav[role="navigation"]');
+    if (nav) {
+      nav.style.display = 'none';
+      console.log('[Embed] Nav hidden.');
+    } else {
+      console.log('[Embed] Nav not found; skipping hide.');
+    }
+    // B) Prevent internal scrollbars in the child page
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    console.log('[Embed] Scrollbars disabled in child.');
+    // C) Optional: tweak zoom behavior for embed
+    //    (You can adjust these to taste.)
+    try {
+      zoom.scaleExtent([0.5, 8]);        // keep your existing limits or narrow for embed
+      svg.on('dblclick.zoom', null);     // disable dblclick zoom for calmer UX
+      console.log('[Embed] Zoom tweaks applied.');
+    } catch (e) {
+      console.warn('[Embed] Zoom tweak failed:', e);
+    }
+    // D) Fit & center initial view.
+    //    drawMap() uses a padded viewBox and then offsets the <g> by:
+    //      offsetX = (paddedWidth - width) / 2
+    //      offsetY = (paddedHeight - height) / 20
+    //    In the zoom handler, you **add** these offsets to event.transform.x/y,
+    //    so to command a desired absolute translate on the <g>, we must subtract
+    //    those offsets when building the zoom transform.
+    const paddingFactor = 1.1;                 // must match drawMap()
+    const paddedWidth  = width  * paddingFactor;
+    const paddedHeight = height * paddingFactor;
+    const offsetX = (paddedWidth  - width) / 2;
+    const offsetY = (paddedHeight - height) / 20;
+    // Measure the actual rendered size of the SVG (the viewport)
+    const node = svg.node();
+    const vpW = node?.clientWidth  || width;
+    const vpH = node?.clientHeight || height;
+    console.log('[Embed] Viewport:', { vpW, vpH, width, height });
+    // Choose how to fit: contain (fit both) or width-only. "contain" is nicest.
+    const fitScale = Math.min(vpW / width, vpH / height);
+    const zoomInFactor = 13;
+    let initialScale = fitScale * zoomInFactor;
+    // Desired absolute translation for the <g> (so it's centered in the viewport)
+    const desiredAbsX = (vpW - width  * initialScale) / 2;
+    const desiredAbsY = (vpH - height * initialScale) / 2;
+    // Convert desired absolute <g> translation into the event.transform space
+    const tx = desiredAbsX - offsetX;
+    const ty = desiredAbsY - offsetY;
+    svg.call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(initialScale));
+    console.log('[Embed] Initial transform applied:', { initialScale, tx, ty, offsetX, offsetY });
+    // E) Optional: ensure grid is off in embed
+    const gridGroupSel = d3.select('#gridGroup');
+    if (!gridGroupSel.empty()) {
+      gridGroupSel.style('display', 'none');
+      console.log('[Embed] Grid hidden.');
+    }
+  } catch (err) {
+    console.error('[Embed] setEmbedModeIfNeeded error:', err);
+  }
+}
+function addToolTip(linkEl, gapRect, longLabel, description, xAttr, yAttr){
+    const tooltip = d3.select("#tooltip");
+    const allTooltipTargets = [linkEl.node(), gapRect.node()];
+    let fixedTooltipSide = null;
+    let fixedTooltipVert = null;
+    const isMobile = window.innerWidth < 768;
+    // Assign a unique ID to the link element for tracking
+    const uniqueId = "map-item-" + Math.random().toString(36).substring(2, 11);
+    linkEl.attr("id", uniqueId);
+    // For mobile: add click handler to prevent default and show tooltip
+    if (isMobile) {
+      // Store the original href
+      const linkURL = linkEl.attr("xlink:href");
+      // Change the link behavior on mobile
+      linkEl.on("click.mobile", function(event) {
+        // Prevent the default link behavior
+        event.preventDefault();
+        // Check if tooltip is already showing for this item
+        const currentSourceId = tooltip.attr("data-source-id");
+        const isTooltipVisible = !tooltip.classed("hidden");
+        // If tooltip is currently showing for this same item, hide it (same effect as tapping empty space)
+        if (isTooltipVisible && currentSourceId === uniqueId) {
+          tooltip.classed("hidden", true);
+          return;
+        }
+        // Otherwise, show tooltip for this item
+        // Store the current link URL and source element ID as data attributes
+        tooltip.attr("data-link-url", linkURL);
+        tooltip.attr("data-source-id", uniqueId);
+        // Show tooltip without any tap instructions
+        let tooltipHTML = `
+          <strong>${longLabel}</strong>
+          <span>${description}</span>
+        `;
+        tooltip.html(tooltipHTML).classed("hidden", false);
+        tooltip.classed("mobile-tooltip", true);
+        // Position the tooltip
+        const tooltipRect = tooltip.node().getBoundingClientRect();
+        const flipThreshold = 80;
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        fixedTooltipSide = (event.pageX + tooltipRect.width + flipThreshold > viewportWidth) ? "left" : "right";
+        fixedTooltipVert = (event.pageY + tooltipRect.height + flipThreshold > viewportHeight) ? "above" : "below";
+        positionTooltip(event, tooltip, fixedTooltipSide, fixedTooltipVert);
+        // Stop event propagation to prevent closing immediately
+        event.stopPropagation();
+      });
+    }
+    // Set up global handlers only once for mobile
+    if (isMobile && !window.mobileTooltipHandlersInitialized) {
+      // Set up click handler on tooltip itself
+      document.getElementById("tooltip").addEventListener("click", function(e) {
+        if (isMobile) {
+          const link = d3.select(this).attr("data-link-url");
+          if (link) {
+            window.open(link, '_blank');
+          }
+        }
+      });
+      // Close tooltip when tapping elsewhere
+      document.addEventListener("click", function(e) {
+        if (isMobile && !e.target.closest("#tooltip")) {
+          tooltip.classed("hidden", true);
+        }
+      });
+      // Mark that we've set up the handlers
+      window.mobileTooltipHandlersInitialized = true;
+    }
+    // Desktop behavior remains unchanged
+    allTooltipTargets.forEach((el) => {
+      d3.select(el)
+        .on("mouseover", function (event) {
+          // Skip if on mobile as we handle it with click
+          if (isMobile) return;
+          let tooltipHTML = `
+          <strong>${longLabel}</strong>
+          <span>${description}</span>
+        `;
+          if (false/*TODO*/) tooltipHTML = `<strong>X=${xAttr}, Y=${yAttr}</strong><br>`+tooltipHTML;
+          const tooltipEl = tooltip.node();
+          tooltip.html(tooltipHTML).classed("hidden", false);
+          // Calculate position once on initial hover
+          const tooltipRect = tooltipEl.getBoundingClientRect();
+          const flipThreshold = 80;
+          const viewportWidth = window.innerWidth;
+          const viewportHeight = window.innerHeight;
+          fixedTooltipSide = (event.pageX + tooltipRect.width + flipThreshold > viewportWidth) ? "left" : "right";
+          fixedTooltipVert = (event.pageY + tooltipRect.height + flipThreshold > viewportHeight) ? "above" : "below";
+          positionTooltip(event, tooltip, fixedTooltipSide, fixedTooltipVert);
+        })
+        .on("mousemove", function (event) {
+          if (isMobile) return;
+          positionTooltip(event, tooltip, fixedTooltipSide, fixedTooltipVert);
+        })
+        .on("mouseout", function () {
+          if (isMobile) return;
+          tooltip.classed("hidden", true);
+          fixedTooltipSide = null;
+          fixedTooltipVert = null;
+        });
+    }); //End allTooltipTargets.forEach((el) => {
+}
+function drawLabel(linkEl, combinedPillScale, iconSize, labelName, longLabel, i){
+  const labelOffset = 11 * combinedPillScale;
+  const labelG = linkEl.append("g");
+  const labelY = iconSize / 2 + labelOffset;
+  labelG.attr("transform", `translate(0, ${labelY})`);
+  const figmaFontSize = 6;   // px
+  const figmaLetterSpacing = -0.02; // -2%
+  const figmaFontWeight = 600; // Semi Bold
+  const textEl = labelG
+  .append("text")
+  .attr("text-anchor", "middle")
+  .attr("font-family", "Inter, sans-serif")
+  .attr("font-weight", figmaFontWeight)
+  .attr("font-size", figmaFontSize * combinedPillScale)
+  .style("letter-spacing", `${figmaLetterSpacing}em`)
+  .attr("fill", "#000") // for white: #fff
+  .text(labelName || longLabel || `Item #${i}`);
+  const bbox = textEl.node().getBBox();
+  const padX = 6 * combinedPillScale;
+  const padY = 3 * combinedPillScale;
+  const rectW = bbox.width + padX * 2;
+  const rectH = bbox.height + padY * 2;
+  const rectX = -rectW / 2;
+  const rectY = -rectH / 2;
+  // Check if device is mobile for vertical text alignment
+  const isMobile = window.innerWidth < 768;
+  // For mobile, use 0.2 to shift text upward
+  // For desktop, keep the original 0.35 factor which works well
+  const textShiftY = bbox.height * (isMobile ? 0.2 : 0.35);
+  textEl.attr("y", textShiftY);
+  labelG
+    .insert("rect", "text")
+    .attr("x", rectX)
+    .attr("y", rectY)
+    .attr("width", rectW)
+    .attr("height", rectH)
+    .attr("rx", rectH / 2)
+    .attr("ry", rectH / 2)
+    .attr("fill", "#fff"); // for (off-)black: #14181e
+  const gapRect = linkEl.append("rect")
+  .attr("x", -iconSize / 2)
+  .attr("y", iconSize / 2)
+  .attr("width", iconSize)
+  .attr("height", labelOffset)
+  .attr("fill", "rgba(0,0,0,0)")
+  .style("pointer-events", "all");
+  // Return the dimensions we need for the unified hover area
+  return {
+    gapRect,
+    labelHeight: labelOffset + rectH, // Total height of label including offset
+    labelWidth: rectW
+  };
+}
+function drawLogo(linkEl, sizeValue, logoURL) {
+  const baseSize = 64;
+  const sizeToScale = { small: 0.4, medium: 0.6, large: 0.8 };
+  const rawScale = sizeToScale[sizeValue] || 0.85;
+  const pillGlobalScale = 1.5;
+  const logoGlobalScale = 1.0;
+  const combinedPillScale = rawScale * pillGlobalScale;
+  const combinedLogoScale = rawScale * logoGlobalScale;
+  const iconSize = baseSize * combinedLogoScale;
+  const padding = 2;
+  const contentSize = iconSize - 2 * padding;
+  linkEl.append("circle")
+    .attr("r", iconSize / 2)
+    .attr("cx", 0)
+    .attr("cy", 0)
+    .attr("fill", "#fff");
+  if (logoURL) {
+    const uniqueId = `logo-pattern-${Math.random().toString(36).substring(2, 11)}`;
+    const patternId = `pattern-${uniqueId}`;
+    const img = new Image();
+    img.src = logoURL;
+    img.onload = function () {
+      const { width, height } = img;
+      const scaleFactor = contentSize / Math.max(width, height);
+      const finalWidth = width * scaleFactor;
+      const finalHeight = height * scaleFactor;
+      const offsetX = (contentSize - finalWidth) / 2;
+      const offsetY = (contentSize - finalHeight) / 2;
+      const defs = linkEl.append("defs");
+      const pattern = defs.append("pattern")
+        .attr("id", patternId)
+        .attr("patternUnits", "objectBoundingBox")
+        .attr("width", 1)
+        .attr("height", 1);
+      pattern.append("image")
+        .attr("xlink:href", logoURL)
+        .attr("width", finalWidth)
+        .attr("height", finalHeight)
+        .attr("x", offsetX)
+        .attr("y", offsetY);
+      linkEl.append("circle")
+        .attr("r", contentSize / 2)
+        .attr("cx", 0)
+        .attr("cy", 0)
+        .attr("fill", `url(#${patternId})`);
+    };
+    // Add a fallback in case the image fails to load
+    img.onerror = function() {
+      linkEl.append("circle")
+        .attr("r", contentSize / 2)
+        .attr("cx", 0)
+        .attr("cy", 0)
+        .attr("fill", "#f70"); // Orange fallback color
+    };
+  } else {
+    linkEl.append("circle")
+      .attr("r", contentSize / 2)
+      .attr("cx", 0)
+      .attr("cy", 0)
+      .attr("fill", "red");
+  }
+  return { combinedPillScale, iconSize };
+}
+function logOverlaps(usedCoords){
+  for (let i = 0; i < usedCoords.length; i++) {
+    const entry1 = usedCoords[i];
+    for (let j = i + 1; j < usedCoords.length; j++) {
+      const entry2 = usedCoords[j];
+      if (overlap(entry1.x, entry1.y, entry1.sizeValue,entry2.x, entry2.y, entry2.sizeValue)) {
+        //console.warn("Overlap detected:",`"${entry1.labelName}"`,"and",`"${entry2.labelName}"`,`(${entry1.x},${entry1.y}) & (${entry2.x},${entry2.y})`);
+      }
+    }
+  }
+}
+function positionTooltip(evt, tooltip, fixedTooltipSide, fixedTooltipVert) {
+  const tooltipEl = tooltip.node();
+  const tooltipRect = tooltipEl.getBoundingClientRect();
+  const tooltipWidth = tooltipRect.width;
+  const tooltipHeight = tooltipRect.height;
+  const offset = 10;
+  const isMobile = window.innerWidth < 768;
+  // Calculate initial position
+  let finalX = fixedTooltipSide === "right"
+    ? (evt.pageX + offset)
+    : (evt.pageX - offset - tooltipWidth);
+  let finalY = fixedTooltipVert === "below"
+    ? (evt.pageY + offset)
+    : (evt.pageY - offset - tooltipHeight);
+  // For mobile devices, ensure tooltip is not cut off on the left
+  if (isMobile) {
+    const minLeftMargin = 20; // Minimum margin from the left edge
+    finalX = Math.max(finalX, minLeftMargin);
+  }
+  tooltip
+    .style("left", finalX + "px")
+    .style("top", finalY + "px");
+}
+function setupShadowFilters(svg){
+  const defs = svg.append("defs");
+  const logoShadowFilter = defs.append("filter")
+  .attr("id", "logoShadow")
+  .attr("x", "-200%")
+  .attr("y", "-200%")
+  .attr("width", "400%")
+  .attr("height", "400%");
+  logoShadowFilter.append("feGaussianBlur")
+    .attr("in", "SourceAlpha")
+    .attr("stdDeviation", "4"); // Higher quality blur
+  logoShadowFilter.append("feOffset")
+    .attr("dx", "0")
+    .attr("dy", "3");
+  logoShadowFilter.append("feComponentTransfer")
+    .append("feFuncA")
+    .attr("type", "linear")
+    .attr("slope", "1.2"); // Adjust shadow intensity
+  logoShadowFilter.append("feMerge")
+    .selectAll("feMergeNode")
+    .data(["offsetBlur", "SourceGraphic"])
+    .enter()
+    .append("feMergeNode")
+    .attr("in", d => d);
+}
+function overlap(x1, y1, size1, x2, y2, size2) {
+  const o1 = getOffsets(size1);
+  const o2 = getOffsets(size2);
+  const left1   = x1 - o1.halfX;
+  const right1  = x1 + o1.halfX;
+  const top1    = y1 - o1.top;
+  const bottom1 = y1 + o1.bottom;
+  const left2   = x2 - o2.halfX;
+  const right2  = x2 + o2.halfX;
+  const top2    = y2 - o2.top;
+  const bottom2 = y2 + o2.bottom;
+  const overlapX = left1 < right2 && right1 > left2;
+  const overlapY = top1 < bottom2 && bottom1 > top2;
+  return overlapX && overlapY;
+}
+function getOffsets(size) {
+  switch (size.toLowerCase()) {
+    case "small":return {halfX: 0.3,top: 0.4,bottom: 1,};
+    case "medium":return {halfX: 0.5,top: 0.7,bottom: 1.5,};
+    case "large":return {halfX: 1.0,top: 1.0,bottom: 2.0,};
+    default:
+      return {halfX: 1.0,top: 0.7,bottom: 1.5,};
+  }
+}
+function drawGrid(svgGroup, width, height) {
+  const gridGroup = svgGroup.append("g").attr("id", "gridGroup");
+  d3.select("#gridGroup").style("display", "none");
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("grid") === "on") d3.select("#gridGroup").style("display", "");
+	const maxXGrid = 59;
+  const maxYGrid = 37;
+  const gridSize = width / 60;
+	const gridWidth = (maxXGrid + 1) * gridSize;
+  const gridHeight = (maxYGrid + 1) * gridSize;
+  for (let y = 0; y <= gridHeight; y += gridSize) {
+    gridGroup.append("line")
+      .attr("x1", 0)
+      .attr("y1", y)
+      .attr("x2", gridWidth)
+      .attr("y2", y)
+      .attr("stroke", "#ddd");
+  }
+  for (let x = 0; x <= gridWidth; x += gridSize) {
+    gridGroup.append("line")
+      .attr("x1", x)
+      .attr("y1", 0)
+      .attr("x2", x)
+      .attr("y2", gridHeight)
+      .attr("stroke", "#ddd");
+  }
+  return gridSize;
+}
+function labelTitle(svgGroup, gridSize){
+  // MAP TITLE
+  const titleConfig = {
+    text: "Map of AI Existential Safety",
+    xx: 30,
+    yy: 2.5,
+    scale: 5,  // Adjust this value to change title size
+    padX: 20,    // Adjust horizontal padding
+    padY: 10     // Adjust vertical padding
+  };
+  const titleXPos = titleConfig.xx * gridSize;
+  const titleYPos = titleConfig.yy * gridSize;
+  const titleGroup = svgGroup
+  .append("g")
+  .attr("transform", `translate(${titleXPos}, ${titleYPos})`);
+  const titleText = titleGroup
+  .append("text")
+  .attr("x", 0)
+  .attr("y", 0)
+  .attr("text-anchor", "middle")
+  .attr("font-family", "Inter, sans-serif")
+  .attr("font-weight", 400)
+  .attr("font-size", 72)
+  .style("letter-spacing", "-2.16px")
+  .attr("fill", "#fff")
+  .text(titleConfig.text);
+}
+function labelAreas(svgGroup, gridSize){
+  const areaLabels = [
+    { areaLabel: "Conceptual Cliffs", xx: 46, yy: 5.5, category: "Conceptual research", xmin: 42, xmax: 51, ymin: 7, ymax: 11},
+    { areaLabel: "Resource Rock", xx: 3.5, yy: 8, category: "Resource", xmin: 2, xmax: 8, ymin: 3, ymax: 8},
+    { areaLabel: "Support Shoreline", xx: 13, yy: 6.7, category: "Research support", xmin: 10, xmax: 16, ymin: 7, ymax: 10},
+    { areaLabel: "Newsletter Nook", xx: 15.8, yy: 14.5, category: "Newsletter", xmin: 12, xmax: 18, ymin: 11, ymax: 19},
+    { areaLabel: "Video Vista", xx: 23, yy: 5.6, category: "Video", xmin: 16, xmax: 20, ymin: 5, ymax: 9},
+    { areaLabel: "Funding Forest", xx: 29.2, yy: 7, category: "Funding", xmin: 20, xmax: 31, ymin: 6, ymax: 12},
+    { areaLabel: "Governance Grove", xx: 37.7, yy: 5.5, category: "Governance", xmin: 33, xmax: 41, ymin: 5, ymax: 10},
+    { areaLabel: "Strategy Summit", xx: 34.8, yy: 19, category: "Strategy", xmin: 30, xmax: 41, ymin: 11, ymax: 17},
+    { areaLabel: "Research Range", xx: 45.3, yy: 15.9, category: "Research", xmin: 42, xmax: 50, ymin: 13, ymax: 17},
+    { areaLabel: "Training Town", xx: 22.2, yy: 17.2, category: "Training and education", xmin: 20, xmax: 32, ymin: 14, ymax: 21},
+    { areaLabel: "Empirical Escarpment", xx: 53.5, yy: 16, category: "Empirical research", xmin: 49, xmax: 56, ymin: 11, ymax: 23},
+    { areaLabel: "Podcast Port", xx: 9.5, yy: 20.5, category: "Podcast", xmin: 5, xmax: 12, ymin: 15, ymax: 23},
+    { areaLabel: "Blog Beach", xx: 15, yy: 25.8, category: "Blog", xmin: 12, xmax: 19, ymin: 20, ymax: 28},
+    { areaLabel: "Forecasting Falls", xx: 39.2, yy: 23.8, category: "Forecasting", xmin: 33, xmax: 42, ymin: 18, ymax: 26},
+    { areaLabel: "Career Castle", xx: 30.5, yy: 29.4, category: "Career support", xmin: 21, xmax: 34, ymin: 23, ymax: 30},
+    { areaLabel: "Advocacy Anchorage", xx: 8, yy: 31, category: "Advocacy", xmin: 2, xmax: 12, ymin: 25, ymax: 30},
+    { areaLabel: "Capabilities Cove", xx: 45, yy: 27.1, category: "Capabilities research", xmin: 43, xmax: 51, ymin: 19, ymax: 23},
+    { areaLabel: "Gone Graveyard", xx: 56, yy: 30, category: "Gone", xmin: 51, xmax: 59, ymin: 27, ymax: 32},
+  ];
+  areaLabels.forEach(({ areaLabel, xx, yy }) => {
+    const labelScale = 1.75;
+    const baseFontSize = 14;
+    const basePadX = 14;
+    const basePadY = 7;
+    const xPos = xx * gridSize;
+    const yPos = yy * gridSize;
+    const finalFontSize = baseFontSize * labelScale;
+    const finalPadX = basePadX * labelScale;
+    const finalPadY = basePadY * labelScale;
+    const labelGroup = svgGroup
+    .append("g")
+    .attr("transform", `translate(${xPos}, ${yPos})`)
+    .style("user-select", "none")       // Add these styles
+    .style("-webkit-user-select", "none")  // for cross-browser
+    .style("-moz-user-select", "none")     // compatibility
+    .style("-ms-user-select", "none");     // with non-selectable text
+    const textEl = labelGroup
+    .append("text")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("text-anchor", "middle")
+    .attr("font-family", "Inter, sans-serif")
+    .attr("font-weight", 600)
+    .attr("font-size", finalFontSize)
+    .style("letter-spacing", "-0.01em")
+    .attr("fill", "#fff") // for black: #000
+    .text(areaLabel)
+    .style("pointer-events", "none");     // Prevent text from capturing mouse events
+    const bbox = textEl.node().getBBox();
+    labelGroup
+      .insert("rect", "text")
+      .attr("x", bbox.x - finalPadX)
+      .attr("y", bbox.y - finalPadY)
+      .attr("width", bbox.width + finalPadX * 2)
+      .attr("height", bbox.height + finalPadY * 2)
+      .attr("rx", (bbox.height + finalPadY * 2) / 2)
+      .attr("ry", (bbox.height + finalPadY * 2) / 2)
+      .attr("fill", "rgba(27, 43, 62, 0.6)"); // for white: rgba(255, 255, 255, 0.6)
+  });
+  return areaLabels;
+}
+function logConsistentPositions(xPos, yPos, xAttr, yAttr, sizeValue, labelName, category, longLabel, usedCoords, areaLabels){
+  //const usedCoords = []; //NOTE: MOVE THIS OUT OR THIS WONT WORK
+  usedCoords.push({x: parseFloat(xAttr),y: parseFloat(yAttr),sizeValue,labelName});
+  const area = areaLabels.find(area => area.category.toLowerCase() === category.toLowerCase());
+  if (!area) {
+    console.warn("Could not match category for:", labelName, "(", category, ")");
+  } else {
+    if(xAttr < area.xmin || area.xmax < xAttr || yAttr < area.ymin || area.ymax < yAttr)
+      console.warn(`"${longLabel}" (category="${category}") is outside its area. (${xAttr},${yAttr}) not in (${area.xmin}-${area.xmax}, ${area.ymin}-${area.ymax})`);
+  }
+}
+// --- END JAVASCRIPT ---
+  </script>
+      <style>
+    /* Adjust map height for navigation bar */
+    #d3-map {
+      height: calc(100vh - 88px);
+    }
+    @media (max-width: 767px) {
+      #d3-map {
+        height: calc(100dvh - 90px);
+      }
+    }
+    /* Hide all elements with data-widget="maps-listing" */
+    [data-widget="maps-listing"] {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      overflow: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      position: absolute !important;
+      left: -9999px !important;
+    }
+    #tooltip {
+      position: absolute;
+      pointer-events: none;
+      background-color: #0e2628;
+      border: 1px solid #394C4E;
+      border-radius: 8px;
+      padding: 12px 16px;
+      line-height: 167.5%;
+      font-weight: 300;
+      font-family: Inter;
+      font-size: 13px;
+      letter-spacing: -.2px;
+      color: #aab2b3; /* was: #81878f */
+      max-width: 250px;
+      max-height: 98%;
+      overflow: auto;
+      box-shadow: 0 12px 24px rgba(0, 25, 27, 0.5);
+      z-index: 9999;
+      text-align: left;
+    }
+    /* Only enable pointer events on mobile */
+    @media (max-width: 767px) {
+      #tooltip.mobile-tooltip {
+        pointer-events: auto;
+      }
+    }
+    #tooltip strong {
+      color: #fff;
+      display: block;
+      margin-bottom: 0.5em;
+    }
+    .hidden {
+      display: none;
+    }
+    .mapItem {
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .mapItem:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+    }
+    /* Scroll Button Styles */
+    .scroll-button {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      height: 40px;
+      padding: 0 16px;
+      border-radius: 30px;
+      font-family: Inter, sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      line-height: 1;
+      background-color: #fff;
+      color: #00191B;
+      box-shadow: 0px 12px 24px rgba(0, 25, 27, 0.5);
+      cursor: pointer;
+      z-index: 1000;
+      user-select: none;
+      transition: background-color 0.3s ease;
+    }
+    .scroll-button.hover {
+      background-color: #f3f3f3;
+    }
+    /* Map Control Styles */
+    #map-controls {
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .map-control-group {
+      display: flex;
+      flex-direction: column;
+      width: 40px;
+      background-color: #0e2628;
+      border: 1px solid #394C4E;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0px 12px 24px 0px rgba(0, 25, 27, 0.5);
+    }
+    .map-control-group:hover {
+      background-color: #1C3334;
+    }
+    .map-control-button {
+      width: 40px;
+      height: 40px;
+      background-color: #0e2628;
+      color: white;
+      border: none;
+      border-radius: 0;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.15s ease-in-out;
+      -webkit-tap-highlight-color: transparent;
+      padding: 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      font-size: 30px;
+      font-weight: 300;
+    }
+    .map-control-button span,
+    .map-control-button svg {
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 47.5%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .map-control-button span {
+      line-height: 40px;
+    }
+    #recenter svg {
+      width: 20px;
+      height: 20px;
+    }
+    .map-control-button:hover {
+      background-color: #1C3334;
+    }
+    .map-control-button + .map-control-button {
+      border-top: 1px solid #394C4E;
+    }
+    @media (max-width: 767px) {
+      .map-control-button:active {
+        opacity: 0.7;
+      }
+      .map-control-button.hover-effect {
+        background-color: #0e2628;
+      }
+    }
+  </style>
+    </div>
+  </div>
+  <div id="cards" class="w-layout-blockcontainer container-default w-container">
+    <div id="Last-update2" class="padding-24px paragraph-small color-teal-300">.</div>
+    <h2 class="width-7-col padding-56px">An overview of the key <span class="color-light-teal">organizations, programs, and projects</span> operating in the Al safety space.</h2>
+    <div class="w-layout-grid database-outer-grid">
+      <div>
+        <div class="form-block w-form">
+          <form id="wf-form-Search-bar" name="wf-form-Search-bar" data-name="Search bar" action="http://#" method="get" class="padding-40px-old" data-wf-page-id="6773ce398f9d17dcb8ce4ce4" data-wf-element-id="629c90ba-fbd4-5697-f94b-c795d19afd09"><input class="text-field w-input" maxlength="256" name="search-bar" data-name="search-bar" placeholder="Search listings by name or description" type="text" id="search-bar-3"></form>
+          <div class="w-form-done">
+            <div>Thank you! Your submission has been received!</div>
+          </div>
+          <div class="w-form-fail">
+            <div>Oops! Something went wrong while submitting the form.</div>
+          </div>
+        </div>
+        <div class="map-collection padding-40px w-dyn-list">
+          <div role="list" class="collection-list w-dyn-items">
+            <div role="listitem" class="collection-item w-dyn-item">
+              <a href="#" class="w-inline-block">
+                <div xx="" yy="" data-category="" class="card" data-widget="maps-card" scale="" logo="" data-modified="" data-title="" data-status="" longlabel="" data-description="" link="" label_notreservedname="">
+                  <div class="featured-img-title-flex padding-24px">
+                    <div class="featured-img"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" class="card-image w-dyn-bind-empty"></div>
+                    <h3 data-field="title" class="w-dyn-bind-empty"></h3>
+                  </div>
+                  <p data-field="description" class="paragraph-small padding-24px w-dyn-bind-empty"></p>
+                  <p data-field="category" class="paragraph-xs-bold color-teal-300 padding-4px">Category</p>
+                  <p data-field="category" class="paragraph-small w-dyn-bind-empty"></p>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="w-dyn-empty">
+            <div>No items found.</div>
+          </div>
+        </div>
+        <div class="map-collection padding-40px w-dyn-list">
+          <div fs-cmsload-resetix="true" fs-cmsload-element="list" fs-cmsload-mode="render-all" role="list" class="collection-list w-dyn-items">
+            <div role="listitem" class="collection-item w-dyn-item">
+              <a href="#" class="w-inline-block">
+                <div xx="" yy="" data-category="" class="card" data-widget="maps-card" scale="" logo="" data-modified="" data-title="" data-status="" longlabel="" data-description="" link="" label_notreservedname="">
+                  <div class="featured-img-title-flex padding-24px">
+                    <div class="featured-img"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" class="card-image w-dyn-bind-empty"></div>
+                    <h3 data-field="title" class="w-dyn-bind-empty"></h3>
+                  </div>
+                  <p data-field="description" class="paragraph-small padding-24px w-dyn-bind-empty"></p>
+                  <p data-field="category" class="paragraph-xs-bold color-teal-300 padding-4px">Category</p>
+                  <p data-field="category" class="paragraph-small w-dyn-bind-empty"></p>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="w-dyn-empty">
+            <div>No items found.</div>
+          </div>
+        </div>
+        <div class="map-collection padding-40px w-dyn-list">
+          <div fs-cmsload-resetix="true" fs-cmsload-element="list" fs-cmsload-mode="render-all" role="list" class="collection-list w-dyn-items">
+            <div role="listitem" class="collection-item w-dyn-item">
+              <a href="#" class="w-inline-block">
+                <div xx="" yy="" data-category="" class="card" data-widget="maps-card" scale="" logo="" data-modified="" data-title="" data-status="" longlabel="" data-description="" link="" label_notreservedname="">
+                  <div class="featured-img-title-flex padding-24px">
+                    <div class="featured-img"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" class="card-image w-dyn-bind-empty"></div>
+                    <h3 data-field="title" class="w-dyn-bind-empty"></h3>
+                  </div>
+                  <p data-field="description" class="paragraph-small padding-24px w-dyn-bind-empty"></p>
+                  <p data-field="category" class="paragraph-xs-bold color-teal-300 padding-4px">Category</p>
+                  <p data-field="category" class="paragraph-small w-dyn-bind-empty"></p>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="w-dyn-empty">
+            <div>No items found.</div>
+          </div>
+        </div>
+        <div class="w-dyn-list">
+          <div fs-cmsload-resetix="true" fs-cmsload-element="list" fs-cmsload-mode="render-all" role="list" class="collection-list w-dyn-items">
+            <div role="listitem" class="collection-item w-dyn-item">
+              <a href="#" class="w-inline-block">
+                <div xx="" yy="" data-category="" class="card" data-widget="maps-card" scale="" logo="" data-modified="" data-title="" data-status="" longlabel="" data-description="" link="" label_notreservedname="">
+                  <div class="featured-img-title-flex padding-24px">
+                    <div class="featured-img"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" class="card-image w-dyn-bind-empty"></div>
+                    <h3 data-field="title" class="w-dyn-bind-empty"></h3>
+                  </div>
+                  <p data-field="description" class="paragraph-small padding-24px w-dyn-bind-empty"></p>
+                  <p data-field="category" class="paragraph-xs-bold color-teal-300 padding-4px">Category</p>
+                  <p data-field="category" class="paragraph-small w-dyn-bind-empty"></p>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="w-dyn-empty">
+            <div>No items found.</div>
+          </div>
+        </div>
+      </div>
+      <div class="hide-mobile">
+        <div data-widget="search-option" class="form-block w-form">
+          <form id="wf-form-category" name="wf-form-category" data-name="category" method="get" class="padding-40px" data-wf-page-id="6773ce398f9d17dcb8ce4ce4" data-wf-element-id="629c90ba-fbd4-5697-f94b-c795d19afd2c"><label for="name" class="paragraph-small padding-16px">Category</label><label class="w-checkbox checkbox-field padding-16px">
+              <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" name="Advocacy" id="Advocacy" data-name="Advocacy" style="opacity:0;position:absolute;z-index:-1"><span class="paragraph-small color-teal-300 w-form-label" for="Advocacy">Advocacy</span>
+            </label><label class="w-checkbox checkbox-field padding-16px">
+              <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" name="Blog" id="Blog" data-name="Blog" style="opacity:0;position:absolute;z-index:-1"><span id="InactiveCB" class="paragraph-small color-teal-300 w-form-label" for="Blog">Blog</span>
+            </label><label class="w-checkbox checkbox-field padding-16px">
+              <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" name="Capabilities-research" id="Capabilities-research" data-name="Capabilities research" style="opacity:0;position:absolute;z-index:-1"><span id="InactiveCB" class="paragraph-small color-teal-300 w-form-label" for="Capabilities-research">Capabilities research</span>
+            </label><label class="w-checkbox checkbox-field padding-16px">
+              <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" name="Career-support" id="Career-support" data-name="Career support" style="opacity:0;position:absolute;z-index:-1"><span id="InactiveCB" class="paragraph-small color-teal-300 w-form-label" for="Career-support">Career support</span>
+            </label><label class="w-checkbox checkbox-field padding-16px">
+              <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" name="Conceptual-research" id="Conceptual-research" data-name="Conceptual research" style="opacity:0;position:absolute;z-index:-1"><span id="InactiveCB" class="paragraph-small color-teal-300 w-form-label" for="Conceptual-research">Conceptual research</span>
+            </label><label class="w-checkbox checkbox-field padding-16px">
+              <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" name="Empirical-research" id="Empirical-research" data-name="Empirical research" style="opacity:0;position:absolute;z-index:-1"><span id="InactiveCB" class="paragraph-small color-teal-300 w-form-label" for="Empirical-research">Empirical research</span>
+            </label><label class="w-checkbox checkbox-field padding-16px">
+              <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" name="Forecasting" id="Forecasting" data-name="Forecasting" style="opacity:0;position:absolute;z-index:-1"><span id="InactiveCB" class="paragraph-small color-teal-300 w-form-label" for="Forecasting">Forecasting</span>
+            </label><label class="w-checkbox checkbox-field padding-16px">
+              <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" name="Funding" id="Funding" data-name="Funding" style="opacity:0;position:absolute;z-index:-1"><span id="InactiveCB" class="paragraph-small color-teal-300 w-form-label" for="Funding">Funding</span>
+            </label><label class="w-checkbox checkbox-field padding-16px">
+              <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" name="Governance" id="Governance" data-name="Governance" style="opacity:0;position:absolute;z-index:-1"><span id="InactiveCB" class="paragraph-small color-teal-300 w-form-label" for="Governance">Governance</span>
+            </label><label class="w-checkbox checkbox-field padding-16px">
+              <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" name="Newsletter" id="Newsletter" data-name="Newsletter" style="opacity:0;position:absolute;z-index:-1"><span id="InactiveCB" class="paragraph-small color-teal-300 w-form-label" for="Newsletter">Newsletter</span>
+            </label><label class="w-checkbox checkbox-field padding-16px">
+              <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" name="Podcast" id="Podcast" data-name="Podcast" style="opacity:0;position:absolute;z-index:-1"><span id="InactiveCB" class="paragraph-small color-teal-300 w-form-label" for="Podcast">Podcast</span>
+            </label><label class="w-checkbox checkbox-field padding-16px">
+              <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" name="Research-support" id="Research-support" data-name="Research support" style="opacity:0;position:absolute;z-index:-1"><span id="InactiveCB" class="paragraph-small color-teal-300 w-form-label" for="Research-support">Research support</span>
+            </label><label class="w-checkbox checkbox-field padding-16px">
+              <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" name="Resource" id="Resource" data-name="Resource" style="opacity:0;position:absolute;z-index:-1"><span id="InactiveCB" class="paragraph-small color-teal-300 w-form-label" for="Resource">Resource</span>
+            </label><label class="w-checkbox checkbox-field padding-16px">
+              <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" name="Strategy" id="Strategy" data-name="Strategy" style="opacity:0;position:absolute;z-index:-1"><span id="InactiveCB" class="paragraph-small color-teal-300 w-form-label" for="Strategy">Strategy</span>
+            </label><label class="w-checkbox checkbox-field padding-16px">
+              <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" name="Training-and-education" id="Training-and-education" data-name="Training and education" style="opacity:0;position:absolute;z-index:-1"><span id="InactiveCB" class="paragraph-small color-teal-300 w-form-label" for="Training-and-education">Training and education</span>
+            </label><label class="w-checkbox checkbox-field">
+              <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" name="Video" id="Video" data-name="Video" style="opacity:0;position:absolute;z-index:-1"><span id="InactiveCB" class="paragraph-small color-teal-300 w-form-label" for="Video">Video</span>
+            </label></form>
+          <div class="w-form-done">
+            <div>Thank you! Your submission has been received!</div>
+          </div>
+          <div class="w-form-fail">
+            <div>Oops! Something went wrong while submitting the form.</div>
+          </div>
+        </div>
+        <div data-widget="search-option" class="form-block padding-56px w-form">
+          <form id="wf-form-status-2" name="wf-form-status-2" data-name="status" method="get" data-wf-page-id="6773ce398f9d17dcb8ce4ce4" data-wf-element-id="aa84a874-d28a-5925-dea4-a4286519c609"><label for="name" class="paragraph-small padding-16px">Status</label><label class="w-checkbox checkbox-field padding-16px">
+              <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox w--redirected-checked"></div><input type="checkbox" name="Active" id="Active" data-name="Active" style="opacity:0;position:absolute;z-index:-1" checked=""><span class="paragraph-small color-teal-300 w-form-label" for="Active">Active</span>
+            </label><label class="w-checkbox checkbox-field">
+              <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" name="Inactive" id="Inactive" data-name="Inactive" style="opacity:0;position:absolute;z-index:-1"><span class="paragraph-small color-teal-300 w-form-label" for="Inactive">No longer active</span>
+            </label></form>
+          <div class="w-form-done">
+            <div>Thank you! Your submission has been received!</div>
+          </div>
+          <div class="w-form-fail">
+            <div>Oops! Something went wrong while submitting the form.</div>
+          </div>
+        </div>
+        <div class="contribute-buttons">
+          <a href="map/suggest.html" class="padding-40px-old hover-opacity w-inline-block">
+            <div class="flex-horizontal_center">
+              <p class="paragraph-default-bold padding-8px">Suggest entry <span class="color-grey-old">→</span></p>
+            </div>
+            <p class="side-button"><span>Suggest something to be listed on the map</span></p>
+          </a>
+          <a href="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form" target="_blank" class="padding-40px-old hover-opacity w-inline-block">
+            <div class="flex-horizontal_center">
+              <p class="paragraph-default-bold-old padding-8px">Suggest correction <span class="color-grey-old">→</span></p>
+            </div>
+            <p class="side-button"><span>Let us know of changes to something listed here</span></p>
+          </a>
+          <a href="https://airtable.com/appF8XfZUGXtfi40E/shrLojIEOsNCKg1BL" target="_blank" class="hover-opacity w-inline-block">
+            <div class="flex-horizontal_center">
+              <p class="paragraph-default-bold-old padding-8px">View raw data <span class="color-grey-old">→</span></p>
+            </div>
+            <p class="side-button"><span>See the database in Airtable</span></p>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="w-embed w-script">
+      <script>
+let dataWidgetCard = "maps-card";
+const updateLastUpdatedOn = () => {
+    let lastUpdated = new Date(0); 
+    document.querySelectorAll(`[data-widget="${dataWidgetCard}"]`).forEach(card => {
+        if (card.dataset.modified) {
+            const cardDate = new Date(card.dataset.modified); 
+            if (cardDate > lastUpdated) {
+                lastUpdated = cardDate;
+            }
+        }
+    });
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    const formattedDate = new Intl.DateTimeFormat('en-GB', options).format(lastUpdated);
+    const lastUpdateElement = document.getElementById("Last-update");
+    if (lastUpdateElement) {
+        lastUpdateElement.textContent = `Last updated: ${formattedDate}`;
+    }
+    const lastUpdateElement2 = document.getElementById("Last-update2");
+    if (lastUpdateElement2) {
+        lastUpdateElement2.textContent = `Last updated: ${formattedDate}`;
+    }
+};
+const normalizeCards = () => {
+    document.querySelectorAll(`[data-widget="${dataWidgetCard}"]`).forEach(card => {
+        // Handle categories like we do in the working skill-set filter
+        if (card.dataset.category) {
+            card.dataset.category = card.dataset.category.split(/[\s]*,[\s]*/)
+                .map(s => normalize(s.trim()))
+                .filter(s => s)
+                .join(',');
+        }
+    });
+};
+const connectLinks = () => {
+    document.querySelectorAll(`[data-widget="${dataWidgetCard}"]`).forEach(card => {
+        if(!!(card.dataset.join || '').trim()) {
+            card.parentElement.setAttribute('href', card.dataset.join);
+        }
+    });
+};
+const normalize = (v) => {
+    if (!v) return '';
+    return v.toLowerCase().replaceAll(' ', '-').replaceAll('+', '').replaceAll('–', '-').replaceAll('(','').replaceAll(')','').trim();
+};
+const checkCardConsistent = (card) => {
+    if (!card || !card.dataset || !card.dataset.title || !card.dataset.description) {
+        const cardName = card?.dataset?.title || card?.dataset?.longLabel || "Unknown card";
+        console.log(`Card hidden - Missing title or description: "${cardName}"`, card?.dataset);
+        return false;
+    }
+    return true;
+};
+const shouldCardBeShown = (settings, card) => {
+    try {
+        const cardName = card?.dataset?.title || card?.dataset?.longLabel || "Unknown card";
+        if (!checkCardConsistent(card)) {
+            return false;
+        }
+        if (!checkSearchPhrase(settings, card)) {
+            console.log(`Card hidden - Search phrase mismatch: "${cardName}" (searching for: "${settings.searchPhrase}")`);
+            return false;
+        }
+        if (!checkCategory(settings, card)) {
+            console.log(`Card hidden - Category filter mismatch: "${cardName}" (card categories: "${card.dataset.category}", filter: ${JSON.stringify(settings.category)})`);
+            return false;
+        }
+        if (!checkStatus(settings, card)) {
+            console.log(`Card hidden - Status filter mismatch: "${cardName}" (card status: "${card.dataset.status}", filter: ${JSON.stringify(settings.status)})`);
+            return false;
+        }
+        return true;
+    } catch (error) {
+        console.log("Error checking card visibility:", card?.dataset?.title, error);
+        return false;
+    }
+};
+const checkSearchPhrase = (settings, card) => {
+    if (!settings || !settings.searchPhrase) return true;
+    const searchTerm = settings.searchPhrase.toLowerCase();
+    return (
+        (card.dataset.title || '').toLowerCase().includes(searchTerm) ||
+        (card.dataset.description || '').toLowerCase().includes(searchTerm)
+    );
+};
+const noCategoryFilter = (settings) => {
+    return !settings || !settings.category || settings.category.length === 0;
+};
+const checkCategory = (settings, card) => {
+    if (noCategoryFilter(settings)) return true;
+    const cardCategories = (card.dataset.category || '').split(',');
+    return settings.category.some(s => cardCategories.includes(s));
+};
+const checkStatus = (settings, card) => {
+    if (!settings || !settings.status || settings.status.length === 0) {
+        return true;
+    }
+    if (!card || !card.dataset || !card.dataset.status) {
+        console.log("Card missing status:", card?.dataset?.title);
+        return false;
+    }
+    try {
+        const normalizedCardStatus = normalize(card.dataset.status);
+        return settings.status.includes(normalizedCardStatus);
+    } catch (error) {
+        console.log("Error processing status for card:", card?.dataset?.title);
+        return false;
+    }
+};
+const getSettings = () => {
+    const searchBar = document.getElementsByName('search-bar')[0];
+    const baseSettings = {
+        searchPhrase: searchBar ? searchBar.value : ''
+    };
+    return Array.from(document.querySelectorAll('[data-widget="search-option"] form'))
+        .reduce((options, optionsBlock) => {
+            if (!optionsBlock || !optionsBlock.dataset) return options;
+            const name = optionsBlock.dataset.name;
+            if (!name) return options;
+            options[name] = Array.from(optionsBlock.getElementsByTagName('input'))
+                .filter(i => i.checked)
+                .map(i => normalize(i.name));
+            return options;
+        }, baseSettings);
+};
+const filterResults = (settings) => {
+    if (!settings) {
+        console.log("No settings provided!");
+        return;
+    }
+    console.log("=== FILTERING CARDS ===");
+    console.log("Active filters:", settings);
+    let totalVisibleCount = 0;
+    let totalHiddenCount = 0;
+    let collectionCounts = [];
+    const allLists = Array.from(document.querySelectorAll('.w-dyn-list'));
+    console.log(`Found ${allLists.length} collection lists`);
+    allLists.forEach((list, index) => {
+        let listVisibleCount = 0;
+        let listHiddenCount = 0;
+        const cards = list.querySelectorAll(`[data-widget="${dataWidgetCard}"]`);
+        console.log(`Collection list ${index + 1} has ${cards.length} total cards`);
+        cards.forEach(card => {
+            const shouldShow = shouldCardBeShown(settings, card);
+            const parentElement = card.parentElement?.parentElement;
+            if (parentElement) {
+                parentElement.style.display = shouldShow ? 'inherit' : 'none';
+                if (shouldShow) {
+                    listVisibleCount++;
+                    totalVisibleCount++;
+                } else {
+                    listHiddenCount++;
+                    totalHiddenCount++;
+                }
+            }
+        });
+        collectionCounts.push({
+            listNumber: index + 1,
+            visible: listVisibleCount,
+            hidden: listHiddenCount
+        });
+    });
+    console.log("Per collection results:", collectionCounts);
+    console.log(`Total results: ${totalVisibleCount} cards shown, ${totalHiddenCount} cards hidden`);
+    console.log("=== END FILTERING ===");
+    // REMOVED: updateFilterCounts(settings) - this made the counts dynamic
+    // Filter counts will now remain static after initial page load
+};
+const updateFilterCounts = (settings) => {
+    const filtersToCount = ['category', 'status'];
+    const cardSelector = `[data-widget="${dataWidgetCard}"]`;
+    const allCards = Array.from(document.querySelectorAll(cardSelector));
+    const matchedCards = allCards.filter(card => shouldCardBeShown(settings, card));
+    const counts = {};
+    filtersToCount.forEach(filterType => {
+        counts[filterType] = {};
+        matchedCards.forEach(card => {
+            const rawValues = (card.dataset[filterType] || '').split(',');
+            rawValues.forEach(raw => {
+                const value = normalize(raw.trim());
+                if (value) {
+                    counts[filterType][value] = (counts[filterType][value] || 0) + 1;
+                }
+            });
+        });
+    });
+    filtersToCount.forEach(filterType => {
+        const checkboxes = document.querySelectorAll(`[data-name="${filterType}"] input`);
+        checkboxes.forEach(checkbox => {
+            const filterValue = normalize(checkbox.name);
+            let countSpan = checkbox.nextElementSibling?.querySelector(".filter-count");
+            if (!countSpan) {
+                countSpan = document.createElement("span");
+                countSpan.classList.add("filter-count");
+                checkbox.nextElementSibling?.appendChild(countSpan);
+            }
+            const count = counts[filterType]?.[filterValue] || 0;
+            countSpan.textContent = ` (${count})`;
+        });
+    });
+};
+// Add event listeners
+if (document.querySelector('input[name="search-bar"]')) {
+    const checkboxEventListener = (elem) => {
+        elem.addEventListener('click', (e) => setTimeout(() => filterResults(getSettings()), 100))
+    }
+    document.querySelectorAll('[data-widget="search-option"] form .w-checkbox-input').forEach(checkboxEventListener)
+    document.querySelectorAll('[data-widget="search-option"] form input').forEach(checkboxEventListener)
+    document.querySelector('input[name="search-bar"]').addEventListener('input', () => filterResults(getSettings()))
+    document.querySelector('form[data-name="Search bar"]').addEventListener('submit', (e) => e.preventDefault())
+    document.addEventListener('DOMContentLoaded', () => {
+        normalizeCards();
+        updateLastUpdatedOn();
+        // Set initial static counts with no filters applied (shows all cards)
+        updateFilterCounts({ searchPhrase: '', category: [], status: [] });
+        // Then apply any active filters to cards (but don't update counts again)
+        filterResults(getSettings());
+        connectLinks();
+    });
+}
+</script>
+      <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const upButton = document.querySelector('.up-button');
+  upButton?.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+    if (typeof isSticky !== 'undefined' && typeof navbar !== 'undefined') {
+      isSticky = false;
+      isVisible = true;
+      scrollUpDistance = 0;
+      navbar.style.position = 'relative';
+      navbar.style.transform = 'translateY(0)';
+      if (navbar.parentNode.contains(spacer)) {
+        navbar.parentNode.removeChild(spacer);
+      }
+    }
+  });
+});</script>
+    </div>
+  </div>
+  <div class="hidden-for-map w-dyn-list">
+    <div fs-cmsload-element="list" label2="" fs-cmsload-mode="render-all" role="list" class="w-dyn-items">
+      <div data-widget="maps-listing" longlabel="" role="listitem" class="w-dyn-item">
+        <a href="#" class="w-inline-block">
+          <div xx="" yy="" scale="" logo="" longlabel="" tags="" link="" label_notreservedname="" description="">
+            <h4 class="w-dyn-bind-empty"></h4><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" class="w-dyn-bind-empty">
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="w-dyn-empty">
+      <div>No items found.</div>
+    </div>
+  </div>
+  <div class="hidden-for-map w-dyn-list">
+    <div fs-cmsload-element="list" label2="" fs-cmsload-mode="render-all" role="list" class="w-dyn-items">
+      <div data-widget="maps-listing" longlabel="" role="listitem" class="w-dyn-item">
+        <a href="#" class="w-inline-block">
+          <div xx="" yy="" scale="" logo="" longlabel="" tags="" link="" label_notreservedname="" description="">
+            <h4 class="w-dyn-bind-empty"></h4><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" class="w-dyn-bind-empty">
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="w-dyn-empty">
+      <div>No items found.</div>
+    </div>
+  </div>
+  <div class="hidden-for-map w-dyn-list">
+    <div fs-cmsload-element="list" label2="" fs-cmsload-mode="render-all" role="list" class="w-dyn-items">
+      <div data-widget="maps-listing" longlabel="" role="listitem" class="w-dyn-item">
+        <a href="#" class="w-inline-block">
+          <div xx="" yy="" scale="" logo="" longlabel="" tags="" link="" label_notreservedname="" description="">
+            <h4 class="w-dyn-bind-empty"></h4><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" class="w-dyn-bind-empty">
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="w-dyn-empty">
+      <div>No items found.</div>
+    </div>
+  </div>
+  <div class="hidden-for-map w-dyn-list">
+    <div fs-cmsload-element="list" label2="" fs-cmsload-mode="render-all" role="list" class="w-dyn-items">
+      <div data-widget="maps-listing" longlabel="" role="listitem" class="w-dyn-item">
+        <a href="#" class="w-inline-block">
+          <div xx="" yy="" scale="" logo="" longlabel="" tags="" link="" label_notreservedname="" description="">
+            <h4 class="w-dyn-bind-empty"></h4><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" class="w-dyn-bind-empty">
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="w-dyn-empty">
+      <div>No items found.</div>
+    </div>
+  </div>
+  <div>
+    <div class="container-default padding-top-192px w-container">
+      <div class="flex-gap-56px margin-128px">
+        <div class="width-6-col"><img loading="lazy" src="images/logo.svg" alt="" class="display-block padding-24px">
+          <p class="padding-32px paragraph-small width-4-col">We&#x27;re a global team of volunteers and professionals from various disciplines who believe AI poses a grave risk of extinction to humanity.</p>
+          <a href="about.html" class="button-secondary shadow-text">Learn more about us</a>
+        </div>
+        <div class="paragraph-small width-3-col">
+          <p class="paragraph-small-bold padding-16px">Help us out</p>
+          <a id="w-node-_5fb03552-e339-94d5-fa09-0e6ee40f957d-8aa7c4ed" href="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form" target="_blank" class="padding-8px opacity-80 hover-60">Suggest a correction</a>
+          <a href="feedback.html" class="padding-8px opacity-80 hover-60">Give anonymous feedback</a>
+          <a href="https://www.every.org/alignment-ecosystem-development" target="_blank" class="opacity-80 hover-60">Donate</a>
+        </div>
+        <div class="paragraph-small width-3-col">
+          <p class="paragraph-small-bold padding-16px">Newsletters</p>
+          <a id="w-node-_5fb03552-e339-94d5-fa09-0e6ee40f9584-8aa7c4ed" href="https://aisafetyeventsandtraining.substack.com/" target="_blank" class="padding-8px opacity-80 hover-60">AI Safety Events &amp; Training</a>
+          <a href="https://aisafetyfunding.substack.com/" target="_blank" class="padding-8px opacity-80 hover-60">AI Safety Funding (coming soon)</a>
+          <a href="https://aisafetycom.substack.com/" target="_blank" class="opacity-80 hover-60">AISafety.com Updates</a>
+        </div>
+      </div>
+      <div class="div-divider margin-24px"></div>
+      <div class="footer-bottom padding-24px">
+        <div class="flex-gap-8px hide-mobile"><img width="80" loading="lazy" alt="" src="images/thumbnails.png">
+          <p class="paragraph-xs">Maintained by AI safety community-builders</p>
+        </div>
+        <p class="paragraph-xs opacity-80">(ɔ) 2025 · This site is released under a CC BY-SA license</p>
+      </div>
+    </div>
+  </div>
+  <a href="#up-button-anchor" data-w-id="7eb0a381-c248-7943-2c08-01c173293d7b" class="up-button w-button">⌃</a>
+  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=65380b51b01b69a63d681e04" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="js/webflow.js" type="text/javascript"></script>
+  <script>
+let normalize = null;
+let updateLastUpdatedOn = null;
+if (document.querySelector('input[name="search-bar"]')) {
+    normalize = function(text) {
+        if (typeof text !== 'string') {
+            console.warn('Normalize function received non-string input. Type:', typeof text, 'Value:', text);
+            return '';
+        }
+        let cleanedText = text;
+        cleanedText = cleanedText.replace(/\s*\([^)]*\)\s*$/, '').trim();
+        cleanedText = cleanedText.replace(/\s*[\(\[]\s*\d+\s*[\)\]]\s*$/, '').trim();
+        cleanedText = cleanedText.toLowerCase();
+        cleanedText = cleanedText.replace(/\u2013|\u2014/g, '-');
+        cleanedText = cleanedText.replace(/\s+/g, '-');
+        cleanedText = cleanedText.replace(/-+/g, '-');
+        cleanedText = cleanedText.replace(/[^a-z0-9-]/g, '');
+        cleanedText = cleanedText.replace(/^-+|-+$/g, '');
+        return cleanedText;
+    };
+    updateLastUpdatedOn = () => {
+        let lastUpdated = new Date(0);
+        const dataWidgetCardValue = typeof dataWidgetCard !== 'undefined' ? dataWidgetCard : "job-card";
+        document.querySelectorAll(`[data-widget="${dataWidgetCardValue}"]`).forEach(card => {
+            if (card.dataset.modified) {
+                const cardDate = new Date(card.dataset.modified);
+                if (cardDate > lastUpdated && !isNaN(cardDate)) {
+                    lastUpdated = cardDate;
+                }
+            }
+        });
+        if (lastUpdated.getTime() !== 0) {
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            const formattedDate = new Intl.DateTimeFormat('en-GB', options).format(lastUpdated);
+            const lastUpdateElement = document.getElementById("Last-update");
+            if (lastUpdateElement) {
+                lastUpdateElement.textContent = `Last updated: ${formattedDate}`;
+            }
+            const lastUpdateElement2 = document.getElementById("Last-update2");
+            if (lastUpdateElement2) {
+                lastUpdateElement2.textContent = `Last updated: ${formattedDate}`;
+            }
+        }
+    };
+    const filterResults = (settings) => {
+        if (!settings) {
+            return;
+        }
+        if (typeof shouldCardBeShown !== 'function') {
+            console.error("shouldCardBeShown function is not defined. filterResults cannot operate.");
+            return;
+        }
+        let visibleCount = 0;
+        let hiddenCount = 0;
+        const dataWidgetCardValue = typeof dataWidgetCard !== 'undefined' ? dataWidgetCard : "job-card";
+        document.querySelectorAll(`[data-widget="${dataWidgetCardValue}"]`).forEach(card => {
+            let displayWrapper = card.parentElement && card.parentElement.parentElement ? card.parentElement.parentElement : card.parentElement || card;
+            if (shouldCardBeShown(settings, card)) {
+                displayWrapper.style.display = '';
+                visibleCount++;
+            } else {
+                displayWrapper.style.display = 'none';
+                hiddenCount++;
+            }
+        });
+    };
+    const getSettings = () => {
+        if (typeof normalize !== 'function') {
+            console.error("Normalize function is not available for getSettings.");
+            return {};
+        }
+        return Array.from(document.querySelectorAll('[data-widget="search-option"] form'))
+            .reduce((options, optionsBlock) => {
+                const name = optionsBlock.dataset.name;
+                if (name) {
+                    options[name] = Array.from(optionsBlock.getElementsByTagName('input'))
+                        .filter(i => i.previousElementSibling && i.previousElementSibling.classList.contains('w--redirected-checked'))
+                        .map(i => (normalize(i.name)));
+                }
+                return options;
+            }, { searchPhrase: document.getElementsByName('search-bar')[0]?.value.trim().toLowerCase() || '' });
+    };
+    const checkboxEventListener = (elem) => {
+        elem.addEventListener('click', (e) => setTimeout(() => {
+            if (typeof filterResults === 'function' && typeof getSettings === 'function') {
+                filterResults(getSettings());
+            }
+        }, 100));
+    };
+    document.querySelectorAll('[data-widget="search-option"] form .w-checkbox-input').forEach(checkboxEventListener);
+    document.querySelectorAll('[data-widget="search-option"] form input[type="checkbox"]').forEach(checkboxEventListener);
+    const searchBarInput = document.querySelector('input[name="search-bar"]');
+    if (searchBarInput) {
+        searchBarInput.addEventListener('input', () => {
+            if (typeof filterResults === 'function' && typeof getSettings === 'function') {
+                filterResults(getSettings());
+            }
+        });
+    }
+    const searchBarForm = document.querySelector('form[data-name="Search bar"]');
+    if (searchBarForm) {
+        searchBarForm.addEventListener('submit', (e) => e.preventDefault());
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof normalizeCards === 'function') normalizeCards();
+        if (typeof updateLastUpdatedOn === 'function') updateLastUpdatedOn();
+        if (typeof dataWidgetCard === 'undefined' || dataWidgetCard !== "job-card") {
+             if (typeof filterResults === 'function' && typeof getSettings === 'function') filterResults(getSettings());
+        }
+        if (typeof connectLinks === 'function') connectLinks();
+    });
+}
+</script>
+  <style>
+/* Prevent horizontal scrolling */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+.nav-blur {
+  -webkit-backdrop-filter: blur(32px);
+  backdrop-filter: blur(32px);
+  background: rgba(5, 24, 26, 0.5);
+}
+</style>
+  <script>
+  let navbar;
+  let navMenu;
+  let spacer;
+  let previousScrollY;
+  let isSticky = false;
+  let isVisible = true;
+  let scrollUpDistance = 0;
+  let menuIsOpen = false;
+  let navbarOriginalPosition = '';
+  const scrollUpThreshold = 50;
+  const styleEl = document.createElement('style');
+  styleEl.textContent = `
+    .w-nav-overlay {
+      max-height: 100vh;
+      overflow-y: auto !important;
+    }
+  `;
+  document.head.appendChild(styleEl);
+  document.addEventListener('DOMContentLoaded', function() {
+    navbar = document.querySelector('#nav');
+    if (!navbar) return;
+    navMenu = navbar.querySelector('.w-nav-menu');
+    spacer = document.createElement('div');
+    previousScrollY = window.scrollY;
+    spacer.style.height = `${navbar.offsetHeight}px`;
+    navbar.style.transition = 'transform 0.2s ease-in-out, position 0s linear';
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', function() {
+      if (spacer && navbar) {
+        spacer.style.height = `${navbar.offsetHeight}px`;
+      }
+      handleScroll();
+    });
+    const menuButton = document.querySelector('.w-nav-button');
+    if (menuButton) {
+      menuButton.addEventListener('click', function() {
+        setTimeout(function() {
+          menuIsOpen = isNavMenuOpen();
+          handleNavMenuToggle();
+        }, 50);
+      });
+    }
+    handleScroll();
+  });
+  function isNavMenuOpen() {
+    const menuButton = document.querySelector('.w-nav-button');
+    return !!(menuButton && menuButton.classList.contains('w--open'));
+  }
+  function handleNavMenuToggle() {
+    if (!navbar) return;
+    if (menuIsOpen) {
+      navbarOriginalPosition = navbar.style.position === 'fixed' ? 'fixed' : 'relative';
+      if (isSticky || navbar.style.position === 'fixed') {
+        navbar.style.position = 'fixed';
+        navbar.style.top = '0';
+        navbar.style.transform = 'translateY(0)';
+        navbar?.classList?.add?.('nav-blur');
+      } else {
+        navbar.style.transform = 'translateY(0)';
+      }
+      isVisible = true;
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      handleScroll();
+    }
+  }
+  function handleScroll() {
+    if (!navbar) return;
+    if (menuIsOpen) return;
+    const currentScrollY = window.scrollY;
+    const navHeight = navbar.offsetHeight;
+    if (currentScrollY < navHeight / 2) {
+      if (isSticky) {
+        if (navbar.parentNode && navbar.parentNode.contains(spacer)) {
+          navbar.parentNode.removeChild(spacer);
+        }
+      }
+      navbar.style.position = 'relative';
+      navbar.style.top = '';
+      navbar.style.transform = 'translateY(0)';
+      isSticky = false;
+      isVisible = true;
+      scrollUpDistance = 0;
+      if (navbar && navbar.classList) navbar.classList.remove('nav-blur');
+    }
+    else if (currentScrollY < previousScrollY) {
+      scrollUpDistance += previousScrollY - currentScrollY;
+      if (scrollUpDistance > scrollUpThreshold || !isVisible) {
+        if (!isSticky) {
+          navbar.style.position = 'fixed';
+          navbar.style.top = '0';
+          navbar.style.width = '100%';
+          navbar.style.left = '0';
+          if (navbar.parentNode && !navbar.parentNode.contains(spacer)) {
+            navbar.parentNode.insertBefore(spacer, navbar);
+          }
+          spacer.style.height = `${navHeight}px`;
+          isSticky = true;
+          if (navbar && navbar.classList) navbar.classList.add('nav-blur');
+        }
+        if (!isVisible) {
+          navbar.style.transform = 'translateY(0)';
+          isVisible = true;
+        }
+      }
+    }
+    else if (currentScrollY > previousScrollY && currentScrollY > navHeight) {
+      scrollUpDistance = 0;
+      if (isVisible && isSticky) {
+        navbar.style.transform = 'translateY(-100%)';
+        isVisible = false;
+      }
+    }
+    previousScrollY = currentScrollY;
+  }
+</script>
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const upButton = document.querySelector('.up-button'); 
+  if (upButton) {
+    upButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      if (typeof navbar !== 'undefined' && navbar) {
+        if (typeof menuIsOpen !== 'undefined') menuIsOpen = false;
+        if (typeof isSticky !== 'undefined') isSticky = false;
+        if (typeof isVisible !== 'undefined') isVisible = true;
+        if (typeof scrollUpDistance !== 'undefined') scrollUpDistance = 0;
+        navbar.style.position = 'relative';
+        navbar.style.top = '';
+        navbar.style.transform = 'translateY(0)';
+        if (typeof spacer !== 'undefined' && spacer && navbar.parentNode && navbar.parentNode.contains(spacer)) {
+          navbar.parentNode.removeChild(spacer);
+        }
+        if (typeof handleScroll === 'function') {
+            if (typeof previousScrollY !== 'undefined') previousScrollY = 0;
+            handleScroll();
+        }
+      }
+    });
+  }
+});
+</script>
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+    function getPageName() {
+        const path = window.location.pathname.toLowerCase();
+        if (path.includes('/self-study')) return 'Self-Study';
+        if (path.includes('/events-and-training')) return 'Events and Training';
+        if (path.includes('/communities')) return 'Communities';
+        if (path.includes('/projects')) return 'Projects';
+        if (path.includes('/funders')) return 'Funders';
+        if (path.includes('/advisors')) return 'Advisors';
+        if (path.includes('/jobs')) return 'Jobs';
+        if (path === '/' || path === '') return 'Homepage';
+        if (path.includes('/map')) return 'Map';
+        if (path.includes('/media-channels')) return 'Media Channels';
+        if (path.includes('/donation-guide')) return 'Donation guide';
+        const segments = path.split('/').filter(Boolean);
+        return segments[segments.length - 1].replace(/-/g, ' ');
+    }
+    function getListingName(linkElement) {
+        const collectionItem = linkElement.closest('.w-dyn-item') || 
+                              linkElement.closest('[role="listitem"]') ||
+                              linkElement.closest('.collection-item');
+        if (collectionItem) {
+            const heading = collectionItem.querySelector('h1, h2, h3, h4, h5, h6');
+            if (heading && heading.textContent.trim()) {
+                return heading.textContent.trim();
+            }
+            const titleSelectors = [
+                '[class*="title"]',
+                '[class*="name"]', 
+                '[class*="heading"]',
+                '.text-block-link',
+                '.listing-title',
+                '.course-name',
+                '.organization-name',
+                '.project-name'
+            ];
+            for (let selector of titleSelectors) {
+                const titleElement = collectionItem.querySelector(selector);
+                if (titleElement && titleElement.textContent.trim()) {
+                    const text = titleElement.textContent.trim();
+                    if (!text.match(/^(Length|Category|Organizer|Type|Location|Date):?$/i)) {
+                        return text;
+                    }
+                }
+            }
+            const textBlocks = collectionItem.querySelectorAll('div, p, span');
+            for (let block of textBlocks) {
+                const text = block.textContent.trim();
+                if (text.length > 3 && text.length < 150 && 
+                    !text.match(/^(Length|Category|Organizer|Type|Location|Date|weeks?|months?|days?):?$/i) &&
+                    !block.querySelector('*')) {
+                    if (!text.match(/^[\d\-\/]+$/) && !text.match(/^\d+\s*weeks?$/i)) {
+                        return text;
+                    }
+                }
+            }
+        }
+        const linkText = linkElement.textContent.trim();
+        if (linkText && linkText.length > 2 && linkText !== 'Learn More' && linkText !== 'View Details') {
+            return linkText.substring(0, 100);
+        }
+        const href = linkElement.getAttribute('href');
+        if (href && !href.startsWith('http')) {
+            const urlParts = href.split('/').filter(Boolean);
+            const lastPart = urlParts[urlParts.length - 1];
+            return lastPart.replace(/-/g, ' ').replace(/_/g, ' ');
+        }
+        return 'Unknown Listing';
+    }
+    const listingSelectors = [
+        '.w-dyn-item a',
+        '.w-dyn-item .link-block',
+        '[role="listitem"] a',
+        '.collection-item a',
+        '.collection-list a',
+        '.collection-list-wrapper a',
+        'a.link-block',
+        '#database-top_grid a',
+        '#database-outer_grid a',
+        '.w-dyn-list a'
+    ];
+    const allLinks = document.querySelectorAll(listingSelectors.join(', '));
+    const uniqueLinks = new Map();
+    allLinks.forEach(link => {
+        if (link.href && 
+            !link.href.includes('#') && 
+            !link.href.includes('mailto:') &&
+            !link.href.includes('tel:')) {
+            if (link.closest('nav') || 
+                link.closest('footer') || 
+                link.closest('.navbar') || 
+                link.closest('.navigation')) {
+                return;
+            }
+            if (!uniqueLinks.has(link.href)) {
+                uniqueLinks.set(link.href, link);
+            }
+        }
+    });
+    const listingLinks = Array.from(uniqueLinks.values());
+    listingLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            let listingName = getListingName(link);
+            const pageName = getPageName();
+            if (listingName === 'Unknown Listing' && link.href) {
+                const urlName = link.href.split('/').pop().replace(/[-_]/g, ' ');
+                if (urlName && urlName.length > 2) {
+                    listingName = urlName;
+                }
+            }
+            if (typeof _paq !== 'undefined') {
+                _paq.push(['trackEvent', 
+                    'Listings - ' + pageName,
+                    listingName,
+                    link.href || '',
+                    1
+                ]);
+            }
+        });
+    });
+});
+</script>
+  <script>
+  window.equalizeCardHeights = function() {
+    var cards = document.querySelectorAll('.card');
+    var featuredCards = document.querySelectorAll('.card-featured');
+    function groupByRow(elements) {
+      var rows = {};
+      elements.forEach(function(element) {
+        if (element.style.display === 'none' || element.offsetParent === null) {
+          return;
+        }
+        element.style.height = '';
+        var top = element.offsetTop;
+        var rowKey = null;
+        for (var key in rows) {
+          if (Math.abs(parseInt(key) - top) < 5) {
+            rowKey = key;
+            break;
+          }
+        }
+        if (!rowKey) {
+          rowKey = top.toString();
+          rows[rowKey] = [];
+        }
+        rows[rowKey].push(element);
+      });
+      return rows;
+    }
+    function setEqualHeightByRow(elements) {
+      elements.forEach(function(element) {
+        element.style.height = '';
+      });
+      var rows = groupByRow(elements);
+      for (var rowKey in rows) {
+        var rowElements = rows[rowKey];
+        var maxHeight = 0;
+        rowElements.forEach(function(element) {
+          maxHeight = Math.max(maxHeight, element.offsetHeight);
+        });
+        rowElements.forEach(function(element) {
+          element.style.height = maxHeight + 'px';
+        });
+      }
+    }
+    if (cards.length > 0) {
+      setEqualHeightByRow(cards);
+    }
+    if (featuredCards.length > 0) {
+      setEqualHeightByRow(featuredCards);
+    }
+  };
+  window.addEventListener('load', function () {
+    window.equalizeCardHeights();
+    var resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        window.equalizeCardHeights();
+      }, 250);
+    });
+  }); 
+  window.requestHeightUpdate = function() {
+    setTimeout(function() {
+      if (typeof window.equalizeCardHeights === 'function') {
+        window.equalizeCardHeights();
+      }
+    }, 100);
+  };
+  document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('input', function(e) {
+      if (e.target.matches('input[name="search-bar"], [data-widget*="search"] input, [data-widget*="filter"] input')) {
+        window.requestHeightUpdate();
+      }
+    });
+    document.addEventListener('click', function(e) {
+      if (e.target.matches('.w-checkbox *, [data-widget*="filter"] *, [data-widget*="search"] *')) {
+        window.requestHeightUpdate();
+      }
+    });
+    setTimeout(function() {
+      if (typeof window.applyFilters === 'function' && !window.applyFilters._patched) {
+        var originalApplyFilters = window.applyFilters;
+        window.applyFilters = function() {
+          var result = originalApplyFilters.apply(this, arguments);
+          window.requestHeightUpdate();
+          return result;
+        };
+        window.applyFilters._patched = true;
+      }
+      if (typeof window.filterResults === 'function' && !window.filterResults._patched) {
+        var originalFilterResults = window.filterResults;
+        window.filterResults = function() {
+          var result = originalFilterResults.apply(this, arguments);
+          window.requestHeightUpdate();
+          return result;
+        };
+        window.filterResults._patched = true;
+      }
+    }, 500);
+  });
+  document.querySelectorAll('a[target="_blank"]').forEach(a=>{if(!a.rel) a.rel = 'noopener';});
+</script>
+  <script>
+(function() {
+    'use strict';
+    if (window.__navCountsInitialized) {
+        console.log('Nav counts already initialized, skipping');
+        return;
+    }
+    const AIRTABLE_TOKEN = 'SECRET';
+    const AIRTABLE_CONFIG = {
+        baseId: 'appF8XfZUGXtfi40E',
+        tableId: 'tblx0L8qJEaLBxJFS',
+        viewName: 'viwHl72bJxCb2SfrL'
+    };
+    const COLLECTIONS = {
+        'map': '/map',
+        'communities': '/communities',
+        'study': '/self-study',
+        'jobs': '/jobs',
+        'funding': '/funders',
+        'media': '/media-channels',
+        'advisors': '/advisors',
+        'projects': '/projects'
+    };
+    const countCache = {};
+    const CACHE_KEY = 'nav_counts_cache';
+    const CACHE_DURATION = 3600000;
+    function getStoredCounts() {
+        try {
+            const stored = localStorage.getItem(CACHE_KEY);
+            if (stored) {
+                const { counts, timestamp } = JSON.parse(stored);
+                if (Date.now() - timestamp < CACHE_DURATION) {
+                    return counts;
+                }
+            }
+        } catch (e) {
+            console.error('Error reading cache:', e);
+        }
+        return null;
+    }
+    function storeAllCounts(counts) {
+        try {
+            localStorage.setItem(CACHE_KEY, JSON.stringify({
+                counts: counts,
+                timestamp: Date.now()
+            }));
+        } catch (e) {
+            console.error('Error storing cache:', e);
+        }
+    }
+    async function fetchAirtableCount(collectionType) {
+        try {
+            console.log(`\n========== Fetching ${collectionType} from Airtable ==========`);
+            if (countCache[collectionType]) {
+                console.log(`Cache hit for ${collectionType}: ${countCache[collectionType]}`);
+                return countCache[collectionType];
+            }
+            const url = `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableId}?view=${encodeURIComponent(AIRTABLE_CONFIG.viewName)}`;
+            let totalRecords = 0;
+            let offset = null;
+            do {
+                const fetchUrl = offset ? `${url}&offset=${offset}` : url;
+                const response = await fetch(fetchUrl, {
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_TOKEN}`
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error(`Airtable API error: ${response.status}`);
+                }
+                const data = await response.json();
+                totalRecords += data.records.length;
+                offset = data.offset;
+                console.log(`Fetched ${data.records.length} records, total so far: ${totalRecords}`);
+            } while (offset);
+            console.log(`✓ Final Airtable count for ${collectionType}: ${totalRecords}`);
+            console.log(`==========================================\n`);
+            countCache[collectionType] = totalRecords;
+            return totalRecords;
+        } catch (error) {
+            console.error(`Error fetching Airtable count for ${collectionType}:`, error);
+            return 0;
+        }
+    }
+    async function fetchCollectionCount(collectionPath) {
+        try {
+            console.log(`\n========== Fetching: ${collectionPath} ==========`);
+            if (countCache[collectionPath]) {
+                console.log(`Cache hit for ${collectionPath}: ${countCache[collectionPath]}`);
+                return countCache[collectionPath];
+            }
+            const response = await fetch(collectionPath);
+            console.log(`Response status: ${response.status}`);
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            let count = 0;
+            let method = '';
+            const multiListPages = ['/jobs', '/map', '/communities'];
+            if (multiListPages.some(page => collectionPath.includes(page))) {
+                const cardItems = doc.querySelectorAll('.card');
+                const filteredCards = Array.from(cardItems).filter(item => {
+                    if (item.closest('nav') || 
+                        item.closest('footer') || 
+                        item.closest('header') ||
+                        item.closest('.navbar')) {
+                        return false;
+                    }
+                    if (collectionPath.includes('/map') && item.closest('.hidden-for-map')) {
+                        return false;
+                    }
+                    return true;
+                });
+                console.log(`${collectionPath} page: Found ${filteredCards.length} .card elements after filtering`);
+                if (filteredCards.length > 0) {
+                    count = filteredCards.length;
+                    if (collectionPath.includes('/map')) {
+                        count = Math.max(0, count - 4);
+                        method = '.card (filtered, -4 special)';
+                    } else {
+                        method = '.card (filtered)';
+                    }
+                }
+            }
+            if (count === 0) {
+                const selectors = ['.w-dyn-item', '.card', '[data-widget]'];
+                let maxCount = 0;
+                let bestSelector = '';
+                for (const selector of selectors) {
+                    const items = doc.querySelectorAll(selector);
+                    const filteredItems = Array.from(items).filter(item => {
+                        return !item.closest('nav') && 
+                               !item.closest('footer') && 
+                               !item.closest('header');
+                    });
+                    if (filteredItems.length > maxCount) {
+                        maxCount = filteredItems.length;
+                        bestSelector = selector;
+                    }
+                }
+                count = maxCount;
+                method = bestSelector;
+            }
+            // Apply individual adjustments per page
+            if (collectionPath.includes('/communities')) {
+                count = count + 2;
+                method += ' (+2 adjustment)';
+            } else if (collectionPath.includes('/jobs')) {
+                count = Math.max(0, count - 2);
+                method += ' (-2 adjustment)';
+            } else if (collectionPath.includes('/funders')) {
+                count = Math.max(0, count - 1);
+                method += ' (-1 adjustment)';
+            } else if (collectionPath.includes('/media-channels')) {
+                count = Math.max(0, count - 2);
+                method += ' (-2 adjustment)';
+            } else if (collectionPath.includes('/projects')) {
+                count = count + 1;
+                method += ' (+1 adjustment)';
+            }
+            console.log(`✓ Final count for ${collectionPath}: ${count} (${method})`);
+            countCache[collectionPath] = count;
+            return count;
+        } catch (error) {
+            console.error(`Error fetching count for ${collectionPath}:`, error);
+            return 0;
+        }
+    }
+    function updateNavCount(element, count) {
+        if (element) {
+            element.textContent = count;
+        }
+    }
+    async function updateAllCounts() {
+        const countElements = document.querySelectorAll('[data-count]');
+        console.log('Found elements with data-count:', countElements.length);
+        const storedCounts = getStoredCounts();
+        const collectionTypes = new Set();
+        const missingTypes = new Set();
+        countElements.forEach(element => {
+            const collectionType = element.getAttribute('data-count');
+            if (collectionType) {
+                collectionTypes.add(collectionType);
+                if (!storedCounts || !storedCounts[collectionType]) {
+                    missingTypes.add(collectionType);
+                }
+            }
+        });
+        if (storedCounts) {
+            console.log('Using cached counts from localStorage');
+            countElements.forEach(element => {
+                const collectionType = element.getAttribute('data-count');
+                if (storedCounts[collectionType]) {
+                    updateNavCount(element, storedCounts[collectionType]);
+                }
+            });
+        }
+        if (missingTypes.size === 0) {
+            console.log('All counts are cached, no fetching needed');
+            return;
+        }
+        console.log('Fetching missing counts for:', Array.from(missingTypes));
+        const countsObject = storedCounts ? { ...storedCounts } : {};
+        missingTypes.forEach(collectionType => {
+            console.log(`Processing: ${collectionType}`);
+            if (collectionType === 'events') {
+                fetchAirtableCount(collectionType).then(count => {
+                    console.log(`Count for ${collectionType}: ${count}`);
+                    countsObject[collectionType] = count;
+                    document.querySelectorAll(`[data-count="${collectionType}"]`).forEach(el => {
+                        updateNavCount(el, count);
+                    });
+                    storeAllCounts(countsObject);
+                });
+            } else {
+                const collectionPath = COLLECTIONS[collectionType];
+                if (collectionPath) {
+                    fetchCollectionCount(collectionPath).then(count => {
+                        console.log(`Count for ${collectionType}: ${count}`);
+                        countsObject[collectionType] = count;
+                        document.querySelectorAll(`[data-count="${collectionType}"]`).forEach(el => {
+                            updateNavCount(el, count);
+                        });
+                        storeAllCounts(countsObject);
+                    });
+                }
+            }
+        });
+    }
+    function init() {
+        updateAllCounts();
+        window.__navCountsInitialized = true;
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+    window.updateAllCounts = updateAllCounts;    
+})();
+</script>
+  <script>
+(function() {
+    'use strict';
+    if (window.__navResizerInitialized) return;
+    window.__navResizerInitialized = true;
+    const ICON_URLS = {
+        'calendar': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68c80b473977a2ff65933e6e_calendar.svg',
+        'map': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68c80b473977a2ff65933e68_map.svg',
+        'globe': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68c80b473977a2ff65933e66_globe.svg',
+        'book': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68c80b473977a2ff65933e65_book.svg',
+        'briefcase': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68c80b473977a2ff65933e67_briefcase.svg',
+        'coins': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68c80b473977a2ff65933e69_coins.svg',
+        'megaphone': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68d42ac460f38d726c77e711_megaphone.svg',
+        'person': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68d42ac480c20512b447d230_person.svg',
+        'clipboard': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68d42ac4137a0e0fb202f082_clipboard.svg',
+        'heart': 'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/68d42ac420ba583740174c8e_heart.svg'
+    };
+    const NAV_ITEMS = [
+        { id: 'nav-events', href: '/events-and-training', title: 'Events & training', icon: 'calendar', dataCount: 'events' },
+        { id: 'nav-map', href: '/map', title: 'Field map', icon: 'map', dataCount: 'map' },
+        { id: 'nav-communities', href: '/communities', title: 'Communities', icon: 'globe', dataCount: 'communities' },
+        { id: 'nav-courses', href: '/self-study', title: 'Self-study', icon: 'book', dataCount: 'study' },
+        { id: 'nav-jobs', href: '/jobs', title: 'Jobs', icon: 'briefcase', dataCount: 'jobs' },
+        { id: 'nav-funding', href: '/funders', title: 'Funding', icon: 'coins', dataCount: 'funding' },
+        { id: 'nav-media', href: '/media-channels', title: 'Media channels', icon: 'megaphone', dataCount: 'media' },
+        { id: 'nav-advisors', href: '/advisors', title: 'Advisors', icon: 'person', dataCount: 'advisors' },
+        { id: 'nav-projects', href: '/projects', title: 'Volunteer projects', icon: 'clipboard', dataCount: 'projects' },
+        { id: 'nav-donation', href: '/donation-guide', title: 'Donation guide', icon: 'heart' }
+    ];
+    const MIN_VISIBLE = 3;
+    const MAX_VISIBLE = 6;
+    const OVERFLOW_WIDTH = 65;
+    const BUFFER = 40;
+    let hiddenItems = [];
+    function getStoredCounts() {
+        try {
+            const stored = localStorage.getItem('nav_counts_cache');
+            if (stored) {
+                const { counts, timestamp } = JSON.parse(stored);
+                if (Date.now() - timestamp < 3600000) return counts;
+            }
+        } catch (e) {}
+        return null;
+    }
+    function createNavItem(item) {
+        const counts = getStoredCounts();
+        const count = counts && counts[item.dataCount] ? counts[item.dataCount] : '';
+        const threeDigit = ['jobs', 'map', 'communities'].includes(item.dataCount) ? '20px' : '15px';
+        return `<a href="${item.href}" class="nav-item w-inline-block" data-nav-id="${item.id}">
+            <div class="nav-item-icon drop-shadow-dark">
+                <img width="16" height="16" alt="" src="${ICON_URLS[item.icon]}" loading="lazy">
+            </div>
+            <p class="paragraph-small-bold">${item.title}</p>
+            ${item.dataCount ? `<p class="paragraph-xs color-teal-300" data-count="${item.dataCount}" style="min-width:${threeDigit};display:inline-block;">${count}</p>` : ''}
+        </a>`;
+    }
+    function updateOverflow() {
+        const btn = document.querySelector('.nav-item-last');
+        if (!btn) return;
+        if (hiddenItems.length > 0) {
+            btn.style.display = '';
+            const text = btn.querySelector('.paragraph-small-bold');
+            if (text) text.textContent = `+${hiddenItems.length}`;
+        } else {
+            btn.style.display = 'none';
+        }
+    }
+    function rebuildNav() {
+        const nav = document.getElementById('desktop-nav');
+        const overflow = document.querySelector('.nav-item-last');
+        const container = document.querySelector('.nav-container');
+        const logo = container?.querySelector('.w-nav-brand') || container?.querySelector('[class*="brand"]');
+        const burger = container?.querySelector('.w-nav-button') || container?.querySelector('.menu-button');
+        if (!nav || !overflow || !container) return;
+        if (window.innerWidth < 990) {
+            const items = nav.querySelectorAll('.nav-item:not(.nav-item-last)');
+            items.forEach(el => el.remove());
+            overflow.style.display = 'none';
+            const frag = document.createDocumentFragment();
+            NAV_ITEMS.forEach(item => {
+                const div = document.createElement('div');
+                div.innerHTML = createNavItem(item);
+                frag.appendChild(div.firstElementChild);
+            });
+            nav.appendChild(frag);
+            document.body.classList.add('nav-ready');
+            if (typeof updateAllCounts === 'function') setTimeout(updateAllCounts, 100);
+            return;
+        }
+        const items = nav.querySelectorAll('.nav-item:not(.nav-item-last)');
+        items.forEach(el => el.remove());
+        const containerWidth = container.getBoundingClientRect().width;
+        const logoWidth = logo ? logo.getBoundingClientRect().width : 0;
+        const burgerWidth = burger ? burger.getBoundingClientRect().width : 0;
+        const availWidth = containerWidth - logoWidth - burgerWidth - BUFFER;
+        let usedWidth = 0;
+        const visible = [];
+        hiddenItems = [];
+        let itemWidths = [];
+        NAV_ITEMS.forEach((item) => {
+            const temp = document.createElement('div');
+            temp.innerHTML = createNavItem(item);
+            temp.style.cssText = 'position:absolute;visibility:hidden;display:inline-block;';
+            document.body.appendChild(temp);
+            const itemWidth = temp.firstElementChild.getBoundingClientRect().width;
+            itemWidths.push(itemWidth);
+            document.body.removeChild(temp);
+        });
+        let totalWidth = itemWidths.reduce((a, b) => a + b, 0);
+        let needsOverflow = totalWidth > availWidth;
+        let spaceForItems = needsOverflow ? availWidth - OVERFLOW_WIDTH : availWidth;
+        NAV_ITEMS.forEach((item, idx) => {
+            const itemWidth = itemWidths[idx];
+            if (visible.length < MIN_VISIBLE) {
+                visible.push(item);
+                usedWidth += itemWidth;
+            } else if (visible.length < MAX_VISIBLE && usedWidth + itemWidth <= spaceForItems) {
+                visible.push(item);
+                usedWidth += itemWidth;
+            } else {
+                hiddenItems.push(item);
+            }
+        });
+        const frag = document.createDocumentFragment();
+        visible.forEach(item => {
+            const div = document.createElement('div');
+            div.innerHTML = createNavItem(item);
+            frag.appendChild(div.firstElementChild);
+        });
+        nav.insertBefore(frag, overflow);
+        updateOverflow();
+        setupDropdown();
+        document.body.classList.add('nav-ready');
+        if (typeof updateAllCounts === 'function') {
+            setTimeout(updateAllCounts, 100);
+        }
+    }
+    function setupDropdown() {
+        const btn = document.querySelector('.nav-item-last');
+        if (!btn || hiddenItems.length === 0) return;
+        let dropdown = btn.querySelector('.nav-overflow-dropdown');
+        if (dropdown) dropdown.remove();
+        dropdown = document.createElement('div');
+        dropdown.className = 'nav-overflow-dropdown';
+        dropdown.style.display = 'none';
+        hiddenItems.forEach(item => {
+            const div = document.createElement('div');
+            div.innerHTML = createNavItem(item);
+            const link = div.firstElementChild;
+            link.style.cssText = 'display:flex;margin-bottom:8px;';
+            dropdown.appendChild(link);
+        });
+        btn.style.position = 'relative';
+        btn.appendChild(dropdown);
+        btn.onclick = (e) => {
+            if (e.target.closest('.nav-overflow-dropdown a')) {
+                return;
+            }
+            e.preventDefault();
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        };
+        document.addEventListener('click', (e) => {
+            if (!btn.contains(e.target)) dropdown.style.display = 'none';
+        });
+    }
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(rebuildNav, 150);
+    });
+    function init() {
+        const nav = document.getElementById('desktop-nav');
+        if (!nav) {
+            setTimeout(init, 200);
+            return;
+        }
+        setTimeout(rebuildNav, 100);
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+    window.debugNav = { rebuild: rebuildNav, hidden: () => hiddenItems };
+})();
+</script>
+  <script>
+(function() {
+    'use strict';
+    const DATES_CACHE_KEY = 'homepage_dates_cache';
+    const DATES_CACHE_DURATION = 3600000;
+    function parseCustomDate(dateString) {
+        const cleanDate = dateString.replace('Last updated: ', '').trim();
+        const months = {
+            'january': 0, 'february': 1, 'march': 2, 'april': 3, 
+            'may': 4, 'june': 5, 'july': 6, 'august': 7,
+            'september': 8, 'october': 9, 'november': 10, 'december': 11
+        };
+        const parts = cleanDate.split(' ');
+        if (parts.length !== 3) return null;
+        const day = parseInt(parts[0]);
+        const month = months[parts[1].toLowerCase()];
+        const year = parseInt(parts[2]);
+        if (isNaN(day) || month === undefined || isNaN(year)) return null;
+        return new Date(year, month, day);
+    }
+    function formatRelativeTime(date) {
+        const now = new Date();
+        const diffMs = now - date;
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        if (diffDays === 0) return 'Updated today';
+        if (diffDays === 1) return 'Updated yesterday';
+        if (diffDays < 7) return `Updated ${diffDays} days ago`;
+        if (diffDays < 14) return 'Updated 1 week ago';
+        if (diffDays < 30) {
+            const weeks = Math.floor(diffDays / 7);
+            return `Updated ${weeks} week${weeks > 1 ? 's' : ''} ago`;
+        }
+        if (diffDays < 60) return 'Updated 1 month ago';
+        const months = Math.floor(diffDays / 30);
+        return `Updated ${months} months ago`;
+    }
+    function getCachedDates() {
+        try {
+            const stored = localStorage.getItem(DATES_CACHE_KEY);
+            if (stored) {
+                const { dates, timestamp } = JSON.parse(stored);
+                if (Date.now() - timestamp < DATES_CACHE_DURATION) {
+                    return dates;
+                }
+            }
+        } catch (e) {
+            console.error('Error reading dates cache:', e);
+        }
+        return null;
+    }
+    function cacheDates(dates) {
+        try {
+            localStorage.setItem(DATES_CACHE_KEY, JSON.stringify({
+                dates: dates,
+                timestamp: Date.now()
+            }));
+        } catch (e) {
+            console.error('Error storing dates cache:', e);
+        }
+    }
+    async function fetchPageDate(pageUrl) {
+        try {
+            console.log(`Fetching date from: ${pageUrl}`);
+            const response = await fetch(pageUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const nonCardPages = ['/events-and-training', '/donation-guide'];
+            const isNonCardPage = nonCardPages.some(page => pageUrl.includes(page));
+            if (isNonCardPage) {
+                let lastUpdateElement = doc.getElementById('Last-update2');
+                if (!lastUpdateElement) {
+                    lastUpdateElement = doc.getElementById('Last-update');
+                }
+                if (!lastUpdateElement) {
+                    console.warn(`No Last-update or Last-update2 element found on ${pageUrl}`);
+                    return null;
+                }
+                const dateText = lastUpdateElement.textContent.trim();
+                console.log(`Found date text: ${dateText}`);
+                const date = parseCustomDate(dateText);
+                if (!date) {
+                    console.warn(`Could not parse date: ${dateText}`);
+                    return null;
+                }
+                return date;
+            }
+            let lastUpdated = new Date(0);
+            let foundCards = 0;
+            const cardSelectors = ['[data-widget]', '.card', '.w-dyn-item'];
+            for (const selector of cardSelectors) {
+                const cards = doc.querySelectorAll(selector);
+                cards.forEach(card => {
+                    if (card.dataset.modified) {
+                        foundCards++;
+                        const cardDate = new Date(card.dataset.modified);
+                        if (cardDate > lastUpdated && !isNaN(cardDate.getTime())) {
+                            lastUpdated = cardDate;
+                        }
+                    }
+                });
+                if (foundCards > 0) break;
+            }
+            if (foundCards === 0) {
+                console.warn(`No cards with data-modified found on ${pageUrl}`);
+                return null;
+            }
+            if (lastUpdated.getTime() === 0) {
+                console.warn(`No valid dates found on ${pageUrl}`);
+                return null;
+            }
+            console.log(`Found ${foundCards} cards, most recent date: ${lastUpdated.toISOString()}`);
+            return lastUpdated;
+        } catch (error) {
+            console.error(`Error fetching date from ${pageUrl}:`, error);
+            return null;
+        }
+    }
+    async function updateHomepageDates() {
+        const dateElements = document.querySelectorAll('.date[data-source-page], .date-alt[data-source-page]');
+        if (dateElements.length === 0) {
+            console.log('No date elements with data-source-page found');
+            return;
+        }
+        console.log(`Found ${dateElements.length} date elements to update`);
+        const cachedDates = getCachedDates();
+        const freshDates = {};
+        for (const element of dateElements) {
+            const pageUrl = element.getAttribute('data-source-page');
+            if (!pageUrl) continue;
+            let date = null;
+            if (cachedDates && cachedDates[pageUrl]) {
+                date = new Date(cachedDates[pageUrl]);
+                console.log(`Using cached date for ${pageUrl}`);
+            } else {
+                date = await fetchPageDate(pageUrl);
+                if (date) {
+                    freshDates[pageUrl] = date.toISOString();
+                }
+            }
+            if (date) {
+                const relativeText = formatRelativeTime(date);
+                element.textContent = relativeText;
+                console.log(`Updated ${pageUrl}: ${relativeText}`);
+            }
+        }
+        if (Object.keys(freshDates).length > 0) {
+            cacheDates({ ...cachedDates, ...freshDates });
+        }
+    }
+    function init() {
+        const isHomepage = window.location.pathname === '/' || window.location.pathname === '';
+        if (!isHomepage) {
+            console.log('Not on homepage, skipping date updates');
+            return;
+        }
+        console.log('Initializing homepage date updates');
+        updateHomepageDates();
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+</script>
+</body>
+</html>
