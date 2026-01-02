@@ -1,12 +1,48 @@
-/* test comment */
+/* ===============================
+   TO BE DELETED (at least mostly), and replaced with the relevant single prop padding or margin class
+   =============================== */
 
+.footer-link { margin-bottom: 8px; }
+.footer-logo { margin-bottom: 24px; }
+.footer-description { margin-bottom: 24px; }
+.footer-heading { margin-bottom: 16px; }
+.footer-divider { margin-bottom: 24px; }
+.last-updated-text { margin: 0 0 32px 0; }
+.intro-paragraph { margin: 0 0 56px 0; }
+.page-title { margin: 56px 0 16px -4px; }
+.airtable-section { margin: 24px 0; }
+.self-study-link { margin: 56px 0; }
+.self-study-heading { margin: 0 0 8px 0; }
+.self-study-description { margin: 0; }
+.footer-credit { margin: 0; }
+.footer-copyright { margin: 0; }
+.contribute-buttons a { padding-bottom: 40px; }
+.footer-button { padding: 8px 16px; }
+.up-button { padding: 9px 15px; }
+.site-logo {
+  font-size: 26px;
+}
+.heading-3 {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+.padding-bottom-8px { padding-bottom: 8px; }
+.padding-8px-3 { padding-bottom: 8px; }
+
+/* ===============================
+   Basics, resets, etc.
+   =============================== */
+
+/* we're not using tailwind right, so we can delete this? */
 @import 'tailwindcss';
 
+/* what's this? */
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
+/* what's this? */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -16,6 +52,7 @@
     monospace;
 }
 
+/* what's this? */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -41,6 +78,7 @@ label {
   display: block;
 }
 
+/* let's figure out how to remove this class */
 .w-form-label {
   display: inline-block;
   cursor: pointer;
@@ -59,26 +97,93 @@ html {
   outline-offset: 2px;
 }
 
-/* WebFlow CSS Variables */
+/* ===============================
+   Padding, margin classes (Single Prop)
+   =============================== */
+
+/* top padding */
+.padding-top-56px { padding-top: 56px; }
+.padding-top-192px { padding-top: 192px; }
+
+/* bottom padding */
+.padding-4px { padding-bottom: 4px; }
+.padding-8px { padding-bottom: 8px; }
+.padding-12px { padding-bottom: 12px; }
+.padding-16px { padding-bottom: 16px; }
+.padding-24px { padding-bottom: 24px; }
+.padding-32px { padding-bottom: 32px; }
+.padding-40px { padding-bottom: 40px; }
+.padding-56px { padding-bottom: 56px; }
+.padding-80px { padding-bottom: 80px; }
+.padding-104px { padding-bottom: 104px; }
+
+/* right padding */
+/* (need to find these classes) */
+
+/* bottom margin (need to redo these to 'margin-bottom' I think) */
+.margin-128px { margin: 128px 0; }
+.margin-24px { margin: 24px 0; }
+
+/* ===============================
+   Typography
+   =============================== */
+h1 {
+  letter-spacing: -4.32px;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: -4px;
+  font-size: 72px;
+  font-weight: 400;
+  line-height: 115%;
+  color: white;
+}
+
+h2 {
+  letter-spacing: -1.4px;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 120%;
+  color: white;
+}
+
+h3 {
+  letter-spacing: -1.1px;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 125%;
+  color: white;
+}
+
+/* ===============================
+   Variables
+   =============================== */
 :root {
-  --teal-900: #00191b;
-  --white: white;
-  --teal-300: #aab2b3;
-  --bright-teal-500: #6cbdbb;
-  --teal-700: #394c4e;
-  --teal-600: #556667;
-  --teal-400: #8e999a;
-  --teal-800: #1c3334;
-  --teal-750: #2a3f41;
-  --teal-850: #0e2628;
-  --teal-500: #717f80;
-  --bright-teal-300: #a6dad9;
+  /* colors */
   --teal-100: #e3e5e6;
   --teal-200: #c6cccc;
+  --teal-300: #aab2b3;
+  --teal-400: #8e999a;
+  --teal-500: #717f80;
+  --teal-600: #556667;
+  --teal-700: #394c4e;
+  --teal-750: #2a3f41;
+  --teal-800: #1c3334;
+  --teal-850: #0e2628;
+  --teal-900: #00191b;
+  --white: white;
+  --bright-teal-300: #a6dad9;
+  --bright-teal-500: #6cbdbb;
+  /* let's remove this variable, not sure why it's here? */
   --nav-height: 88px;
 }
 
-/* WebFlow Navigation Styles */
+/* ===============================
+   Navigation styles - let's put these in their own CSS file I think
+   =============================== */
 .nav-container {
   justify-content: space-between;
   align-items: center;
@@ -243,47 +348,6 @@ html {
 
 .drop-shadow-dark {
   box-shadow: 0 12px 24px #00191b80;
-}
-
-/* WebFlow Typography */
-h1 {
-  letter-spacing: -4.32px;
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-left: -4px;
-  font-size: 72px;
-  font-weight: 400;
-  line-height: 115%;
-  color: white;
-}
-
-h2 {
-  letter-spacing: -1.4px;
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: 28px;
-  font-weight: 300;
-  line-height: 120%;
-  color: white;
-}
-
-h3 {
-  letter-spacing: -1.1px;
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: 22px;
-  font-weight: 300;
-  line-height: 125%;
-  color: white;
-}
-
-.heading-3 {
-  padding-top: 25px;
-  padding-bottom: 25px;
-}
-
-.site-logo {
-  font-size: 26px;
 }
 
 /* Container styles */
@@ -526,7 +590,6 @@ h3 {
 }
 
 .padding-32px {
-  color: #fff;
   padding-bottom: 32px;
 }
 
@@ -677,279 +740,6 @@ h3 {
   font-weight: 400;
   line-height: 1.5;
   letter-spacing: normal;
-}
-
-/* Card styles */
-.card-full-width,
-.card-full-width-2,
-.card-full-width-3 {
-  margin: 40px 0;
-}
-
-.card-full-width {
-  grid-column-gap: 64px;
-  grid-row-gap: 64px;
-  background-image: url('/images/amsterdam.png');
-  background-position: 50% 0;
-  background-size: cover;
-  border-radius: 16px;
-  height: 375px;
-  padding-top: 56px;
-  padding-left: 56px;
-  padding-right: 56px;
-  display: flex;
-  position: relative;
-}
-
-.card-full-width-2 {
-  grid-column-gap: 64px;
-  grid-row-gap: 64px;
-  background-image: url('/images/map-1.png');
-  background-position: 40%;
-  background-repeat: repeat;
-  background-size: 1400px;
-  background-attachment: scroll;
-  border-radius: 16px;
-  height: 375px;
-  position: relative;
-  overflow: hidden;
-}
-
-.card-full-width-3 {
-  grid-column-gap: 64px;
-  grid-row-gap: 64px;
-  background-image:
-    url('/images/faces-desktop.png'),
-    radial-gradient(circle at 20% 0, #6cbdbb, #4da9a7);
-  background-position:
-    50%,
-    0 0;
-  background-size: 1056px, auto;
-  border-radius: 16px;
-  height: 375px;
-  padding-top: 56px;
-  padding-left: 56px;
-  padding-right: 56px;
-  display: flex;
-  position: relative;
-}
-
-.card_full_width-right_card {
-  background-color: #05181a66;
-  border-radius: 8px;
-  width: 436px;
-  min-width: 436px;
-  margin-top: -40px;
-  margin-bottom: 16px;
-  margin-right: -40px;
-  padding: 40px;
-  position: relative;
-}
-
-.card-full-width-2-left-card {
-  background-color: #05181a99;
-  border-radius: 16px 0 0 16px;
-  width: 460px;
-  min-width: 460px;
-  height: 375px;
-  padding: 56px;
-  display: block;
-}
-
-.card-full-width-right-card-light {
-  background-color: #05181a33;
-  border-radius: 8px;
-  width: 436px;
-  min-width: 436px;
-  margin-top: -40px;
-  margin-bottom: 16px;
-  margin-right: -40px;
-  padding: 40px;
-  position: relative;
-}
-
-/* Half-width cards grid */
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 40px;
-}
-
-.cards-grid .card-half-width-1,
-.cards-grid .card-half-width-2,
-.cards-grid .card-half-width-3,
-.cards-grid .card-half-width-4 {
-  width: 100%;
-}
-
-.cards-grid.padding-104px .card-third-width-1,
-.cards-grid.padding-104px .card-third-width-2,
-.cards-grid.padding-104px .card-third-width-3 {
-  width: 100%;
-}
-
-.card-half-width-1 {
-  grid-column-gap: 56px;
-  grid-row-gap: 56px;
-  background-image: url('/images/keyboard.png');
-  background-position: 50% 100%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  border-radius: 16px;
-  flex-flow: column;
-  width: 508px;
-  height: 680px;
-  padding-top: 56px;
-  padding-left: 56px;
-  padding-right: 56px;
-  display: flex;
-  position: relative;
-}
-
-.card-half-width-2 {
-  grid-column-gap: 56px;
-  grid-row-gap: 56px;
-  background-image:
-    url('/images/handshape-compressed-better.webp'),
-    radial-gradient(circle at 20% 0, #094141, #073536);
-  background-position:
-    50% 82%,
-    0 0;
-  background-repeat: no-repeat, repeat;
-  background-size: contain, auto;
-  border-radius: 16px;
-  flex-flow: column;
-  width: 508px;
-  height: 680px;
-  padding-top: 56px;
-  padding-left: 56px;
-  padding-right: 56px;
-  display: flex;
-  position: relative;
-}
-
-.card-half-width-3 {
-  grid-column-gap: 56px;
-  grid-row-gap: 56px;
-  background-image:
-    url('/images/phone-COMPRESSED.png'),
-    radial-gradient(circle at 20% 0, #094141, #073536);
-  background-position:
-    50% 100%,
-    0 0;
-  background-repeat: no-repeat, repeat;
-  background-size: 100%, auto;
-  border-radius: 16px;
-  flex-flow: column;
-  width: 508px;
-  height: 680px;
-  padding-top: 56px;
-  padding-left: 56px;
-  padding-right: 56px;
-  display: flex;
-  position: relative;
-}
-
-.card-half-width-4 {
-  grid-column-gap: 56px;
-  grid-row-gap: 56px;
-  background-image: radial-gradient(circle at 20% 0, #6cbdbb, #4da9a7);
-  border-radius: 16px;
-  flex-flow: column;
-  width: 508px;
-  height: 680px;
-  padding-top: 56px;
-  padding-left: 56px;
-  padding-right: 56px;
-  display: flex;
-  position: relative;
-}
-
-.card-half-width_bottom-card {
-  background-color: #05181a66;
-  border-radius: 8px;
-  width: 476px;
-  min-width: 436px;
-  margin-left: -40px;
-  padding: 40px;
-  position: absolute;
-  bottom: 0;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-.card-half-width_bottom-card-light {
-  background-color: #05181a33;
-  border-radius: 8px;
-  width: 476px;
-  min-width: 436px;
-  margin-left: -40px;
-  padding: 40px;
-  position: absolute;
-  bottom: 0;
-}
-
-/* Third-width cards */
-.card-third-width-1 {
-  grid-column-gap: 56px;
-  grid-row-gap: 56px;
-  background-image: url('/images/advising-call-EDITED.webp');
-  background-position: 50% 100%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  border-radius: 16px;
-  flex-flow: column;
-  width: 325px;
-  height: 510px;
-  padding-top: 40px;
-  padding-left: 40px;
-  padding-right: 40px;
-  display: flex;
-  position: relative;
-}
-
-.card-third-width-2 {
-  grid-column-gap: 56px;
-  grid-row-gap: 56px;
-  background-image: radial-gradient(circle at 20% 0, #6cbdbb, #4da9a7);
-  border-radius: 16px;
-  flex-flow: column;
-  width: 325px;
-  height: 510px;
-  padding: 40px 40px 0;
-  display: flex;
-  position: relative;
-}
-
-.card-third-width-3 {
-  grid-column-gap: 32px;
-  grid-row-gap: 32px;
-  background-image:
-    url('/images/hands-COMPRESSED.webp'),
-    radial-gradient(circle at 20% 0, #094141, #073536);
-  background-position:
-    100% 89%,
-    0 0;
-  background-repeat: no-repeat, repeat;
-  background-size: 88%, auto;
-  border-radius: 16px;
-  flex-flow: column;
-  width: 325px;
-  height: 510px;
-  padding-top: 40px;
-  padding-left: 40px;
-  padding-right: 40px;
-  display: flex;
-  position: relative;
-}
-
-.card-third-width-bottom-card {
-  background-color: #05181a33;
-  border-radius: 8px;
-  min-width: 293px;
-  margin-left: -24px;
-  padding: 32px 32px 34px;
-  position: relative;
 }
 
 /* Button styles */
@@ -1405,6 +1195,8 @@ h3 {
     text-align: center;
   }
 
+  
+  /* I'd like to get rid of this class, display none is a single class we can reuse multiple places */
   .footer-attribution {
     display: none;
   }
@@ -1414,7 +1206,282 @@ h3 {
     padding-bottom: 16px;
   }
 
+/* I'd like to get rid of this class, nothing should be 6px padding */
   .padding-8px-3 {
     padding-bottom: 6px;
   }
+}
+
+/* Card styles */
+/* We'll likely move these to a separate file, as they apply only to the homepage */
+/* We'll want to organize them a bit better too */
+
+.card-full-width,
+.card-full-width-2,
+.card-full-width-3 {
+  margin: 40px 0;
+}
+
+.card-full-width {
+  grid-column-gap: 64px;
+  grid-row-gap: 64px;
+  background-image: url('/images/amsterdam.png');
+  background-position: 50% 0;
+  background-size: cover;
+  border-radius: 16px;
+  height: 375px;
+  padding-top: 56px;
+  padding-left: 56px;
+  padding-right: 56px;
+  display: flex;
+  position: relative;
+}
+
+.card-full-width-2 {
+  grid-column-gap: 64px;
+  grid-row-gap: 64px;
+  background-image: url('/images/map-1.png');
+  background-position: 40%;
+  background-repeat: repeat;
+  background-size: 1400px;
+  background-attachment: scroll;
+  border-radius: 16px;
+  height: 375px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-full-width-3 {
+  grid-column-gap: 64px;
+  grid-row-gap: 64px;
+  background-image:
+    url('/images/faces-desktop.png'),
+    radial-gradient(circle at 20% 0, #6cbdbb, #4da9a7);
+  background-position:
+    50%,
+    0 0;
+  background-size: 1056px, auto;
+  border-radius: 16px;
+  height: 375px;
+  padding-top: 56px;
+  padding-left: 56px;
+  padding-right: 56px;
+  display: flex;
+  position: relative;
+}
+
+.card_full_width-right_card {
+  background-color: #05181a66;
+  border-radius: 8px;
+  width: 436px;
+  min-width: 436px;
+  margin-top: -40px;
+  margin-bottom: 16px;
+  margin-right: -40px;
+  padding: 40px;
+  position: relative;
+}
+
+.card-full-width-2-left-card {
+  background-color: #05181a99;
+  border-radius: 16px 0 0 16px;
+  width: 460px;
+  min-width: 460px;
+  height: 375px;
+  padding: 56px;
+  display: block;
+}
+
+.card-full-width-right-card-light {
+  background-color: #05181a33;
+  border-radius: 8px;
+  width: 436px;
+  min-width: 436px;
+  margin-top: -40px;
+  margin-bottom: 16px;
+  margin-right: -40px;
+  padding: 40px;
+  position: relative;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+
+.cards-grid .card-half-width-1,
+.cards-grid .card-half-width-2,
+.cards-grid .card-half-width-3,
+.cards-grid .card-half-width-4 {
+  width: 100%;
+}
+
+.cards-grid.padding-104px .card-third-width-1,
+.cards-grid.padding-104px .card-third-width-2,
+.cards-grid.padding-104px .card-third-width-3 {
+  width: 100%;
+}
+
+.card-half-width-1 {
+  grid-column-gap: 56px;
+  grid-row-gap: 56px;
+  background-image: url('/images/keyboard.png');
+  background-position: 50% 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 16px;
+  flex-flow: column;
+  width: 508px;
+  height: 680px;
+  padding-top: 56px;
+  padding-left: 56px;
+  padding-right: 56px;
+  display: flex;
+  position: relative;
+}
+
+.card-half-width-2 {
+  grid-column-gap: 56px;
+  grid-row-gap: 56px;
+  background-image:
+    url('/images/handshape-compressed-better.webp'),
+    radial-gradient(circle at 20% 0, #094141, #073536);
+  background-position:
+    50% 82%,
+    0 0;
+  background-repeat: no-repeat, repeat;
+  background-size: contain, auto;
+  border-radius: 16px;
+  flex-flow: column;
+  width: 508px;
+  height: 680px;
+  padding-top: 56px;
+  padding-left: 56px;
+  padding-right: 56px;
+  display: flex;
+  position: relative;
+}
+
+.card-half-width-3 {
+  grid-column-gap: 56px;
+  grid-row-gap: 56px;
+  background-image:
+    url('/images/phone-COMPRESSED.png'),
+    radial-gradient(circle at 20% 0, #094141, #073536);
+  background-position:
+    50% 100%,
+    0 0;
+  background-repeat: no-repeat, repeat;
+  background-size: 100%, auto;
+  border-radius: 16px;
+  flex-flow: column;
+  width: 508px;
+  height: 680px;
+  padding-top: 56px;
+  padding-left: 56px;
+  padding-right: 56px;
+  display: flex;
+  position: relative;
+}
+
+.card-half-width-4 {
+  grid-column-gap: 56px;
+  grid-row-gap: 56px;
+  background-image: radial-gradient(circle at 20% 0, #6cbdbb, #4da9a7);
+  border-radius: 16px;
+  flex-flow: column;
+  width: 508px;
+  height: 680px;
+  padding-top: 56px;
+  padding-left: 56px;
+  padding-right: 56px;
+  display: flex;
+  position: relative;
+}
+
+.card-half-width_bottom-card {
+  background-color: #05181a66;
+  border-radius: 8px;
+  width: 476px;
+  min-width: 436px;
+  margin-left: -40px;
+  padding: 40px;
+  position: absolute;
+  bottom: 0;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.card-half-width_bottom-card-light {
+  background-color: #05181a33;
+  border-radius: 8px;
+  width: 476px;
+  min-width: 436px;
+  margin-left: -40px;
+  padding: 40px;
+  position: absolute;
+  bottom: 0;
+}
+
+.card-third-width-1 {
+  grid-column-gap: 56px;
+  grid-row-gap: 56px;
+  background-image: url('/images/advising-call-EDITED.webp');
+  background-position: 50% 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 16px;
+  flex-flow: column;
+  width: 325px;
+  height: 510px;
+  padding-top: 40px;
+  padding-left: 40px;
+  padding-right: 40px;
+  display: flex;
+  position: relative;
+}
+
+.card-third-width-2 {
+  grid-column-gap: 56px;
+  grid-row-gap: 56px;
+  background-image: radial-gradient(circle at 20% 0, #6cbdbb, #4da9a7);
+  border-radius: 16px;
+  flex-flow: column;
+  width: 325px;
+  height: 510px;
+  padding: 40px 40px 0;
+  display: flex;
+  position: relative;
+}
+
+.card-third-width-3 {
+  grid-column-gap: 32px;
+  grid-row-gap: 32px;
+  background-image:
+    url('/images/hands-COMPRESSED.webp'),
+    radial-gradient(circle at 20% 0, #094141, #073536);
+  background-position:
+    100% 89%,
+    0 0;
+  background-repeat: no-repeat, repeat;
+  background-size: 88%, auto;
+  border-radius: 16px;
+  flex-flow: column;
+  width: 325px;
+  height: 510px;
+  padding-top: 40px;
+  padding-left: 40px;
+  padding-right: 40px;
+  display: flex;
+  position: relative;
+}
+
+.card-third-width-bottom-card {
+  background-color: #05181a33;
+  border-radius: 8px;
+  min-width: 293px;
+  margin-left: -24px;
+  padding: 32px 32px 34px;
+  position: relative;
 }
