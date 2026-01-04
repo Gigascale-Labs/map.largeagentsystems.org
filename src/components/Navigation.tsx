@@ -1,5 +1,9 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import styles from './Navigation.module.css'
 
 const navItems = [
   {
@@ -15,9 +19,39 @@ const navItems = [
   { href: '/funding', label: 'Funding', icon: 'coins.svg', count: 49 },
 ]
 
+const SCROLL_THRESHOLD_TOP = 10
+const SCROLL_THRESHOLD_HIDE = 100
+
 export default function Navigation() {
+  const [isVisible, setIsVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+
+      const scrollIsOnTop = currentScrollY <= SCROLL_THRESHOLD_TOP
+      const isScrollingUp = currentScrollY <= lastScrollY
+      const isScrollingDown = !isScrollingUp
+      const hasScrolledEnoughToHide = currentScrollY > SCROLL_THRESHOLD_HIDE
+
+      if (scrollIsOnTop || isScrollingUp) {
+        setIsVisible(true)
+      } else if (isScrollingDown && hasScrolledEnoughToHide) {
+        setIsVisible(false)
+      }
+
+      setLastScrollY(currentScrollY)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [lastScrollY, isVisible])
   return (
-    <div className="nav w-nav px-6 py-4">
+    <div
+      className={`nav w-nav px-6 py-4 ${styles.navSticky} ${isVisible ? styles.visible : styles.hidden}`}
+    >
       <div className="nav-container">
         <Link href="/" className="brand pr-6 w-nav-brand">
           <Image
