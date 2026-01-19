@@ -1,0 +1,87 @@
+/* Navigation Component Styles */
+
+.nav {
+  z-index: 2147483647;
+  background-color: transparent;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 40px;
+}
+
+.navWrapper {
+  position: relative;
+  background: transparent;
+  z-index: 1000;
+}
+
+.navContainer {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+.navMenu {
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+}
+
+.navItem {
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+  border: 1px solid #a6dad94d;
+  border-radius: 20px;
+  flex: none;
+  justify-content: flex-start;
+  align-items: center;
+  height: 40px;
+  padding-left: 4px;
+  padding-right: 16px;
+  display: flex !important;
+  max-width: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.navItem:hover {
+  background-color: var(--teal-850);
+  box-shadow: 0 12px 24px #00191b80;
+}
+
+.navItemIcon {
+  background-color: #fff;
+  border-radius: 16px;
+  justify-content: center;
+  align-self: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  box-shadow: 0 2px 5px #0003;
+}
+
+.navItemLast {
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+  border: 1px solid #a6dad94d;
+  border-radius: 20px;
+  justify-content: flex-start;
+  align-items: center;
+  height: 40px;
+  padding-left: 16px;
+  padding-right: 16px;
+  display: flex;
+}
+
+.navItemLast:hover {
+  background-color: var(--teal-850);
+  box-shadow: 0 12px 24px #00191b80;
+}
+
+.brand {
+  flex: none;
+  padding-right: 24px;
+  text-decoration: none;
+}
