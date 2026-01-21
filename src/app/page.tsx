@@ -1,17 +1,16 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import LastUpdated from '@/components/LastUpdated'
-import styles from './page.module.css'
 
 export default function Home() {
   return (
     <div className="content-container">
-      <div className="w-layout-grid flex padding-top-56px padding-bottom-80px">
+      <div className="w-layout-grid flex padding-top-56px padding-80px">
         <h1 className="width-8-col">
           Find your place in the AI safety ecosystem
         </h1>
         <div className="width-4-col">
-          <p className="padding-bottom-32px">
+          <p className="padding-32px">
             Curated lists of events, communities, courses, and more – focused on
             preventing human extinction from AI.
           </p>
@@ -21,7 +20,7 @@ export default function Home() {
             loading="lazy"
             alt="Community thumbnails"
             src="/images/thumbnails.png"
-            className="padding-bottom-12px"
+            className="padding-12px"
           />
           <p className="paragraph-xs">
             Maintained by AI safety community-builders
@@ -29,12 +28,12 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={styles.cardFullWidth}>
+      <div className="card-full-width margin-40px">
         <div>
-          <p className="paragraph-small-bold shadow-text padding-bottom-12px">
+          <p className="paragraph-small-bold shadow-text padding-12px">
             Attend an event or training program
           </p>
-          <h2 className="shadow-text padding-bottom-40px">
+          <h2 className="shadow-text padding-40px">
             Events and programs to build skills, meet others, and explore
             opportunities in AI safety – online and in person
           </h2>
@@ -46,24 +45,24 @@ export default function Home() {
           </Link>
           <LastUpdated
             apiEndpoint="/api/last-updated/events"
-            className={`${styles.date} paragraph-xs shadow-text`}
+            className="date paragraph-xs shadow-text"
             format="relative"
           />
         </div>
-        <div className={`${styles.cardFullWidthRightCard} backdrop-blur-md`}>
+        <div className="card_full_width-right_card backdrop-blur-md">
           <Image
             loading="lazy"
             src="/images/bookmark-light.svg"
             alt=""
-            className={styles.bookmark}
+            className="bookmark"
             width={24}
             height={24}
           />
-          <h3 className="shadow-text padding-bottom-8px">EAGxAmsterdam 2025</h3>
-          <p className="paragraph-small-bold shadow-text padding-bottom-16px">
+          <h3 className="shadow-text padding-8px">EAGxAmsterdam 2025</h3>
+          <p className="paragraph-small-bold shadow-text padding-16px">
             12–14 Dec 2025
           </p>
-          <p className="padding-bottom-40px">
+          <p className="padding-40px">
             A high‑signal weekend to explore clear paths to AI safety impact and
             meet researchers, funders, and organizations.
           </p>
@@ -78,12 +77,12 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={styles.cardFullWidth2}>
-        <div className={`${styles.cardFullWidth2LeftCard} backdrop-blur-md`}>
-          <p className="paragraph-small-bold shadow-text padding-bottom-12px">
+      <div className="card-full-width-2 margin-40px">
+        <div className="card-full-width-2-left-card backdrop-blur-md">
+          <p className="paragraph-small-bold shadow-text padding-12px">
             Explore the ecosystem
           </p>
-          <h2 className="shadow-text padding-bottom-40px">
+          <h2 className="shadow-text padding-40px">
             A visual overview of the key organizations, programs, and projects
             in AI safety
           </h2>
@@ -91,7 +90,7 @@ export default function Home() {
             View map
           </Link>
           <p
-            className={`${styles.date} paragraph-xs shadow-text opacity-80`}
+            className="date paragraph-xs shadow-text opacity-80"
             data-source-page="/map"
           >
             Updated 5 days ago
@@ -99,12 +98,10 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={styles.cardFullWidth3}>
+      <div className="card-full-width-3 margin-40px">
         <div>
-          <p className="paragraph-small-bold padding-bottom-12px">
-            Join a community
-          </p>
-          <h2 className="padding-bottom-40px">
+          <p className="paragraph-small-bold padding-12px">Join a community</p>
+          <h2 className="padding-40px">
             Groups dedicated to discussing and contributing to AI safety, both
             online and in-person
           </h2>
@@ -114,26 +111,23 @@ export default function Home() {
           >
             View all communities
           </Link>
-          <p
-            className={`${styles.date} paragraph-xs`}
-            data-source-page="/communities"
-          >
+          <p className="date paragraph-xs" data-source-page="/communities">
             Updated 3 days ago
           </p>
         </div>
-        <div className={styles.cardFullWidthRightCardLight}>
+        <div className="card-full-width-right-card-light">
           <Image
             loading="lazy"
             src="/images/bookmark-dark.svg"
             alt=""
-            className={styles.bookmark}
+            className="bookmark"
             width={24}
             height={24}
           />
-          <p className="paragraph-small-bold padding-bottom-12px">
+          <p className="paragraph-small-bold padding-12px">
             Largest real-time community
           </p>
-          <div className="flex-gap-8px padding-bottom-24px">
+          <div className="flex-gap-8px padding-24px">
             <Image
               loading="lazy"
               src="/images/1-1-2.png"
@@ -144,7 +138,7 @@ export default function Home() {
             />
             <h3>AI Alignment Slack</h3>
           </div>
-          <p className="padding-bottom-32px">
+          <p className="padding-32px">
             Join thousands of AI safety folks ready to answer questions, share
             opportunities, and connect.
           </p>
@@ -159,39 +153,36 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={styles.cardsGrid}>
-        <div className={styles.cardHalfWidth1}>
-          <div>
-            <p className="paragraph-small-bold padding-bottom-12px shadow-text">
+      <div className="cards-grid margin-40px">
+        <div className="card-half-width-1">
+          <div className="card-half-width-main-text">
+            <p className="paragraph-small-bold padding-12px shadow-text">
               Learn
             </p>
-            <h2 className="padding-bottom-40px shadow-text">
+            <h2 className="padding-40px shadow-text">
               Self-study courses and curated study guides to deepen your
               expertise
             </h2>
             <Link href="/self-study" className="button-primary drop-shadow">
               View all self-study options
             </Link>
-            <p
-              className={`${styles.dateAlt} paragraph-xs`}
-              data-source-page="/self-study"
-            >
+            <p className="date-alt paragraph-xs" data-source-page="/self-study">
               Updated 2 days ago
             </p>
           </div>
-          <div className={`${styles.cardHalfWidthBottomCard} backdrop-blur-md`}>
+          <div className="card-half-width_bottom-card backdrop-blur-md">
             <Image
               loading="lazy"
               src="/images/bookmark-light.svg"
               alt=""
-              className={styles.bookmark}
+              className="bookmark"
               width={24}
               height={24}
             />
-            <p className="paragraph-small-bold padding-bottom-12px">
+            <p className="paragraph-small-bold padding-12px">
               Standard intro course
             </p>
-            <div className="flex-gap-8px padding-bottom-24px">
+            <div className="flex-gap-8px padding-24px">
               <Image
                 loading="lazy"
                 src="/images/download-2-1.svg"
@@ -201,7 +192,7 @@ export default function Home() {
               />
               <h3>Blue Dot Impact: Technical &amp; Governance</h3>
             </div>
-            <p className="padding-bottom-24px">
+            <p className="padding-24px">
               Learn key concepts and research perspectives in AI safety, split
               into two tracks.
             </p>
@@ -218,19 +209,19 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.cardHalfWidth2}>
-          <div>
-            <p className="paragraph-small-bold padding-bottom-12px opacity-80">
+        <div className="card-half-width-2">
+          <div className="card-half-width-main-text">
+            <p className="paragraph-small-bold padding-12px opacity-80">
               Find a job
             </p>
-            <h2 className="padding-bottom-40px">
+            <h2 className="padding-40px">
               Open positions in research, policy, operations, and more
             </h2>
             <Link href="/jobs" className="button-primary drop-shadow">
               View all jobs
             </Link>
             <p
-              className={`${styles.dateAlt} paragraph-xs opacity-80`}
+              className="date-alt paragraph-xs opacity-80"
               data-source-page="/jobs"
             >
               Updated 1 day ago
@@ -238,12 +229,12 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.cardHalfWidth3}>
-          <div>
-            <p className="paragraph-small-bold padding-bottom-12px opacity-80">
+        <div className="card-half-width-3">
+          <div className="card-half-width-main-text">
+            <p className="paragraph-small-bold padding-12px opacity-80">
               Stay informed
             </p>
-            <h2 className="padding-bottom-40px">
+            <h2 className="padding-40px">
               Podcasts, newsletters, and more to keep you up to date in AI
               safety
             </h2>
@@ -251,7 +242,7 @@ export default function Home() {
               View all media channels
             </Link>
             <p
-              className={`${styles.dateAlt} paragraph-xs opacity-80`}
+              className="date-alt paragraph-xs opacity-80"
               data-source-page="/media-channels"
             >
               Updated 6 days ago
@@ -259,37 +250,32 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.cardHalfWidth4}>
-          <div>
-            <p className="paragraph-small-bold padding-bottom-12px">
-              Get funding
-            </p>
-            <h2 className="padding-bottom-40px">
+        <div className="card-half-width-4">
+          <div className="card-half-width-main-text">
+            <p className="paragraph-small-bold padding-12px">Get funding</p>
+            <h2 className="padding-40px">
               Organizations offering financial support to AI safety projects
             </h2>
             <Link href="/funding" className="button-primary drop-shadow-light">
               View all funders
             </Link>
-            <p
-              className={`${styles.dateAlt} paragraph-xs`}
-              data-source-page="/funders"
-            >
+            <p className="date-alt paragraph-xs" data-source-page="/funders">
               Updated 3 days ago
             </p>
           </div>
-          <div className={styles.cardHalfWidthBottomCardLight}>
+          <div className="card-half-width_bottom-card-light">
             <Image
               loading="lazy"
               src="/images/bookmark-dark.svg"
               alt=""
-              className={styles.bookmark}
+              className="bookmark"
               width={24}
               height={24}
             />
-            <p className="paragraph-small-bold padding-bottom-12px">
+            <p className="paragraph-small-bold padding-12px">
               Best for medium to large projects
             </p>
-            <div className="flex-horizontal_center flex-gap-8px padding-bottom-24px">
+            <div className="flex-horizontal_center flex-gap-8px padding-24px">
               <Image
                 loading="lazy"
                 src="/images/1-22-1.png"
@@ -300,7 +286,7 @@ export default function Home() {
               />
               <h3>Survival and Flourishing Fund</h3>
             </div>
-            <p className="padding-bottom-24px">
+            <p className="padding-24px">
               Funds orgs working to improve humanity&apos;s long-term prospects
               for survival and flourishing.
             </p>
@@ -316,13 +302,13 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={styles.cardsGridThirds}>
-        <div className={styles.cardThirdWidth1}>
-          <div>
-            <p className="paragraph-small-bold padding-bottom-8px shadow-text">
+      <div className="cards-grid padding-104px">
+        <div className="card-third-width-1">
+          <div className="card-half-width-main-text">
+            <p className="paragraph-small-bold padding-8px-3 shadow-text">
               Speak to an advisor
             </p>
-            <h3 className="padding-bottom-32px shadow-text">
+            <h3 className="padding-32px shadow-text">
               Free 1-1 calls to help you contribute most effectively to AI
               safety
             </h3>
@@ -330,7 +316,7 @@ export default function Home() {
               View all advisors
             </Link>
             <p
-              className={`${styles.dateAlt} paragraph-xs shadow-text`}
+              className="date-alt paragraph-xs shadow-text"
               data-source-page="/advisors"
             >
               Updated 4 days ago
@@ -338,37 +324,34 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.cardThirdWidth2}>
-          <div>
-            <p className="paragraph-small-bold padding-bottom-8px">
+        <div className="card-third-width-2">
+          <div className="card-half-width-main-text">
+            <p className="paragraph-small-bold padding-8px-3">
               Volunteer projects
             </p>
-            <h3 className="padding-bottom-32px">
+            <h3 className="padding-32px">
               Build online tools to support the AI safety ecosystem
             </h3>
             <Link href="/projects" className="button-primary drop-shadow">
               View all projects
             </Link>
-            <p
-              className={`${styles.dateAlt} paragraph-xs`}
-              data-source-page="/projects"
-            >
+            <p className="date-alt paragraph-xs" data-source-page="/projects">
               Updated 2 days ago
             </p>
           </div>
-          <div className={styles.cardThirdWidthBottomCard}>
+          <div className="card-third-width-bottom-card">
             <Image
               loading="lazy"
               src="/images/bookmark-dark-small.svg"
               alt=""
-              className={styles.bookmark}
+              className="bookmark"
               width={16}
               height={16}
             />
-            <p className="paragraph-small-bold padding-bottom-12px">
+            <p className="paragraph-small-bold padding-12px">
               Featured project
             </p>
-            <div className="flex-gap-8px padding-bottom-24px">
+            <div className="flex-gap-8px padding-24px">
               <h3>AI Safety Feed</h3>
             </div>
             <div className="display-block">
@@ -384,19 +367,19 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.cardThirdWidth3}>
-          <div>
-            <p className="paragraph-small-bold padding-bottom-8px opacity-80">
+        <div className="card-third-width-3">
+          <div className="card-half-width-main-text">
+            <p className="paragraph-small-bold padding-8px-3 opacity-80">
               Donate
             </p>
-            <h3 className="padding-bottom-32px">
+            <h3 className="padding-32px">
               How to donate effectively to the AI safety field
             </h3>
             <Link href="/donation-guide" className="button-primary drop-shadow">
               View guide
             </Link>
             <p
-              className={`${styles.dateAlt} paragraph-xs opacity-80`}
+              className="date-alt paragraph-xs opacity-80"
               data-source-page="/donation-guide"
             >
               Updated 1 week ago
@@ -405,9 +388,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={styles.aisafetyInfo}>
+      <div className="aisafety-info">
         <div>
-          <p className="color-teal paragraph-small-bold padding-bottom-12px">
+          <p className="color-teal paragraph-small-bold padding-12px">
             Visit AISafety.info
           </p>
           <h2 className="shadow-text">
@@ -420,7 +403,7 @@ export default function Home() {
           rel="noopener noreferrer"
           className="button-primary w-inline-block"
         >
-          <p className="paragraph-xs">AISafety.info</p>
+          <p className="paragraph-12">AISafety.info</p>
           <Image
             loading="lazy"
             src="/images/arrow-up-right.svg"

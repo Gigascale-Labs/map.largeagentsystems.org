@@ -189,7 +189,7 @@ export default function MapPage() {
   return (
     <>
       {/* D3 Interactive Map - full width, outside content-container */}
-      <div className="padding-bottom-24px">
+      <div className="padding-24px">
         <div ref={mapWrapperRef} className={styles.mapWrapper}>
           {!loading && <D3Map orgs={mapOrgs} />}
           <button onClick={scrollToCards} className={styles.scrollButton}>
@@ -200,10 +200,10 @@ export default function MapPage() {
       </div>
 
       <div id="cards" className="content-container">
-        <p className="padding-bottom-24px paragraph-small color-teal-300">
+        <p className="padding-24px paragraph-small color-teal-300">
           {lastUpdated ? `Last updated: ${lastUpdated}` : 'Loading...'}
         </p>
-        <h2 className="width-7-col padding-bottom-56px">
+        <h2 className="width-7-col padding-56px">
           An overview of the key{' '}
           <span className="color-light-teal">
             organizations, programs, and projects
@@ -215,7 +215,7 @@ export default function MapPage() {
         <div className="database-outer-grid">
           {/* Left column: search + cards */}
           <div>
-            <div className="padding-bottom-40px">
+            <div className="padding-40px">
               <input
                 type="text"
                 className="text-field"
@@ -228,15 +228,15 @@ export default function MapPage() {
 
             {/* Cards grid */}
             {loading ? (
-              <div className="padding-bottom-40px">
+              <div className="padding-40px">
                 <p className="paragraph-small color-teal-300">Loading...</p>
               </div>
             ) : error ? (
-              <div className="padding-bottom-40px">
+              <div className="padding-40px">
                 <p className="paragraph-small color-teal-300">Error: {error}</p>
               </div>
             ) : (
-              <div className="collection-list padding-bottom-40px">
+              <div className="collection-list padding-40px">
                 {filteredOrgs.map(org => (
                   <a
                     key={org.id}
@@ -245,7 +245,7 @@ export default function MapPage() {
                     rel="noopener noreferrer"
                     className="card"
                   >
-                    <div className="featured-img-title-flex padding-bottom-24px">
+                    <div className="featured-img-title-flex padding-24px">
                       <div className="featured-img">
                         {org.logo && (
                           <Image
@@ -260,10 +260,10 @@ export default function MapPage() {
                       </div>
                       <h3>{org.title}</h3>
                     </div>
-                    <p className="paragraph-small padding-bottom-24px">
+                    <p className="paragraph-small padding-24px">
                       {org.description}
                     </p>
-                    <p className="paragraph-xs-bold color-teal-300 padding-bottom-4px">
+                    <p className="paragraph-xs-bold color-teal-300 padding-4px">
                       Category
                     </p>
                     <p className="paragraph-small">{org.category}</p>
@@ -281,15 +281,10 @@ export default function MapPage() {
           {/* Right column: filters (desktop only) */}
           <div className="hide-mobile">
             {/* Category filter */}
-            <div className="padding-bottom-40px">
-              <label className="paragraph-small padding-bottom-16px">
-                Category
-              </label>
+            <div className="padding-40px">
+              <label className="paragraph-small padding-16px">Category</label>
               {categories.map(category => (
-                <label
-                  key={category}
-                  className="checkbox-field padding-bottom-16px"
-                >
+                <label key={category} className="checkbox-field padding-16px">
                   <input
                     type="checkbox"
                     className="checkbox"
@@ -308,11 +303,9 @@ export default function MapPage() {
             </div>
 
             {/* Status filter */}
-            <div className="padding-bottom-56px">
-              <label className="paragraph-small padding-bottom-16px">
-                Status
-              </label>
-              <label className="checkbox-field padding-bottom-16px">
+            <div className="padding-56px">
+              <label className="paragraph-small padding-16px">Status</label>
+              <label className="checkbox-field padding-16px">
                 <input
                   type="checkbox"
                   className="checkbox"
@@ -349,7 +342,7 @@ export default function MapPage() {
                     : 'noopener noreferrer'
                 }
               >
-                <p className="paragraph-default-bold padding-bottom-8px">
+                <p className="paragraph-default-bold padding-8px">
                   Suggest entry <span className="color-teal-300">→</span>
                 </p>
                 <p className="side-button">
@@ -361,7 +354,7 @@ export default function MapPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <p className="paragraph-default-bold padding-bottom-8px">
+                <p className="paragraph-default-bold padding-8px">
                   Suggest correction <span className="color-teal-300">→</span>
                 </p>
                 <p className="side-button">
@@ -373,7 +366,7 @@ export default function MapPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <p className="paragraph-default-bold padding-bottom-8px">
+                <p className="paragraph-default-bold padding-8px">
                   View raw data <span className="color-teal-300">→</span>
                 </p>
                 <p className="side-button">See the database in Airtable</p>
