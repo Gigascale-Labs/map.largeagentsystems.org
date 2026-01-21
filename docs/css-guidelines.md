@@ -200,20 +200,69 @@ Inter only. Already set up via next/font.
 
 ## Layout
 
+### Fixed Values, Not Percentages
+
+This design system uses **fixed pixel values** for widths, not percentages or viewport units. This ensures consistent layouts across all screen sizes before responsive breakpoints kick in.
+
+### Max Content Width
+
+**1056px** is the maximum content width. Never exceed this.
+
 ### Containers
 
 ```css
-.content-container  /* Max-width centered container for page content */
-.container-default  /* 87.2vw max-width */
+.container-default  /* 1056px max-width, centered */
 ```
 
 ### Flex Utilities
 
 ```css
-.flex-gap-8px   /* Flex with 8px gap */
-.flex-gap-56px  /* Flex with 56px gap */
-.flex-horizontal_center /* Flex, align center */
+/* Display */
+.flex          /* display: flex */
+.inline-flex   /* display: inline-flex */
+
+/* Alignment */
+.items-start   /* align-items: flex-start */
+.items-center  /* align-items: center */
+
+/* Gap (all allowed spacing values) */
+.gap-4px    .gap-8px    .gap-12px   .gap-16px   .gap-24px
+.gap-32px   .gap-40px   .gap-56px   .gap-80px   .gap-104px   .gap-192px
 ```
+
+### Flex Usage
+
+```tsx
+// Compose what you need
+<div className="flex items-center gap-8px">
+<div className="flex items-start gap-40px">
+<span className="inline-flex items-center gap-8px">
+```
+
+---
+
+## Widths
+
+### 12-Column Grid (Fixed Pixels)
+
+All widths are fixed pixel values, not percentages. Max content width is 1056px (12 columns).
+
+```css
+.width-1-col   /* 37px */
+.width-2-col   /* 129px */
+.width-3-col   /* 222px */
+.width-4-col   /* 315px */
+.width-5-col   /* 407px */
+.width-6-col   /* 500px */
+.width-7-col   /* 593px */
+.width-8-col   /* 685px */
+.width-9-col   /* 778px */
+.width-10-col  /* 871px */
+.width-11-col  /* 963px */
+.width-12-col  /* 1056px */
+```
+
+On tablet (≤991px), all width classes become `width: 100%`.
 
 ---
 
@@ -284,6 +333,8 @@ import styles from './ComponentName.module.css'
 ## Quick Reference Card
 
 ```
+MAX WIDTH:   1056px (12 columns)
+COLUMNS:     37  129  222  315  407  500  593  685  778  871  963  1056 (px)
 SPACING:     4  8  12  16  24  32  40  56  80  104  192 (px)
 COLORS:      --teal-100 to --teal-900, --bright-teal-300/500
 TYPOGRAPHY:  h1/h2/h3, .paragraph-small, .paragraph-xs
