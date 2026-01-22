@@ -1,47 +1,68 @@
-# AI Safety Website
+# AISafety.com
 
-This is the Next.js implementation of aisafety.com, migrated from WebFlow.
-
-## Development
-
-```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Run linting
-npm run lint
-
-# Format code
-npm run format
-
-# Type check
-npm run type-check
-```
-
-## Environment Variables
-
-Create a `.env.local` file with your Airtable credentials:
-
-```
-AIRTABLE_TOKEN=your_personal_access_token_here
-AIRTABLE_BASE_ID=your_base_id_here
-```
+A community resource website helping people find events, organizations, jobs, funding, and learning resources in AI safety. Migrated from WebFlow.
 
 ## Tech Stack
 
-- **Next.js 16** - React framework with App Router
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Utility-first CSS framework
-- **Airtable** - Data source
-- **ESLint + Prettier** - Code quality and formatting
-- **Husky** - Git hooks for pre-commit checks
+| What       | Technology                          |
+| ---------- | ----------------------------------- |
+| Framework  | Next.js 16 (App Router)             |
+| Language   | TypeScript                          |
+| Styling    | Constraint-based CSS (not Tailwind) |
+| Data       | Airtable                            |
+| Map        | D3.js                               |
+| Deployment | Vercel                              |
 
-## Deployment
+## Getting Started
 
-Deploy to Vercel for automatic builds and deployments from git pushes.
+```bash
+nvm use
+npm install
+npm run dev
+```
+
+Create `.env.local`:
+
+```
+AIRTABLE_TOKEN=your_token
+AIRTABLE_BASE_ID=your_base_id
+```
+
+## Commands
+
+```bash
+npm run dev          # Start dev server
+npm run build        # Production build
+npm run lint         # Run linting
+npm run format       # Format code
+npm run type-check   # Type check
+```
+
+## Project Structure
+
+```
+src/
+├── app/                    # Pages and API routes
+│   ├── page.tsx            # Homepage
+│   ├── layout.tsx          # Root layout (nav + footer)
+│   ├── globals.css         # All global styles
+│   ├── map/                # Interactive field map (D3.js)
+│   ├── events-and-training/
+│   ├── api/                # Backend API routes
+│   │   ├── ...
+├── components/             # Reusable UI pieces
+│   ├── ...
+public/
+├── images/                 # Icons, logos, background images
+docs/                       # Detailed documentation
+backup/
+├── *.html                  # Original WebFlow exports (reference only)
+```
+
+## Documentation
+
+- [Project Overview](./docs/project-overview.md)
+- [Architecture](./docs/architecture.md)
+- [Development Guide](./docs/development-guide.md)
+- [CSS Guidelines](./docs/css-guidelines.md)
+- [CLAUDE.md](./docs/claude.md) — For AI (humans don't read)
