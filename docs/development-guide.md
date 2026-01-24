@@ -62,8 +62,8 @@ If a commit fails, fix the issues and try again.
    ```tsx
    export default function CommunitiesPage() {
      return (
-       <div className="content-container">
-         <h1 className="page-title">Communities</h1>
+       <div className="container-default">
+         <h1>Communities</h1>
          {/* Your content */}
        </div>
      )
