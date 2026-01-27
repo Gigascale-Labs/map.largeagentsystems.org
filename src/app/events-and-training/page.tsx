@@ -11,8 +11,10 @@ export default function EventsAndTrainingPage() {
   return (
     <div>
       {/* Main Content */}
-      <div className="content-container">
-        <h1 className="page-title">Events &amp; training</h1>
+      <div className="container-default">
+        <h1 className="padding-top-56px padding-bottom-16px">
+          Events &amp; training
+        </h1>
 
         <LastUpdated
           apiEndpoint="/api/last-updated/events"
@@ -22,7 +24,7 @@ export default function EventsAndTrainingPage() {
         <p className="intro-paragraph">
           There&apos;s a wide range of events and training programs in AI
           safety, both online and in-person. These can help you{' '}
-          <span className="highlight-text">
+          <span className="color-teal">
             build skills, make connections, and discover opportunities.
           </span>
         </p>
@@ -68,7 +70,7 @@ export default function EventsAndTrainingPage() {
           </Link>
         </div>
 
-        <h2 className="section-heading">
+        <h2 className="padding-bottom-24px">
           All upcoming events and training programs
         </h2>
       </div>
@@ -95,10 +97,8 @@ export default function EventsAndTrainingPage() {
       </div>
 
       {/* Second section */}
-      <div className="content-container">
-        <h2 className="section-heading registration-heading hide-mobile">
-          Open for application/registration
-        </h2>
+      <div className="container-default">
+        <h2 className="hide-mobile">Open for application/registration</h2>
       </div>
 
       <div className="airtable-section">
@@ -113,8 +113,8 @@ export default function EventsAndTrainingPage() {
       </div>
 
       {/* Link to self-study */}
-      <div className="content-container">
-        <Link href="/self-study" className="self-study-link hover-opacity">
+      <div className="container-default">
+        <Link href="/self-study">
           <h3 className="self-study-heading">
             Self-study courses <span className="color-teal-400">→</span>
           </h3>

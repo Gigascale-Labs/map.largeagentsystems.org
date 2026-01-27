@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import styles from './UpButton.module.css'
 
 export default function UpButton() {
   const [isVisible, setIsVisible] = useState(false)
@@ -22,7 +23,7 @@ export default function UpButton() {
 
   return (
     <button
-      className="up-button"
+      className={styles.upButton}
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       aria-label="Scroll to top"
     >
