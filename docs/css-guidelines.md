@@ -1,343 +1,230 @@
 # CSS Guidelines
 
-This project uses a **constraint-based design system**. These rules ensure visual consistency and prevent arbitrary styling decisions.
+This project uses a **constraint-based design system**. These rules ensure visual consistency and prevent arbitrary styling decisions. **Always use utility classes from `globals.css` first.** Only create new classes in rare cases when utility classes can't solve the problem.
 
-## Core Principle
+## Walkthrough 'globals.css'
 
-> If a value isn't in the design system, you can't use it.
+### 1. Variables
 
-No `padding: 14px`. No `color: #3a7b8c`. Use the predefined values or don't use it at all.
-
----
-
-## File Organization
-
-| File                       | What belongs there                                                                                                  |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `globals.css`              | **Design system only** — variables, spacing utilities, color utilities, typography, resets, truly reusable patterns |
-| `ComponentName.module.css` | **Component-specific styles** — used in one component only                                                          |
-| `page.module.css`          | **Page-specific styles** — used on one page only                                                                    |
-
-### Rule: If it's used in only one place, it doesn't go in globals.css
-
-```
-globals.css          → .padding-16px (used everywhere)
-Navigation.module.css → .navItem (only used in Navigation.tsx)
-page.module.css      → .mapContainer (only used on map page)
-```
-
----
-
-## Spacing
-
-### Allowed Values
-
-```
-4px, 8px, 12px, 16px, 24px, 32px, 40px, 56px, 80px, 104px, 192px
-```
-
-### NOT Allowed
-
-```
-14px, 18px, 20px, 30px, 48px, 64px, 100px, or any other value
-```
-
-### Available Classes
+Always use a pre-defined variable for colors. Never hardcode hex values. Never add new variables unless you are a designer.
 
 ```css
-/* Bottom padding */
-.padding-bottom-4px    .padding-bottom-8px    .padding-bottom-12px
-.padding-bottom-16px   .padding-bottom-24px   .padding-bottom-32px
-.padding-bottom-40px   .padding-bottom-56px   .padding-bottom-80px
-.padding-bottom-104px  .padding-bottom-192px
+/* Good */
+background-color: var(--teal-800);
+color: var(--bright-teal-300);
 
-/* Top padding */
-.padding-top-4px    .padding-top-8px    .padding-top-12px
-.padding-top-16px   .padding-top-24px   .padding-top-32px
-.padding-top-40px   .padding-top-56px   .padding-top-80px
-.padding-top-104px  .padding-top-192px
-
-/* Bottom margin */
-.margin-bottom-4px    .margin-bottom-8px    .margin-bottom-12px
-.margin-bottom-16px   .margin-bottom-24px   .margin-bottom-32px
-.margin-bottom-40px   .margin-bottom-56px   .margin-bottom-80px
-.margin-bottom-104px  .margin-bottom-192px
-
-/* Top margin */
-.margin-top-4px    .margin-top-8px    .margin-top-12px
-.margin-top-16px   .margin-top-24px   .margin-top-32px
-.margin-top-40px   .margin-top-56px   .margin-top-80px
-.margin-top-104px  .margin-top-192px
+/* Bad */
+background-color: #1c3334;
+color: #a6dad9;
 ```
 
-### Usage
+### 2. CSS Reset
+
+Ignore this section. Don't touch it.
+
+### 3. Base Elements
+
+Just use the HTML tags (`h1`, `h2`, `h3`) — they're already styled. Never write CSS for headings.
 
 ```tsx
 // Good
-<div className="padding-bottom-16px">
-<div className="margin-top-24px">
+<h1>Page Title</h1>
+<h2>Section Title</h2>
 
-// Bad - arbitrary value
-<div style={{ paddingBottom: '14px' }}>
-
-// Bad - not in the system
-<div className="pb-3">  // This isn't a real class
+// Bad
+<h1 className="page-title">Page Title</h1>
 ```
 
----
+### 4. Typography
 
-## Colors
-
-### Palette
-
-```css
-/* Teal scale (dark theme background/text) */
---teal-100: #e3e5e6 /* Lightest */ --teal-200: #c6cccc --teal-300: #aab2b3
-  /* Common text color */ --teal-400: #8e999a /* Muted text */
-  --teal-500: #717f80 --teal-600: #556667 /* Borders */ --teal-700: #394c4e
-  /* Darker borders */ --teal-750: #2a3f41 --teal-800: #1c3334
-  /* Card backgrounds */ --teal-850: #0e2628 /* Hover states */
-  --teal-900: #00191b /* Page background */ /* Accent colors */
-  --bright-teal-300: #a6dad9 /* Links, highlights */ --bright-teal-500: #6cbdbb
-  /* Primary accent */ /* Base */ --white: white;
-```
-
-### Available Classes
-
-```css
-/* Text colors - full teal scale */
-.color-teal-100   .color-teal-200   .color-teal-300   .color-teal-400
-.color-teal-500   .color-teal-600   .color-teal-700   .color-teal-750
-.color-teal-800   .color-teal-850   .color-teal-900
-
-/* Text colors - accent */
-.color-bright-teal-300   .color-bright-teal-500
-.color-light-teal        .color-teal          /* aliases for bright-teal-300 */
-
-/* Text colors - base */
-.color-white
-
-/* Background colors - full teal scale */
-.bg-teal-100   .bg-teal-200   .bg-teal-300   .bg-teal-400
-.bg-teal-500   .bg-teal-600   .bg-teal-700   .bg-teal-750
-.bg-teal-800   .bg-teal-850   .bg-teal-900
-
-/* Background colors - accent */
-.bg-bright-teal-300   .bg-bright-teal-500
-
-/* Background colors - base */
-.bg-white
-```
-
-### Usage
+Assign the relevant paragraph class to every p tag (other than the default, which is already styled). Never write CSS for typography.
 
 ```tsx
-// Good - use the variable
-background-color: var(--teal-800);
+// Good
+<p className="paragraph-small">Smaller text</p>
+<p className="paragraph-xs">Extra small text</p>
+<p>Default body text needs no class</p>
 
-// Good - use the class
-<p className="color-teal-300">
-
-// Bad - hardcoded hex
-background-color: #1c3334;
-
-// Bad - arbitrary color
-color: #3a7b8c;
-```
-
----
-
-## Typography
-
-### Headings
-
-Already styled globally. Just use the tags:
-
-```tsx
-<h1>  // 72px, weight 400, tight letter-spacing
-<h2>  // 28px, weight 300
-<h3>  // 22px, weight 300
-```
-
-### Paragraph Variants
-
-```css
-.paragraph-small        /* 15px */
-.paragraph-small-bold   /* 15px, weight 600 */
-.paragraph-xs           /* 13px */
-.paragraph-xs-bold      /* 13px, weight 600 */
-.paragraph-default-bold /* 16px, weight 600 */
-```
-
-### Font
-
-Inter only. Already set up via next/font.
-
----
-
-## Borders & Shadows
-
-### Border Radius
-
-```css
-/* Standard values used in the codebase */
-4px   - small elements (icons, checkboxes)
-8px   - buttons
-16px  - cards
-20px  - pills/nav items
-24px  - large buttons
-```
-
-### Shadows
-
-```css
-.drop-shadow       /* Standard card shadow */
-.drop-shadow-light /* Subtle shadow */
-.drop-shadow-dark  /* Heavier shadow */
-```
-
----
-
-## Layout
-
-### Fixed Values, Not Percentages
-
-This design system uses **fixed pixel values** for widths, not percentages or viewport units. This ensures consistent layouts across all screen sizes before responsive breakpoints kick in.
-
-### Max Content Width
-
-**1056px** is the maximum content width. Never exceed this.
-
-### Containers
-
-```css
-.container-default  /* 1056px max-width, centered */
-```
-
-### Flex Utilities
-
-```css
-/* Display */
-.flex          /* display: flex */
-.inline-flex   /* display: inline-flex */
-
-/* Alignment */
-.items-start   /* align-items: flex-start */
-.items-center  /* align-items: center */
-
-/* Gap (all allowed spacing values) */
-.gap-4px    .gap-8px    .gap-12px   .gap-16px   .gap-24px
-.gap-32px   .gap-40px   .gap-56px   .gap-80px   .gap-104px   .gap-192px
-```
-
-### Flex Usage
-
-```tsx
-// Compose what you need
-<div className="flex items-center gap-8px">
-<div className="flex items-start gap-40px">
-<span className="inline-flex items-center gap-8px">
-```
-
----
-
-## Widths
-
-### 12-Column Grid (Fixed Pixels)
-
-All widths are fixed pixel values, not percentages. Max content width is 1056px (12 columns).
-
-```css
-.width-1-col   /* 37px */
-.width-2-col   /* 129px */
-.width-3-col   /* 222px */
-.width-4-col   /* 315px */
-.width-5-col   /* 407px */
-.width-6-col   /* 500px */
-.width-7-col   /* 593px */
-.width-8-col   /* 685px */
-.width-9-col   /* 778px */
-.width-10-col  /* 871px */
-.width-11-col  /* 963px */
-.width-12-col  /* 1056px */
-```
-
-On tablet (≤991px), all width classes become `width: 100%`.
-
----
-
-## Responsive Breakpoints
-
-```css
-@media (max-width: 991px) /* Tablet and below */ @media (max-width: 767px); /* Mobile */
-```
-
-### Hide on Mobile
-
-```css
-.hide-mobile  /* display: none on mobile */
-```
-
----
-
-## Adding New Styles
-
-### Before adding anything, ask:
-
-1. **Is there already a class for this?** Check globals.css first.
-2. **Will this be used in multiple places?**
-   - Yes → Add to globals.css
-   - No → Add to a .module.css file
-3. **Does this value exist in the design system?**
-   - No → Don't use it. Pick the nearest allowed value.
-
-### When creating a new utility class:
-
-```css
-/* Add to globals.css with clear naming */
-.margin-bottom-24px {
-  margin-bottom: 24px;
+// Bad
+.new-class {
+  font-size: 16px;
+  font-family: Inter;
+  font-weight: 300;
 }
 ```
 
-### When creating a component-specific class:
+### 5. Colors
 
-```css
-/* Add to ComponentName.module.css */
-.specialCard {
-  /* styles specific to this component */
+Assign text colors using these utility classes.
+
+```tsx
+// Good
+<p className="color-teal-300">Muted text</p>
+<span className="color-light-teal">Accent text</span>
+
+// Bad
+.new-class {
+  color: var(--bright-teal-300);
 }
 ```
 
-Then import it:
+### 6. Spacing
+
+Add padding and margin using these utility classes. Never write custom spacing.
 
 ```tsx
-import styles from './ComponentName.module.css'
+// Good
+<div className="padding-bottom-24px margin-top-16px">
 
-<div className={styles.specialCard}>
+// Bad
+.new-class {
+  padding-bottom: 24px;
+  margin-top: 16px;
+}
 ```
 
----
+### 7. Layout
 
-## Common Mistakes
+Use these for flex, containers, gaps, and widths. Never write custom flexbox or width CSS.
 
-| Mistake                               | Why it's wrong                 | Fix                                                  |
-| ------------------------------------- | ------------------------------ | ---------------------------------------------------- |
-| `style={{ padding: 14 }}`             | Arbitrary value                | Use `.padding-bottom-12px` or `.padding-bottom-16px` |
-| `className="text-gray-500"`           | Tailwind class (not installed) | Use `.color-teal-400`                                |
-| `color: #aab2b3`                      | Hardcoded hex                  | Use `var(--teal-300)`                                |
-| Adding `.card-special` to globals.css | Used in one place              | Put in a .module.css file                            |
+```tsx
+// Good
+<div className="flex items-center gap-16px">
+<div className="width-6-col">
+<div className="container-default">
 
----
-
-## Quick Reference Card
-
+// Bad
+.new-class {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.new-class {
+  width: 500px;
+}
 ```
-MAX WIDTH:   1056px (12 columns)
-COLUMNS:     37  129  222  315  407  500  593  685  778  871  963  1056 (px)
-SPACING:     4  8  12  16  24  32  40  56  80  104  192 (px)
-COLORS:      --teal-100 to --teal-900, --bright-teal-300/500
-TYPOGRAPHY:  h1/h2/h3, .paragraph-small, .paragraph-xs
-RADIUS:      4  8  16  20  24 (px)
-BREAKPOINTS: 991px (tablet), 767px (mobile)
+
+### 8. Display
+
+Use these for visibility, opacity, and cursor styles.
+
+```tsx
+// Good
+<div className="hide-mobile">Desktop only</div>
+<div className="cursor-pointer">
+
+// Bad
+.new-class-for-mobile {
+  display:none;
+}
+.new-class {
+  cursor: pointer;
+}
 ```
+
+### 9. Buttons
+
+Never style a button. Just reference `.button-primary` or `.button-secondary`.
+
+```tsx
+// Good
+<a className="button-primary">Get Started</a>
+<a className="button-secondary">Learn More</a>
+
+// Bad
+.new-class-with-button-styling {
+  [styling]
+}
+```
+
+### 10. Forms
+
+Use `.text-field` and `.checkbox` for form elements. Don't create custom input styles.
+
+```tsx
+// Good
+<input type="text" className="text-field" />
+<input type="checkbox" className="checkbox" />
+
+// Bad
+.new-class-with-text-field-styling {
+  [styling]
+}
+.new-class-with-checkbox-styling {
+  [styling]
+}
+```
+
+### 11. Shadows
+
+Use `.drop-shadow` classes. Never write custom box-shadow.
+
+```tsx
+// Good
+<div className="drop-shadow">Card with shadow</div>
+<div className="drop-shadow-light">Subtle shadow</div>
+
+// Bad
+<div style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
+```
+
+### 12. Layout Components
+
+Page-level pieces like `.hero-bg`. You will likely not reference these, just let them hang out.
+
+```tsx
+// Good — just use it where needed
+<div className="hero-bg">
+
+// Bad — don't recreate it
+.myHeroBackground {
+  position: absolute;
+  inset: 0% 0% auto 50%;
+  /* ... */
+}
+```
+
+### 13–14. Legacy
+
+Old page-specific styles. Being cleaned up — don't add to these.
+
+```css
+/* Bad — don't add new styles to these sections */
+.my-new-events-style { ... }
+
+/* Good — put page-specific styles in page.module.css instead */
+```
+
+### 15. Media Queries
+
+These set defaults for typography, spacing, and width changes for mobile. Only write your own breakpoint styles if you need to explicitly override the default.
+
+```css
+/* Good — only if you need something specific */
+@media (max-width: 767px) {
+  .myComponent {
+    flex-direction: column;
+  }
+}
+
+/* Bad — don't duplicate what's already handled */
+@media (max-width: 767px) {
+  .width-6-col {
+    width: 100%; /* already done in globals.css */
+  }
+}
+```
+
+## When to Create New Classes
+
+Only create a new class when:
+
+- You need component-specific styling that utility classes can't provide
+- The styling involves complex selectors, pseudo-elements, or animations
+- Multiple CSS properties need to work together as a unit
+
+Where to put new classes:
+
+- **Used in one component** → `ComponentName.module.css`
+- **Used on one page** → `page.module.css`
+- **Truly reusable utility** → `globals.css` (rare)
