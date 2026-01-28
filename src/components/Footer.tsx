@@ -26,7 +26,7 @@ export default function Footer() {
             </Link>
           </div>
 
-          <div className={styles.footerColumn}>
+          <div className="flex flex-col">
             <h4 className={styles.footerHeading}>Help us out</h4>
             <Link
               href="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
@@ -49,7 +49,7 @@ export default function Footer() {
             </Link>
           </div>
 
-          <div className={styles.footerColumn}>
+          <div className="flex flex-col">
             <h4 className={styles.footerHeading}>Newsletters</h4>
             <Link
               href="https://aisafetyeventsandtraining.substack.com/"

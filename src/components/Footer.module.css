@@ -47,11 +47,6 @@
   background-color: var(--teal-850);
 }
 
-.footerColumn {
-  display: flex;
-  flex-direction: column;
-}
-
 .footerHeading {
   font-size: 15px;
   font-weight: 600;

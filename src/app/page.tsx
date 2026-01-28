@@ -205,7 +205,7 @@ export default function Home() {
               Learn key concepts and research perspectives in AI safety, split
               into two tracks.
             </p>
-            <div className={styles.displayBlock}>
+            <div className="block">
               <a
                 href="https://bluedot.org/courses"
                 target="_blank"
@@ -340,7 +340,7 @@ export default function Home() {
 
         <div className={styles.cardThirdWidth2}>
           <div className={styles.cardHalfWidthMainText}>
-            <p className="paragraph-small-bold padding-bottom-8px-3">
+            <p className="paragraph-small-bold padding-bottom-8px">
               Volunteer projects
             </p>
             <h3 className="padding-bottom-32px">
@@ -371,7 +371,7 @@ export default function Home() {
             <div className="flex items-center gap-8px padding-bottom-24px">
               <h3>AI Safety Feed</h3>
             </div>
-            <div className={styles.displayBlock}>
+            <div className="block">
               <a
                 href="https://aisafetyfeed.com/"
                 target="_blank"
