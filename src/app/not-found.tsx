@@ -1,9 +1,10 @@
 import Image from 'next/image'
+import styles from './not-found.module.css'
 
 export default function NotFound() {
   return (
-    <div className="utility-page-wrap">
-      <div className="utility-page-content">
+    <div className={styles['page-wrap']}>
+      <div className={styles['page-content']}>
         <Image
           src="/images/HAL9000.svg.png"
           alt="HAL 9000 computer interface"

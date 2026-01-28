@@ -1,0 +1,99 @@
+/* ===============================
+   EVENTS & TRAINING PAGE STYLES
+   =============================== */
+
+.last-updated-text {
+  font-size: 15px;
+  line-height: 165%;
+  letter-spacing: -0.3px;
+  color: var(--teal-300);
+  margin: 0 0 32px 0;
+}
+
+.intro-paragraph {
+  max-width: 58%;
+  margin: 0 0 56px 0;
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -1.4px;
+  color: white;
+}
+
+.action-links-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 56px;
+  margin: 0 0 56px 0;
+}
+
+.action-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.action-title {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 160%;
+  letter-spacing: -0.45px;
+  color: white;
+  margin: 0 0 8px 0;
+}
+
+.action-description {
+  font-size: 18px;
+  line-height: 160%;
+  letter-spacing: -0.45px;
+  color: var(--teal-300);
+}
+
+.airtable-section {
+  width: 100%;
+  margin: 24px 0;
+  padding: 0 64px;
+}
+
+.airtable-embed {
+  width: 100%;
+  border: none;
+  display: block;
+}
+
+.self-study-link {
+  display: block;
+  margin: 56px 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.self-study-heading {
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 125%;
+  letter-spacing: -1.1px;
+  color: white;
+  margin: 0 0 8px 0;
+}
+
+.self-study-description {
+  font-size: 18px;
+  line-height: 160%;
+  letter-spacing: -0.45px;
+  color: var(--teal-300);
+}
+
+/* ===============================
+   MEDIA QUERIES
+   =============================== */
+
+@media (max-width: 767px) {
+  .intro-paragraph {
+    max-width: 100%;
+  }
+
+  .action-links-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}

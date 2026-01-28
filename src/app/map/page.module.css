@@ -212,3 +212,18 @@
 .sideButton {
   color: var(--teal-300);
 }
+
+/* ===============================
+   MEDIA QUERIES
+   =============================== */
+
+@media (max-width: 991px) {
+  .databaseOuterGrid {
+    grid-template-columns: 100%;
+  }
+
+  .collectionList {
+    grid-template-columns: 1fr;
+    grid-row-gap: 24px;
+  }
+}
