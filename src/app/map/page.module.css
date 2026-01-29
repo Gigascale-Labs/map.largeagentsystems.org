@@ -1,7 +1,7 @@
 /* D3 Map Container - full viewport minus navbar */
 .mapContainer {
   width: 100%;
-  height: calc(100vh - var(--nav-height));
+  height: calc(100vh - 88px);
   min-height: 600px;
   position: relative;
   background-color: transparent;
@@ -148,4 +148,82 @@
 
 .scrollButton:hover {
   background-color: #f3f3f3;
+}
+
+/* Database/Cards Layout */
+.databaseOuterGrid {
+  display: grid;
+  grid-template-columns: 778px 222px;
+  gap: 56px;
+}
+
+.collectionList {
+  display: grid;
+  grid-template-columns: 369px 369px;
+  gap: 40px;
+}
+
+.card {
+  padding: 40px;
+  background-color: var(--teal-850);
+  border: 1px solid var(--teal-700);
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.card:hover {
+  background-color: var(--teal-800);
+}
+
+.featuredImg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 64px;
+  max-width: 64px;
+  height: 64px;
+  border-radius: 4px;
+}
+
+.cardImage {
+  max-width: 64px;
+  max-height: 64px;
+  border-radius: 4px;
+  object-fit: contain;
+}
+
+/* Contribute Buttons */
+.contributeButtons {
+  padding-top: 40px;
+  border-top: 1px solid #3b4249;
+  font-size: 16px;
+}
+
+.contributeButtons a {
+  display: block;
+  padding-bottom: 40px;
+  text-decoration: none;
+}
+
+.contributeButtons a:hover {
+  opacity: 0.8;
+}
+
+.sideButton {
+  color: var(--teal-300);
+}
+
+/* ===============================
+   MEDIA QUERIES
+   =============================== */
+
+@media (max-width: 991px) {
+  .databaseOuterGrid {
+    grid-template-columns: 100%;
+  }
+
+  .collectionList {
+    grid-template-columns: 1fr;
+    grid-row-gap: 24px;
+  }
 }

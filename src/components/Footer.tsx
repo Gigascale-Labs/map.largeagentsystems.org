@@ -1,60 +1,61 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import UpButton from './UpButton'
+import styles from './Footer.module.css'
 
 export default function Footer() {
   return (
-    <footer className="site-footer">
-      <div className="content-container">
-        <div className="footer-grid">
-          <div className="footer-main">
+    <footer className={styles.siteFooter}>
+      <div className="container-default">
+        <div className={styles.footerGrid}>
+          <div className={styles.footerMain}>
             <Image
               src="/images/logo.svg"
               alt="AI Safety logo"
               width={150}
               height={50}
-              className="footer-logo"
+              className={styles.footerLogo}
             />
-            <p className="footer-description">
+            <p className={styles.footerDescription}>
               We&apos;re a global team of volunteers and professionals from
               various disciplines who believe AI poses a grave risk of
               extinction to humanity.
             </p>
-            <Link href="/about" className="footer-button">
+            <Link href="/about" className={styles.footerButton}>
               Learn more about us
             </Link>
           </div>
 
-          <div className="footer-column">
-            <h4 className="footer-heading">Help us out</h4>
+          <div className="flex flex-col">
+            <h4 className={styles.footerHeading}>Help us out</h4>
             <Link
               href="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
               target="_blank"
               rel="noopener noreferrer"
-              className="footer-link"
+              className={styles.footerLink}
             >
               Suggest a correction
             </Link>
-            <Link href="/feedback" className="footer-link">
+            <Link href="/feedback" className={styles.footerLink}>
               Give anonymous feedback
             </Link>
             <Link
               href="https://www.every.org/alignment-ecosystem-development"
               target="_blank"
               rel="noopener noreferrer"
-              className="footer-link"
+              className={styles.footerLink}
             >
               Donate
             </Link>
           </div>
 
-          <div className="footer-column">
-            <h4 className="footer-heading">Newsletters</h4>
+          <div className="flex flex-col">
+            <h4 className={styles.footerHeading}>Newsletters</h4>
             <Link
               href="https://aisafetyeventsandtraining.substack.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="footer-link"
+              className={styles.footerLink}
             >
               AI Safety Events &amp; Training
             </Link>
@@ -62,7 +63,7 @@ export default function Footer() {
               href="https://aisafetyfunding.substack.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="footer-link"
+              className={styles.footerLink}
             >
               AI Safety Funding (coming soon)
             </Link>
@@ -70,28 +71,28 @@ export default function Footer() {
               href="https://aisafetycom.substack.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="footer-link"
+              className={styles.footerLink}
             >
               AISafety.com Updates
             </Link>
           </div>
         </div>
 
-        <div className="footer-divider"></div>
+        <div className={styles.footerDivider}></div>
 
-        <div className="footer-bottom">
-          <div className="footer-attribution">
+        <div className={styles.footerBottom}>
+          <div className={styles.footerAttribution}>
             <Image
               width={80}
               height={32}
               alt="Community thumbnails"
               src="/images/thumbnails.png"
             />
-            <p className="footer-credit">
+            <p className={styles.footerCredit}>
               Maintained by AI safety community-builders
             </p>
           </div>
-          <p className="footer-copyright">
+          <p className={styles.footerCopyright}>
             (ɔ) 2025 · This site is released under a CC BY-SA license
           </p>
         </div>

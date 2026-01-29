@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import LastUpdated from '@/components/LastUpdated'
+import styles from './page.module.css'
 
 export const metadata = {
   title: 'Events & Training – AISafety.com',
@@ -11,32 +12,36 @@ export default function EventsAndTrainingPage() {
   return (
     <div>
       {/* Main Content */}
-      <div className="content-container">
-        <h1 className="page-title">Events &amp; training</h1>
+      <div className="container-default">
+        <h1 className="padding-top-56px padding-bottom-16px">
+          Events &amp; training
+        </h1>
 
         <LastUpdated
           apiEndpoint="/api/last-updated/events"
-          className="last-updated-text"
+          className={styles['last-updated-text']}
         />
 
-        <p className="intro-paragraph">
+        <p className={styles['intro-paragraph']}>
           There&apos;s a wide range of events and training programs in AI
           safety, both online and in-person. These can help you{' '}
-          <span className="highlight-text">
+          <span className="color-teal">
             build skills, make connections, and discover opportunities.
           </span>
         </p>
 
         {/* Action Links */}
-        <div className="action-links-grid">
+        <div className={styles['action-links-grid']}>
           <Link
             href="https://aisafetyeventsandtraining.substack.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="action-link"
+            className={styles['action-link']}
           >
-            <h3 className="action-title">Subscribe to newsletter →</h3>
-            <p className="action-description">
+            <h3 className={styles['action-title']}>
+              Subscribe to newsletter →
+            </h3>
+            <p className={styles['action-description']}>
               Receive a weekly email summarizing all new events and training
               programs
             </p>
@@ -48,8 +53,8 @@ export default function EventsAndTrainingPage() {
             rel="noopener noreferrer"
             className="action-link hide-mobile"
           >
-            <h3 className="action-title">Suggest entry →</h3>
-            <p className="action-description">
+            <h3 className={styles['action-title']}>Suggest entry →</h3>
+            <p className={styles['action-description']}>
               Suggest an event or training program to be listed here and in the
               newsletter
             </p>
@@ -61,27 +66,27 @@ export default function EventsAndTrainingPage() {
             rel="noopener noreferrer"
             className="action-link hide-mobile"
           >
-            <h3 className="action-title">Suggest correction →</h3>
-            <p className="action-description">
+            <h3 className={styles['action-title']}>Suggest correction →</h3>
+            <p className={styles['action-description']}>
               Let us know of any updates that should be made to the database
             </p>
           </Link>
         </div>
 
-        <h2 className="section-heading">
+        <h2 className="padding-bottom-24px">
           All upcoming events and training programs
         </h2>
       </div>
 
       {/* Airtable Embeds */}
-      <div className="airtable-section">
+      <div className={styles['airtable-section']}>
         <iframe
           src="https://airtable.com/embed/appF8XfZUGXtfi40E/shrLgl03tMK4q6cyc?viewControls=on"
           frameBorder={0}
           width="100%"
           height="2300"
           style={{ background: 'transparent', border: '1px solid #ccc' }}
-          className="airtable-embed mobile-embed"
+          className={styles['airtable-embed']}
         />
 
         <iframe
@@ -90,35 +95,33 @@ export default function EventsAndTrainingPage() {
           width="100%"
           height="2880"
           style={{ background: 'transparent', border: '1px solid #ccc' }}
-          className="airtable-embed desktop-embed hide-mobile"
+          className={`${styles['airtable-embed']} hide-mobile`}
         />
       </div>
 
       {/* Second section */}
-      <div className="content-container">
-        <h2 className="section-heading registration-heading hide-mobile">
-          Open for application/registration
-        </h2>
+      <div className="container-default">
+        <h2 className="hide-mobile">Open for application/registration</h2>
       </div>
 
-      <div className="airtable-section">
+      <div className={styles['airtable-section']}>
         <iframe
           src="https://airtable.com/embed/appF8XfZUGXtfi40E/shrbap2hy8Yd3xojA"
           frameBorder={0}
           width="100%"
           height="1000"
           style={{ background: 'transparent', border: '1px solid #ccc' }}
-          className="airtable-embed registration-embed hide-mobile"
+          className={`${styles['airtable-embed']} hide-mobile`}
         />
       </div>
 
       {/* Link to self-study */}
-      <div className="content-container">
-        <Link href="/self-study" className="self-study-link hover-opacity">
-          <h3 className="self-study-heading">
+      <div className="container-default">
+        <Link href="/self-study">
+          <h3 className={styles['self-study-heading']}>
             Self-study courses <span className="color-teal-400">→</span>
           </h3>
-          <p className="self-study-description">
+          <p className={styles['self-study-description']}>
             Courses with freely available materials for independent learning
           </p>
         </Link>

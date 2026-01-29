@@ -50,10 +50,10 @@ export default function Navigation() {
   }, [lastScrollY, isVisible])
   return (
     <div
-      className={`nav w-nav px-6 py-4 ${styles.navSticky} ${isVisible ? styles.visible : styles.hidden}`}
+      className={`${styles.nav} ${styles.navSticky} ${isVisible ? styles.visible : styles.hidden}`}
     >
-      <div className="nav-container">
-        <Link href="/" className="brand pr-6 w-nav-brand">
+      <div className={styles.navContainer}>
+        <Link href="/" className={styles.brand}>
           <Image
             src="/images/logo.svg"
             alt="AI Safety logo"
@@ -63,14 +63,10 @@ export default function Navigation() {
           />
         </Link>
 
-        <nav className="nav-menu w-nav-menu">
+        <nav className={styles.navMenu}>
           {navItems.map(item => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="nav-item inline-block"
-            >
-              <div className="nav-item-icon">
+            <Link key={item.href} href={item.href} className={styles.navItem}>
+              <div className={styles.navItemIcon}>
                 <Image
                   width={16}
                   height={16}
@@ -83,7 +79,7 @@ export default function Navigation() {
             </Link>
           ))}
 
-          <div className="nav-item-last">
+          <div className={styles.navItemLast}>
             <p className="paragraph-small-bold">+4</p>
           </div>
         </nav>

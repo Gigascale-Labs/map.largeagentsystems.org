@@ -1,4 +1,6 @@
 # Run lint-staged
+# Set PATH to include common Node.js locations for GUI apps like GitHub Desktop
+export PATH="/usr/local/bin:$PATH"
 npx lint-staged
 
 # Check if any files were modified by formatting/linting

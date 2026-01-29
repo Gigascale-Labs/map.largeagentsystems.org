@@ -188,8 +188,8 @@ export default function MapPage() {
 
   return (
     <>
-      {/* D3 Interactive Map - full width, outside content-container */}
-      <div className="padding-24px">
+      {/* D3 Interactive Map - full width, outside container-default */}
+      <div className="padding-bottom-24px">
         <div ref={mapWrapperRef} className={styles.mapWrapper}>
           {!loading && <D3Map orgs={mapOrgs} />}
           <button onClick={scrollToCards} className={styles.scrollButton}>
@@ -199,11 +199,11 @@ export default function MapPage() {
         </div>
       </div>
 
-      <div id="cards" className="content-container">
-        <p className="padding-24px paragraph-small color-teal-300">
+      <div id="cards" className="container-default">
+        <p className="padding-bottom-24px paragraph-small color-teal-300">
           {lastUpdated ? `Last updated: ${lastUpdated}` : 'Loading...'}
         </p>
-        <h2 className="width-7-col padding-56px">
+        <h2 className="width-7-col padding-bottom-56px">
           An overview of the key{' '}
           <span className="color-light-teal">
             organizations, programs, and projects
@@ -212,10 +212,10 @@ export default function MapPage() {
         </h2>
 
         {/* Cards section */}
-        <div className="database-outer-grid">
+        <div className={styles.databaseOuterGrid}>
           {/* Left column: search + cards */}
           <div>
-            <div className="padding-40px">
+            <div className="padding-bottom-40px">
               <input
                 type="text"
                 className="text-field"
@@ -228,30 +228,30 @@ export default function MapPage() {
 
             {/* Cards grid */}
             {loading ? (
-              <div className="padding-40px">
+              <div className="padding-bottom-40px">
                 <p className="paragraph-small color-teal-300">Loading...</p>
               </div>
             ) : error ? (
-              <div className="padding-40px">
+              <div className="padding-bottom-40px">
                 <p className="paragraph-small color-teal-300">Error: {error}</p>
               </div>
             ) : (
-              <div className="collection-list padding-40px">
+              <div className={`${styles.collectionList} padding-bottom-40px`}>
                 {filteredOrgs.map(org => (
                   <a
                     key={org.id}
                     href={org.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="card"
+                    className={styles.card}
                   >
-                    <div className="featured-img-title-flex padding-24px">
-                      <div className="featured-img">
+                    <div className="flex items-center gap-16px padding-bottom-24px">
+                      <div className={styles.featuredImg}>
                         {org.logo && (
                           <Image
                             src={org.logo}
                             alt=""
-                            className="card-image"
+                            className={styles.cardImage}
                             width={64}
                             height={64}
                             unoptimized
@@ -260,10 +260,10 @@ export default function MapPage() {
                       </div>
                       <h3>{org.title}</h3>
                     </div>
-                    <p className="paragraph-small padding-24px">
+                    <p className="paragraph-small padding-bottom-24px">
                       {org.description}
                     </p>
-                    <p className="paragraph-xs-bold color-teal-300 padding-4px">
+                    <p className="paragraph-xs-bold color-teal-300 padding-bottom-4px">
                       Category
                     </p>
                     <p className="paragraph-small">{org.category}</p>
@@ -281,17 +281,22 @@ export default function MapPage() {
           {/* Right column: filters (desktop only) */}
           <div className="hide-mobile">
             {/* Category filter */}
-            <div className="padding-40px">
-              <label className="paragraph-small padding-16px">Category</label>
+            <div className="padding-bottom-40px">
+              <label className="paragraph-small padding-bottom-16px">
+                Category
+              </label>
               {categories.map(category => (
-                <label key={category} className="checkbox-field padding-16px">
+                <label
+                  key={category}
+                  className="flex items-center cursor-pointer padding-bottom-16px"
+                >
                   <input
                     type="checkbox"
                     className="checkbox"
                     checked={selectedCategories.has(category)}
                     onChange={() => toggleCategory(category)}
                   />
-                  <span className="paragraph-small color-teal-300 w-form-label">
+                  <span className="paragraph-small color-teal-300 flex items-center cursor-pointer">
                     {category}
                     <span className="filter-count">
                       {' '}
@@ -303,28 +308,30 @@ export default function MapPage() {
             </div>
 
             {/* Status filter */}
-            <div className="padding-56px">
-              <label className="paragraph-small padding-16px">Status</label>
-              <label className="checkbox-field padding-16px">
+            <div className="padding-bottom-56px">
+              <label className="paragraph-small padding-bottom-16px">
+                Status
+              </label>
+              <label className="flex items-center cursor-pointer padding-bottom-16px">
                 <input
                   type="checkbox"
                   className="checkbox"
                   checked={showActive}
                   onChange={e => setShowActive(e.target.checked)}
                 />
-                <span className="paragraph-small color-teal-300 w-form-label">
+                <span className="paragraph-small color-teal-300 flex items-center cursor-pointer">
                   Active
                   <span className="filter-count"> ({activeCount})</span>
                 </span>
               </label>
-              <label className="checkbox-field">
+              <label className="flex items-center cursor-pointer">
                 <input
                   type="checkbox"
                   className="checkbox"
                   checked={showInactive}
                   onChange={e => setShowInactive(e.target.checked)}
                 />
-                <span className="paragraph-small color-teal-300 w-form-label">
+                <span className="paragraph-small color-teal-300 flex items-center cursor-pointer">
                   No longer active
                   <span className="filter-count"> ({inactiveCount})</span>
                 </span>
@@ -332,7 +339,7 @@ export default function MapPage() {
             </div>
 
             {/* Contribute buttons */}
-            <div className="contribute-buttons">
+            <div className={styles.contributeButtons}>
               <a
                 href={suggestEntryLink}
                 target={suggestEntryLink.startsWith('/') ? undefined : '_blank'}
@@ -342,10 +349,10 @@ export default function MapPage() {
                     : 'noopener noreferrer'
                 }
               >
-                <p className="paragraph-default-bold padding-8px">
+                <p className="paragraph-default-bold padding-bottom-8px">
                   Suggest entry <span className="color-teal-300">→</span>
                 </p>
-                <p className="side-button">
+                <p className={styles.sideButton}>
                   Suggest something to be listed on the map
                 </p>
               </a>
@@ -354,10 +361,10 @@ export default function MapPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <p className="paragraph-default-bold padding-8px">
+                <p className="paragraph-default-bold padding-bottom-8px">
                   Suggest correction <span className="color-teal-300">→</span>
                 </p>
-                <p className="side-button">
+                <p className={styles.sideButton}>
                   Let us know of changes to something listed here
                 </p>
               </a>
@@ -366,10 +373,12 @@ export default function MapPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <p className="paragraph-default-bold padding-8px">
+                <p className="paragraph-default-bold padding-bottom-8px">
                   View raw data <span className="color-teal-300">→</span>
                 </p>
-                <p className="side-button">See the database in Airtable</p>
+                <p className={styles.sideButton}>
+                  See the database in Airtable
+                </p>
               </a>
             </div>
           </div>

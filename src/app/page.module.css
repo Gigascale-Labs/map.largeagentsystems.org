@@ -1,0 +1,323 @@
+/* Homepage Card Styles */
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+
+.cardsGridThreeCol {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.cardsGrid .cardHalfWidth1,
+.cardsGrid .cardHalfWidth2,
+.cardsGrid .cardHalfWidth3,
+.cardsGrid .cardHalfWidth4 {
+  width: 100%;
+}
+
+.cardsGridThreeCol .cardThirdWidth1,
+.cardsGridThreeCol .cardThirdWidth2,
+.cardsGridThreeCol .cardThirdWidth3 {
+  width: 100%;
+}
+
+/* Full-width cards */
+.cardFullWidth,
+.cardFullWidth2,
+.cardFullWidth3 {
+  margin: 40px 0;
+}
+
+.cardFullWidth {
+  display: flex;
+  position: relative;
+  height: 375px;
+  padding: 56px;
+  background-image: url('/images/amsterdam.png');
+  background-position: 50% 0;
+  background-size: cover;
+  border-radius: 16px;
+  gap: 64px;
+}
+
+.cardFullWidth2 {
+  position: relative;
+  height: 375px;
+  background-image: url('/images/map-1.png');
+  background-position: 40%;
+  background-repeat: repeat;
+  background-size: 1400px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.cardFullWidth3 {
+  display: flex;
+  position: relative;
+  height: 375px;
+  padding: 56px;
+  background-image:
+    url('/images/faces-desktop.png'),
+    radial-gradient(circle at 20% 0, var(--bright-teal-500), #4da9a7);
+  background-position:
+    50%,
+    0 0;
+  background-size: 1056px, auto;
+  border-radius: 16px;
+  gap: 64px;
+}
+
+.cardFullWidthRightCard {
+  position: relative;
+  width: 436px;
+  min-width: 436px;
+  margin: -40px -40px 16px 0;
+  padding: 40px;
+  background-color: rgba(5, 24, 26, 0.4);
+  border-radius: 8px;
+}
+
+.cardFullWidth2LeftCard {
+  display: block;
+  width: 460px;
+  min-width: 460px;
+  height: 375px;
+  padding: 56px;
+  background-color: rgba(5, 24, 26, 0.6);
+  border-radius: 16px 0 0 16px;
+}
+
+.cardFullWidthRightCardLight {
+  position: relative;
+  width: 436px;
+  min-width: 436px;
+  margin: -40px -40px 16px 0;
+  padding: 40px;
+  background-color: rgba(5, 24, 26, 0.2);
+  border-radius: 8px;
+}
+
+/* Half-width cards */
+.cardHalfWidth1 {
+  display: flex;
+  flex-flow: column;
+  position: relative;
+  width: 508px;
+  height: 680px;
+  padding: 56px;
+  background-image: url('/images/keyboard.png');
+  background-position: 50% 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 16px;
+}
+
+.cardHalfWidth2 {
+  display: flex;
+  flex-flow: column;
+  position: relative;
+  width: 508px;
+  height: 680px;
+  padding: 56px;
+  background-image:
+    url('/images/handshape-compressed-better.webp'),
+    radial-gradient(circle at 20% 0, #094141, #073536);
+  background-position:
+    50% 82%,
+    0 0;
+  background-repeat: no-repeat, repeat;
+  background-size: contain, auto;
+  border-radius: 16px;
+}
+
+.cardHalfWidth3 {
+  display: flex;
+  flex-flow: column;
+  position: relative;
+  width: 508px;
+  height: 680px;
+  padding: 56px;
+  background-image:
+    url('/images/phone-COMPRESSED.png'),
+    radial-gradient(circle at 20% 0, #094141, #073536);
+  background-position:
+    50% 100%,
+    0 0;
+  background-repeat: no-repeat, repeat;
+  background-size: 100%, auto;
+  border-radius: 16px;
+}
+
+.cardHalfWidth4 {
+  display: flex;
+  flex-flow: column;
+  position: relative;
+  width: 508px;
+  height: 680px;
+  padding: 56px;
+  background-image: radial-gradient(
+    circle at 20% 0,
+    var(--bright-teal-500),
+    #4da9a7
+  );
+  border-radius: 16px;
+}
+
+.cardHalfWidthMainText {
+  /* Container for main text in half-width cards */
+}
+
+.cardHalfWidthBottomCard {
+  position: absolute;
+  bottom: 0;
+  width: 476px;
+  min-width: 436px;
+  margin-left: -40px;
+  padding: 40px;
+  background-color: rgba(5, 24, 26, 0.4);
+  border-radius: 8px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.cardHalfWidthBottomCardLight {
+  position: absolute;
+  bottom: 0;
+  width: 476px;
+  min-width: 436px;
+  margin-left: -40px;
+  padding: 40px;
+  background-color: rgba(5, 24, 26, 0.2);
+  border-radius: 8px;
+}
+
+/* Third-width cards */
+.cardThirdWidth1 {
+  display: flex;
+  flex-flow: column;
+  position: relative;
+  width: 325px;
+  height: 510px;
+  padding: 40px;
+  background-image: url('/images/advising-call-EDITED.webp');
+  background-position: 50% 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 16px;
+}
+
+.cardThirdWidth2 {
+  display: flex;
+  flex-flow: column;
+  position: relative;
+  width: 325px;
+  height: 510px;
+  padding: 40px 40px 0;
+  background-image: radial-gradient(
+    circle at 20% 0,
+    var(--bright-teal-500),
+    #4da9a7
+  );
+  border-radius: 16px;
+}
+
+.cardThirdWidth3 {
+  display: flex;
+  flex-flow: column;
+  position: relative;
+  width: 325px;
+  height: 510px;
+  padding: 40px;
+  background-image:
+    url('/images/hands-COMPRESSED.webp'),
+    radial-gradient(circle at 20% 0, #094141, #073536);
+  background-position:
+    100% 89%,
+    0 0;
+  background-repeat: no-repeat, repeat;
+  background-size: 88%, auto;
+  border-radius: 16px;
+}
+
+.cardThirdWidthBottomCard {
+  position: relative;
+  min-width: 293px;
+  margin-left: -24px;
+  padding: 32px 32px 34px;
+  background-color: rgba(5, 24, 26, 0.2);
+  border-radius: 8px;
+}
+
+/* Card utilities */
+.bookmark {
+  position: absolute;
+  top: 0;
+  right: 24px;
+}
+
+.date {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+}
+
+.dateAlt {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+}
+
+.iconHomepage {
+  width: 56px;
+  height: 56px;
+  border-radius: 4px;
+}
+
+/* AISafety.info section */
+.aisafetyInfo {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 56px;
+  border: 1px solid var(--bright-teal-500);
+  border-radius: 16px;
+  gap: 313px;
+}
+
+/* ===============================
+   MEDIA QUERIES
+   =============================== */
+
+@media (max-width: 991px) {
+  .cardsGrid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .cardFullWidth,
+  .cardFullWidth3 {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 40px;
+  }
+
+  .cardFullWidth2LeftCard {
+    width: auto;
+    min-width: auto;
+    height: auto;
+    padding: 32px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 0;
+  }
+
+  .aisafetyInfo {
+    flex-direction: column;
+    gap: 24px;
+    padding: 40px;
+    text-align: center;
+  }
+}
