@@ -30,8 +30,8 @@ export default function RootLayout({
             loading="lazy"
             src="/images/bg.svg"
             alt="Background pattern"
-            width={1600}
-            height={600}
+            width={2028}
+            height={944}
           />
         </div>
         <Navigation />
