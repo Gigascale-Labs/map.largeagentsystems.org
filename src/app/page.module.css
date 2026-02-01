@@ -26,11 +26,6 @@
 }
 
 /* Full-width cards */
-.card-full-width,
-.card-full-width-2,
-.card-full-width-3 {
-  margin: 40px 0;
-}
 
 .card-full-width {
   display: flex;
@@ -42,6 +37,19 @@
   background-size: cover;
   border-radius: 16px;
   gap: 64px;
+}
+
+.card-full-width-right-card {
+  position: relative;
+  width: 436px;
+  min-width: 436px;
+  height: 343px;
+  margin: -40px -40px 16px 0;
+  padding: 40px;
+  background-color: rgba(5, 24, 26, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 8px;
 }
 
 .card-full-width-2 {
@@ -71,16 +79,6 @@
   gap: 64px;
 }
 
-.card-full-width-right-card {
-  position: relative;
-  width: 436px;
-  min-width: 436px;
-  margin: -40px -40px 16px 0;
-  padding: 40px;
-  background-color: rgba(5, 24, 26, 0.4);
-  border-radius: 8px;
-}
-
 .card-full-width-2-left-card {
   display: block;
   width: 460px;
@@ -88,6 +86,8 @@
   height: 375px;
   padding: 56px;
   background-color: rgba(5, 24, 26, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-radius: 16px 0 0 16px;
 }
 
@@ -98,6 +98,8 @@
   margin: -40px -40px 16px 0;
   padding: 40px;
   background-color: rgba(5, 24, 26, 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-radius: 8px;
 }
 

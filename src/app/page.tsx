@@ -50,16 +50,14 @@ export default function Home() {
             format="relative"
           />
         </div>
-        <div
-          className={`${styles['card-full-width-right-card']} backdrop-blur-md`}
-        >
+        <div className={styles['card-full-width-right-card']}>
           <Image
             loading="lazy"
             src="/images/bookmark-light.svg"
             alt=""
             className={styles.bookmark}
             width={24}
-            height={24}
+            height={36}
           />
           <h3 className="shadow-text padding-bottom-8px">EAGxAmsterdam 2025</h3>
           <p className="paragraph-small-bold shadow-text padding-bottom-16px">
