@@ -75,3 +75,20 @@
   background-color: var(--teal-850);
   box-shadow: 0 12px 24px rgba(0, 25, 27, 0.5);
 }
+
+.navSticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  backdrop-filter: blur(100px);
+  transition: transform 0.3s ease-in-out;
+}
+
+.visible {
+  transform: translateY(0);
+}
+
+.hidden {
+  transform: translateY(-100%);
+}
