@@ -52,3 +52,20 @@
   border-radius: 16px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
+
+.navSticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  backdrop-filter: blur(100px);
+  transition: transform 0.3s ease-in-out;
+}
+
+.visible {
+  transform: translateY(0);
+}
+
+.hidden {
+  transform: translateY(-100%);
+}
