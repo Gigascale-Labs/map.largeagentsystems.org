@@ -8,28 +8,7 @@
   padding: 24px 40px;
   position: relative;
 }
-
-.navContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.brand {
-  flex: none;
-  position: relative;
-  text-decoration: none;
-  padding-right: 24px;
-}
-
-.navMenu {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 8px;
-}
-
-.navItem {
+.nav-item {
   display: flex !important;
   justify-content: flex-start;
   align-items: center;
@@ -44,23 +23,7 @@
   transition: all 0.1s ease;
 }
 
-.navItem:hover {
-  background-color: var(--teal-850);
-  box-shadow: 0 12px 24px rgba(0, 25, 27, 0.5);
-}
-
-.navItemIcon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 32px;
-  height: 32px;
-  background-color: var(--white);
-  border-radius: 16px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.navItemLast {
+.nav-item-last {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -69,11 +32,25 @@
   padding: 0 16px;
   border: 1px solid rgba(166, 218, 217, 0.3);
   border-radius: 20px;
+  transition: all 0.1s ease;
 }
 
-.navItemLast:hover {
+.nav-item:hover,
+.nav-item-last:hover {
   background-color: var(--teal-850);
   box-shadow: 0 12px 24px rgba(0, 25, 27, 0.5);
+  cursor: pointer;
+}
+
+.nav-item-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .navSticky {

@@ -23,7 +23,7 @@ export default function UpButton() {
 
   return (
     <button
-      className={styles.upButton}
+      className={styles['up-button']}
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       aria-label="Scroll to top"
     >

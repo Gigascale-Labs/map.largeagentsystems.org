@@ -21,7 +21,7 @@ export default function Home() {
             loading="lazy"
             alt="Community thumbnails"
             src="/images/thumbnails.png"
-            className="padding-bottom-12px"
+            className="margin-bottom-12px"
           />
           <p className="paragraph-xs">
             Maintained by AI safety community-builders
@@ -29,7 +29,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={`${styles.cardFullWidth} margin-bottom-40px`}>
+      <div className={`${styles['card-full-width']} margin-bottom-40px`}>
         <div>
           <p className="paragraph-small-bold shadow-text padding-bottom-12px">
             Attend an event or training program
@@ -50,14 +50,14 @@ export default function Home() {
             format="relative"
           />
         </div>
-        <div className={`${styles.cardFullWidthRightCard} backdrop-blur-md`}>
+        <div className={styles['card-full-width-right-card']}>
           <Image
             loading="lazy"
             src="/images/bookmark-light.svg"
             alt=""
             className={styles.bookmark}
             width={24}
-            height={24}
+            height={36}
           />
           <h3 className="shadow-text padding-bottom-8px">EAGxAmsterdam 2025</h3>
           <p className="paragraph-small-bold shadow-text padding-bottom-16px">
@@ -78,8 +78,10 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={`${styles.cardFullWidth2} margin-bottom-40px`}>
-        <div className={`${styles.cardFullWidth2LeftCard} backdrop-blur-md`}>
+      <div className={`${styles['card-full-width-2']} margin-bottom-40px`}>
+        <div
+          className={`${styles['card-full-width-2-left-card']} backdrop-blur-md`}
+        >
           <p className="paragraph-small-bold shadow-text padding-bottom-12px">
             Explore the ecosystem
           </p>
@@ -99,7 +101,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={`${styles.cardFullWidth3} margin-bottom-40px`}>
+      <div className={`${styles['card-full-width-3']} margin-bottom-40px`}>
         <div>
           <p className="paragraph-small-bold padding-bottom-12px">
             Join a community
@@ -121,7 +123,7 @@ export default function Home() {
             Updated 3 days ago
           </p>
         </div>
-        <div className={styles.cardFullWidthRightCardLight}>
+        <div className={styles['card-full-width-right-card-light']}>
           <Image
             loading="lazy"
             src="/images/bookmark-dark.svg"
@@ -138,7 +140,7 @@ export default function Home() {
               loading="lazy"
               src="/images/1-1-2.png"
               alt=""
-              className={styles.iconHomepage}
+              className={styles['icon-homepage']}
               width={56}
               height={56}
             />
@@ -159,9 +161,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={`${styles.cardsGrid} margin-bottom-40px`}>
-        <div className={styles.cardHalfWidth1}>
-          <div className={styles.cardHalfWidthMainText}>
+      <div className={`${styles['cards-grid']} margin-bottom-40px`}>
+        <div className={styles['card-half-width-1']}>
+          <div className={styles['card-half-width-main-text']}>
             <p className="paragraph-small-bold padding-bottom-12px shadow-text">
               Learn
             </p>
@@ -173,13 +175,15 @@ export default function Home() {
               View all self-study options
             </Link>
             <p
-              className={`${styles.dateAlt} paragraph-xs`}
+              className={`${styles['date-alt']} paragraph-xs`}
               data-source-page="/self-study"
             >
               Updated 2 days ago
             </p>
           </div>
-          <div className={`${styles.cardHalfWidthBottomCard} backdrop-blur-md`}>
+          <div
+            className={`${styles['card-half-width-bottom-card']} backdrop-blur-md`}
+          >
             <Image
               loading="lazy"
               src="/images/bookmark-light.svg"
@@ -218,8 +222,8 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.cardHalfWidth2}>
-          <div className={styles.cardHalfWidthMainText}>
+        <div className={styles['card-half-width-2']}>
+          <div className={styles['card-half-width-main-text']}>
             <p className="paragraph-small-bold padding-bottom-12px opacity-80">
               Find a job
             </p>
@@ -230,7 +234,7 @@ export default function Home() {
               View all jobs
             </Link>
             <p
-              className={`${styles.dateAlt} paragraph-xs opacity-80`}
+              className={`${styles['date-alt']} paragraph-xs opacity-80`}
               data-source-page="/jobs"
             >
               Updated 1 day ago
@@ -238,8 +242,8 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.cardHalfWidth3}>
-          <div className={styles.cardHalfWidthMainText}>
+        <div className={styles['card-half-width-3']}>
+          <div className={styles['card-half-width-main-text']}>
             <p className="paragraph-small-bold padding-bottom-12px opacity-80">
               Stay informed
             </p>
@@ -251,7 +255,7 @@ export default function Home() {
               View all media channels
             </Link>
             <p
-              className={`${styles.dateAlt} paragraph-xs opacity-80`}
+              className={`${styles['date-alt']} paragraph-xs opacity-80`}
               data-source-page="/media-channels"
             >
               Updated 6 days ago
@@ -259,8 +263,8 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.cardHalfWidth4}>
-          <div className={styles.cardHalfWidthMainText}>
+        <div className={styles['card-half-width-4']}>
+          <div className={styles['card-half-width-main-text']}>
             <p className="paragraph-small-bold padding-bottom-12px">
               Get funding
             </p>
@@ -271,13 +275,13 @@ export default function Home() {
               View all funders
             </Link>
             <p
-              className={`${styles.dateAlt} paragraph-xs`}
+              className={`${styles['date-alt']} paragraph-xs`}
               data-source-page="/funders"
             >
               Updated 3 days ago
             </p>
           </div>
-          <div className={styles.cardHalfWidthBottomCardLight}>
+          <div className={styles['card-half-width-bottom-card-light']}>
             <Image
               loading="lazy"
               src="/images/bookmark-dark.svg"
@@ -294,7 +298,7 @@ export default function Home() {
                 loading="lazy"
                 src="/images/1-22-1.png"
                 alt=""
-                className={styles.iconHomepage}
+                className={styles['icon-homepage']}
                 width={32}
                 height={32}
               />
@@ -316,9 +320,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={`${styles.cardsGridThreeCol} padding-bottom-104px`}>
-        <div className={styles.cardThirdWidth1}>
-          <div className={styles.cardHalfWidthMainText}>
+      <div className={`${styles['cards-grid-three-col']} padding-bottom-104px`}>
+        <div className={styles['card-third-width-1']}>
+          <div className={styles['card-half-width-main-text']}>
             <p className="paragraph-small-bold padding-bottom-8px-3 shadow-text">
               Speak to an advisor
             </p>
@@ -330,7 +334,7 @@ export default function Home() {
               View all advisors
             </Link>
             <p
-              className={`${styles.dateAlt} paragraph-xs shadow-text`}
+              className={`${styles['date-alt']} paragraph-xs shadow-text`}
               data-source-page="/advisors"
             >
               Updated 4 days ago
@@ -338,8 +342,8 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.cardThirdWidth2}>
-          <div className={styles.cardHalfWidthMainText}>
+        <div className={styles['card-third-width-2']}>
+          <div className={styles['card-half-width-main-text']}>
             <p className="paragraph-small-bold padding-bottom-8px">
               Volunteer projects
             </p>
@@ -350,13 +354,13 @@ export default function Home() {
               View all projects
             </Link>
             <p
-              className={`${styles.dateAlt} paragraph-xs`}
+              className={`${styles['date-alt']} paragraph-xs`}
               data-source-page="/projects"
             >
               Updated 2 days ago
             </p>
           </div>
-          <div className={styles.cardThirdWidthBottomCard}>
+          <div className={styles['card-third-width-bottom-card']}>
             <Image
               loading="lazy"
               src="/images/bookmark-dark-small.svg"
@@ -384,8 +388,8 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.cardThirdWidth3}>
-          <div className={styles.cardHalfWidthMainText}>
+        <div className={styles['card-third-width-3']}>
+          <div className={styles['card-half-width-main-text']}>
             <p className="paragraph-small-bold padding-bottom-8px-3 opacity-80">
               Donate
             </p>
@@ -396,7 +400,7 @@ export default function Home() {
               View guide
             </Link>
             <p
-              className={`${styles.dateAlt} paragraph-xs opacity-80`}
+              className={`${styles['date-alt']} paragraph-xs opacity-80`}
               data-source-page="/donation-guide"
             >
               Updated 1 week ago
@@ -405,7 +409,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={styles.aisafetyInfo}>
+      <div className={styles['aisafety-info']}>
         <div>
           <p className="color-teal paragraph-small-bold padding-bottom-12px">
             Visit AISafety.info

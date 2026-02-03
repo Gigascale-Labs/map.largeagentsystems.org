@@ -374,28 +374,28 @@ export default function D3Map({ orgs }: D3MapProps) {
 
   return (
     <>
-      <div ref={containerRef} className={styles.mapContainer} />
+      <div ref={containerRef} className={styles['map-container']} />
 
       {/* Zoom controls - positioned relative to mapWrapper, not the SVG */}
-      <div className={styles.mapControls}>
-        <div className={styles.mapControlGroup}>
+      <div className={styles['map-controls']}>
+        <div className={styles['map-control-group']}>
           <button
             id="zoom-in"
-            className={styles.mapControlButton}
+            className={styles['map-control-button']}
             title="Zoom in"
           >
             <span>+</span>
           </button>
           <button
             id="zoom-out"
-            className={styles.mapControlButton}
+            className={styles['map-control-button']}
             title="Zoom out"
           >
             <span>−</span>
           </button>
           <button
             id="recenter"
-            className={styles.mapControlButton}
+            className={styles['map-control-button']}
             title="Reset view"
           >
             <svg
@@ -414,7 +414,7 @@ export default function D3Map({ orgs }: D3MapProps) {
       {/* Tooltip */}
       {tooltip.visible && (
         <div
-          className={styles.mapTooltip}
+          className={styles['map-tooltip']}
           style={{
             left: tooltip.x,
             top: tooltip.y,

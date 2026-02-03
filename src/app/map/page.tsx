@@ -10,7 +10,7 @@ const D3Map = dynamic(() => import('./D3Map'), {
   ssr: false,
   loading: () => (
     <div
-      className={styles.mapContainer}
+      className={styles['map-container']}
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -190,9 +190,9 @@ export default function MapPage() {
     <>
       {/* D3 Interactive Map - full width, outside container-default */}
       <div className="padding-bottom-24px">
-        <div ref={mapWrapperRef} className={styles.mapWrapper}>
+        <div ref={mapWrapperRef} className={styles['map-wrapper']}>
           {!loading && <D3Map orgs={mapOrgs} />}
-          <button onClick={scrollToCards} className={styles.scrollButton}>
+          <button onClick={scrollToCards} className={styles['scroll-button']}>
             View cards
             <Image src="/images/arrow-down.svg" alt="" width={16} height={16} />
           </button>
@@ -212,7 +212,7 @@ export default function MapPage() {
         </h2>
 
         {/* Cards section */}
-        <div className={styles.databaseOuterGrid}>
+        <div className={styles['database-outer-grid']}>
           {/* Left column: search + cards */}
           <div>
             <div className="padding-bottom-40px">
@@ -236,7 +236,9 @@ export default function MapPage() {
                 <p className="paragraph-small color-teal-300">Error: {error}</p>
               </div>
             ) : (
-              <div className={`${styles.collectionList} padding-bottom-40px`}>
+              <div
+                className={`${styles['collection-list']} padding-bottom-40px`}
+              >
                 {filteredOrgs.map(org => (
                   <a
                     key={org.id}
@@ -246,12 +248,12 @@ export default function MapPage() {
                     className={styles.card}
                   >
                     <div className="flex items-center gap-16px padding-bottom-24px">
-                      <div className={styles.featuredImg}>
+                      <div className={styles['featured-img']}>
                         {org.logo && (
                           <Image
                             src={org.logo}
                             alt=""
-                            className={styles.cardImage}
+                            className={styles['card-image']}
                             width={64}
                             height={64}
                             unoptimized
@@ -339,7 +341,7 @@ export default function MapPage() {
             </div>
 
             {/* Contribute buttons */}
-            <div className={styles.contributeButtons}>
+            <div className={styles['contribute-buttons']}>
               <a
                 href={suggestEntryLink}
                 target={suggestEntryLink.startsWith('/') ? undefined : '_blank'}
@@ -352,7 +354,7 @@ export default function MapPage() {
                 <p className="paragraph-default-bold padding-bottom-8px">
                   Suggest entry <span className="color-teal-300">→</span>
                 </p>
-                <p className={styles.sideButton}>
+                <p className={styles['side-button']}>
                   Suggest something to be listed on the map
                 </p>
               </a>
@@ -364,7 +366,7 @@ export default function MapPage() {
                 <p className="paragraph-default-bold padding-bottom-8px">
                   Suggest correction <span className="color-teal-300">→</span>
                 </p>
-                <p className={styles.sideButton}>
+                <p className={styles['side-button']}>
                   Let us know of changes to something listed here
                 </p>
               </a>
@@ -376,7 +378,7 @@ export default function MapPage() {
                 <p className="paragraph-default-bold padding-bottom-8px">
                   View raw data <span className="color-teal-300">→</span>
                 </p>
-                <p className={styles.sideButton}>
+                <p className={styles['side-button']}>
                   See the database in Airtable
                 </p>
               </a>

@@ -49,11 +49,9 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [lastScrollY, isVisible])
   return (
-    <div
-      className={`${styles.nav} ${styles.navSticky} ${isVisible ? styles.visible : styles.hidden}`}
-    >
-      <div className={styles.navContainer}>
-        <Link href="/" className={styles.brand}>
+    <div className={`${styles.nav} ${styles.navSticky} ${isVisible ? styles.visible : styles.hidden}`}>
+      <div className="flex justify-between items-center">
+        <Link href="/" className="padding-right-24px">
           <Image
             src="/images/logo.svg"
             alt="AI Safety logo"
@@ -63,10 +61,14 @@ export default function Navigation() {
           />
         </Link>
 
-        <nav className={styles.navMenu}>
+        <nav className="flex justify-start items-center gap-8px">
           {navItems.map(item => (
-            <Link key={item.href} href={item.href} className={styles.navItem}>
-              <div className={styles.navItemIcon}>
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`${styles['nav-item']}`}
+            >
+              <div className={`${styles['nav-item-icon']}`}>
                 <Image
                   width={16}
                   height={16}
@@ -79,7 +81,7 @@ export default function Navigation() {
             </Link>
           ))}
 
-          <div className={styles.navItemLast}>
+          <div className={`${styles['nav-item-last']}`}>
             <p className="paragraph-small-bold">+4</p>
           </div>
         </nav>

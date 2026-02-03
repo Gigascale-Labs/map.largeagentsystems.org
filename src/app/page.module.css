@@ -1,38 +1,33 @@
 /* Homepage Card Styles */
 
-.cardsGrid {
+.cards-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 40px;
 }
 
-.cardsGridThreeCol {
+.cards-grid-three-col {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 40px;
 }
 
-.cardsGrid .cardHalfWidth1,
-.cardsGrid .cardHalfWidth2,
-.cardsGrid .cardHalfWidth3,
-.cardsGrid .cardHalfWidth4 {
+.cards-grid .card-half-width-1,
+.cards-grid .card-half-width-2,
+.cards-grid .card-half-width-3,
+.cards-grid .card-half-width-4 {
   width: 100%;
 }
 
-.cardsGridThreeCol .cardThirdWidth1,
-.cardsGridThreeCol .cardThirdWidth2,
-.cardsGridThreeCol .cardThirdWidth3 {
+.cards-grid-three-col .card-third-width-1,
+.cards-grid-three-col .card-third-width-2,
+.cards-grid-three-col .card-third-width-3 {
   width: 100%;
 }
 
 /* Full-width cards */
-.cardFullWidth,
-.cardFullWidth2,
-.cardFullWidth3 {
-  margin: 40px 0;
-}
 
-.cardFullWidth {
+.card-full-width {
   display: flex;
   position: relative;
   height: 375px;
@@ -44,7 +39,20 @@
   gap: 64px;
 }
 
-.cardFullWidth2 {
+.card-full-width-right-card {
+  position: relative;
+  width: 436px;
+  min-width: 436px;
+  height: 343px;
+  margin: -40px -40px 16px 0;
+  padding: 40px;
+  background-color: rgba(5, 24, 26, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 8px;
+}
+
+.card-full-width-2 {
   position: relative;
   height: 375px;
   background-image: url('/images/map-1.png');
@@ -55,7 +63,7 @@
   overflow: hidden;
 }
 
-.cardFullWidth3 {
+.card-full-width-3 {
   display: flex;
   position: relative;
   height: 375px;
@@ -71,38 +79,32 @@
   gap: 64px;
 }
 
-.cardFullWidthRightCard {
-  position: relative;
-  width: 436px;
-  min-width: 436px;
-  margin: -40px -40px 16px 0;
-  padding: 40px;
-  background-color: rgba(5, 24, 26, 0.4);
-  border-radius: 8px;
-}
-
-.cardFullWidth2LeftCard {
+.card-full-width-2-left-card {
   display: block;
   width: 460px;
   min-width: 460px;
   height: 375px;
   padding: 56px;
   background-color: rgba(5, 24, 26, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-radius: 16px 0 0 16px;
 }
 
-.cardFullWidthRightCardLight {
+.card-full-width-right-card-light {
   position: relative;
   width: 436px;
   min-width: 436px;
   margin: -40px -40px 16px 0;
   padding: 40px;
   background-color: rgba(5, 24, 26, 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-radius: 8px;
 }
 
 /* Half-width cards */
-.cardHalfWidth1 {
+.card-half-width-1 {
   display: flex;
   flex-flow: column;
   position: relative;
@@ -116,7 +118,7 @@
   border-radius: 16px;
 }
 
-.cardHalfWidth2 {
+.card-half-width-2 {
   display: flex;
   flex-flow: column;
   position: relative;
@@ -134,7 +136,7 @@
   border-radius: 16px;
 }
 
-.cardHalfWidth3 {
+.card-half-width-3 {
   display: flex;
   flex-flow: column;
   position: relative;
@@ -152,7 +154,7 @@
   border-radius: 16px;
 }
 
-.cardHalfWidth4 {
+.card-half-width-4 {
   display: flex;
   flex-flow: column;
   position: relative;
@@ -167,11 +169,12 @@
   border-radius: 16px;
 }
 
-.cardHalfWidthMainText {
+.card-half-width-main-text {
   /* Container for main text in half-width cards */
+  display: contents;
 }
 
-.cardHalfWidthBottomCard {
+.card-half-width-bottom-card {
   position: absolute;
   bottom: 0;
   width: 476px;
@@ -184,7 +187,7 @@
   -webkit-backdrop-filter: blur(16px);
 }
 
-.cardHalfWidthBottomCardLight {
+.card-half-width-bottom-card-light {
   position: absolute;
   bottom: 0;
   width: 476px;
@@ -196,7 +199,7 @@
 }
 
 /* Third-width cards */
-.cardThirdWidth1 {
+.card-third-width-1 {
   display: flex;
   flex-flow: column;
   position: relative;
@@ -210,7 +213,7 @@
   border-radius: 16px;
 }
 
-.cardThirdWidth2 {
+.card-third-width-2 {
   display: flex;
   flex-flow: column;
   position: relative;
@@ -225,7 +228,7 @@
   border-radius: 16px;
 }
 
-.cardThirdWidth3 {
+.card-third-width-3 {
   display: flex;
   flex-flow: column;
   position: relative;
@@ -243,7 +246,7 @@
   border-radius: 16px;
 }
 
-.cardThirdWidthBottomCard {
+.card-third-width-bottom-card {
   position: relative;
   min-width: 293px;
   margin-left: -24px;
@@ -265,20 +268,20 @@
   left: 16px;
 }
 
-.dateAlt {
+.date-alt {
   position: absolute;
   top: 12px;
   right: 16px;
 }
 
-.iconHomepage {
+.icon-homepage {
   width: 56px;
   height: 56px;
   border-radius: 4px;
 }
 
 /* AISafety.info section */
-.aisafetyInfo {
+.aisafety-info {
   display: flex;
   align-items: center;
   position: relative;
@@ -293,19 +296,19 @@
    =============================== */
 
 @media (max-width: 991px) {
-  .cardsGrid {
+  .cards-grid {
     grid-template-columns: 1fr;
     gap: 24px;
   }
 
-  .cardFullWidth,
-  .cardFullWidth3 {
+  .card-full-width,
+  .card-full-width-3 {
     grid-template-columns: 1fr;
     gap: 32px;
     padding: 40px;
   }
 
-  .cardFullWidth2LeftCard {
+  .card-full-width-2-left-card {
     width: auto;
     min-width: auto;
     height: auto;
@@ -314,7 +317,7 @@
     border-bottom-left-radius: 0;
   }
 
-  .aisafetyInfo {
+  .aisafety-info {
     flex-direction: column;
     gap: 24px;
     padding: 40px;
