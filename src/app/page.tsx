@@ -223,6 +223,12 @@ export default function Home() {
         </div>
 
         <div className={styles['card-half-width-2']}>
+          <p
+            className={`${styles['date-alt']} paragraph-xs opacity-80`}
+            data-source-page="/jobs"
+          >
+            Updated 1 day ago
+          </p>
           <p className="paragraph-small-bold padding-bottom-12px opacity-80">
             Find a job
           </p>

@@ -109,7 +109,7 @@
   display: flex;
   flex-flow: column;
   position: relative;
-  min-height: 680px;
+  height: 680px;
   padding: 56px;
   background-image: url('/images/keyboard.png');
   background-position: 50% 100%;
@@ -140,7 +140,7 @@
   display: flex;
   flex-flow: column;
   position: relative;
-  min-height: 680px;
+  height: 680px;
   padding: 56px;
   background-image:
     url('/images/phone-COMPRESSED.png'),
@@ -157,7 +157,7 @@
   display: flex;
   flex-flow: column;
   position: relative;
-  min-height: 680px;
+  height: 680px;
   padding: 56px;
   background-image: radial-gradient(
     circle at 20% 0,
@@ -199,7 +199,7 @@
   display: flex;
   flex-flow: column;
   position: relative;
-  min-height: 510px;
+  height: 510px;
   padding: 40px;
   background-image: url('/images/advising-call-EDITED.webp');
   background-position: 50% 100%;
@@ -212,7 +212,7 @@
   display: flex;
   flex-flow: column;
   position: relative;
-  min-height: 510px;
+  height: 510px;
   padding: 40px 40px 0;
   background-image: radial-gradient(
     circle at 20% 0,
@@ -226,7 +226,7 @@
   display: flex;
   flex-flow: column;
   position: relative;
-  min-height: 510px;
+  height: 510px;
   padding: 40px;
   background-image:
     url('/images/hands-COMPRESSED.webp'),
