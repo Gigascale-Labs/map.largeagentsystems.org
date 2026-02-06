@@ -95,6 +95,10 @@ html {
 
 body {
   background-color: var(--teal-900);
+  background-image: url('/images/bg.svg');
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: 2028px 944px;
   color: var(--white);
   letter-spacing: -0.45px;
   font-family: var(--font-inter), Inter, sans-serif;
@@ -190,7 +194,7 @@ label {
   color: var(--teal-400);
 }
 .color-teal {
-  color: var(--bright-teal-300);
+  color: var(--bright-teal-500);
 }
 .color-light-teal {
   color: var(--bright-teal-300);
@@ -808,45 +812,83 @@ label {
    12. LAYOUT COMPONENTS
    =============================== */
 
-.hero-bg {
-  z-index: -1;
-  position: absolute;
-  inset: 0% 0% auto 50%;
-  transform: translateX(-50%);
-  width: 2028px;
-  height: 944px;
-}
-
 /* ===============================
    13. MEDIA QUERIES
    =============================== */
 
 /* tablet and smaller */
 @media (max-width: 991px) {
-  .hero-bg {
-    position: absolute !important;
-    top: 0 !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    width: 100% !important;
-    min-width: 100vw !important;
-    max-width: 100vw !important;
-    height: 100% !important;
-    min-height: 100% !important;
+  body {
+    background-size: cover;
+    letter-spacing: -0.3px;
+    font-size: 15px;
+    line-height: 165%;
   }
 
-  .hero-bg img {
-    display: block !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    object-position: center !important;
+  h1 {
+    letter-spacing: -3.36px;
+    font-size: 56px;
+    line-height: 120%;
   }
 
-  /* Hero section: stack on tablet */
-  .flex.items-start.gap-40px {
-    flex-direction: column;
-    gap: 24px;
+  h2 {
+    letter-spacing: -0.96px;
+    font-size: 24px;
+    line-height: 125%;
+  }
+
+  h3 {
+    letter-spacing: -0.8px;
+    font-size: 20px;
+    line-height: 130%;
+  }
+
+  .paragraph-xs {
+    font-size: 11px;
+    line-height: 170%;
+  }
+
+  .paragraph-xs-bold {
+    font-size: 11px;
+    line-height: 170%;
+  }
+
+  .paragraph-small {
+    letter-spacing: -0.2px;
+    font-size: 13px;
+    line-height: 167.5%;
+  }
+
+  .paragraph-small-bold {
+    letter-spacing: -0.2px;
+    font-size: 13px;
+    line-height: 167.5%;
+  }
+
+  .button-primary {
+    letter-spacing: -0.2px;
+    height: 40px;
+    padding-left: 16px;
+    padding-right: 16px;
+    font-size: 13px;
+    line-height: 167.5%;
+  }
+
+  .button-secondary {
+    letter-spacing: -0.2px;
+    height: 40px;
+    padding-left: 16px;
+    padding-right: 16px;
+    font-size: 13px;
+    line-height: 167.5%;
+  }
+
+  /* Add horizontal margins for tablet */
+  .container-default,
+  .container-narrow,
+  .container-wide {
+    padding-left: 24px;
+    padding-right: 24px;
   }
 
   /* All column widths become full width on tablet and smaller */
@@ -863,6 +905,17 @@ label {
   .width-11-col,
   .width-12-col {
     width: 100%;
+  }
+
+  /* Global flex behavior: stack vertically on mobile */
+  .flex {
+    flex-direction: column;
+  }
+
+  /* Global grid behavior: single column on mobile */
+  [class*='grid'],
+  .grid {
+    grid-template-columns: 1fr;
   }
 
   /* Most padding and margin classes are approximately half (or a little less) their pixel value on tablet and smaller  */

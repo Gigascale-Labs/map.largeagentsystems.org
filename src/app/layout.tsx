@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Image from 'next/image'
 import './globals.css'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
@@ -24,16 +23,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased`}>
-        {/* Background */}
-        <div className="hero-bg">
-          <Image
-            loading="lazy"
-            src="/images/bg.svg"
-            alt="Background pattern"
-            width={2028}
-            height={944}
-          />
-        </div>
         <Navigation />
         {children}
         <Footer />

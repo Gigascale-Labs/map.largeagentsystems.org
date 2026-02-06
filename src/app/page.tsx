@@ -29,7 +29,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={`${styles['card-full-width']} margin-bottom-40px`}>
+      <div className={`${styles['card-full-width-1']} margin-bottom-40px`}>
         <div>
           <p className="paragraph-small-bold shadow-text padding-bottom-12px">
             Attend an event or training program
@@ -50,14 +50,14 @@ export default function Home() {
             format="relative"
           />
         </div>
-        <div className={styles['card-full-width-right-card']}>
+        <div className={styles['card-full-width-1-right-card']}>
           <Image
             loading="lazy"
             src="/images/bookmark-light.svg"
             alt=""
             className={styles.bookmark}
             width={24}
-            height={36}
+            height={32}
           />
           <h3 className="shadow-text padding-bottom-8px">EAGxAmsterdam 2025</h3>
           <p className="paragraph-small-bold shadow-text padding-bottom-16px">
@@ -123,19 +123,19 @@ export default function Home() {
             Updated 3 days ago
           </p>
         </div>
-        <div className={styles['card-full-width-right-card-light']}>
+        <div className={styles['card-full-width-3-right-card-light']}>
           <Image
             loading="lazy"
             src="/images/bookmark-dark.svg"
             alt=""
             className={styles.bookmark}
             width={24}
-            height={24}
+            height={32}
           />
           <p className="paragraph-small-bold padding-bottom-12px">
             Largest real-time community
           </p>
-          <div className="flex items-center gap-8px padding-bottom-24px">
+          <div className={`${styles['icon-row']} padding-bottom-24px`}>
             <Image
               loading="lazy"
               src="/images/1-1-2.png"
@@ -167,7 +167,7 @@ export default function Home() {
             <p className="paragraph-small-bold padding-bottom-12px shadow-text">
               Learn
             </p>
-            <h2 className="padding-bottom-40px shadow-text">
+            <h2 className="width-4-col padding-bottom-40px shadow-text">
               Self-study courses and curated study guides to deepen your
               expertise
             </h2>
@@ -190,12 +190,12 @@ export default function Home() {
               alt=""
               className={styles.bookmark}
               width={24}
-              height={24}
+              height={32}
             />
             <p className="paragraph-small-bold padding-bottom-12px">
               Standard intro course
             </p>
-            <div className="flex items-center gap-8px padding-bottom-24px">
+            <div className={`${styles['icon-row']} padding-bottom-24px`}>
               <Image
                 loading="lazy"
                 src="/images/download-2-1.svg"
@@ -223,23 +223,21 @@ export default function Home() {
         </div>
 
         <div className={styles['card-half-width-2']}>
-          <div className={styles['card-half-width-main-text']}>
-            <p className="paragraph-small-bold padding-bottom-12px opacity-80">
-              Find a job
-            </p>
-            <h2 className="padding-bottom-40px">
-              Open positions in research, policy, operations, and more
-            </h2>
-            <Link href="/jobs" className="button-primary drop-shadow">
-              View all jobs
-            </Link>
-            <p
-              className={`${styles['date-alt']} paragraph-xs opacity-80`}
-              data-source-page="/jobs"
-            >
-              Updated 1 day ago
-            </p>
-          </div>
+          <p className="paragraph-small-bold padding-bottom-12px opacity-80">
+            Find a job
+          </p>
+          <h2 className="width-4-col padding-bottom-40px">
+            Open positions in research, policy, operations, and more
+          </h2>
+          <Link href="/jobs" className="button-primary drop-shadow">
+            View all jobs
+          </Link>
+          <p
+            className={`${styles['date-alt']} paragraph-xs opacity-80`}
+            data-source-page="/jobs"
+          >
+            Updated 1 day ago
+          </p>
         </div>
 
         <div className={styles['card-half-width-3']}>
@@ -247,7 +245,7 @@ export default function Home() {
             <p className="paragraph-small-bold padding-bottom-12px opacity-80">
               Stay informed
             </p>
-            <h2 className="padding-bottom-40px">
+            <h2 className="width-4-col padding-bottom-40px">
               Podcasts, newsletters, and more to keep you up to date in AI
               safety
             </h2>
@@ -268,7 +266,7 @@ export default function Home() {
             <p className="paragraph-small-bold padding-bottom-12px">
               Get funding
             </p>
-            <h2 className="padding-bottom-40px">
+            <h2 className="width-4-col padding-bottom-40px">
               Organizations offering financial support to AI safety projects
             </h2>
             <Link href="/funding" className="button-primary drop-shadow-light">
@@ -288,12 +286,12 @@ export default function Home() {
               alt=""
               className={styles.bookmark}
               width={24}
-              height={24}
+              height={32}
             />
             <p className="paragraph-small-bold padding-bottom-12px">
               Best for medium to large projects
             </p>
-            <div className="flex items-center gap-8px padding-bottom-24px">
+            <div className={`${styles['icon-row']} padding-bottom-24px`}>
               <Image
                 loading="lazy"
                 src="/images/1-22-1.png"
@@ -366,13 +364,13 @@ export default function Home() {
               src="/images/bookmark-dark-small.svg"
               alt=""
               className={styles.bookmark}
-              width={16}
-              height={16}
+              width={24}
+              height={32}
             />
             <p className="paragraph-small-bold padding-bottom-12px">
               Featured project
             </p>
-            <div className="flex items-center gap-8px padding-bottom-24px">
+            <div className={`${styles['icon-row']} padding-bottom-24px`}>
               <h3>AI Safety Feed</h3>
             </div>
             <div className="block">
