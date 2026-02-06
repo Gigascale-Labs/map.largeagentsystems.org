@@ -1,5 +1,9 @@
 /* Navigation Component Styles */
 
+.nav-spacer {
+  height: 88px;
+}
+
 .nav {
   z-index: 2147483647;
   background-color: transparent;
@@ -53,13 +57,17 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.navSticky {
+.nav-fixed {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  backdrop-filter: blur(100px);
   transition: transform 0.3s ease-in-out;
+}
+
+.nav-blur {
+  background-color: rgba(0, 25, 27, 0.4);
+  backdrop-filter: blur(100px);
 }
 
 .visible {
