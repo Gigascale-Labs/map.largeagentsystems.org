@@ -161,7 +161,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={`${styles['cards-grid']} margin-bottom-40px`}>
+      <div className={`${styles['cards-grid-2-col']} margin-bottom-40px`}>
         <div className={styles['card-half-width-1']}>
           <div className={styles['card-half-width-main-text']}>
             <p className="paragraph-small-bold padding-bottom-12px shadow-text">
@@ -324,7 +324,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={`${styles['cards-grid-three-col']} padding-bottom-104px`}>
+      <div className={`${styles['cards-grid-3-col']} padding-bottom-104px`}>
         <div className={styles['card-third-width-1']}>
           <div className={styles['card-half-width-main-text']}>
             <p className="paragraph-small-bold padding-bottom-8px-3 shadow-text">

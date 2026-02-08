@@ -12,8 +12,74 @@
   padding: 24px 40px;
   position: relative;
 }
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-menu {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+}
+
+.menu-button {
+  display: none;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 20px;
+  padding: 8px 16px;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.hamburger {
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+
+.hamburger-bar {
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  height: 1px;
+  background-color: white;
+  border-radius: 1px;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.hamburger-bar:nth-child(1) {
+  top: 6px;
+}
+
+.hamburger-bar:nth-child(2) {
+  top: 11px;
+}
+
+.hamburger-bar:nth-child(3) {
+  top: 16px;
+}
+
+.hamburger-open .hamburger-bar:nth-child(1) {
+  transform: translateY(5px) rotate(45deg);
+}
+
+.hamburger-open .hamburger-bar:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-open .hamburger-bar:nth-child(3) {
+  transform: translateY(-5px) rotate(-45deg);
+}
+
 .nav-item {
-  display: flex !important;
+  display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 8px;
@@ -67,7 +133,7 @@
 
 .nav-blur {
   background-color: rgba(0, 25, 27, 0.4);
-  backdrop-filter: blur(100px);
+  backdrop-filter: blur(16px);
 }
 
 .visible {
@@ -76,4 +142,69 @@
 
 .hidden {
   transform: translateY(-100%);
+}
+
+.mobile-menu {
+  display: none;
+}
+
+@media (max-width: 991px) {
+  .nav {
+    padding: 24px 6.4vw;
+  }
+
+  .nav-menu {
+    display: none;
+  }
+
+  .menu-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(5, 24, 26, 0.8);
+    backdrop-filter: blur(16px);
+    z-index: 2147483647;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.2s ease,
+      visibility 0.2s ease;
+  }
+
+  .mobile-menu-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 6.4vw;
+  }
+
+  .mobile-menu-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 6.4vw;
+    overflow-y: auto;
+  }
+
+  .mobile-menu .nav-item {
+    width: 100%;
+    height: 48px;
+    padding-left: 8px;
+    border-radius: 24px;
+  }
 }

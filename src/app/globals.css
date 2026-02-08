@@ -688,6 +688,7 @@ label {
 .button-primary {
   display: inline-flex;
   align-items: center;
+  width: fit-content;
   gap: 8px;
   height: 48px;
   padding: 0 18px;
@@ -805,7 +806,6 @@ label {
 
 .backdrop-blur {
   backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
 }
 
 /* ===============================

@@ -19,6 +19,23 @@ const navItems = [
   { href: '/funding', label: 'Funding', icon: 'coins.svg', count: 49 },
 ]
 
+const mobileOnlyNavItems = [
+  {
+    href: '/media-channels',
+    label: 'Media channels',
+    icon: 'megaphone.svg',
+    count: 75,
+  },
+  { href: '/advisors', label: 'Advisors', icon: 'person.svg', count: 20 },
+  {
+    href: '/projects',
+    label: 'Volunteer projects',
+    icon: 'clipboard.svg',
+    count: 33,
+  },
+  { href: '/donation-guide', label: 'Donation guide', icon: 'heart.svg' },
+]
+
 const SCROLL_THRESHOLD_TOP = 10
 const SCROLL_THRESHOLD_HIDE = 100
 const SCROLL_THRESHOLD_BLUR = 50
@@ -27,6 +44,7 @@ export default function Navigation() {
   const [isVisible, setIsVisible] = useState(true)
   const [hasBlur, setHasBlur] = useState(false)
   const [lastScrollY, setLastScrollY] = useState(0)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,7 +79,7 @@ export default function Navigation() {
       <div
         className={`${styles.nav} ${styles['nav-fixed']} ${hasBlur ? styles['nav-blur'] : ''} ${isVisible ? styles.visible : styles.hidden}`}
       >
-        <div className="flex justify-between items-center">
+        <div className={styles['nav-container']}>
           <Link href="/" className="padding-right-24px">
             <Image
               src="/images/logo.svg"
@@ -72,14 +90,14 @@ export default function Navigation() {
             />
           </Link>
 
-          <nav className="flex justify-start items-center gap-8px">
+          <nav className={styles['nav-menu']}>
             {navItems.map(item => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`${styles['nav-item']}`}
+                className={styles['nav-item']}
               >
-                <div className={`${styles['nav-item-icon']}`}>
+                <div className={styles['nav-item-icon']}>
                   <Image
                     width={16}
                     height={16}
@@ -88,15 +106,81 @@ export default function Navigation() {
                   />
                 </div>
                 <p className="paragraph-small-bold">{item.label}</p>
-                <p className="paragraph-xs color-teal-300">{item.count}</p>
+                {item.count && (
+                  <p className="paragraph-xs color-teal-300">{item.count}</p>
+                )}
               </Link>
             ))}
 
-            <div className={`${styles['nav-item-last']}`}>
+            <div className={styles['nav-item-last']}>
               <p className="paragraph-small-bold">+4</p>
             </div>
           </nav>
+
+          <button
+            className={styles['menu-button']}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            <span
+              className={`${styles.hamburger} ${isMenuOpen ? styles['hamburger-open'] : ''}`}
+            >
+              <span className={styles['hamburger-bar']} />
+              <span className={styles['hamburger-bar']} />
+              <span className={styles['hamburger-bar']} />
+            </span>
+          </button>
         </div>
+      </div>
+
+      <div
+        className={`${styles['mobile-menu']} ${isMenuOpen ? styles['mobile-menu-visible'] : ''}`}
+      >
+        <div className={styles['mobile-menu-header']}>
+          <Link href="/" onClick={() => setIsMenuOpen(false)}>
+            <Image
+              src="/images/logo.svg"
+              alt="AI Safety logo"
+              width={139}
+              height={24}
+              className="block"
+            />
+          </Link>
+          <button
+            className={styles['menu-button']}
+            onClick={() => setIsMenuOpen(false)}
+            aria-label="Close menu"
+          >
+            <span className={`${styles.hamburger} ${styles['hamburger-open']}`}>
+              <span className={styles['hamburger-bar']} />
+              <span className={styles['hamburger-bar']} />
+              <span className={styles['hamburger-bar']} />
+            </span>
+          </button>
+        </div>
+        <nav className={styles['mobile-menu-items']}>
+          {[...navItems, ...mobileOnlyNavItems].map(item => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={styles['nav-item']}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <div className={styles['nav-item-icon']}>
+                <Image
+                  width={16}
+                  height={16}
+                  alt={`${item.label} icon`}
+                  src={`/images/${item.icon}`}
+                />
+              </div>
+              <p className="paragraph-default-bold">{item.label}</p>
+              {item.count && (
+                <p className="paragraph-small color-teal-300">{item.count}</p>
+              )}
+            </Link>
+          ))}
+        </nav>
       </div>
     </>
   )
