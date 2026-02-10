@@ -218,9 +218,10 @@
 }
 
 .card-third-width-bottom-card {
-  position: relative;
-  margin-left: -24px;
-  margin-right: -24px;
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
   padding: 32px 32px 34px;
   background-color: rgba(5, 24, 26, 0.2);
   border-radius: 8px;
@@ -266,7 +267,7 @@
   padding: 56px;
   border: 1px solid var(--bright-teal-500);
   border-radius: 16px;
-  gap: 313px;
+  justify-content: space-between;
 }
 
 /* ===============================
@@ -274,6 +275,16 @@
    =============================== */
 
 @media (max-width: 991px) {
+  .attribution {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .attribution img {
+    margin-bottom: 0;
+  }
+
   .cards-grid-2-col,
   .cards-grid-3-col {
     grid-template-columns: 1fr;
@@ -329,16 +340,12 @@
   }
 
   .card-half-width-bottom-card,
-  .card-half-width-bottom-card-light {
+  .card-half-width-bottom-card-light,
+  .card-third-width-bottom-card {
     position: relative;
     bottom: auto;
     left: auto;
     right: auto;
-    margin: 0;
-    padding: 24px;
-  }
-
-  .card-third-width-bottom-card {
     margin: 0;
     padding: 24px;
   }
@@ -374,8 +381,8 @@
 
   .aisafety-info {
     flex-direction: column;
+    align-items: flex-start;
     gap: 24px;
     padding: 40px;
-    text-align: center;
   }
 }

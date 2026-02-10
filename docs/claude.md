@@ -39,9 +39,16 @@ src/
 
 ### Styling Approach
 
-- **Tailwind CSS v4** for utility-first development
-- **Custom CSS** for complex component-specific styling (WebFlow conversions)
-- **CSS Variables** for design tokens and theme values
+- **Diagnose before fixing** — when something looks wrong, find the root cause (e.g. a flex container forcing shrink) rather than layering on overrides or hacks; the right fix is usually fewer lines, not more
+- **Take extra care with CSS** — clean, minimal CSS is a top priority; write as few lines as possible and always review `docs/css-guidelines.md` before writing styles
+- **Constraint-based design system** — always use utility classes from `globals.css` first
+- **CSS variables** for all colors — never hardcode hex values
+- **Base HTML elements** (`h1`–`h3`, `p`) are pre-styled — don't write heading/typography CSS
+- **Utility classes** for typography (`paragraph-small`, `paragraph-xs`), colors (`color-teal-300`), spacing (`padding-bottom-24px`, `margin-top-16px`), layout (`flex`, `gap-16px`, `width-6-col`, `container-default`), display (`hide-mobile`, `cursor-pointer`), and shadows (`drop-shadow`)
+- **Pre-built components**: `.button-primary` / `.button-secondary` for buttons, `.text-field` / `.checkbox` for forms
+- **New classes only when utility classes can't solve the problem** — put them in `ComponentName.module.css` (one component), `page.module.css` (one page), or rarely `globals.css` (truly reusable)
+- **Never create one-off override classes** — if a component style needs adjusting for a common pattern (e.g. buttons with icons), fix it at the design system level in `globals.css` so all future instances work automatically
+- **Media queries** are handled in `globals.css` — only write custom breakpoint styles for explicit overrides
 
 ### Dependency Management
 
@@ -55,8 +62,8 @@ src/
 
 1. **Extract shared elements first** (navigation, background, layout)
 2. **Keep complex CSS intact** - don't try to recreate WebFlow's intricate styles
-3. **Replace simple utilities** with Tailwind equivalents where beneficial
-4. **Preserve exact colors** - use CSS variables rather than approximate Tailwind colors
+3. **Replace simple utilities** with `globals.css` utility classes where beneficial
+4. **Preserve exact colors** - use CSS variables, never hardcode hex values
 
 ### React/Next.js Best Practices
 
@@ -99,8 +106,10 @@ export default function Component({ prop }: Props) {
 ### Styling Approach
 
 ```typescript
-// Combine Tailwind with custom classes judiciously
-<div className="nav custom-webflow-class px-4 py-2">
+// Use globals.css utility classes — only add custom classes when utilities can't solve it
+<div className="flex items-center gap-16px padding-bottom-24px">
+<p className="paragraph-small color-teal-300">Muted small text</p>
+<a className="button-primary">Get Started</a>
 ```
 
 ### Type Safety
