@@ -14,7 +14,7 @@ export default function Footer() {
               <Image
                 src="/images/logo.svg"
                 alt="AI Safety logo"
-                width={144.14}
+                width={139}
                 height={24}
                 className="margin-bottom-24px"
               />
