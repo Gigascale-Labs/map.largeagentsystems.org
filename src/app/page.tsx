@@ -15,17 +15,19 @@ export default function Home() {
             Curated lists of events, communities, courses, and more – focused on
             preventing human extinction from AI.
           </p>
-          <Image
-            width={80}
-            height={32}
-            loading="lazy"
-            alt="Community thumbnails"
-            src="/images/thumbnails.png"
-            className="margin-bottom-12px"
-          />
-          <p className="paragraph-xs">
-            Maintained by AI safety community-builders
-          </p>
+          <div className={styles.attribution}>
+            <Image
+              width={80}
+              height={32}
+              loading="lazy"
+              alt="Community thumbnails"
+              src="/images/thumbnails.png"
+              className="margin-bottom-12px"
+            />
+            <p className="paragraph-xs">
+              Maintained by AI safety community-builders
+            </p>
+          </div>
         </div>
       </div>
 
@@ -161,7 +163,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={`${styles['cards-grid']} margin-bottom-40px`}>
+      <div className={`${styles['cards-grid-2-col']} margin-bottom-40px`}>
         <div className={styles['card-half-width-1']}>
           <div className={styles['card-half-width-main-text']}>
             <p className="paragraph-small-bold padding-bottom-12px shadow-text">
@@ -324,10 +326,10 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={`${styles['cards-grid-three-col']} padding-bottom-104px`}>
+      <div className={`${styles['cards-grid-3-col']} padding-bottom-104px`}>
         <div className={styles['card-third-width-1']}>
           <div className={styles['card-half-width-main-text']}>
-            <p className="paragraph-small-bold padding-bottom-8px-3 shadow-text">
+            <p className="paragraph-small-bold padding-bottom-8px shadow-text">
               Speak to an advisor
             </p>
             <h3 className="padding-bottom-32px shadow-text">
@@ -394,7 +396,7 @@ export default function Home() {
 
         <div className={styles['card-third-width-3']}>
           <div className={styles['card-half-width-main-text']}>
-            <p className="paragraph-small-bold padding-bottom-8px-3 opacity-80">
+            <p className="paragraph-small-bold padding-bottom-8px opacity-80">
               Donate
             </p>
             <h3 className="padding-bottom-32px">
@@ -414,7 +416,7 @@ export default function Home() {
       </div>
 
       <div className={styles['aisafety-info']}>
-        <div>
+        <div className="width-6-col">
           <p className="color-teal paragraph-small-bold padding-bottom-12px">
             Visit AISafety.info
           </p>
@@ -426,9 +428,9 @@ export default function Home() {
           href="https://aisafety.info/"
           target="_blank"
           rel="noopener noreferrer"
-          className="button-primary inline-flex items-center gap-8px"
+          className="button-primary"
         >
-          <p className="paragraph-xs">AISafety.info</p>
+          <span>AISafety.info</span>
           <Image
             loading="lazy"
             src="/images/arrow-up-right.svg"

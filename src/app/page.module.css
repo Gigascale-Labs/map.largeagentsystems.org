@@ -1,28 +1,15 @@
-/* Homepage Card Styles */
+/* Grid */
 
-.cards-grid {
+.cards-grid-2-col {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 40px;
 }
 
-.cards-grid-three-col {
+.cards-grid-3-col {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 40px;
-}
-
-.cards-grid .card-half-width-1,
-.cards-grid .card-half-width-2,
-.cards-grid .card-half-width-3,
-.cards-grid .card-half-width-4 {
-  width: 100%;
-}
-
-.cards-grid-three-col .card-third-width-1,
-.cards-grid-three-col .card-third-width-2,
-.cards-grid-three-col .card-third-width-3 {
-  width: 100%;
 }
 
 /* Full-width cards */
@@ -48,7 +35,6 @@
   padding: 40px;
   background-color: rgba(5, 24, 26, 0.5);
   backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   border-radius: 8px;
 }
 
@@ -71,7 +57,6 @@
   padding: 56px;
   background-color: rgba(5, 24, 26, 0.6);
   backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   border-radius: 16px 0 0 16px;
 }
 
@@ -100,7 +85,6 @@
   padding: 40px;
   background-color: rgba(5, 24, 26, 0.2);
   backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   border-radius: 8px;
 }
 
@@ -167,11 +151,6 @@
   border-radius: 16px;
 }
 
-.card-half-width-main-text {
-  /* Container for main text in half-width cards */
-  display: contents;
-}
-
 .card-half-width-bottom-card {
   position: absolute;
   bottom: 16px;
@@ -181,7 +160,6 @@
   background-color: rgba(5, 24, 26, 0.4);
   border-radius: 8px;
   backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
 }
 
 .card-half-width-bottom-card-light {
@@ -240,9 +218,10 @@
 }
 
 .card-third-width-bottom-card {
-  position: relative;
-  margin-left: -24px;
-  margin-right: -24px;
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
   padding: 32px 32px 34px;
   background-color: rgba(5, 24, 26, 0.2);
   border-radius: 8px;
@@ -288,7 +267,7 @@
   padding: 56px;
   border: 1px solid var(--bright-teal-500);
   border-radius: 16px;
-  gap: 313px;
+  justify-content: space-between;
 }
 
 /* ===============================
@@ -296,8 +275,18 @@
    =============================== */
 
 @media (max-width: 991px) {
-  .cards-grid,
-  .cards-grid-three-col {
+  .attribution {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .attribution img {
+    margin-bottom: 0;
+  }
+
+  .cards-grid-2-col,
+  .cards-grid-3-col {
     grid-template-columns: 1fr;
     gap: 24px;
   }
@@ -307,21 +296,6 @@
     gap: 40px;
     padding: 32px;
     height: auto;
-  }
-
-  .card-full-width-3 {
-    flex-direction: column;
-    gap: 40px;
-    padding: 32px;
-    height: auto;
-    background-image:
-      url('/images/faces-mobile.png'),
-      radial-gradient(circle at 20% 0, var(--bright-teal-500), #4da9a7);
-    background-position:
-      center top,
-      0 0;
-    background-size: 100%, auto;
-    background-repeat: no-repeat;
   }
 
   .card-full-width-1-right-card {
@@ -343,6 +317,21 @@
     border-bottom-left-radius: 0;
   }
 
+  .card-full-width-3 {
+    flex-direction: column;
+    gap: 40px;
+    padding: 32px;
+    height: auto;
+    background-image:
+      url('/images/faces-mobile.png'),
+      radial-gradient(circle at 20% 0, var(--bright-teal-500), #4da9a7);
+    background-position:
+      center top,
+      0 0;
+    background-size: 100%, auto;
+    background-repeat: no-repeat;
+  }
+
   .card-full-width-3-right-card-light {
     width: 100%;
     max-width: none;
@@ -351,18 +340,35 @@
   }
 
   .card-half-width-bottom-card,
-  .card-half-width-bottom-card-light {
+  .card-half-width-bottom-card-light,
+  .card-third-width-bottom-card {
     position: relative;
     bottom: auto;
     left: auto;
     right: auto;
-    margin: 0 -24px 8px;
+    margin: 0;
     padding: 24px;
   }
 
-  .card-third-width-bottom-card {
-    margin: 0 -24px 8px;
-    padding: 24px;
+  /* Cards with child cards: auto height */
+  .card-half-width-1,
+  .card-half-width-4,
+  .card-third-width-2 {
+    width: 100%;
+    height: auto;
+    padding: 32px;
+    gap: 40px;
+  }
+
+  /* Cards without child cards: fixed height */
+  .card-half-width-2,
+  .card-half-width-3,
+  .card-third-width-1,
+  .card-third-width-3 {
+    width: 100%;
+    height: 540px !important;
+    min-height: auto;
+    padding: 32px;
   }
 
   .date {
@@ -375,8 +381,8 @@
 
   .aisafety-info {
     flex-direction: column;
+    align-items: flex-start;
     gap: 24px;
     padding: 40px;
-    text-align: center;
   }
 }
