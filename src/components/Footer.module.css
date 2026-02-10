@@ -98,3 +98,11 @@
   color: var(--teal-300);
   opacity: 0.8;
 }
+
+@media (max-width: 991px) {
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
