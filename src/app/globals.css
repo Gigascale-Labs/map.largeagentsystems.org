@@ -195,6 +195,9 @@ label {
 .color-light-teal {
   color: var(--bright-teal-300);
 }
+.color-grey {
+  color: #8e999a;
+}
 
 /* ===============================
    6. SPACING UTILITY CLASSES
