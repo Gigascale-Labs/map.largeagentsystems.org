@@ -1,0 +1,457 @@
+'use client'
+
+import { useEffect, useRef } from 'react'
+import Script from 'next/script'
+import Image from 'next/image'
+import styles from './page.module.css'
+import { Community } from '../api/communities/route'
+
+interface CommunitiesMapProps {
+  communities: Community[]
+}
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+declare global {
+  interface Window {
+    mapboxgl: any
+    mobileTooltipHandlersInitialized?: boolean
+  }
+}
+
+export default function CommunitiesMap({ communities }: CommunitiesMapProps) {
+  const mapContainerRef = useRef<HTMLDivElement>(null)
+  const mapRef = useRef<any>(null)
+  const tooltipRef = useRef<HTMLDivElement>(null)
+  const scriptLoadedRef = useRef(false)
+
+  function initMap() {
+    if (!mapContainerRef.current || !tooltipRef.current || !window.mapboxgl)
+      return
+    if (mapRef.current) return
+
+    const mapboxgl = window.mapboxgl
+    const mapContainer = mapContainerRef.current
+    const tooltip = tooltipRef.current
+
+    const mapCommunities = communities
+      .filter(
+        c =>
+          c.latitude !== null &&
+          c.longitude !== null &&
+          !c.type.every(t => t.toLowerCase() === 'online')
+      )
+      .map(c => {
+        const typeStr = c.type.join(' ').toLowerCase()
+        let locationType = 'city'
+        if (typeStr.includes('country')) locationType = 'country'
+        else if (typeStr.includes('continent') || typeStr.includes('global'))
+          locationType = 'continent'
+        return {
+          name: c.name,
+          description: c.description,
+          type: locationType,
+          coordinates: [c.longitude!, c.latitude!] as [number, number],
+          location: c.location || '',
+          url: c.website || '',
+          link: c.joinLink,
+        }
+      })
+
+    mapboxgl.accessToken =
+      'pk.eyJ1IjoiYWxpZ25tZW50ZWNvc3lzdGVtZGV2ZWxvcG1lbnQiLCJhIjoiY201YnNnbnpzNTEyNTJtcHYzMWVhand6OSJ9._HknM4VVUlEU6mbv8NagGw'
+
+    const initialCenter: [number, number] = [0, 30]
+    const initialZoom = 1.5
+
+    const map = new mapboxgl.Map({
+      container: mapContainer,
+      style:
+        'mapbox://styles/alignmentecosystemdevelopment/cmh1t3h6u00e401st9gu75gvq',
+      center: initialCenter,
+      zoom: initialZoom,
+      logoPosition: 'bottom-right',
+    })
+    mapRef.current = map
+
+    const isMobile = window.innerWidth < 768
+
+    if (isMobile) {
+      setTimeout(() => {
+        const mapButtons = document.querySelectorAll(
+          '.mapboxgl-ctrl-group button'
+        )
+        mapButtons.forEach(button => {
+          button.addEventListener('touchend', function (this: HTMLElement) {
+            setTimeout(() => this.blur(), 100)
+          })
+        })
+      }, 500)
+    }
+
+    map.addControl(new mapboxgl.NavigationControl())
+
+    const customPin = new window.Image()
+    customPin.crossOrigin = 'anonymous'
+
+    customPin.onload = function () {
+      map.on('load', function () {
+        if (!map.hasImage('custom-pin')) {
+          map.addImage('custom-pin', customPin)
+        }
+
+        let hoveredPinId: number | null = null
+        let tappedPinId: number | null = null
+
+        const geojsonData = {
+          type: 'FeatureCollection' as const,
+          features: mapCommunities.map((community, index) => ({
+            type: 'Feature' as const,
+            id: index,
+            properties: {
+              id: index,
+              name: community.name,
+              description: community.description,
+              type: community.type,
+              url: community.url,
+              link: community.link,
+              location: community.location,
+              baseSize:
+                community.type === 'city'
+                  ? 0.25
+                  : community.type === 'country'
+                    ? 0.35
+                    : 0.45,
+              hover: false,
+            },
+            geometry: {
+              type: 'Point' as const,
+              coordinates: community.coordinates,
+            },
+          })),
+        }
+
+        map.addSource('communities', { type: 'geojson', data: geojsonData })
+
+        map.addLayer({
+          id: 'community-pins',
+          type: 'symbol',
+          source: 'communities',
+          layout: {
+            'icon-image': 'custom-pin',
+            'icon-size': [
+              'case',
+              ['boolean', ['get', 'hover'], false],
+              ['*', ['get', 'baseSize'], 1.2],
+              ['get', 'baseSize'],
+            ],
+            'icon-anchor': 'center',
+            'icon-allow-overlap': true,
+          },
+        })
+
+        function updateTooltipPosition(
+          e: any,
+          tt: HTMLDivElement,
+          container: HTMLDivElement
+        ) {
+          const mapRect = container.getBoundingClientRect()
+          const cursorX = e.originalEvent.clientX
+          const cursorY = e.originalEvent.clientY
+          const tooltipWidth = tt.offsetWidth
+          const tooltipHeight = tt.offsetHeight
+          const offset = 15
+
+          let finalY: number
+          const spaceBelow = mapRect.bottom - (cursorY + offset)
+          const spaceAbove = cursorY - offset - mapRect.top
+          if (spaceBelow >= tooltipHeight || spaceBelow >= spaceAbove) {
+            finalY = cursorY + offset
+            if (finalY + tooltipHeight > mapRect.bottom)
+              finalY = mapRect.bottom - tooltipHeight - 2
+          } else {
+            finalY = cursorY - offset - tooltipHeight
+            if (finalY < mapRect.top) finalY = mapRect.top + 2
+          }
+
+          let finalX: number
+          const spaceRight = mapRect.right - (cursorX + offset)
+          const spaceLeft = cursorX - offset - mapRect.left
+          if (spaceRight >= tooltipWidth || spaceRight >= spaceLeft) {
+            finalX = cursorX + offset
+            if (finalX + tooltipWidth > mapRect.right)
+              finalX = mapRect.right - tooltipWidth - 2
+          } else {
+            finalX = cursorX - offset - tooltipWidth
+            if (finalX < mapRect.left) finalX = mapRect.left + 2
+          }
+
+          tt.style.left = window.scrollX + finalX + 'px'
+          tt.style.top = window.scrollY + finalY + 'px'
+
+          if (isMobile) {
+            const minLeftMarginPage = window.scrollX + 20
+            if (window.scrollX + finalX < minLeftMarginPage)
+              tt.style.left = minLeftMarginPage + 'px'
+          }
+        }
+
+        function setData(data: any) {
+          map.getSource('communities').setData(data)
+        }
+
+        function resetHover() {
+          geojsonData.features.forEach((f: any) => (f.properties.hover = false))
+          setData(geojsonData)
+        }
+
+        // Desktop hover
+        map.on('mousemove', 'community-pins', (e: any) => {
+          if (isMobile || !e.features || e.features.length === 0) {
+            if (!isMobile && hoveredPinId !== null) {
+              map.getCanvas().style.cursor = ''
+              resetHover()
+              hoveredPinId = null
+              tooltip.style.display = 'none'
+            }
+            return
+          }
+          map.getCanvas().style.cursor = 'pointer'
+          const feature = e.features[0]
+          const currentFeatureId = feature.id as number
+          if (hoveredPinId !== currentFeatureId) {
+            geojsonData.features.forEach((f: any) => {
+              f.properties.hover = f.id === currentFeatureId
+            })
+            setData(geojsonData)
+            hoveredPinId = currentFeatureId
+            const name = feature.properties?.name
+            const description = feature.properties?.description
+            const location = feature.properties?.location
+            let tooltipHTML = `<strong>${name}</strong>`
+            if (location)
+              tooltipHTML += `<span class="location-text">${location}</span>`
+            tooltipHTML += `${description}`
+            tooltip.innerHTML = tooltipHTML
+            tooltip.style.display = 'block'
+          }
+          updateTooltipPosition(e, tooltip, mapContainer)
+        })
+
+        map.on('mouseleave', 'community-pins', () => {
+          if (isMobile) return
+          if (hoveredPinId !== null) {
+            map.getCanvas().style.cursor = ''
+            resetHover()
+            hoveredPinId = null
+            tooltip.style.display = 'none'
+          }
+        })
+
+        // Click handler
+        map.on('click', 'community-pins', (e: any) => {
+          if (!e.features || e.features.length === 0) return
+          const feature = e.features[0]
+          const currentFeatureId = feature.id as number
+          const link = feature.properties?.link || feature.properties?.url
+
+          if (isMobile) {
+            e.preventDefault()
+            e.originalEvent.stopPropagation()
+            const uniqueId = 'map-item-' + currentFeatureId
+            const currentSourceId = tooltip.getAttribute('data-source-id')
+            const isTooltipVisible = tooltip.style.display !== 'none'
+            if (isTooltipVisible && currentSourceId === uniqueId) {
+              if (link && link !== '#') {
+                resetHover()
+                tappedPinId = null
+                tooltip.style.display = 'none'
+                window.open(link, '_blank')
+              }
+              return
+            }
+            geojsonData.features.forEach((f: any) => {
+              f.properties.hover = f.id === currentFeatureId
+            })
+            setData(geojsonData)
+            tappedPinId = currentFeatureId
+            tooltip.setAttribute('data-link-url', link || '#')
+            tooltip.setAttribute('data-source-id', uniqueId)
+            const name = feature.properties?.name
+            const description = feature.properties?.description
+            const location = feature.properties?.location
+            let tooltipHTML = `<strong>${name}</strong>`
+            if (location)
+              tooltipHTML += `<span class="location-text">${location}</span>`
+            tooltipHTML += `${description}`
+            tooltip.innerHTML = tooltipHTML
+            tooltip.style.display = 'block'
+            tooltip.classList.add('mobile-tooltip')
+            updateTooltipPosition(e, tooltip, mapContainer)
+          } else {
+            if (link && link !== '#') window.open(link, '_blank')
+          }
+        })
+
+        // Mobile global handlers
+        if (isMobile && !window.mobileTooltipHandlersInitialized) {
+          tooltip.addEventListener('click', function (e) {
+            if ((e.target as HTMLElement).closest('#mapbox-tooltip')) {
+              const lnk = tooltip.getAttribute('data-link-url')
+              if (lnk && lnk !== '#') {
+                tooltip.style.display = 'none'
+                if (tappedPinId !== null) {
+                  resetHover()
+                  tappedPinId = null
+                }
+                window.open(lnk, '_blank')
+              }
+              e.stopPropagation()
+            }
+          })
+          document.addEventListener('click', function (e) {
+            const clickedOnMapCanvas = (e.target as HTMLElement).closest(
+              '.mapboxgl-canvas'
+            )
+            const clickedOnTooltip = (e.target as HTMLElement).closest(
+              '#mapbox-tooltip'
+            )
+            let clickedOnPin = false
+            if (clickedOnMapCanvas && map.queryRenderedFeatures) {
+              try {
+                const features = map.queryRenderedFeatures(
+                  [e.clientX, e.clientY],
+                  { layers: ['community-pins'] }
+                )
+                clickedOnPin = features.length > 0
+              } catch {
+                /* Ignore */
+              }
+            }
+            if (!clickedOnTooltip && !clickedOnPin) {
+              if (tooltip.style.display !== 'none') {
+                tooltip.style.display = 'none'
+                if (tappedPinId !== null) {
+                  resetHover()
+                  tappedPinId = null
+                }
+              }
+            }
+          })
+          window.mobileTooltipHandlersInitialized = true
+        }
+
+        // Custom reset button
+        const compassButton = mapContainer.querySelector(
+          '.mapboxgl-ctrl-compass'
+        ) as HTMLElement | null
+        if (compassButton) {
+          const iconElement = compassButton.querySelector(
+            '.mapboxgl-ctrl-icon'
+          ) as HTMLElement | null
+          if (iconElement) iconElement.style.backgroundImage = 'none'
+          const resetIconDataUri =
+            "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z'/%3E%3C/svg%3E"
+          compassButton.style.backgroundImage = `url("${resetIconDataUri}")`
+          compassButton.style.backgroundSize = '18px 18px'
+          compassButton.style.backgroundRepeat = 'no-repeat'
+          compassButton.style.backgroundPosition = 'center'
+          compassButton.addEventListener(
+            'click',
+            ev => {
+              ev.preventDefault()
+              ev.stopPropagation()
+              map.flyTo({
+                center: initialCenter,
+                zoom: initialZoom,
+                bearing: 0,
+                pitch: 0,
+                duration: 500,
+                essential: true,
+              })
+            },
+            true
+          )
+          compassButton.setAttribute('title', 'Reset map view')
+        }
+      })
+    }
+
+    customPin.onerror = function () {
+      map.on('load', function () {
+        if (!map.hasImage('custom-pin')) {
+          const canvas = document.createElement('canvas')
+          const size = 20
+          canvas.width = size
+          canvas.height = size
+          const ctx = canvas.getContext('2d')!
+          ctx.beginPath()
+          ctx.arc(size / 2, size / 2, size / 2 - 2, 0, Math.PI * 2)
+          ctx.fillStyle = '#14b8a6'
+          ctx.fill()
+          ctx.lineWidth = 1
+          ctx.strokeStyle = '#ffffff'
+          ctx.stroke()
+          map.addImage('custom-pin', canvas)
+        }
+      })
+    }
+
+    customPin.src = '/images/pin.svg'
+  }
+
+  useEffect(() => {
+    if (scriptLoadedRef.current && window.mapboxgl) {
+      initMap()
+    }
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove()
+        mapRef.current = null
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  function handleScriptLoad() {
+    scriptLoadedRef.current = true
+    initMap()
+  }
+
+  function handleViewOnline() {
+    if (mapContainerRef.current) {
+      const mapRect = mapContainerRef.current.getBoundingClientRect()
+      window.scrollTo({
+        top: window.scrollY + mapRect.bottom,
+        behavior: 'smooth',
+      })
+    }
+  }
+
+  return (
+    <>
+      <link
+        href="https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css"
+        rel="stylesheet"
+      />
+      <Script
+        src="https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js"
+        strategy="afterInteractive"
+        onLoad={handleScriptLoad}
+      />
+      <div ref={mapContainerRef} className={styles.mapContainer}>
+        <h2 className={styles.mapTitleOverlay}>
+          In-person AI safety communities
+        </h2>
+        <button onClick={handleViewOnline} className={styles.mapButton}>
+          <p>View online communities</p>
+          <Image src="/images/arrow-down.svg" alt="" width={12} height={12} />
+        </button>
+      </div>
+      <div
+        ref={tooltipRef}
+        id="mapbox-tooltip"
+        style={{ display: 'none', position: 'absolute' }}
+      />
+    </>
+  )
+}
