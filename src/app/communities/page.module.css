@@ -168,7 +168,7 @@
   line-height: 165%;
   letter-spacing: -0.3px;
   color: var(--teal-300);
-  margin: 0 0 32px 0;
+  margin: 0 0 40px 0;
 }
 
 .introParagraph {
@@ -411,6 +411,11 @@
   font-weight: 600;
   color: white;
   margin-bottom: 8px;
+}
+
+.contributeArrow {
+  font-size: 14px;
+  letter-spacing: -0.3px;
 }
 
 .contributeDescription {

@@ -146,7 +146,7 @@ export default async function CommunitiesPage() {
     <div>
       <CommunitiesMap communities={communities} />
       <div className="container-default">
-        <h1 id="communities" className="padding-top-56px padding-bottom-16px">
+        <h1 id="communities" className="padding-top-40px padding-bottom-8px">
           Communities
         </h1>
 

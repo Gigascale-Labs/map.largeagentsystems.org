@@ -149,8 +149,8 @@ export default function CommunitiesClient({
               >
                 <div className={styles.card}>
                   <div className={styles.cardHeader}>
-                    <div className={styles.cardLogoWrapper}>
-                      {community.logo ? (
+                    {community.logo && (
+                      <div className={styles.cardLogoWrapper}>
                         <Image
                           src={community.logo}
                           alt={`${community.name} logo`}
@@ -159,10 +159,8 @@ export default function CommunitiesClient({
                           className={styles.cardLogo}
                           unoptimized
                         />
-                      ) : (
-                        <div className={styles.cardLogoPlaceholder} />
-                      )}
-                    </div>
+                      </div>
+                    )}
                     <h3>{community.name}</h3>
                   </div>
                   {community.description && (
@@ -308,7 +306,8 @@ export default function CommunitiesClient({
             className={styles.contributeLink}
           >
             <p className={styles.contributeTitle}>
-              Suggest entry <span className="color-grey">→</span>
+              Suggest entry{' '}
+              <span className={`color-grey ${styles.contributeArrow}`}>→</span>
             </p>
             <p className={styles.contributeDescription}>
               Suggest a community to be listed here
@@ -321,7 +320,8 @@ export default function CommunitiesClient({
             className={styles.contributeLink}
           >
             <p className={styles.contributeTitle}>
-              Suggest correction <span className="color-grey">→</span>
+              Suggest correction{' '}
+              <span className={`color-grey ${styles.contributeArrow}`}>→</span>
             </p>
             <p className={styles.contributeDescription}>
               Let us know of changes to a community
