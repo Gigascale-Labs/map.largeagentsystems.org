@@ -57,7 +57,6 @@ export default function SelfStudyPage() {
 
   // Filter courses based on search, category, and type
   const filteredCourses = courses.filter(course => {
-    // Search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase()
       if (
@@ -69,7 +68,6 @@ export default function SelfStudyPage() {
       }
     }
 
-    // Category filter
     if (selectedCategories.size > 0) {
       const courseCategories = course.category
         .toLowerCase()
@@ -81,7 +79,6 @@ export default function SelfStudyPage() {
       if (!hasMatchingCategory) return false
     }
 
-    // Type filter
     if (selectedTypes.size > 0) {
       const courseType = course.courseType.toLowerCase().trim()
       const hasMatchingType = Array.from(selectedTypes).some(t =>
@@ -113,7 +110,6 @@ export default function SelfStudyPage() {
     setSelectedTypes(newSelected)
   }
 
-  // Calculate category counts
   const categoryCounts = courses.reduce(
     (counts, course) => {
       const courseCategories = course.category
@@ -131,7 +127,6 @@ export default function SelfStudyPage() {
     {} as Record<string, number>
   )
 
-  // Calculate type counts
   const typeCounts = courses.reduce(
     (counts, course) => {
       const courseType = course.courseType.toLowerCase().trim()
@@ -161,24 +156,24 @@ export default function SelfStudyPage() {
 
       {/* Featured Cards + Related Resources */}
       <div className="flex gap-56px padding-bottom-80px">
-        <div className={styles['featured-cards']}>
+        <div className={styles['featured-cards-grid']}>
           <a
             href="https://www.alignmentforum.org/library"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <div className={styles['featured-card']}>
+            <div className="featured-card">
               <p className="paragraph-small-bold padding-bottom-16px color-teal-300">
                 Fundamental reading
               </p>
               <div className="flex items-center gap-16px padding-bottom-24px">
-                <div className={styles['featured-img']}>
+                <div className="featured-img">
                   <Image
                     src="/images/download-2-1.svg"
                     alt=""
                     width={64}
                     height={64}
-                    className={styles['featured-logo']}
+                    className="card-image"
                   />
                 </div>
                 <h3>AI Alignment Forum: Curated Sequences</h3>
@@ -192,7 +187,7 @@ export default function SelfStudyPage() {
                 alt=""
                 width={16}
                 height={40}
-                className={styles['bookmark-icon']}
+                className="bookmark-icon"
               />
               <p className="paragraph-xs-bold padding-bottom-4px color-teal-400">
                 Category
@@ -212,18 +207,18 @@ export default function SelfStudyPage() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <div className={styles['featured-card']}>
+            <div className="featured-card">
               <p className="paragraph-small-bold padding-bottom-16px color-teal-300">
                 Standard introductory courses
               </p>
               <div className="flex items-center gap-16px padding-bottom-24px">
-                <div className={styles['featured-img']}>
+                <div className="featured-img">
                   <Image
                     src="/images/download-2-1.svg"
                     alt=""
                     width={64}
                     height={64}
-                    className={styles['featured-logo']}
+                    className="card-image"
                   />
                 </div>
                 <h3>BlueDot Impact: Technical &amp; Governance</h3>
@@ -238,7 +233,7 @@ export default function SelfStudyPage() {
                 alt=""
                 width={16}
                 height={40}
-                className={styles['bookmark-icon']}
+                className="bookmark-icon"
               />
               <p className="paragraph-xs-bold padding-bottom-4px color-teal-400">
                 Category
@@ -288,7 +283,7 @@ export default function SelfStudyPage() {
       </div>
 
       {/* Database Grid */}
-      <div className={styles['database-outer-grid']}>
+      <div className="database-outer-grid">
         {/* Left column: search + cards */}
         <div>
           <div className="padding-bottom-40px">
@@ -311,22 +306,22 @@ export default function SelfStudyPage() {
               <p className="paragraph-small color-teal-300">Error: {error}</p>
             </div>
           ) : (
-            <div className={`${styles['collection-list']} padding-bottom-40px`}>
+            <div className="collection-list padding-bottom-40px">
               {filteredCourses.map(course => (
                 <a
                   key={course.id}
                   href={course.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={styles.card}
+                  className="card"
                 >
                   <div className="flex items-center gap-16px padding-bottom-24px">
-                    <div className={styles['featured-img']}>
+                    <div className="featured-img">
                       {course.image && (
                         <Image
                           src={course.image}
                           alt=""
-                          className={styles['card-image']}
+                          className="card-image"
                           width={64}
                           height={64}
                           unoptimized
@@ -414,7 +409,7 @@ export default function SelfStudyPage() {
           </div>
 
           {/* Contribute buttons */}
-          <div className={styles['contribute-buttons']}>
+          <div className="contribute-buttons">
             <a
               href="https://airtable.com/appF8XfZUGXtfi40E/pag6L4BzdkxocBzqr/form"
               target="_blank"
@@ -423,7 +418,7 @@ export default function SelfStudyPage() {
               <p className="paragraph-default-bold padding-bottom-8px">
                 Suggest entry <span className="color-teal-300">&rarr;</span>
               </p>
-              <p className={styles['side-button']}>
+              <p className="paragraph-small color-teal-300">
                 Suggest a course to be listed here
               </p>
             </a>
@@ -436,7 +431,7 @@ export default function SelfStudyPage() {
                 Suggest correction{' '}
                 <span className="color-teal-300">&rarr;</span>
               </p>
-              <p className={styles['side-button']}>
+              <p className="paragraph-small color-teal-300">
                 Let us know of changes to a course
               </p>
             </a>

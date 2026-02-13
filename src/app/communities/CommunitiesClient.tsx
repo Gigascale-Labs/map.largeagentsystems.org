@@ -3,7 +3,6 @@
 import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import styles from './page.module.css'
 import { Community } from '../api/communities/route'
 
 interface CommunitiesClientProps {
@@ -123,19 +122,21 @@ export default function CommunitiesClient({
   }
 
   return (
-    <div className={styles.mainGrid}>
+    <div className="database-outer-grid">
       <div>
         {/* Search Bar */}
-        <input
-          type="text"
-          placeholder="Search communities by title, description, or location"
-          value={searchQuery}
-          onChange={e => setSearchQuery(e.target.value)}
-          className={`text-field ${styles.searchInput}`}
-        />
+        <div className="padding-bottom-40px">
+          <input
+            type="text"
+            placeholder="Search communities by title, description, or location"
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            className="text-field"
+          />
+        </div>
 
         {/* Community Cards */}
-        <div className={styles.cardsContainer}>
+        <div className="collection-list">
           {filteredCommunities.length === 0 ? (
             <p className="paragraph-small color-teal-300">No items found.</p>
           ) : (
@@ -145,46 +146,44 @@ export default function CommunitiesClient({
                 href={community.joinLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={styles.cardLink}
+                className="card"
               >
-                <div className={styles.card}>
-                  <div className={styles.cardHeader}>
-                    {community.logo && (
-                      <div className={styles.cardLogoWrapper}>
-                        <Image
-                          src={community.logo}
-                          alt={`${community.name} logo`}
-                          width={64}
-                          height={64}
-                          className={styles.cardLogo}
-                          unoptimized
-                        />
-                      </div>
-                    )}
-                    <h3>{community.name}</h3>
-                  </div>
-                  {community.description && (
-                    <p className={`paragraph-small ${styles.cardDescription}`}>
-                      {community.description}
-                    </p>
+                <div className="flex items-center gap-16px padding-bottom-24px">
+                  {community.logo && (
+                    <div className="featured-img">
+                      <Image
+                        src={community.logo}
+                        alt={`${community.name} logo`}
+                        width={64}
+                        height={64}
+                        className="card-image"
+                        unoptimized
+                      />
+                    </div>
                   )}
-                  <p className="paragraph-xs-bold color-teal-400 padding-bottom-4px">
-                    Platform
-                  </p>
-                  <p className="paragraph-small padding-bottom-16px">
-                    {community.platformText || community.platform.join(', ')}
-                  </p>
-                  <p className="paragraph-xs-bold color-teal-400 padding-bottom-4px">
-                    Activity level
-                  </p>
-                  <p className="paragraph-small padding-bottom-16px">
-                    {community.activityLevel}
-                  </p>
-                  <p className="paragraph-xs-bold color-teal-400 padding-bottom-4px">
-                    Focus
-                  </p>
-                  <p className="paragraph-small">{community.focus}</p>
+                  <h3>{community.name}</h3>
                 </div>
+                {community.description && (
+                  <p className="paragraph-small padding-bottom-24px">
+                    {community.description}
+                  </p>
+                )}
+                <p className="paragraph-xs-bold color-teal-400 padding-bottom-4px">
+                  Platform
+                </p>
+                <p className="paragraph-small padding-bottom-16px">
+                  {community.platformText || community.platform.join(', ')}
+                </p>
+                <p className="paragraph-xs-bold color-teal-400 padding-bottom-4px">
+                  Activity level
+                </p>
+                <p className="paragraph-small padding-bottom-16px">
+                  {community.activityLevel}
+                </p>
+                <p className="paragraph-xs-bold color-teal-400 padding-bottom-4px">
+                  Focus
+                </p>
+                <p className="paragraph-small">{community.focus}</p>
               </Link>
             ))
           )}
@@ -192,14 +191,17 @@ export default function CommunitiesClient({
       </div>
 
       {/* Filters Sidebar */}
-      <aside className={`hide-mobile ${styles.filtersSidebar}`}>
+      <aside className="hide-mobile">
         {/* Type Filter */}
-        <div className={styles.filterGroup}>
+        <div className="padding-bottom-40px">
           <p className="paragraph-small-bold color-white padding-bottom-24px">
             Type
           </p>
           {typeOptions.map(option => (
-            <label key={option} className={styles.checkboxLabel}>
+            <label
+              key={option}
+              className="flex items-center cursor-pointer padding-bottom-16px"
+            >
               <input
                 type="checkbox"
                 checked={typeFilters.includes(option)}
@@ -210,7 +212,7 @@ export default function CommunitiesClient({
               />
               <span className="paragraph-small color-teal-300">
                 {option}
-                <span className={styles.filterCount}>
+                <span className="filter-count">
                   {' '}
                   ({filterCounts.type[option] || 0})
                 </span>
@@ -220,12 +222,15 @@ export default function CommunitiesClient({
         </div>
 
         {/* Platform Filter */}
-        <div className={styles.filterGroup}>
+        <div className="padding-bottom-40px">
           <p className="paragraph-small-bold color-white padding-bottom-24px">
             Platform
           </p>
           {platformOptions.map(option => (
-            <label key={option} className={styles.checkboxLabel}>
+            <label
+              key={option}
+              className="flex items-center cursor-pointer padding-bottom-16px"
+            >
               <input
                 type="checkbox"
                 checked={platformFilters.includes(option)}
@@ -236,7 +241,7 @@ export default function CommunitiesClient({
               />
               <span className="paragraph-small color-teal-300">
                 {option}
-                <span className={styles.filterCount}>
+                <span className="filter-count">
                   {' '}
                   ({filterCounts.platform[option] || 0})
                 </span>
@@ -246,12 +251,15 @@ export default function CommunitiesClient({
         </div>
 
         {/* Activity Level Filter */}
-        <div className={styles.filterGroup}>
+        <div className="padding-bottom-40px">
           <p className="paragraph-small-bold color-white padding-bottom-24px">
             Activity level
           </p>
           {activityOptions.map(option => (
-            <label key={option} className={styles.checkboxLabel}>
+            <label
+              key={option}
+              className="flex items-center cursor-pointer padding-bottom-16px"
+            >
               <input
                 type="checkbox"
                 checked={activityFilters.includes(option)}
@@ -262,7 +270,7 @@ export default function CommunitiesClient({
               />
               <span className="paragraph-small color-teal-300">
                 {option}
-                <span className={styles.filterCount}>
+                <span className="filter-count">
                   {' '}
                   ({filterCounts.activity[option] || 0})
                 </span>
@@ -272,12 +280,15 @@ export default function CommunitiesClient({
         </div>
 
         {/* Focus Filter */}
-        <div className={styles.filterGroup}>
+        <div className="padding-bottom-40px">
           <p className="paragraph-small-bold color-white padding-bottom-24px">
             Focus
           </p>
           {focusOptions.map(option => (
-            <label key={option} className={styles.checkboxLabel}>
+            <label
+              key={option}
+              className="flex items-center cursor-pointer padding-bottom-16px"
+            >
               <input
                 type="checkbox"
                 checked={focusFilters.includes(option)}
@@ -288,7 +299,7 @@ export default function CommunitiesClient({
               />
               <span className="paragraph-small color-teal-300">
                 {option}
-                <span className={styles.filterCount}>
+                <span className="filter-count">
                   {' '}
                   ({filterCounts.focus[option] || 0})
                 </span>
@@ -298,35 +309,31 @@ export default function CommunitiesClient({
         </div>
 
         {/* Suggest Entry / Correction */}
-        <div className={styles.contributeButtons}>
-          <Link
+        <div className="contribute-buttons">
+          <a
             href="https://airtable.com/appF8XfZUGXtfi40E/pagKhplUqu07DwVqC/form"
             target="_blank"
             rel="noopener noreferrer"
-            className={styles.contributeLink}
           >
-            <p className={styles.contributeTitle}>
-              Suggest entry{' '}
-              <span className={`color-grey ${styles.contributeArrow}`}>→</span>
+            <p className="paragraph-default-bold padding-bottom-8px">
+              Suggest entry <span className="color-teal-300">→</span>
             </p>
-            <p className={styles.contributeDescription}>
+            <p className="paragraph-small color-teal-300">
               Suggest a community to be listed here
             </p>
-          </Link>
-          <Link
+          </a>
+          <a
             href="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
             target="_blank"
             rel="noopener noreferrer"
-            className={styles.contributeLink}
           >
-            <p className={styles.contributeTitle}>
-              Suggest correction{' '}
-              <span className={`color-grey ${styles.contributeArrow}`}>→</span>
+            <p className="paragraph-default-bold padding-bottom-8px">
+              Suggest correction <span className="color-teal-300">→</span>
             </p>
-            <p className={styles.contributeDescription}>
+            <p className="paragraph-small color-teal-300">
               Let us know of changes to a community
             </p>
-          </Link>
+          </a>
         </div>
       </aside>
     </div>

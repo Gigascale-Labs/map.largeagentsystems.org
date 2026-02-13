@@ -1,8 +1,4 @@
 /* ===============================
-   COMMUNITIES PAGE STYLES
-   =============================== */
-
-/* ===============================
    MAP SECTION
    =============================== */
 
@@ -15,7 +11,7 @@
 
 .mapTitleOverlay {
   position: absolute;
-  top: 128px;
+  top: 32px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 5;
@@ -59,8 +55,8 @@
 
 /* Mapbox controls position (offset for fixed nav) */
 :global(.mapboxgl-ctrl-top-right) {
-  top: 88px !important;
-  right: 10px !important;
+  top: 0 !important;
+  right: 0 !important;
 }
 
 /* Mapbox tooltip */
@@ -119,7 +115,7 @@
   box-shadow: none !important;
   width: 40px !important;
   height: 40px !important;
-  transition: background-color 0.15s ease-in-out !important;
+  transition: background-color var(--hover-transition) !important;
   -webkit-tap-highlight-color: transparent;
   padding: 0 !important;
   position: relative;
@@ -138,9 +134,12 @@
   border-top: 1px solid #394c4e !important;
 }
 
-:global(.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon),
+:global(.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon) {
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 2.5C8.27614 2.5 8.5 2.72386 8.5 3V7.5H13C13.2761 7.5 13.5 7.72386 13.5 8C13.5 8.27614 13.2761 8.5 13 8.5H8.5V13C8.5 13.2761 8.27614 13.5 8 13.5C7.72386 13.5 7.5 13.2761 7.5 13V8.5H3C2.72386 8.5 2.5 8.27614 2.5 8C2.5 7.72386 2.72386 7.5 3 7.5H7.5V3C7.5 2.72386 7.72386 2.5 8 2.5Z' fill='white'/%3E%3C/svg%3E") !important;
+}
+
 :global(.mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon) {
-  filter: invert(90%) brightness(1.2) !important;
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.5 8C2.5 7.72386 2.72386 7.5 3 7.5H13C13.2761 7.5 13.5 7.72386 13.5 8C13.5 8.27614 13.2761 8.5 13 8.5H3C2.72386 8.5 2.5 8.27614 2.5 8Z' fill='white'/%3E%3C/svg%3E") !important;
 }
 
 :global(.mapboxgl-ctrl-compass .mapboxgl-ctrl-icon) {
@@ -149,7 +148,7 @@
 
 :global(.mapboxgl-ctrl-bottom-right .mapboxgl-ctrl a) {
   filter: grayscale(1) brightness(0.3) !important;
-  transition: filter 0.15s ease-in-out !important;
+  transition: filter var(--hover-transition) !important;
   opacity: 1 !important;
 }
 
@@ -163,263 +162,14 @@
   display: none !important;
 }
 
-.lastUpdatedText {
-  font-size: 15px;
-  line-height: 165%;
-  letter-spacing: -0.3px;
-  color: var(--teal-300);
-  margin: 0 0 40px 0;
-}
-
-.introParagraph {
-  margin: 0 0 56px 0;
-}
-
 /* ===============================
-   FEATURED SECTION
+   PAGE-SPECIFIC OVERRIDES
    =============================== */
-
-.featuredSection {
-  display: flex;
-  gap: 56px;
-  margin-bottom: 80px;
-}
-
-.featuredCards {
-  display: flex;
-  gap: 40px;
-}
-
-.featuredCardLink {
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-}
 
 .featuredCard {
-  border: 1px solid var(--teal-700);
-  background-color: var(--teal-850);
-  border-radius: 16px;
   width: 369px;
-  padding: 40px;
-  position: relative;
-  transition: background-color 0.2s ease;
   display: flex;
   flex-direction: column;
-}
-
-.featuredCard:hover {
-  background-color: var(--teal-800);
-}
-
-.featuredBookmark {
-  position: absolute;
-  inset: -1px 24px auto auto;
-}
-
-.featuredTagline {
-  margin-bottom: 16px;
-}
-
-.featuredHeader {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  margin-bottom: 24px;
-}
-
-.featuredLogoWrapper {
-  border-radius: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 64px;
-  max-width: 64px;
-  height: 64px;
-  overflow: hidden;
-}
-
-.featuredLogo {
-  border-radius: 4px;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-.featuredDescription {
-  margin-bottom: 24px;
-}
-
-/* ===============================
-   RELATED RESOURCES
-   =============================== */
-
-.relatedResources {
-}
-
-.relatedLink {
-  display: block;
-  margin-bottom: 40px;
-  text-decoration: none;
-  color: inherit;
-  transition: opacity 0.2s ease;
-}
-
-.relatedLink:hover {
-  opacity: 0.8;
-}
-
-/* ===============================
-   MAIN GRID (Search + Cards + Filters)
-   =============================== */
-
-.mainGrid {
-  display: grid;
-  grid-template-columns: 778px 222px;
-  gap: 56px;
-}
-
-.searchInput {
-  width: 100%;
-  margin-bottom: 40px;
-}
-
-/* ===============================
-   COMMUNITY CARDS
-   =============================== */
-
-.cardsContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 40px;
-}
-
-.cardLink {
-  text-decoration: none;
-  color: inherit;
-  flex: 0 0 calc(50% - 20px);
-}
-
-.card {
-  border: 1px solid var(--teal-700);
-  background-color: var(--teal-850);
-  border-radius: 16px;
-  padding: 40px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-  transition: background-color 0.2s ease;
-  height: 100%;
-}
-
-.card:hover {
-  background-color: var(--teal-800);
-}
-
-.cardHeader {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  margin-bottom: 24px;
-}
-
-.cardLogoWrapper {
-  border-radius: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 64px;
-  max-width: 64px;
-  height: 64px;
-  overflow: hidden;
-}
-
-.cardLogo {
-  border-radius: 4px;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-.cardLogoPlaceholder {
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
-  background-color: var(--teal-700);
-}
-
-.cardDescription {
-  margin-bottom: 24px;
-}
-
-/* ===============================
-   FILTERS SIDEBAR
-   =============================== */
-
-.filtersSidebar {
-}
-
-.filterGroup {
-  margin-bottom: 40px;
-}
-
-.checkboxLabel {
-  display: flex;
-  align-items: center;
-  margin-bottom: 16px;
-  cursor: pointer;
-}
-
-.checkboxLabel span {
-  font-weight: 400;
-}
-
-.checkboxLabel:last-child {
-  margin-bottom: 0;
-}
-
-.filterCount {
-  font-size: 13px;
-  color: var(--teal-600) !important;
-  margin-left: 2px;
-}
-
-/* ===============================
-   CONTRIBUTE BUTTONS
-   =============================== */
-
-.contributeButtons {
-  border-top: 1px solid #3b4249;
-  margin-top: 80px;
-  padding-top: 40px;
-  font-size: 16px;
-  line-height: 155%;
-}
-
-.contributeLink {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-  transition: opacity 0.2s ease;
-}
-
-.contributeLink:first-child {
-  margin-bottom: 40px;
-}
-
-.contributeLink:hover {
-  opacity: 0.8;
-}
-
-.contributeTitle {
-  font-weight: 600;
-  color: white;
-  margin-bottom: 8px;
-}
-
-.contributeArrow {
-  font-size: 14px;
-  letter-spacing: -0.3px;
-}
-
-.contributeDescription {
-  color: #aab2b3;
 }
 
 /* ===============================
@@ -427,28 +177,10 @@
    =============================== */
 
 @media (max-width: 991px) {
-  .featuredSection {
-    flex-direction: column;
-  }
-
-  .featuredCards {
-    flex-direction: column;
-  }
-
   .featuredCard {
     width: 100%;
   }
 
-  .mainGrid {
-    grid-template-columns: 100%;
-  }
-
-  .cardLink {
-    flex: 0 0 100%;
-  }
-}
-
-@media (max-width: 767px) {
   .mapContainer {
     min-height: 400px !important;
     max-height: 65vh !important;
@@ -460,21 +192,5 @@
     top: 24px;
     max-width: 70%;
     line-height: 125%;
-  }
-
-  .introParagraph {
-    width: 100%;
-  }
-
-  .cardsContainer {
-    gap: 24px;
-  }
-
-  .card {
-    padding: 24px;
-  }
-
-  .featuredCard {
-    padding: 24px;
   }
 }

@@ -152,10 +152,10 @@ export default async function CommunitiesPage() {
 
         <LastUpdated
           apiEndpoint="/api/last-updated/communities"
-          className={styles.lastUpdatedText}
+          className="paragraph-small color-teal-300 margin-bottom-40px"
         />
 
-        <h2 className={`width-7-col ${styles.introParagraph}`}>
+        <h2 className="width-7-col margin-bottom-56px">
           There are many groups dedicated to discussing and contributing to AI
           safety, both{' '}
           <span className="color-light-teal">online and in-person.</span> We
@@ -163,46 +163,42 @@ export default async function CommunitiesPage() {
         </h2>
 
         {/* Featured Communities + Related Resources */}
-        <div className={styles.featuredSection}>
-          <div className={styles.featuredCards}>
+        <div className="flex gap-56px padding-bottom-80px">
+          <div className="flex gap-40px">
             {featuredCommunities.map(community => (
               <Link
                 key={community.id}
                 href={community.joinLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={styles.featuredCardLink}
+                className="flex"
               >
-                <div className={styles.featuredCard}>
+                <div className={`featured-card ${styles.featuredCard}`}>
                   <Image
                     src="/images/bookmark-small.svg"
                     alt=""
-                    className={styles.featuredBookmark}
+                    className="bookmark-icon"
                     width={16}
                     height={24}
                   />
-                  <p
-                    className={`paragraph-small-bold color-teal-300 ${styles.featuredTagline}`}
-                  >
+                  <p className="paragraph-small-bold color-teal-300 padding-bottom-16px">
                     {community.tagline}
                   </p>
-                  <div className={styles.featuredHeader}>
-                    <div className={styles.featuredLogoWrapper}>
+                  <div className="flex items-center gap-16px padding-bottom-24px">
+                    <div className="featured-img">
                       {community.logo && (
                         <Image
                           src={community.logo}
                           alt={`${community.name} logo`}
                           width={64}
                           height={64}
-                          className={styles.featuredLogo}
+                          className="card-image"
                         />
                       )}
                     </div>
                     <h3>{community.name}</h3>
                   </div>
-                  <p className={styles.featuredDescription}>
-                    {community.description}
-                  </p>
+                  <p className="padding-bottom-24px">{community.description}</p>
                   <p className="paragraph-xs-bold color-teal-400 padding-bottom-4px">
                     Platform
                   </p>
@@ -224,7 +220,7 @@ export default async function CommunitiesPage() {
             ))}
           </div>
 
-          <aside className={`hide-mobile ${styles.relatedResources}`}>
+          <aside className="hide-mobile">
             <p className="paragraph-small-bold padding-bottom-32px">
               Related resources
             </p>
@@ -232,7 +228,7 @@ export default async function CommunitiesPage() {
               href="https://www.lesswrong.com/community"
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.relatedLink}
+              className="block padding-bottom-40px"
             >
               <h3 className="padding-bottom-16px">
                 Map of LessWrong groups{' '}
@@ -247,7 +243,7 @@ export default async function CommunitiesPage() {
               href="https://forum.effectivealtruism.org/groups"
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.relatedLink}
+              className="block"
             >
               <h3 className="padding-bottom-16px">
                 Map of EA groups <span className="color-teal-400">→</span>

@@ -40,7 +40,7 @@
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--hover-transition);
 }
 
 .footer-button:hover {
@@ -63,7 +63,7 @@
   text-decoration: none;
   margin-bottom: 8px;
   opacity: 0.8;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--hover-transition);
 }
 
 .footer-link:hover {
