@@ -87,7 +87,7 @@
    MEDIA QUERIES
    =============================== */
 
-@media (max-width: 767px) {
+@media (max-width: 991px) {
   .intro-paragraph {
     max-width: 100%;
   }

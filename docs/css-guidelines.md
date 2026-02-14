@@ -197,18 +197,22 @@ Old page-specific styles. Being cleaned up — don't add to these.
 
 ### 15. Media Queries
 
-These set defaults for typography, spacing, and width changes for mobile. Only write your own breakpoint styles if you need to explicitly override the default.
+The site uses **one breakpoint: `991px`**. Do not introduce other breakpoints. `globals.css` already handles typography, spacing, grid, and flex changes at this breakpoint. Only write your own `@media (max-width: 991px)` if you need to override something specific to your page.
 
 ```css
-/* Good — only if you need something specific */
-@media (max-width: 767px) {
+/* Good — page-specific override at the single breakpoint */
+@media (max-width: 991px) {
   .myComponent {
-    flex-direction: column;
+    width: 100%;
   }
 }
 
-/* Bad — don't duplicate what's already handled */
-@media (max-width: 767px) {
+/* Bad — don't use other breakpoints */
+@media (max-width: 767px) { ... }
+@media (max-width: 480px) { ... }
+
+/* Bad — don't duplicate what globals.css already handles */
+@media (max-width: 991px) {
   .width-6-col {
     width: 100%; /* already done in globals.css */
   }
