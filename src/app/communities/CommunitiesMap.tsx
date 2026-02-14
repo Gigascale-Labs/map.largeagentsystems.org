@@ -442,7 +442,10 @@ export default function CommunitiesMap({ communities }: CommunitiesMapProps) {
         <h2 className={styles.mapTitleOverlay}>
           In-person AI safety communities
         </h2>
-        <button onClick={handleViewOnline} className={styles.mapButton}>
+        <button
+          onClick={handleViewOnline}
+          className={`button-primary ${styles.mapButton}`}
+        >
           <p>View online communities</p>
           <Image src="/images/arrow-down.svg" alt="" width={12} height={12} />
         </button>

@@ -32,25 +32,7 @@
   left: 16px;
   bottom: 16px;
   z-index: 10;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: #00191b;
-  letter-spacing: -0.3px;
-  background-color: #fff;
-  border: none;
-  border-radius: 24px;
-  height: 40px;
-  padding: 0 16px;
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 165%;
-  cursor: pointer;
   box-shadow: 0 12px 24px rgba(0, 25, 27, 0.5);
-}
-
-.mapButton:hover {
-  opacity: 0.9;
 }
 
 /* Mapbox controls position (offset for fixed nav) */
@@ -103,6 +85,7 @@
   border: 1px solid #394c4e !important;
   box-shadow: 0px 12px 24px 0px rgba(0, 25, 27, 0.5) !important;
   overflow: hidden !important;
+  transition: background-color var(--hover-transition) !important;
 }
 
 :global(.mapboxgl-ctrl-group:hover) {

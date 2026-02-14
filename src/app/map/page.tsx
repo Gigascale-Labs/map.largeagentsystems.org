@@ -192,7 +192,10 @@ export default function MapPage() {
       <div className="padding-bottom-24px">
         <div ref={mapWrapperRef} className={styles['map-wrapper']}>
           {!loading && <D3Map orgs={mapOrgs} />}
-          <button onClick={scrollToCards} className={styles['scroll-button']}>
+          <button
+            onClick={scrollToCards}
+            className={`button-primary ${styles['scroll-button']}`}
+          >
             View cards
             <Image src="/images/arrow-down.svg" alt="" width={16} height={16} />
           </button>
