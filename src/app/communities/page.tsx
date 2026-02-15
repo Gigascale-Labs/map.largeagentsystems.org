@@ -144,7 +144,12 @@ export default async function CommunitiesPage() {
 
   return (
     <div>
-      <CommunitiesMap communities={communities} />
+      <div className={styles.mapWrapper}>
+        <CommunitiesMap communities={communities} />
+        <h2 className={styles.mapTitleOverlay}>
+          In-person AI safety communities
+        </h2>
+      </div>
       <div className="container-default">
         <h1 id="communities" className="padding-top-40px padding-bottom-8px">
           Communities
@@ -163,15 +168,15 @@ export default async function CommunitiesPage() {
         </h2>
 
         {/* Featured Communities + Related Resources */}
-        <div className="flex gap-56px padding-bottom-80px">
-          <div className="flex gap-40px">
+        <div className="flex flex-col-mobile gap-56px padding-bottom-80px">
+          <div className="flex flex-col-mobile gap-40px">
             {featuredCommunities.map(community => (
               <Link
                 key={community.id}
                 href={community.joinLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex"
+                className="flex flex-col-mobile"
               >
                 <div className={`featured-card ${styles.featuredCard}`}>
                   <Image
