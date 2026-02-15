@@ -439,9 +439,6 @@ export default function CommunitiesMap({ communities }: CommunitiesMapProps) {
         onLoad={handleScriptLoad}
       />
       <div ref={mapContainerRef} className={styles.mapContainer}>
-        <h2 className={styles.mapTitleOverlay}>
-          In-person AI safety communities
-        </h2>
         <button
           onClick={handleViewOnline}
           className={`button-primary ${styles.mapButton}`}

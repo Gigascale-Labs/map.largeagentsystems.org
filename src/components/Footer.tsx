@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <footer className={styles['site-footer']}>
       <div className="container-default">
-        <div className="flex gap-56px padding-bottom-104px">
+        <div className="flex flex-col-mobile gap-56px padding-bottom-104px">
           {/* First footer column */}
           <div className="width-6-col">
             <div className="width-4-col">
