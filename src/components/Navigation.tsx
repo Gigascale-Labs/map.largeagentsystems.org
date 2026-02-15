@@ -2,7 +2,13 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
 import styles from './Navigation.module.css'
 
 const allNavItems = [
@@ -41,7 +47,6 @@ export default function Navigation() {
   const [hasBlur, setHasBlur] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [measured, setMeasured] = useState(false)
   const [visibleCount, setVisibleCount] = useState(
     allNavItems.length - MIN_OVERFLOW
   )
@@ -49,6 +54,7 @@ export default function Navigation() {
   const navRef = useRef<HTMLElement>(null)
   const navOuterRef = useRef<HTMLDivElement>(null)
   const itemRefs = useRef<(HTMLAnchorElement | null)[]>([])
+  const itemWidths = useRef<number[]>([])
   const scrollInfo = useRef({
     lastY: 0,
     mode: 'top' as 'top' | 'scrolling' | 'hidden' | 'revealed',
@@ -58,44 +64,49 @@ export default function Navigation() {
   const visibleItems = allNavItems.slice(0, visibleCount)
   const overflowItems = allNavItems.slice(visibleCount)
 
-  const calculateVisibleItems = useCallback(() => {
-    if (!navRef.current) return
+  const calculateFromCachedWidths = useCallback(() => {
+    if (!navRef.current || itemWidths.current.length === 0) return
     const navWidth = navRef.current.offsetWidth
-    // Reserve space for the "+N" button (~60px) and gap
     const overflowButtonWidth = 60
     const gap = 8
     let usedWidth = 0
     let count = 0
 
-    for (let i = 0; i < itemRefs.current.length; i++) {
-      const el = itemRefs.current[i]
-      if (!el) break
-      const itemWidth = el.offsetWidth + gap
-      if (usedWidth + itemWidth + overflowButtonWidth > navWidth) break
-      usedWidth += itemWidth
+    for (let i = 0; i < itemWidths.current.length; i++) {
+      const w = itemWidths.current[i] + gap
+      if (usedWidth + w + overflowButtonWidth > navWidth) break
+      usedWidth += w
       count++
     }
 
-    // Ensure at least MIN_OVERFLOW items are in the dropdown
     const maxVisible = allNavItems.length - MIN_OVERFLOW
     setVisibleCount(Math.min(count, maxVisible))
-    setMeasured(true)
   }, [])
 
+  // Measure item widths and calculate before the browser paints — no jitter
+  useLayoutEffect(() => {
+    const widths: number[] = []
+    for (const el of itemRefs.current) {
+      if (!el) break
+      widths.push(el.offsetWidth)
+    }
+    if (widths.length > 0) {
+      itemWidths.current = widths
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: must set count before paint to prevent jitter
+      calculateFromCachedWidths()
+      // Reveal nav after correct count is set (CSS starts at opacity:0)
+      if (navRef.current) navRef.current.style.opacity = '1'
+    }
+  }, [calculateFromCachedWidths])
+
+  // Recalculate on resize using cached widths — no need to reset visibleCount
   useEffect(() => {
-    // Wait for render, then calculate how many items fit
-    const timer = setTimeout(calculateVisibleItems, 50)
     const observer = new ResizeObserver(() => {
-      // Re-show max items to re-measure, then recalculate
-      setVisibleCount(allNavItems.length - MIN_OVERFLOW)
-      setTimeout(calculateVisibleItems, 50)
+      calculateFromCachedWidths()
     })
     if (navRef.current) observer.observe(navRef.current)
-    return () => {
-      clearTimeout(timer)
-      observer.disconnect()
-    }
-  }, [calculateVisibleItems])
+    return () => observer.disconnect()
+  }, [calculateFromCachedWidths])
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -187,11 +198,7 @@ export default function Navigation() {
             />
           </Link>
 
-          <nav
-            ref={navRef}
-            className={styles['nav-menu']}
-            style={measured ? undefined : { visibility: 'hidden' }}
-          >
+          <nav ref={navRef} className={styles['nav-menu']}>
             {visibleItems.map((item, i) => (
               <Link
                 key={item.href}

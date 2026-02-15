@@ -26,6 +26,7 @@
   gap: 8px;
   flex: 1;
   flex-wrap: nowrap;
+  opacity: 0;
 }
 
 .menu-button {
