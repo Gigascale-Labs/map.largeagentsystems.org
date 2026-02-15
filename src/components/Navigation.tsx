@@ -41,6 +41,7 @@ export default function Navigation() {
   const [hasBlur, setHasBlur] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [measured, setMeasured] = useState(false)
   const [visibleCount, setVisibleCount] = useState(
     allNavItems.length - MIN_OVERFLOW
   )
@@ -78,6 +79,7 @@ export default function Navigation() {
     // Ensure at least MIN_OVERFLOW items are in the dropdown
     const maxVisible = allNavItems.length - MIN_OVERFLOW
     setVisibleCount(Math.min(count, maxVisible))
+    setMeasured(true)
   }, [])
 
   useEffect(() => {
@@ -185,7 +187,11 @@ export default function Navigation() {
             />
           </Link>
 
-          <nav ref={navRef} className={styles['nav-menu']}>
+          <nav
+            ref={navRef}
+            className={styles['nav-menu']}
+            style={measured ? undefined : { visibility: 'hidden' }}
+          >
             {visibleItems.map((item, i) => (
               <Link
                 key={item.href}
