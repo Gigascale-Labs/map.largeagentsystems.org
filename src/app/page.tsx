@@ -6,7 +6,7 @@ import styles from './page.module.css'
 export default function Home() {
   return (
     <div className="container-default">
-      <div className="flex items-start gap-40px padding-top-56px padding-bottom-80px">
+      <div className="flex flex-col-mobile items-start gap-40px padding-top-56px padding-bottom-80px">
         <h1 className="width-8-col">
           Find your place in the AI safety ecosystem
         </h1>

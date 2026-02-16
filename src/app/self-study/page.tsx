@@ -155,7 +155,7 @@ export default function SelfStudyPage() {
       </h2>
 
       {/* Featured Cards + Related Resources */}
-      <div className="flex gap-56px padding-bottom-80px">
+      <div className="flex flex-col-mobile gap-56px padding-bottom-80px">
         <div className={styles['featured-cards-grid']}>
           <a
             href="https://www.alignmentforum.org/library"
