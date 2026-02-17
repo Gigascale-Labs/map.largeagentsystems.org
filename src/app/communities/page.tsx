@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import LastUpdated from '@/components/LastUpdated'
+import FeaturedCard from '@/components/FeaturedCard'
 import CommunitiesClient from './CommunitiesClient'
 import CommunitiesMap from './CommunitiesMap'
 import styles from './page.module.css'
@@ -171,57 +171,19 @@ export default async function CommunitiesPage() {
         <div className="flex flex-col-mobile gap-56px padding-bottom-80px">
           <div className="flex flex-col-mobile gap-40px">
             {featuredCommunities.map(community => (
-              <Link
+              <FeaturedCard
                 key={community.id}
                 href={community.joinLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-col-mobile"
-              >
-                <div className={`featured-card ${styles.featuredCard}`}>
-                  <Image
-                    src="/images/bookmark-small.svg"
-                    alt=""
-                    className="bookmark-icon"
-                    width={16}
-                    height={24}
-                  />
-                  <p className="paragraph-small-bold color-teal-300 padding-bottom-16px">
-                    {community.tagline}
-                  </p>
-                  <div className="flex items-center gap-16px padding-bottom-24px">
-                    <div className="featured-img">
-                      {community.logo && (
-                        <Image
-                          src={community.logo}
-                          alt={`${community.name} logo`}
-                          width={64}
-                          height={64}
-                          className="card-image"
-                        />
-                      )}
-                    </div>
-                    <h3>{community.name}</h3>
-                  </div>
-                  <p className="padding-bottom-24px">{community.description}</p>
-                  <p className="paragraph-xs-bold color-teal-400 padding-bottom-4px">
-                    Platform
-                  </p>
-                  <p className="paragraph-small padding-bottom-16px">
-                    {community.platform}
-                  </p>
-                  <p className="paragraph-xs-bold color-teal-400 padding-bottom-4px">
-                    Activity level
-                  </p>
-                  <p className="paragraph-small padding-bottom-16px">
-                    {community.activityLevel}
-                  </p>
-                  <p className="paragraph-xs-bold color-teal-400 padding-bottom-4px">
-                    Focus
-                  </p>
-                  <p className="paragraph-small">{community.focus}</p>
-                </div>
-              </Link>
+                tagline={community.tagline}
+                name={community.name}
+                description={community.description}
+                logo={community.logo}
+                metadata={[
+                  { label: 'Platform', value: community.platform },
+                  { label: 'Activity level', value: community.activityLevel },
+                  { label: 'Focus', value: community.focus },
+                ]}
+              />
             ))}
           </div>
 

@@ -83,6 +83,25 @@ src/
 
 - **Grep tool failure**: If the Grep tool returns "No matches found" for patterns that clearly exist, use `grep` via Bash tool instead. This appears to be due to a missing ripgrep binary that fails silently. (Note: This may be specific to certain development environments and not apply to all users of this repository.)
 
+## Project-Specific Patterns
+
+### HTML Consistency
+
+- **Use the same HTML tag for shared classes.** When a utility class like `button-primary` is used across the site, prefer using the same element type (e.g. always `<a>`/`<Link>`) to avoid browser-default style differences (borders, padding, etc.).
+
+### CSS Details
+
+- **Hover transitions:** All hover transitions use `var(--hover-transition)` defined in `:root` (`0.1s ease-in-out`). Never hardcode transition values.
+- **Card hover color:** Uses `color-mix(in srgb, var(--teal-850) 60%, var(--teal-800))` — subtle shift using existing palette colors.
+- **White button hover:** Darkens to `var(--off-white)` — never use opacity reduction.
+
+### Key File Locations
+
+- Design tokens & global classes: `src/app/globals.css`
+- Communities map: `src/app/communities/CommunitiesMap.tsx`
+- Communities page: `src/app/communities/page.tsx`
+- Field map page: `src/app/map/page.tsx`
+
 ## Common Patterns
 
 ### Component Structure

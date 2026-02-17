@@ -3,6 +3,8 @@
 import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import FilterGroup from '@/components/FilterGroup'
+import ContributeButtons from '@/components/ContributeButtons'
 import { Community } from '../api/communities/route'
 
 interface CommunitiesClientProps {
@@ -192,149 +194,39 @@ export default function CommunitiesClient({
 
       {/* Filters Sidebar */}
       <aside className="hide-mobile">
-        {/* Type Filter */}
-        <div className="padding-bottom-40px">
-          <p className="paragraph-small-bold color-white padding-bottom-24px">
-            Type
-          </p>
-          {typeOptions.map(option => (
-            <label
-              key={option}
-              className="flex items-center cursor-pointer padding-bottom-16px"
-            >
-              <input
-                type="checkbox"
-                checked={typeFilters.includes(option)}
-                onChange={() =>
-                  toggleFilter(option, typeFilters, setTypeFilters)
-                }
-                className="checkbox"
-              />
-              <span className="paragraph-small color-teal-300">
-                {option}
-                <span className="filter-count">
-                  {' '}
-                  ({filterCounts.type[option] || 0})
-                </span>
-              </span>
-            </label>
-          ))}
-        </div>
-
-        {/* Platform Filter */}
-        <div className="padding-bottom-40px">
-          <p className="paragraph-small-bold color-white padding-bottom-24px">
-            Platform
-          </p>
-          {platformOptions.map(option => (
-            <label
-              key={option}
-              className="flex items-center cursor-pointer padding-bottom-16px"
-            >
-              <input
-                type="checkbox"
-                checked={platformFilters.includes(option)}
-                onChange={() =>
-                  toggleFilter(option, platformFilters, setPlatformFilters)
-                }
-                className="checkbox"
-              />
-              <span className="paragraph-small color-teal-300">
-                {option}
-                <span className="filter-count">
-                  {' '}
-                  ({filterCounts.platform[option] || 0})
-                </span>
-              </span>
-            </label>
-          ))}
-        </div>
-
-        {/* Activity Level Filter */}
-        <div className="padding-bottom-40px">
-          <p className="paragraph-small-bold color-white padding-bottom-24px">
-            Activity level
-          </p>
-          {activityOptions.map(option => (
-            <label
-              key={option}
-              className="flex items-center cursor-pointer padding-bottom-16px"
-            >
-              <input
-                type="checkbox"
-                checked={activityFilters.includes(option)}
-                onChange={() =>
-                  toggleFilter(option, activityFilters, setActivityFilters)
-                }
-                className="checkbox"
-              />
-              <span className="paragraph-small color-teal-300">
-                {option}
-                <span className="filter-count">
-                  {' '}
-                  ({filterCounts.activity[option] || 0})
-                </span>
-              </span>
-            </label>
-          ))}
-        </div>
-
-        {/* Focus Filter */}
-        <div className="padding-bottom-40px">
-          <p className="paragraph-small-bold color-white padding-bottom-24px">
-            Focus
-          </p>
-          {focusOptions.map(option => (
-            <label
-              key={option}
-              className="flex items-center cursor-pointer padding-bottom-16px"
-            >
-              <input
-                type="checkbox"
-                checked={focusFilters.includes(option)}
-                onChange={() =>
-                  toggleFilter(option, focusFilters, setFocusFilters)
-                }
-                className="checkbox"
-              />
-              <span className="paragraph-small color-teal-300">
-                {option}
-                <span className="filter-count">
-                  {' '}
-                  ({filterCounts.focus[option] || 0})
-                </span>
-              </span>
-            </label>
-          ))}
-        </div>
-
-        {/* Suggest Entry / Correction */}
-        <div className="contribute-buttons">
-          <a
-            href="https://airtable.com/appF8XfZUGXtfi40E/pagKhplUqu07DwVqC/form"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <p className="paragraph-default-bold padding-bottom-8px">
-              Suggest entry <span className="color-teal-300">→</span>
-            </p>
-            <p className="paragraph-small color-teal-300">
-              Suggest a community to be listed here
-            </p>
-          </a>
-          <a
-            href="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <p className="paragraph-default-bold padding-bottom-8px">
-              Suggest correction <span className="color-teal-300">→</span>
-            </p>
-            <p className="paragraph-small color-teal-300">
-              Let us know of changes to a community
-            </p>
-          </a>
-        </div>
+        <FilterGroup
+          title="Type"
+          options={typeOptions}
+          selected={typeFilters}
+          counts={filterCounts.type}
+          onToggle={v => toggleFilter(v, typeFilters, setTypeFilters)}
+        />
+        <FilterGroup
+          title="Platform"
+          options={platformOptions}
+          selected={platformFilters}
+          counts={filterCounts.platform}
+          onToggle={v => toggleFilter(v, platformFilters, setPlatformFilters)}
+        />
+        <FilterGroup
+          title="Activity level"
+          options={activityOptions}
+          selected={activityFilters}
+          counts={filterCounts.activity}
+          onToggle={v => toggleFilter(v, activityFilters, setActivityFilters)}
+        />
+        <FilterGroup
+          title="Focus"
+          options={focusOptions}
+          selected={focusFilters}
+          counts={filterCounts.focus}
+          onToggle={v => toggleFilter(v, focusFilters, setFocusFilters)}
+        />
+        <ContributeButtons
+          suggestEntryUrl="https://airtable.com/appF8XfZUGXtfi40E/pagKhplUqu07DwVqC/form"
+          suggestCorrectionUrl="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
+          noun="community"
+        />
       </aside>
     </div>
   )

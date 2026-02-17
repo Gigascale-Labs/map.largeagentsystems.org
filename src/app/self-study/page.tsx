@@ -4,7 +4,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import LastUpdated from '@/components/LastUpdated'
-import styles from './page.module.css'
+import FeaturedCard from '@/components/FeaturedCard'
+import FilterGroup from '@/components/FilterGroup'
+import ContributeButtons from '@/components/ContributeButtons'
 
 const categoryOptions = [
   'Introductory',
@@ -143,12 +145,12 @@ export default function SelfStudyPage() {
   return (
     <div className="container-default">
       {/* Hero */}
-      <h1 className="padding-top-56px padding-bottom-8px">Self-study</h1>
+      <h1 className="padding-top-40px padding-bottom-8px">Self-study</h1>
       <LastUpdated
         apiEndpoint="/api/last-updated/self-study"
-        className="padding-bottom-40px paragraph-small color-teal-300"
+        className="paragraph-small color-teal-300 margin-bottom-40px"
       />
-      <h2 className="width-6-col padding-bottom-56px">
+      <h2 className="width-7-col margin-bottom-56px">
         These curricula and reading lists enable you to{' '}
         <span className="color-light-teal">dive deeper into AI safety </span>
         through independent learning.
@@ -156,111 +158,42 @@ export default function SelfStudyPage() {
 
       {/* Featured Cards + Related Resources */}
       <div className="flex flex-col-mobile gap-56px padding-bottom-80px">
-        <div className={styles['featured-cards-grid']}>
-          <a
+        <div className="flex flex-col-mobile gap-40px">
+          <FeaturedCard
             href="https://www.alignmentforum.org/library"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <div className="featured-card">
-              <p className="paragraph-small-bold padding-bottom-16px color-teal-300">
-                Fundamental reading
-              </p>
-              <div className="flex items-center gap-16px padding-bottom-24px">
-                <div className="featured-img">
-                  <Image
-                    src="/images/download-2-1.svg"
-                    alt=""
-                    width={64}
-                    height={64}
-                    className="card-image"
-                  />
-                </div>
-                <h3>AI Alignment Forum: Curated Sequences</h3>
-              </div>
-              <p className="padding-bottom-24px">
-                List of sequences curated by the AI Alignment Forum team,
-                featuring work from Richard Ngo, Paul Christiano, etc.
-              </p>
-              <Image
-                src="/images/bookmark-light.svg"
-                alt=""
-                width={16}
-                height={40}
-                className="bookmark-icon"
-              />
-              <p className="paragraph-xs-bold padding-bottom-4px color-teal-400">
-                Category
-              </p>
-              <p className="paragraph-small padding-bottom-16px">
-                Technical Alignment
-              </p>
-              <p className="paragraph-xs-bold padding-bottom-4px color-teal-400">
-                Created by
-              </p>
-              <p className="paragraph-small">Various</p>
-            </div>
-          </a>
-
-          <a
+            tagline="Fundamental reading"
+            name="AI Alignment Forum: Curated Sequences"
+            description="List of sequences curated by the AI Alignment Forum team, featuring work from Richard Ngo, Paul Christiano, etc."
+            logo="/images/download-2-1.svg"
+            metadata={[
+              { label: 'Category', value: 'Technical Alignment' },
+              { label: 'Created by', value: 'Various' },
+            ]}
+          />
+          <FeaturedCard
             href="https://bluedot.org/courses"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <div className="featured-card">
-              <p className="paragraph-small-bold padding-bottom-16px color-teal-300">
-                Standard introductory courses
-              </p>
-              <div className="flex items-center gap-16px padding-bottom-24px">
-                <div className="featured-img">
-                  <Image
-                    src="/images/download-2-1.svg"
-                    alt=""
-                    width={64}
-                    height={64}
-                    className="card-image"
-                  />
-                </div>
-                <h3>BlueDot Impact: Technical &amp; Governance</h3>
-              </div>
-              <p className="padding-bottom-24px">
-                Covers key concepts and research perspectives in AI safety,
-                split into two main streams: Technical AI Safety and AI
-                Governance.
-              </p>
-              <Image
-                src="/images/bookmark-light.svg"
-                alt=""
-                width={16}
-                height={40}
-                className="bookmark-icon"
-              />
-              <p className="paragraph-xs-bold padding-bottom-4px color-teal-400">
-                Category
-              </p>
-              <p className="paragraph-small padding-bottom-16px">
-                Technical Alignment, Governance
-              </p>
-              <p className="paragraph-xs-bold padding-bottom-4px color-teal-400">
-                Created by
-              </p>
-              <p className="paragraph-small">BlueDot Impact</p>
-            </div>
-          </a>
+            tagline="Standard introductory courses"
+            name="BlueDot Impact: Technical & Governance"
+            description="Covers key concepts and research perspectives in AI safety, split into two main streams: Technical AI Safety and AI Governance."
+            logo="/images/download-2-1.svg"
+            metadata={[
+              { label: 'Category', value: 'Technical Alignment, Governance' },
+              { label: 'Created by', value: 'BlueDot Impact' },
+            ]}
+          />
         </div>
 
-        {/* Related Resources - desktop only */}
-        <div className="hide-mobile">
+        <aside className="hide-mobile">
           <p className="paragraph-small-bold padding-bottom-32px">
             Related resources
           </p>
           <Link
             href="/events-and-training"
-            className="padding-bottom-40px block"
+            className="block padding-bottom-40px"
           >
             <h3 className="padding-bottom-16px">
               Events &amp; training{' '}
-              <span className="color-teal-300">&rarr;</span>
+              <span className="color-teal-400">&rarr;</span>
             </h3>
             <p className="paragraph-small color-teal-300">
               Upcoming fellowships, conferences, facilitated courses etc.
@@ -273,13 +206,13 @@ export default function SelfStudyPage() {
             className="block"
           >
             <h3 className="padding-bottom-16px">
-              AI Digest <span className="color-teal-300">&rarr;</span>
+              AI Digest <span className="color-teal-400">&rarr;</span>
             </h3>
             <p className="paragraph-small color-teal-300">
               Interactive explainers of AI capabilities and trends
             </p>
           </a>
-        </div>
+        </aside>
       </div>
 
       {/* Database Grid */}
@@ -356,86 +289,25 @@ export default function SelfStudyPage() {
 
         {/* Right column: filters (desktop only) */}
         <div className="hide-mobile">
-          {/* Category filter */}
-          <div className="padding-bottom-40px">
-            <label className="paragraph-small-bold padding-bottom-16px">
-              Category
-            </label>
-            {categoryOptions.map(category => (
-              <label
-                key={category}
-                className="flex items-center cursor-pointer padding-bottom-16px"
-              >
-                <input
-                  type="checkbox"
-                  className="checkbox"
-                  checked={selectedCategories.has(category)}
-                  onChange={() => toggleCategory(category)}
-                />
-                <span className="paragraph-small color-teal-300 flex items-center cursor-pointer">
-                  {category}
-                  <span className="filter-count">
-                    {' '}
-                    ({categoryCounts[category] || 0})
-                  </span>
-                </span>
-              </label>
-            ))}
-          </div>
-
-          {/* Type filter */}
-          <div className="padding-bottom-56px">
-            <label className="paragraph-small padding-bottom-16px">Type</label>
-            {typeOptions.map(type => (
-              <label
-                key={type}
-                className="flex items-center cursor-pointer padding-bottom-16px"
-              >
-                <input
-                  type="checkbox"
-                  className="checkbox"
-                  checked={selectedTypes.has(type)}
-                  onChange={() => toggleType(type)}
-                />
-                <span className="paragraph-small color-teal-300 flex items-center cursor-pointer">
-                  {type}
-                  <span className="filter-count">
-                    {' '}
-                    ({typeCounts[type] || 0})
-                  </span>
-                </span>
-              </label>
-            ))}
-          </div>
-
-          {/* Contribute buttons */}
-          <div className="contribute-buttons">
-            <a
-              href="https://airtable.com/appF8XfZUGXtfi40E/pag6L4BzdkxocBzqr/form"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <p className="paragraph-default-bold padding-bottom-8px">
-                Suggest entry <span className="color-teal-300">&rarr;</span>
-              </p>
-              <p className="paragraph-small color-teal-300">
-                Suggest a course to be listed here
-              </p>
-            </a>
-            <a
-              href="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <p className="paragraph-default-bold padding-bottom-8px">
-                Suggest correction{' '}
-                <span className="color-teal-300">&rarr;</span>
-              </p>
-              <p className="paragraph-small color-teal-300">
-                Let us know of changes to a course
-              </p>
-            </a>
-          </div>
+          <FilterGroup
+            title="Category"
+            options={categoryOptions}
+            selected={Array.from(selectedCategories)}
+            counts={categoryCounts}
+            onToggle={toggleCategory}
+          />
+          <FilterGroup
+            title="Type"
+            options={typeOptions}
+            selected={Array.from(selectedTypes)}
+            counts={typeCounts}
+            onToggle={toggleType}
+          />
+          <ContributeButtons
+            suggestEntryUrl="https://airtable.com/appF8XfZUGXtfi40E/pag6L4BzdkxocBzqr/form"
+            suggestCorrectionUrl="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
+            noun="course"
+          />
         </div>
       </div>
     </div>

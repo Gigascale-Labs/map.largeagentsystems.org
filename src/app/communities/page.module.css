@@ -146,21 +146,11 @@
    PAGE-SPECIFIC OVERRIDES
    =============================== */
 
-.featuredCard {
-  width: 369px;
-  display: flex;
-  flex-direction: column;
-}
-
 /* ===============================
    MEDIA QUERIES
    =============================== */
 
 @media (max-width: 991px) {
-  .featuredCard {
-    width: 100%;
-  }
-
   .mapContainer {
     min-height: 400px !important;
     max-height: 65vh !important;
