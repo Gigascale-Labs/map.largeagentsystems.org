@@ -639,6 +639,12 @@ label {
   display: block;
 }
 
+/* Divider */
+.divider {
+  height: 1px;
+  background-color: var(--teal-700);
+}
+
 /* Cursor */
 .cursor-pointer {
   cursor: pointer;
