@@ -83,9 +83,9 @@ a {
   text-decoration: inherit;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/* Removed global scroll-behavior: smooth — it causes animated scroll-to-top
+   on page navigation. Smooth scrolling is applied only where needed (e.g.
+   anchor links) via the UpButton component. */
 
 *:focus {
   outline: 2px solid var(--bright-teal-500);
@@ -174,10 +174,7 @@ label {
 }
 
 .paragraph-default-bold {
-  font-size: 16px;
   font-weight: 600;
-  line-height: 140%;
-  color: white;
 }
 
 /* Text effects */
@@ -201,6 +198,9 @@ label {
 }
 .color-light-teal {
   color: var(--bright-teal-300);
+}
+.color-white {
+  color: #fff;
 }
 .color-grey {
   color: #8e999a;
@@ -412,6 +412,9 @@ label {
 }
 .margin-bottom-104px {
   margin-bottom: 104px;
+}
+.margin-bottom-128px {
+  margin-bottom: 128px;
 }
 .margin-bottom-192px {
   margin-bottom: 192px;
@@ -637,6 +640,10 @@ label {
 }
 .block {
   display: block;
+}
+
+.display-inline {
+  display: inline;
 }
 
 /* Cursor */
@@ -1126,6 +1133,10 @@ label {
 
   .margin-bottom-104px {
     margin-bottom: 64px;
+  }
+
+  .margin-bottom-128px {
+    margin-bottom: 56px;
   }
 
   .margin-bottom-192px {

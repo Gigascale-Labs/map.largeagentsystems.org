@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <footer className={styles['site-footer']}>
       <div className="container-default">
-        <div className="flex flex-col-mobile gap-56px padding-bottom-104px">
+        <div className="flex flex-col-mobile gap-56px margin-bottom-128px">
           {/* First footer column */}
           <div className="width-6-col">
             <div className="width-4-col">
@@ -34,7 +34,7 @@ export default function Footer() {
             <h4 className="paragraph-small-bold padding-bottom-16px">
               Help us out
             </h4>
-            <div className="color-teal-400 paragraph-small flex flex-col gap-8px">
+            <div className="opacity-80 paragraph-small flex flex-col gap-8px">
               <Link
                 href="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
                 target="_blank"
@@ -58,7 +58,7 @@ export default function Footer() {
             <h4 className="paragraph-small-bold padding-bottom-16px">
               Newsletters
             </h4>
-            <div className="color-teal-400 paragraph-small flex flex-col gap-8px">
+            <div className="opacity-80 paragraph-small flex flex-col gap-8px">
               <Link
                 href="https://aisafetyeventsandtraining.substack.com/"
                 target="_blank"
@@ -83,8 +83,6 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="divider margin-top-24px margin-bottom-24px"></div>
-
         <div className={styles['footer-divider']}></div>
 
         <div className={styles['footer-bottom']}>
@@ -100,7 +98,7 @@ export default function Footer() {
             </p>
           </div>
           <p className={styles['footer-copyright']}>
-            (ɔ) 2025 · This site is released under a CC BY-SA license
+            (ɔ) 2026 · This site is released under a CC BY-SA license
           </p>
         </div>
       </div>

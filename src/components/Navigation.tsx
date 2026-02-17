@@ -2,10 +2,16 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
 import styles from './Navigation.module.css'
 
-const navItems = [
+const allNavItems = [
   {
     href: '/events-and-training',
     label: 'Events & training',
@@ -17,9 +23,6 @@ const navItems = [
   { href: '/self-study', label: 'Self-study', icon: 'book.svg', count: 25 },
   { href: '/jobs', label: 'Jobs', icon: 'briefcase.svg', count: 327 },
   { href: '/funding', label: 'Funding', icon: 'coins.svg', count: 49 },
-]
-
-const mobileOnlyNavItems = [
   {
     href: '/media-channels',
     label: 'Media channels',
@@ -36,48 +39,153 @@ const mobileOnlyNavItems = [
   { href: '/donation-guide', label: 'Donation guide', icon: 'heart.svg' },
 ]
 
-const SCROLL_THRESHOLD_TOP = 10
-const SCROLL_THRESHOLD_HIDE = 100
+const MIN_OVERFLOW = 4
+
 const SCROLL_THRESHOLD_BLUR = 50
 
 export default function Navigation() {
-  const [isVisible, setIsVisible] = useState(true)
   const [hasBlur, setHasBlur] = useState(false)
-  const [lastScrollY, setLastScrollY] = useState(0)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [visibleCount, setVisibleCount] = useState(
+    allNavItems.length - MIN_OVERFLOW
+  )
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const navRef = useRef<HTMLElement>(null)
+  const navOuterRef = useRef<HTMLDivElement>(null)
+  const itemRefs = useRef<(HTMLAnchorElement | null)[]>([])
+  const itemWidths = useRef<number[]>([])
+  const scrollInfo = useRef({
+    lastY: 0,
+    mode: 'top' as 'top' | 'scrolling' | 'hidden' | 'revealed',
+  })
+
+  const overflowCount = allNavItems.length - visibleCount
+  const visibleItems = allNavItems.slice(0, visibleCount)
+  const overflowItems = allNavItems.slice(visibleCount)
+
+  const calculateFromCachedWidths = useCallback(() => {
+    if (!navRef.current || itemWidths.current.length === 0) return
+    const navWidth = navRef.current.offsetWidth
+    const overflowButtonWidth = 60
+    const gap = 8
+    let usedWidth = 0
+    let count = 0
+
+    for (let i = 0; i < itemWidths.current.length; i++) {
+      const w = itemWidths.current[i] + gap
+      if (usedWidth + w + overflowButtonWidth > navWidth) break
+      usedWidth += w
+      count++
+    }
+
+    const maxVisible = allNavItems.length - MIN_OVERFLOW
+    setVisibleCount(Math.min(count, maxVisible))
+  }, [])
+
+  // Measure item widths and calculate before the browser paints — no jitter
+  useLayoutEffect(() => {
+    const widths: number[] = []
+    for (const el of itemRefs.current) {
+      if (!el) break
+      widths.push(el.offsetWidth)
+    }
+    if (widths.length > 0) {
+      itemWidths.current = widths
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: must set count before paint to prevent jitter
+      calculateFromCachedWidths()
+      // Reveal nav after correct count is set (CSS starts at opacity:0)
+      if (navRef.current) navRef.current.style.opacity = '1'
+    }
+  }, [calculateFromCachedWidths])
+
+  // Recalculate on resize using cached widths — no need to reset visibleCount
+  useEffect(() => {
+    const observer = new ResizeObserver(() => {
+      calculateFromCachedWidths()
+    })
+    if (navRef.current) observer.observe(navRef.current)
+    return () => observer.disconnect()
+  }, [calculateFromCachedWidths])
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setIsDropdownOpen(false)
+      }
+    }
+    if (isDropdownOpen) {
+      document.addEventListener('click', handleClickOutside)
+    }
+    return () => document.removeEventListener('click', handleClickOutside)
+  }, [isDropdownOpen])
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY
+      const el = navOuterRef.current
+      if (!el) return
+      const y = window.scrollY
+      const { lastY, mode } = scrollInfo.current
+      const goingDown = y > lastY
+      const goingUp = y < lastY
 
-      const scrollIsOnTop = currentScrollY <= SCROLL_THRESHOLD_TOP
-      const isScrollingUp = currentScrollY <= lastScrollY
-      const isScrollingDown = !isScrollingUp
-      const hasScrolledEnoughToHide = currentScrollY > SCROLL_THRESHOLD_HIDE
-      const hasScrolledEnoughToBlur = currentScrollY > SCROLL_THRESHOLD_BLUR
-
-      // Control blur
-      setHasBlur(hasScrolledEnoughToBlur)
-
-      // Control visibility
-      if (scrollIsOnTop || isScrollingUp) {
-        setIsVisible(true)
-      } else if (isScrollingDown && hasScrolledEnoughToHide) {
-        setIsVisible(false)
+      if (y <= 0) {
+        // At the very top - reset
+        el.style.transition = 'none'
+        el.style.transform = 'translateY(0)'
+        scrollInfo.current.mode = 'top'
+      } else if (goingDown) {
+        if (mode === 'top' || mode === 'scrolling') {
+          // Scrolling down from top - move naturally with the page
+          const navHeight = el.offsetHeight
+          if (y >= navHeight) {
+            el.style.transition = 'none'
+            el.style.transform = 'translateY(-100%)'
+            scrollInfo.current.mode = 'hidden'
+          } else {
+            el.style.transition = 'none'
+            el.style.transform = `translateY(-${y}px)`
+            scrollInfo.current.mode = 'scrolling'
+          }
+        } else if (mode === 'revealed') {
+          // Was revealed by scroll-up, now scrolling down again - animate away
+          el.style.transition = 'transform 0.3s ease-in-out'
+          el.style.transform = 'translateY(-100%)'
+          scrollInfo.current.mode = 'hidden'
+        }
+        // 'hidden' stays hidden
+      } else if (goingUp) {
+        if (mode === 'hidden' || mode === 'scrolling') {
+          // Scrolling up - reveal with smooth animation
+          el.style.transition = 'transform 0.3s ease-in-out'
+          el.style.transform = 'translateY(0)'
+          scrollInfo.current.mode = 'revealed'
+        }
+        // Near the top, switch back to natural mode
+        if (y <= 5) {
+          scrollInfo.current.mode = 'top'
+        }
       }
 
-      setLastScrollY(currentScrollY)
+      // Only show blur when nav is revealed mid-page (not when scrolling away from top)
+      setHasBlur(
+        scrollInfo.current.mode === 'revealed' && y > SCROLL_THRESHOLD_BLUR
+      )
+
+      scrollInfo.current.lastY = y
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
-
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [lastScrollY, isVisible])
+  }, [])
   return (
     <>
-      <div className={styles['nav-spacer']} />
       <div
-        className={`${styles.nav} ${styles['nav-fixed']} ${hasBlur ? styles['nav-blur'] : ''} ${isVisible ? styles.visible : styles.hidden}`}
+        ref={navOuterRef}
+        className={`${styles.nav} ${styles['nav-fixed']} ${hasBlur ? styles['nav-blur'] : ''}`}
       >
         <div className={styles['nav-container']}>
           <Link href="/" className="padding-right-24px">
@@ -90,12 +198,15 @@ export default function Navigation() {
             />
           </Link>
 
-          <nav className={styles['nav-menu']}>
-            {navItems.map(item => (
+          <nav ref={navRef} className={styles['nav-menu']}>
+            {visibleItems.map((item, i) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={styles['nav-item']}
+                ref={el => {
+                  itemRefs.current[i] = el
+                }}
               >
                 <div className={styles['nav-item-icon']}>
                   <Image
@@ -112,8 +223,40 @@ export default function Navigation() {
               </Link>
             ))}
 
-            <div className={styles['nav-item-last']}>
-              <p className="paragraph-small-bold">+4</p>
+            <div
+              ref={dropdownRef}
+              className={styles['nav-item-last']}
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            >
+              <p className="paragraph-small-bold">+{overflowCount}</p>
+              {isDropdownOpen && (
+                <div className={styles['nav-dropdown']}>
+                  {overflowItems.map(item => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={styles['nav-dropdown-item']}
+                      style={{ marginBottom: '8px' }}
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      <div className={styles['nav-item-icon']}>
+                        <Image
+                          width={16}
+                          height={16}
+                          alt={`${item.label} icon`}
+                          src={`/images/${item.icon}`}
+                        />
+                      </div>
+                      <p className="paragraph-small-bold">{item.label}</p>
+                      {item.count && (
+                        <p className="paragraph-xs color-teal-300">
+                          {item.count}
+                        </p>
+                      )}
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
           </nav>
 
@@ -159,7 +302,7 @@ export default function Navigation() {
           </button>
         </div>
         <nav className={styles['mobile-menu-items']}>
-          {[...navItems, ...mobileOnlyNavItems].map(item => (
+          {allNavItems.map(item => (
             <Link
               key={item.href}
               href={item.href}
