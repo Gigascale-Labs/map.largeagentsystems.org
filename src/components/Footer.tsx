@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <footer className="margin-top-128px padding-bottom-24px">
       <div className="container-default">
-        <div className="flex flex-col-mobile gap-56px padding-bottom-104px">
+        <div className="flex flex-col-mobile gap-56px margin-bottom-128px">
           {/* First footer column */}
           <div className="width-6-col">
             <div className="width-4-col">
