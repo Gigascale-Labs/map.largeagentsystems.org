@@ -5,7 +5,7 @@ import styles from './Footer.module.css'
 
 export default function Footer() {
   return (
-    <footer className={styles['site-footer']}>
+    <footer className="margin-top-128px padding-bottom-24px">
       <div className="container-default">
         <div className="flex flex-col-mobile gap-56px margin-bottom-128px">
           {/* First footer column */}
@@ -34,7 +34,9 @@ export default function Footer() {
             <h4 className="paragraph-small-bold padding-bottom-16px">
               Help us out
             </h4>
-            <div className="opacity-80 paragraph-small flex flex-col gap-8px">
+            <div
+              className={`color-teal-300 paragraph-small flex flex-col gap-8px ${styles.links}`}
+            >
               <Link
                 href="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
                 target="_blank"
@@ -58,7 +60,9 @@ export default function Footer() {
             <h4 className="paragraph-small-bold padding-bottom-16px">
               Newsletters
             </h4>
-            <div className="opacity-80 paragraph-small flex flex-col gap-8px">
+            <div
+              className={`color-teal-300 paragraph-small flex flex-col gap-8px ${styles.links}`}
+            >
               <Link
                 href="https://aisafetyeventsandtraining.substack.com/"
                 target="_blank"
@@ -83,22 +87,22 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className={styles['footer-divider']}></div>
+        <div className="divider margin-bottom-24px"></div>
 
-        <div className={styles['footer-bottom']}>
-          <div className={styles['footer-attribution']}>
+        <div className="flex justify-between items-center flex-col-mobile gap-16px">
+          <div className="flex items-center gap-8px">
             <Image
               width={80}
               height={32}
               alt="Community thumbnails"
               src="/images/thumbnails.png"
             />
-            <p className={styles['footer-credit']}>
+            <p className="paragraph-xs color-teal-300">
               Maintained by AI safety community-builders
             </p>
           </div>
-          <p className={styles['footer-copyright']}>
-            (ɔ) 2026 · This site is released under a CC BY-SA license
+          <p className="paragraph-xs color-teal-300 opacity-80">
+            (ɔ) 2025 · This site is released under a CC BY-SA license
           </p>
         </div>
       </div>
