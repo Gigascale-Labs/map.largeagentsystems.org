@@ -5,7 +5,7 @@ import styles from './Footer.module.css'
 
 export default function Footer() {
   return (
-    <footer className="margin-top-104px padding-bottom-40px">
+    <footer className="margin-top-128px padding-bottom-24px">
       <div className="container-default">
         <div className="flex flex-col-mobile gap-56px padding-bottom-104px">
           {/* First footer column */}
@@ -35,7 +35,7 @@ export default function Footer() {
               Help us out
             </h4>
             <div
-              className={`color-teal-400 paragraph-small flex flex-col gap-8px ${styles.links}`}
+              className={`color-teal-300 paragraph-small flex flex-col gap-8px ${styles.links}`}
             >
               <Link
                 href="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
@@ -61,7 +61,7 @@ export default function Footer() {
               Newsletters
             </h4>
             <div
-              className={`color-teal-400 paragraph-small flex flex-col gap-8px ${styles.links}`}
+              className={`color-teal-300 paragraph-small flex flex-col gap-8px ${styles.links}`}
             >
               <Link
                 href="https://aisafetyeventsandtraining.substack.com/"
