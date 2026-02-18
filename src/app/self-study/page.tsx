@@ -145,7 +145,7 @@ export default function SelfStudyPage() {
   return (
     <div className="container-default">
       {/* Hero */}
-      <h1 className="padding-top-40px padding-bottom-8px">Self-study</h1>
+      <h1 className="padding-top-56px padding-bottom-8px">Self-study</h1>
       <LastUpdated
         apiEndpoint="/api/last-updated/self-study"
         className="paragraph-small color-teal-300 margin-bottom-40px"

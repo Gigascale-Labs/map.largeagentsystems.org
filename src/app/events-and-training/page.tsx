@@ -13,22 +13,22 @@ export default function EventsAndTrainingPage() {
     <div>
       {/* Main Content */}
       <div className="container-default">
-        <h1 className="padding-top-56px padding-bottom-16px">
+        <h1 className="padding-top-56px padding-bottom-8px">
           Events &amp; training
         </h1>
 
         <LastUpdated
           apiEndpoint="/api/last-updated/events"
-          className={styles['last-updated-text']}
+          className="paragraph-small color-teal-300 margin-bottom-40px"
         />
 
-        <p className={styles['intro-paragraph']}>
+        <h2 className="width-7-col margin-bottom-56px">
           There&apos;s a wide range of events and training programs in AI
           safety, both online and in-person. These can help you{' '}
-          <span className="color-teal">
+          <span className="color-light-teal">
             build skills, make connections, and discover opportunities.
           </span>
-        </p>
+        </h2>
 
         {/* Action Links */}
         <div className={styles['action-links-grid']}>

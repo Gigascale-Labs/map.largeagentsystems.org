@@ -670,6 +670,7 @@ label {
 .divider {
   height: 1px;
   background-color: var(--teal-700);
+}
 
 /* Cursor */
 .cursor-pointer {
