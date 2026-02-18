@@ -3,6 +3,8 @@
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import FilterGroup from '@/components/FilterGroup'
+import ContributeButtons from '@/components/ContributeButtons'
 import styles from './page.module.css'
 
 // Dynamic import D3Map to avoid SSR issues with D3
@@ -215,7 +217,7 @@ export default function MapPage() {
         </h2>
 
         {/* Cards section */}
-        <div className={styles['database-outer-grid']}>
+        <div className="database-outer-grid">
           {/* Left column: search + cards */}
           <div>
             <div className="padding-bottom-40px">
@@ -239,24 +241,22 @@ export default function MapPage() {
                 <p className="paragraph-small color-teal-300">Error: {error}</p>
               </div>
             ) : (
-              <div
-                className={`${styles['collection-list']} padding-bottom-40px`}
-              >
+              <div className="collection-list padding-bottom-40px">
                 {filteredOrgs.map(org => (
                   <a
                     key={org.id}
                     href={org.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={styles.card}
+                    className="card"
                   >
                     <div className="flex items-center gap-16px padding-bottom-24px">
-                      <div className={styles['featured-img']}>
+                      <div className="featured-img">
                         {org.logo && (
                           <Image
                             src={org.logo}
                             alt=""
-                            className={styles['card-image']}
+                            className="card-image"
                             width={64}
                             height={64}
                             unoptimized
@@ -268,7 +268,7 @@ export default function MapPage() {
                     <p className="paragraph-small padding-bottom-24px">
                       {org.description}
                     </p>
-                    <p className="paragraph-xs-bold color-teal-300 padding-bottom-4px">
+                    <p className="paragraph-xs-bold color-teal-400 padding-bottom-4px">
                       Category
                     </p>
                     <p className="paragraph-small">{org.category}</p>
@@ -285,107 +285,41 @@ export default function MapPage() {
 
           {/* Right column: filters (desktop only) */}
           <div className="hide-mobile">
-            {/* Category filter */}
-            <div className="padding-bottom-40px">
-              <label className="paragraph-small padding-bottom-16px">
-                Category
-              </label>
-              {categories.map(category => (
-                <label
-                  key={category}
-                  className="flex items-center cursor-pointer padding-bottom-16px"
-                >
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    checked={selectedCategories.has(category)}
-                    onChange={() => toggleCategory(category)}
-                  />
-                  <span className="paragraph-small color-teal-300 flex items-center cursor-pointer">
-                    {category}
-                    <span className="filter-count">
-                      {' '}
-                      ({categoryCounts[category] || 0})
-                    </span>
-                  </span>
-                </label>
-              ))}
-            </div>
-
-            {/* Status filter */}
-            <div className="padding-bottom-56px">
-              <label className="paragraph-small padding-bottom-16px">
-                Status
-              </label>
-              <label className="flex items-center cursor-pointer padding-bottom-16px">
-                <input
-                  type="checkbox"
-                  className="checkbox"
-                  checked={showActive}
-                  onChange={e => setShowActive(e.target.checked)}
-                />
-                <span className="paragraph-small color-teal-300 flex items-center cursor-pointer">
-                  Active
-                  <span className="filter-count"> ({activeCount})</span>
-                </span>
-              </label>
-              <label className="flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  className="checkbox"
-                  checked={showInactive}
-                  onChange={e => setShowInactive(e.target.checked)}
-                />
-                <span className="paragraph-small color-teal-300 flex items-center cursor-pointer">
-                  No longer active
-                  <span className="filter-count"> ({inactiveCount})</span>
-                </span>
-              </label>
-            </div>
-
-            {/* Contribute buttons */}
-            <div className={styles['contribute-buttons']}>
-              <a
-                href={suggestEntryLink}
-                target={suggestEntryLink.startsWith('/') ? undefined : '_blank'}
-                rel={
-                  suggestEntryLink.startsWith('/')
-                    ? undefined
-                    : 'noopener noreferrer'
-                }
-              >
-                <p className="paragraph-default-bold padding-bottom-8px">
-                  Suggest entry <span className="color-teal-300">→</span>
-                </p>
-                <p className={styles['side-button']}>
-                  Suggest something to be listed on the map
-                </p>
-              </a>
-              <a
-                href={suggestCorrectionLink}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <p className="paragraph-default-bold padding-bottom-8px">
-                  Suggest correction <span className="color-teal-300">→</span>
-                </p>
-                <p className={styles['side-button']}>
-                  Let us know of changes to something listed here
-                </p>
-              </a>
-              <a
-                href="https://airtable.com/appF8XfZUGXtfi40E/shrLojIEOsNCKg1BL"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <p className="paragraph-default-bold padding-bottom-8px">
-                  View raw data <span className="color-teal-300">→</span>
-                </p>
-                <p className={styles['side-button']}>
-                  See the database in Airtable
-                </p>
-              </a>
-            </div>
+            <FilterGroup
+              title="Category"
+              options={categories}
+              selected={Array.from(selectedCategories)}
+              counts={categoryCounts}
+              onToggle={toggleCategory}
+            />
+            <FilterGroup
+              title="Status"
+              options={['Active', 'No longer active']}
+              selected={[
+                ...(showActive ? ['Active'] : []),
+                ...(showInactive ? ['No longer active'] : []),
+              ]}
+              counts={{
+                Active: activeCount,
+                'No longer active': inactiveCount,
+              }}
+              onToggle={status => {
+                if (status === 'Active') setShowActive(!showActive)
+                else setShowInactive(!showInactive)
+              }}
+            />
+            <ContributeButtons
+              suggestEntryUrl={suggestEntryLink}
+              suggestCorrectionUrl={suggestCorrectionLink}
+              noun="listing"
+              extraLinks={[
+                {
+                  label: 'View raw data',
+                  description: 'See the database in Airtable',
+                  url: 'https://airtable.com/appF8XfZUGXtfi40E/shrLojIEOsNCKg1BL',
+                },
+              ]}
+            />
           </div>
         </div>
       </div>

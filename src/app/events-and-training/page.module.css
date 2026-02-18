@@ -2,24 +2,6 @@
    EVENTS & TRAINING PAGE STYLES
    =============================== */
 
-.last-updated-text {
-  font-size: 15px;
-  line-height: 165%;
-  letter-spacing: -0.3px;
-  color: var(--teal-300);
-  margin: 0 0 32px 0;
-}
-
-.intro-paragraph {
-  max-width: 58%;
-  margin: 0 0 56px 0;
-  font-size: 28px;
-  font-weight: 300;
-  line-height: 1.2;
-  letter-spacing: -1.4px;
-  color: var(--white);
-}
-
 .action-links-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
