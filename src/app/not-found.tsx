@@ -1,8 +1,11 @@
 import Image from 'next/image'
+import styles from './not-found.module.css'
 
 export default function NotFound() {
   return (
-    <div className={`flex flex-col gap-40px items-center justify-center`}>
+    <div
+      className={`flex flex-col gap-40px items-center justify-center ${styles['page-wrap']}`}
+    >
       <Image
         src="/images/HAL9000.svg.png"
         alt="HAL 9000 computer interface"
