@@ -14,10 +14,10 @@
   height: 100%;
 }
 
-/* Map zoom controls - positioned within map wrapper */
+/* Map zoom controls - positioned to match communities map (top-right) */
 .map-controls {
   position: absolute;
-  bottom: 24px;
+  top: 0;
   right: 24px;
   z-index: 999;
 }
@@ -52,23 +52,14 @@
   position: relative;
   display: flex;
   align-items: center;
-  font-family: Arial, sans-serif;
-  font-size: 30px;
-  font-weight: 300;
+  justify-content: center;
 }
 
-.map-control-button span,
 .map-control-button svg {
   display: block;
-  position: absolute;
-  top: 50%;
-  left: 47.5%;
-  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
   pointer-events: none;
-}
-
-.map-control-button span {
-  line-height: 40px;
 }
 
 .map-control-button:hover {
@@ -77,11 +68,6 @@
 
 .map-control-button + .map-control-button {
   border-top: 1px solid #394c4e;
-}
-
-.map-control-button svg {
-  width: 20px;
-  height: 20px;
 }
 
 /* Map tooltip */

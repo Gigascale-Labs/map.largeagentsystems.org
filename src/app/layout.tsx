@@ -11,8 +11,28 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'AI Safety',
-  description: 'AI Safety community website',
+  metadataBase: new URL('https://aisafety.com'),
+  title: 'AISafety.com',
+  description:
+    'The hub for AI existential safety, providing resources to help you learn about and help mitigate the risks from advanced AI.',
+  icons: {
+    icon: '/images/favicon.png',
+    apple: '/images/webclip.png',
+  },
+  openGraph: {
+    title: 'AISafety.com',
+    description:
+      'The hub for AI existential safety, providing resources to help you learn about and help mitigate the risks from advanced AI.',
+    images: [{ url: '/images/link-preview.png' }],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AISafety.com',
+    description:
+      'The hub for AI existential safety, providing resources to help you learn about and help mitigate the risks from advanced AI.',
+    images: ['/images/link-preview.png'],
+  },
 }
 
 export default function RootLayout({

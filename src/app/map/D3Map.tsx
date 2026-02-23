@@ -376,7 +376,7 @@ export default function D3Map({ orgs }: D3MapProps) {
     <>
       <div ref={containerRef} className={styles['map-container']} />
 
-      {/* Zoom controls - positioned relative to mapWrapper, not the SVG */}
+      {/* Zoom controls - styled to match communities map */}
       <div className={styles['map-controls']}>
         <div className={styles['map-control-group']}>
           <button
@@ -384,14 +384,36 @@ export default function D3Map({ orgs }: D3MapProps) {
             className={styles['map-control-button']}
             title="Zoom in"
           >
-            <span>+</span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M8 2.5C8.27614 2.5 8.5 2.72386 8.5 3V7.5H13C13.2761 7.5 13.5 7.72386 13.5 8C13.5 8.27614 13.2761 8.5 13 8.5H8.5V13C8.5 13.2761 8.27614 13.5 8 13.5C7.72386 13.5 7.5 13.2761 7.5 13V8.5H3C2.72386 8.5 2.5 8.27614 2.5 8C2.5 7.72386 2.72386 7.5 3 7.5H7.5V3C7.5 2.72386 7.72386 2.5 8 2.5Z"
+                fill="white"
+              />
+            </svg>
           </button>
           <button
             id="zoom-out"
             className={styles['map-control-button']}
             title="Zoom out"
           >
-            <span>−</span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2.5 8C2.5 7.72386 2.72386 7.5 3 7.5H13C13.2761 7.5 13.5 7.72386 13.5 8C13.5 8.27614 13.2761 8.5 13 8.5H3C2.72386 8.5 2.5 8.27614 2.5 8Z"
+                fill="white"
+              />
+            </svg>
           </button>
           <button
             id="recenter"
@@ -399,13 +421,19 @@ export default function D3Map({ orgs }: D3MapProps) {
             title="Reset view"
           >
             <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width="18"
-              height="18"
-              fill="currentColor"
             >
-              <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z" />
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M8 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9ZM2.5 8a5.5 5.5 0 1 1 11 0 5.5 5.5 0 0 1-11 0Z"
+                fill="white"
+              />
+              <circle cx="8" cy="8" r="1.5" fill="white" />
             </svg>
           </button>
         </div>
