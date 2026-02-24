@@ -385,8 +385,6 @@ export default function D3Map({ orgs }: D3MapProps) {
             title="Zoom in"
           >
             <svg
-              width="16"
-              height="16"
               viewBox="0 0 16 16"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -403,8 +401,6 @@ export default function D3Map({ orgs }: D3MapProps) {
             title="Zoom out"
           >
             <svg
-              width="16"
-              height="16"
               viewBox="0 0 16 16"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -421,8 +417,6 @@ export default function D3Map({ orgs }: D3MapProps) {
             title="Reset view"
           >
             <svg
-              width="16"
-              height="16"
               viewBox="0 0 16 16"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
