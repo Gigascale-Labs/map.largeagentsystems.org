@@ -221,7 +221,7 @@ export default function FundingPage() {
             href="https://www.lesswrong.com/posts/WGpFFJo2uFe5ssgEb/an-overview-of-the-ai-safety-funding-situation"
             target="_blank"
             rel="noopener noreferrer"
-            className="block"
+            className="block hover-opacity-80"
           >
             <h3 className="padding-bottom-16px">
               An overview of the funding situation{' '}

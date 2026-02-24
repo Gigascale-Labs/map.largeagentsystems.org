@@ -36,10 +36,16 @@ const allNavItems = [
     icon: 'clipboard.svg',
     count: 33,
   },
+  {
+    href: '/founders',
+    label: 'Founder toolkit',
+    icon: 'rocket.svg',
+    count: 35,
+  },
   { href: '/donation-guide', label: 'Donation guide', icon: 'heart.svg' },
 ]
 
-const MIN_OVERFLOW = 4
+const MIN_OVERFLOW = 5
 
 const SCROLL_THRESHOLD_BLUR = 50
 

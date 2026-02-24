@@ -195,7 +195,7 @@ export default async function CommunitiesPage() {
               href="https://www.lesswrong.com/community"
               target="_blank"
               rel="noopener noreferrer"
-              className="block padding-bottom-40px"
+              className="block padding-bottom-40px hover-opacity-80"
             >
               <h3 className="padding-bottom-16px">
                 Map of LessWrong groups{' '}
@@ -210,7 +210,7 @@ export default async function CommunitiesPage() {
               href="https://forum.effectivealtruism.org/groups"
               target="_blank"
               rel="noopener noreferrer"
-              className="block"
+              className="block hover-opacity-80"
             >
               <h3 className="padding-bottom-16px">
                 Map of EA groups <span className="color-teal-400">→</span>
