@@ -528,7 +528,7 @@ label {
 }
 
 .container-narrow {
-  max-width: 686px;
+  max-width: 880px;
   margin: 0 auto;
 }
 
@@ -646,6 +646,44 @@ label {
 }
 .width-12-col {
   width: 1056px;
+}
+
+/* Width classes – narrow grid (12-column, 880px max, 22px col + 56px gutter) */
+.width-1-col-narrow {
+  width: 22px;
+}
+.width-2-col-narrow {
+  width: 100px;
+}
+.width-3-col-narrow {
+  width: 178px;
+}
+.width-4-col-narrow {
+  width: 256px;
+}
+.width-5-col-narrow {
+  width: 334px;
+}
+.width-6-col-narrow {
+  width: 412px;
+}
+.width-7-col-narrow {
+  width: 490px;
+}
+.width-8-col-narrow {
+  width: 568px;
+}
+.width-9-col-narrow {
+  width: 646px;
+}
+.width-10-col-narrow {
+  width: 724px;
+}
+.width-11-col-narrow {
+  width: 802px;
+}
+.width-12-col-narrow {
+  width: 880px;
 }
 
 /* ===============================
@@ -988,7 +1026,19 @@ label {
   .width-9-col,
   .width-10-col,
   .width-11-col,
-  .width-12-col {
+  .width-12-col,
+  .width-1-col-narrow,
+  .width-2-col-narrow,
+  .width-3-col-narrow,
+  .width-4-col-narrow,
+  .width-5-col-narrow,
+  .width-6-col-narrow,
+  .width-7-col-narrow,
+  .width-8-col-narrow,
+  .width-9-col-narrow,
+  .width-10-col-narrow,
+  .width-11-col-narrow,
+  .width-12-col-narrow {
     width: 100%;
   }
 
