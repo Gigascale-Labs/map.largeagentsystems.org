@@ -137,7 +137,7 @@ export default function MediaChannelsPage() {
             href="https://aisafetyfeed.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="block padding-bottom-40px"
+            className="block padding-bottom-40px hover-opacity-80"
           >
             <h3 className="padding-bottom-16px">
               AI Safety Feed <span className="color-teal-400">&rarr;</span>
@@ -150,7 +150,7 @@ export default function MediaChannelsPage() {
             href="https://aisafety.info"
             target="_blank"
             rel="noopener noreferrer"
-            className="block"
+            className="block hover-opacity-80"
           >
             <h3 className="padding-bottom-16px">
               AISafety.info <span className="color-teal-400">&rarr;</span>

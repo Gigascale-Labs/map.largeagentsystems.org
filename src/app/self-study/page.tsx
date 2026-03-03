@@ -189,7 +189,7 @@ export default function SelfStudyPage() {
           </p>
           <Link
             href="/events-and-training"
-            className="block padding-bottom-40px"
+            className="block padding-bottom-40px hover-opacity-80"
           >
             <h3 className="padding-bottom-16px">
               Events &amp; training{' '}
@@ -203,7 +203,7 @@ export default function SelfStudyPage() {
             href="https://theaidigest.org/"
             target="_blank"
             rel="noopener noreferrer"
-            className="block"
+            className="block hover-opacity-80"
           >
             <h3 className="padding-bottom-16px">
               AI Digest <span className="color-teal-400">&rarr;</span>

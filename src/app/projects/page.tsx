@@ -137,7 +137,7 @@ export default function ProjectsPage() {
             href="https://discord.com/invite/BfwQq2FTqE"
             target="_blank"
             rel="noopener noreferrer"
-            className="block"
+            className="block hover-opacity-80"
           >
             <h3 className="padding-bottom-16px">
               AED Discord <span className="color-teal-400">&rarr;</span>

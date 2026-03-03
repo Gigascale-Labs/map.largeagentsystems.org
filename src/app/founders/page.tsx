@@ -8,36 +8,37 @@ import FeaturedCard from '@/components/FeaturedCard'
 import FilterGroup from '@/components/FilterGroup'
 import ContributeButtons from '@/components/ContributeButtons'
 
-const focusOptions = ['Career/contribution', 'Other']
+const typeOptions = [
+  'Article/tool',
+  'Fiscal sponsor',
+  'Incubator',
+  'Venture capitalist',
+]
 
-const statusOptions = ['Active', 'Inactive']
-
-interface Advisor {
+interface FounderResource {
   id: string
   name: string
+  sort: number | null
+  type: string
+  image: string | null
   description: string
-  logo: string | null
-  focus: string
-  status: string
-  url: string
-  lastModified: string | null
+  website: string
 }
 
-export default function AdvisorsPage() {
-  const [advisors, setAdvisors] = useState<Advisor[]>([])
+export default function FoundersPage() {
+  const [resources, setResources] = useState<FounderResource[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedFocus, setSelectedFocus] = useState<Set<string>>(new Set())
-  const [selectedStatus, setSelectedStatus] = useState<Set<string>>(new Set())
+  const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set())
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch('/api/advisors')
+        const res = await fetch('/api/founders')
         if (!res.ok) throw new Error('Failed to fetch data')
         const data = await res.json()
-        setAdvisors(data.records)
+        setResources(data.records)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred')
       } finally {
@@ -47,27 +48,21 @@ export default function AdvisorsPage() {
     fetchData()
   }, [])
 
-  const filteredAdvisors = advisors.filter(advisor => {
+  const filteredResources = resources.filter(resource => {
     if (searchQuery) {
       const query = searchQuery.toLowerCase()
       if (
-        !advisor.name.toLowerCase().includes(query) &&
-        !advisor.description.toLowerCase().includes(query)
+        !resource.name.toLowerCase().includes(query) &&
+        !resource.description.toLowerCase().includes(query)
       ) {
         return false
       }
     }
 
-    if (selectedFocus.size > 0) {
-      const hasMatch = Array.from(selectedFocus).some(f =>
-        advisor.focus.toLowerCase().includes(f.toLowerCase())
-      )
-      if (!hasMatch) return false
-    }
-
-    if (selectedStatus.size > 0) {
-      const hasMatch = Array.from(selectedStatus).some(s =>
-        advisor.status.toLowerCase().includes(s.toLowerCase())
+    if (selectedTypes.size > 0) {
+      const resourceType = resource.type.toLowerCase().trim()
+      const hasMatch = Array.from(selectedTypes).some(t =>
+        resourceType.includes(t.toLowerCase())
       )
       if (!hasMatch) return false
     }
@@ -89,22 +84,11 @@ export default function AdvisorsPage() {
     setter(next)
   }
 
-  const focusCounts = advisors.reduce(
-    (counts, advisor) => {
-      for (const option of focusOptions) {
-        if (advisor.focus.toLowerCase().includes(option.toLowerCase())) {
-          counts[option] = (counts[option] || 0) + 1
-        }
-      }
-      return counts
-    },
-    {} as Record<string, number>
-  )
-
-  const statusCounts = advisors.reduce(
-    (counts, advisor) => {
-      for (const option of statusOptions) {
-        if (advisor.status.toLowerCase().includes(option.toLowerCase())) {
+  const typeCounts = resources.reduce(
+    (counts, resource) => {
+      const resourceType = resource.type.toLowerCase().trim()
+      for (const option of typeOptions) {
+        if (resourceType.includes(option.toLowerCase())) {
           counts[option] = (counts[option] || 0) + 1
         }
       }
@@ -115,43 +99,37 @@ export default function AdvisorsPage() {
 
   return (
     <div className="container-default">
-      <h1 className="padding-top-56px padding-bottom-8px">Advisors</h1>
+      {/* Hero */}
+      <h1 className="padding-top-56px padding-bottom-8px">Founder Toolkit</h1>
       <LastUpdated
-        apiEndpoint="/api/last-updated/advisors"
+        apiEndpoint="/api/last-updated/founders"
         className="paragraph-small color-teal-300 margin-bottom-40px"
       />
       <h2 className="width-7-col margin-bottom-56px">
-        <span className="color-light-teal">
-          Connecting with human experts can be invaluable.
-        </span>{' '}
-        These advisors offer free guidance calls to help you most effectively
-        contribute to AI safety.
+        Resources for{' '}
+        <span className="color-light-teal">starting and growing</span> an AI
+        safety organization – including incubators, fiscal sponsors, venture
+        capital, and practical guides.
       </h2>
 
       {/* Featured Cards + Related Resources */}
       <div className="flex flex-col-mobile gap-56px padding-bottom-80px">
         <div className="flex flex-col-mobile gap-40px">
           <FeaturedCard
-            href="https://80000hours.org/speak-with-us/?int_campaign=aisafety.com"
-            tagline="Experienced EA career advisors"
-            name="80,000 Hours"
-            description="Career advice by a well-connected and professional organization dedicated to helping people use their career for good. Does not accept all applications."
-            logo="/images/download-2-1.svg"
-            metadata={[
-              { label: 'Focus', value: 'Career/contribution' },
-              { label: 'Status', value: 'Active' },
-            ]}
+            href="https://beacongcr.org/"
+            tagline="Featured fiscal sponsor"
+            name="Beacon"
+            description="Fiscal sponsorship, administrative support, and bureaucracy shielding for researchers safeguarding humanity from catastrophic risk."
+            logo="/images/beacon-logo.webp"
+            metadata={[{ label: 'Type', value: 'Fiscal sponsor' }]}
           />
           <FeaturedCard
-            href="https://aisafety.quest/#calls"
-            tagline="Impact-focused career advice"
-            name="AI Safety Quest"
-            description="Grassroots volunteer organization helping people contribute to reducing catastrophic risk from AI by directing them to the most relevant resources and communities."
-            logo="/images/download-2-1.svg"
-            metadata={[
-              { label: 'Focus', value: 'Career/contribution' },
-              { label: 'Status', value: 'Active' },
-            ]}
+            href="https://www.catalyze-impact.org/"
+            tagline="Featured incubator"
+            name="Catalyze Impact"
+            description="Incubating early-stage AI safety research organizations. The program involves co-founder matching, mentorship, and seed funding, culminating in an in-person building phase."
+            logo="/images/catalyze-impact-logo.png"
+            metadata={[{ label: 'Type', value: 'Incubator' }]}
           />
         </div>
 
@@ -159,22 +137,21 @@ export default function AdvisorsPage() {
           <p className="paragraph-small-bold padding-bottom-32px">
             Related resources
           </p>
-          <a
-            href="https://youtu.be/OpufM6yK4Go"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/funding"
             className="block padding-bottom-40px hover-opacity-80"
           >
             <h3 className="padding-bottom-16px">
-              Career advice video <span className="color-teal-400">&rarr;</span>
+              Funding <span className="color-teal-400">&rarr;</span>
             </h3>
             <p className="paragraph-small color-teal-300">
-              Video overview of career paths in AI safety
+              Organizations offering financial support to AI safety projects and
+              individuals
             </p>
-          </a>
+          </Link>
           <Link href="/events-and-training" className="block hover-opacity-80">
             <h3 className="padding-bottom-16px">
-              Events &amp; training{' '}
+              Events &amp; Training{' '}
               <span className="color-teal-400">&rarr;</span>
             </h3>
             <p className="paragraph-small color-teal-300">
@@ -186,12 +163,13 @@ export default function AdvisorsPage() {
 
       {/* Database Grid */}
       <div className="database-outer-grid">
+        {/* Left column: search + cards */}
         <div>
           <div className="padding-bottom-40px">
             <input
               type="text"
               className="text-field"
-              placeholder="Search advisors by name or description"
+              placeholder="Search listings by name or description"
               maxLength={256}
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
@@ -208,19 +186,19 @@ export default function AdvisorsPage() {
             </div>
           ) : (
             <div className="collection-list padding-bottom-40px">
-              {filteredAdvisors.map(advisor => (
+              {filteredResources.map(resource => (
                 <a
-                  key={advisor.id}
-                  href={advisor.url}
+                  key={resource.id}
+                  href={resource.website}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="card"
                 >
                   <div className="flex items-center gap-16px padding-bottom-24px">
                     <div className="featured-img">
-                      {advisor.logo && (
+                      {resource.image && (
                         <Image
-                          src={advisor.logo}
+                          src={resource.image}
                           alt=""
                           className="card-image"
                           width={64}
@@ -229,24 +207,18 @@ export default function AdvisorsPage() {
                         />
                       )}
                     </div>
-                    <h3>{advisor.name}</h3>
+                    <h3>{resource.name}</h3>
                   </div>
                   <p className="paragraph-small padding-bottom-24px">
-                    {advisor.description}
+                    {resource.description}
                   </p>
                   <p className="paragraph-xs-bold padding-bottom-4px color-teal-400">
-                    Focus
+                    Type
                   </p>
-                  <p className="paragraph-small padding-bottom-16px">
-                    {advisor.focus}
-                  </p>
-                  <p className="paragraph-xs-bold padding-bottom-4px color-teal-400">
-                    Status
-                  </p>
-                  <p className="paragraph-small">{advisor.status}</p>
+                  <p className="paragraph-small">{resource.type}</p>
                 </a>
               ))}
-              {filteredAdvisors.length === 0 && (
+              {filteredResources.length === 0 && (
                 <p className="paragraph-small color-teal-300">
                   No items found.
                 </p>
@@ -255,25 +227,19 @@ export default function AdvisorsPage() {
           )}
         </div>
 
+        {/* Right column: filters (desktop only) */}
         <div className="hide-mobile">
           <FilterGroup
-            title="Focus"
-            options={focusOptions}
-            selected={Array.from(selectedFocus)}
-            counts={focusCounts}
-            onToggle={v => toggle(v, selectedFocus, setSelectedFocus)}
-          />
-          <FilterGroup
-            title="Status"
-            options={statusOptions}
-            selected={Array.from(selectedStatus)}
-            counts={statusCounts}
-            onToggle={v => toggle(v, selectedStatus, setSelectedStatus)}
+            title="Type"
+            options={typeOptions}
+            selected={Array.from(selectedTypes)}
+            counts={typeCounts}
+            onToggle={v => toggle(v, selectedTypes, setSelectedTypes)}
           />
           <ContributeButtons
-            suggestEntryUrl="https://airtable.com/appF8XfZUGXtfi40E/pagBI1UdaBbFplw20/form"
+            suggestEntryUrl="https://airtable.com/appF8XfZUGXtfi40E/pag1OO5TrQkO96W7R/form"
             suggestCorrectionUrl="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
-            noun="advisor"
+            noun="resource"
           />
         </div>
       </div>
