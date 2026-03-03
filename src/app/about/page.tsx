@@ -112,7 +112,10 @@ export default function AboutPage() {
               soeren@aisafety.com
             </a>
             <div className="padding-top-16px">
-              <a href="#" className="button-secondary">
+              <a
+                href="https://calendly.com/soeren-elverlin/30-minute-evening-meeting?utm_medium=website&utm_source=aisafetycom&utm_campaign=about"
+                className="button-secondary"
+              >
                 Schedule a meeting
               </a>
             </div>
@@ -130,7 +133,9 @@ export default function AboutPage() {
                 <p className="paragraph-default-bold padding-bottom-4px">
                   Bryce Robertson
                 </p>
-                <p className="paragraph-small color-teal-300">Project lead</p>
+                <p className="paragraph-small color-teal-300">
+                  Project manager
+                </p>
               </div>
             </div>
             <p className="paragraph-small color-teal-300 padding-bottom-16px">
@@ -210,7 +215,10 @@ export default function AboutPage() {
               typically in the domains of development, design, and user
               research.
             </p>
-            <a href="#" className="button-secondary">
+            <a
+              href="mailto:bryceerobertson@gmail.com?subject=Volunteering%20for%20AISafety.com"
+              className="button-secondary"
+            >
               Volunteer
             </a>
           </div>
@@ -228,7 +236,10 @@ export default function AboutPage() {
               We do our best to structure our takes and decisions based on the
               wisdom of the community at large.
             </p>
-            <a href="#" className="button-secondary">
+            <a
+              href="https://discord.gg/faamWzPcv8"
+              className="button-secondary"
+            >
               Give us your take
             </a>
           </div>
@@ -242,8 +253,11 @@ export default function AboutPage() {
             We consider AISafety.com a community project, and encourage
             community members to add listings that we may have missed.
           </p>
-          <a href="#" className="button-secondary">
-            Add a listing
+          <a
+            href="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
+            className="button-secondary"
+          >
+            Suggest a correction
           </a>
         </div>
       </div>
