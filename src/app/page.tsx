@@ -25,7 +25,10 @@ export default function Home() {
               className="margin-bottom-12px"
             />
             <p className="paragraph-xs">
-              Maintained by AI safety community-builders
+              Maintained by{' '}
+              <a href="/about" className="underline">
+                AI safety community-builders
+              </a>
             </p>
           </div>
         </div>
