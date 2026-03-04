@@ -205,6 +205,15 @@ label {
 .color-grey {
   color: #8e999a;
 }
+.underline {
+  text-decoration: underline;
+  text-decoration-color: rgba(122, 255, 178, 0.3);
+  text-underline-offset: 6px;
+  transition: all var(--hover-transition);
+}
+.underline:hover {
+  text-decoration-color: #fff;
+}
 
 /* ===============================
    6. SPACING UTILITY CLASSES
