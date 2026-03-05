@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 
 const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN
 const BASE_ID = process.env.AIRTABLE_BASE_ID
-const TABLE_ID = 'TBD' // TODO: Replace with actual advisors table ID
+const TABLE_ID = 'tblf3KKYnmgcjVGhD'
 
 interface AirtableRecord {
   id: string
@@ -15,8 +15,7 @@ interface AirtableRecord {
     }>
     Focus?: string
     Status?: string
-    URL?: string
-    'Last Modified'?: string
+    Link?: string
   }
 }
 
@@ -89,18 +88,23 @@ export async function GET() {
           logo,
           focus: fields.Focus || '',
           status: fields.Status || '',
-          url: fields.URL || '#',
-          lastModified: fields['Last Modified'] || null,
+          url: fields.Link || '#',
+          lastModified: null,
         })
       }
 
       offset = data.offset || null
     } while (offset)
 
-    return NextResponse.json({
+    const res = NextResponse.json({
       records: allRecords,
       count: allRecords.length,
     })
+    res.headers.set(
+      'Cache-Control',
+      'public, s-maxage=1800, stale-while-revalidate=3600'
+    )
+    return res
   } catch (error) {
     console.error('Error fetching advisors data:', error)
     return NextResponse.json(

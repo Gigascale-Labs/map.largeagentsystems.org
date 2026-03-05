@@ -2,21 +2,16 @@ import { NextResponse } from 'next/server'
 
 const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN
 const BASE_ID = process.env.AIRTABLE_BASE_ID
-const TABLE_ID = 'TBD' // TODO: Replace with actual projects table ID
+const TABLE_ID = 'tblHT29QNgMYKB8iW'
 
 interface AirtableRecord {
   id: string
   fields: {
-    Name?: string
-    Description?: string
-    Logo?: Array<{
-      url: string
-      thumbnails?: { large?: { url: string } }
-    }>
-    Contact?: string
+    'Project Name'?: string
+    'Description (short)'?: string
     Status?: string
-    URL?: string
-    'Last Modified'?: string
+    Website?: string
+    'Contact name'?: string
   }
 }
 
@@ -75,32 +70,32 @@ export async function GET() {
 
       for (const record of data.records as AirtableRecord[]) {
         const fields = record.fields
-        if (!fields.Name) continue
-
-        let logo: string | null = null
-        if (fields.Logo && fields.Logo.length > 0) {
-          logo = fields.Logo[0].url
-        }
+        if (!fields['Project Name']) continue
 
         allRecords.push({
           id: record.id,
-          name: fields.Name,
-          description: fields.Description || '',
-          logo,
-          contact: fields.Contact || '',
+          name: fields['Project Name'],
+          description: fields['Description (short)'] || '',
+          logo: null,
+          contact: fields['Contact name'] || '',
           status: fields.Status || '',
-          url: fields.URL || '#',
-          lastModified: fields['Last Modified'] || null,
+          url: fields.Website || '#',
+          lastModified: null,
         })
       }
 
       offset = data.offset || null
     } while (offset)
 
-    return NextResponse.json({
+    const res = NextResponse.json({
       records: allRecords,
       count: allRecords.length,
     })
+    res.headers.set(
+      'Cache-Control',
+      'public, s-maxage=1800, stale-while-revalidate=3600'
+    )
+    return res
   } catch (error) {
     console.error('Error fetching projects data:', error)
     return NextResponse.json(
