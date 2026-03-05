@@ -37,6 +37,7 @@ export interface Job {
   workLocation: string
   url: string
   lastModified: string | null
+  datePublished: string | null
 }
 
 export async function GET() {
@@ -103,6 +104,7 @@ export async function GET() {
           workLocation: fields['Work location'] || '',
           url: fields.URL || '#',
           lastModified: fields['Last Modified'] || null,
+          datePublished: null,
         })
       }
 
