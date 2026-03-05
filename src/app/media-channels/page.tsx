@@ -25,7 +25,6 @@ interface MediaChannel {
   logo: string | null
   type: string
   url: string
-  lastModified: string | null
 }
 
 export default function MediaChannelsPage() {

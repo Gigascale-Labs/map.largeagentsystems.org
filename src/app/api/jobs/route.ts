@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { jsonWithCache } from '@/lib/api'
 
 const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN
 const BASE_ID = process.env.AIRTABLE_BASE_ID
@@ -11,10 +12,7 @@ interface AirtableRecord {
     '!Title'?: string
     '!Description'?: string
     '!Org'?: string
-    "Org's logo"?: Array<{
-      url: string
-      thumbnails?: { large?: { url: string } }
-    }>
+    "Org's logo"?: string
     'Skill set text'?: string
     'Location (formatted)'?: string
     '!MinimumExperienceLevel (text)'?: string
@@ -87,11 +85,7 @@ export async function GET() {
         const fields = record.fields
         if (!fields['!Title']) continue
 
-        let logo: string | null = null
-        const logoField = fields["Org's logo"]
-        if (logoField && logoField.length > 0) {
-          logo = logoField[0].url
-        }
+        const logo = fields["Org's logo"] || null
 
         allRecords.push({
           id: record.id,
@@ -113,15 +107,10 @@ export async function GET() {
       offset = data.offset || null
     } while (offset)
 
-    const res = NextResponse.json({
+    return jsonWithCache({
       records: allRecords,
       count: allRecords.length,
     })
-    res.headers.set(
-      'Cache-Control',
-      'public, s-maxage=1800, stale-while-revalidate=3600'
-    )
-    return res
   } catch (error) {
     console.error('Error fetching jobs data:', error)
     return NextResponse.json(

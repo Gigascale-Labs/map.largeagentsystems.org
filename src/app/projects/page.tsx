@@ -17,7 +17,6 @@ interface Project {
   contact: string
   status: string
   url: string
-  lastModified: string | null
 }
 
 export default function ProjectsPage() {

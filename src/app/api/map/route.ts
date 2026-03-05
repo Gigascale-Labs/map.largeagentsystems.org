@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { jsonWithCache } from '@/lib/api'
 
 const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN
 const BASE_ID = process.env.AIRTABLE_BASE_ID
@@ -187,17 +188,11 @@ export async function GET() {
       offset = data.offset || null
     } while (offset)
 
-    const response = NextResponse.json({
+    return jsonWithCache({
       records: allRecords,
       lastUpdated: lastUpdatedFromMagicRow,
       count: allRecords.length,
     })
-    // Cache in browser for 5 minutes, allow stale for 1 hour while revalidating
-    response.headers.set(
-      'Cache-Control',
-      'public, s-maxage=1800, stale-while-revalidate=3600'
-    )
-    return response
   } catch (error) {
     console.error('Error fetching map data:', error)
     return NextResponse.json(

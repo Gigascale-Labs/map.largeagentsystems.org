@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { jsonWithCache } from '@/lib/api'
 
 const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN
 const BASE_ID = process.env.AIRTABLE_BASE_ID
@@ -13,8 +14,8 @@ interface AirtableRecord {
       url: string
       thumbnails?: { large?: { url: string } }
     }>
-    Type?: string
-    'Recipient type'?: string
+    Type?: string[]
+    'Recipient type'?: string[]
     'Accepting applications?'?: string
     Website?: string
   }
@@ -29,7 +30,6 @@ export interface Funder {
   recipientType: string
   acceptingApplications: string
   url: string
-  lastModified: string | null
 }
 
 export async function GET() {
@@ -88,26 +88,24 @@ export async function GET() {
           name: fields.Name,
           description: fields.Description || '',
           logo,
-          type: fields.Type || '',
-          recipientType: fields['Recipient type'] || '',
+          type: Array.isArray(fields.Type)
+            ? fields.Type.join(', ')
+            : fields.Type || '',
+          recipientType: Array.isArray(fields['Recipient type'])
+            ? fields['Recipient type'].join(', ')
+            : fields['Recipient type'] || '',
           acceptingApplications: fields['Accepting applications?'] || '',
           url: fields.Website || '#',
-          lastModified: null,
         })
       }
 
       offset = data.offset || null
     } while (offset)
 
-    const res = NextResponse.json({
+    return jsonWithCache({
       records: allRecords,
       count: allRecords.length,
     })
-    res.headers.set(
-      'Cache-Control',
-      'public, s-maxage=1800, stale-while-revalidate=3600'
-    )
-    return res
   } catch (error) {
     console.error('Error fetching funding data:', error)
     return NextResponse.json(

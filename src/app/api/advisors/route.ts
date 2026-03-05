@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { jsonWithCache } from '@/lib/api'
 
 const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN
 const BASE_ID = process.env.AIRTABLE_BASE_ID
@@ -13,7 +14,7 @@ interface AirtableRecord {
       url: string
       thumbnails?: { large?: { url: string } }
     }>
-    Focus?: string
+    Focus?: string[]
     Status?: string
     Link?: string
   }
@@ -27,7 +28,6 @@ export interface Advisor {
   focus: string
   status: string
   url: string
-  lastModified: string | null
 }
 
 export async function GET() {
@@ -86,25 +86,21 @@ export async function GET() {
           name: fields.Name,
           description: fields.Description || '',
           logo,
-          focus: fields.Focus || '',
+          focus: Array.isArray(fields.Focus)
+            ? fields.Focus.join(', ')
+            : fields.Focus || '',
           status: fields.Status || '',
           url: fields.Link || '#',
-          lastModified: null,
         })
       }
 
       offset = data.offset || null
     } while (offset)
 
-    const res = NextResponse.json({
+    return jsonWithCache({
       records: allRecords,
       count: allRecords.length,
     })
-    res.headers.set(
-      'Cache-Control',
-      'public, s-maxage=1800, stale-while-revalidate=3600'
-    )
-    return res
   } catch (error) {
     console.error('Error fetching advisors data:', error)
     return NextResponse.json(

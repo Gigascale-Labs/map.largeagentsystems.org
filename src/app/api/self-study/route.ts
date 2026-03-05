@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { jsonWithCache } from '@/lib/api'
 
 const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN
 const BASE_ID = process.env.AIRTABLE_BASE_ID
@@ -31,7 +32,6 @@ export interface Course {
   organizer: string
   url: string
   image: string | null
-  lastModified: string | null
 }
 
 export async function GET() {
@@ -101,22 +101,16 @@ export async function GET() {
           organizer: fields['Created by'] || '',
           url: fields.Link || '#',
           image,
-          lastModified: null,
         })
       }
 
       offset = data.offset || null
     } while (offset)
 
-    const res = NextResponse.json({
+    return jsonWithCache({
       records: allRecords,
       count: allRecords.length,
     })
-    res.headers.set(
-      'Cache-Control',
-      'public, s-maxage=1800, stale-while-revalidate=3600'
-    )
-    return res
   } catch (error) {
     console.error('Error fetching self-study data:', error)
     return NextResponse.json(

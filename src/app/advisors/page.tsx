@@ -20,7 +20,6 @@ interface Advisor {
   focus: string
   status: string
   url: string
-  lastModified: string | null
 }
 
 export default function AdvisorsPage() {

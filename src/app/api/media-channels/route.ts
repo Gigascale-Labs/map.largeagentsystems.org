@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { jsonWithCache } from '@/lib/api'
 
 const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN
 const BASE_ID = process.env.AIRTABLE_BASE_ID
@@ -25,7 +26,6 @@ export interface MediaChannel {
   logo: string | null
   type: string
   url: string
-  lastModified: string | null
 }
 
 export async function GET() {
@@ -86,22 +86,16 @@ export async function GET() {
           logo,
           type: fields.Type || '',
           url: fields.Link || '#',
-          lastModified: null,
         })
       }
 
       offset = data.offset || null
     } while (offset)
 
-    const res = NextResponse.json({
+    return jsonWithCache({
       records: allRecords,
       count: allRecords.length,
     })
-    res.headers.set(
-      'Cache-Control',
-      'public, s-maxage=1800, stale-while-revalidate=3600'
-    )
-    return res
   } catch (error) {
     console.error('Error fetching media channels data:', error)
     return NextResponse.json(
