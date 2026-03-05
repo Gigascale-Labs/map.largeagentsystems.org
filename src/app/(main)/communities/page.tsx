@@ -4,7 +4,7 @@ import FeaturedCard from '@/components/FeaturedCard'
 import CommunitiesClient from './CommunitiesClient'
 import CommunitiesMap from './CommunitiesMap'
 import styles from './page.module.css'
-import { Community } from '../api/communities/route'
+import { Community } from '../../api/communities/route'
 
 export const metadata = {
   title: 'Communities – AISafety.com',
@@ -57,15 +57,26 @@ async function getCommunities(): Promise<Community[]> {
         url.searchParams.set('offset', offset)
       }
 
-      const response = await fetch(url.toString(), {
+      let response = await fetch(url.toString(), {
         headers: {
           Authorization: `Bearer ${AIRTABLE_TOKEN}`,
         },
         next: { revalidate: 300 },
       })
 
+      // Retry once on failure (handles transient Airtable errors)
       if (!response.ok) {
-        console.error('Airtable API error:', response.status)
+        await new Promise(r => setTimeout(r, 1000))
+        response = await fetch(url.toString(), {
+          headers: {
+            Authorization: `Bearer ${AIRTABLE_TOKEN}`,
+          },
+          next: { revalidate: 300 },
+        })
+      }
+
+      if (!response.ok) {
+        console.warn('Airtable API error:', response.status)
         return []
       }
 
