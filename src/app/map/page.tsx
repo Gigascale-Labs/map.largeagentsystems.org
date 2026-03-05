@@ -91,7 +91,7 @@ export default function MapPage() {
         const data = await res.json()
         setOrgs(data.records)
         if (data.lastUpdated) {
-          setLastUpdated(data.lastUpdated)
+          setLastUpdated(data.lastUpdated.replace(/\b0(\d)/g, '$1'))
         }
         // Extract links from magic rows for sidebar
         for (const record of data.records) {
