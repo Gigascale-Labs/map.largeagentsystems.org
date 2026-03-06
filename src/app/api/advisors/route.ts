@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server'
+import { jsonWithCache } from '@/lib/api'
 
 const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN
 const BASE_ID = process.env.AIRTABLE_BASE_ID
-const TABLE_ID = 'TBD' // TODO: Replace with actual advisors table ID
+const TABLE_ID = 'tblf3KKYnmgcjVGhD'
 
 interface AirtableRecord {
   id: string
@@ -13,10 +14,9 @@ interface AirtableRecord {
       url: string
       thumbnails?: { large?: { url: string } }
     }>
-    Focus?: string
+    Focus?: string[]
     Status?: string
-    URL?: string
-    'Last Modified'?: string
+    Link?: string
   }
 }
 
@@ -28,7 +28,6 @@ export interface Advisor {
   focus: string
   status: string
   url: string
-  lastModified: string | null
 }
 
 export async function GET() {
@@ -87,17 +86,18 @@ export async function GET() {
           name: fields.Name,
           description: fields.Description || '',
           logo,
-          focus: fields.Focus || '',
+          focus: Array.isArray(fields.Focus)
+            ? fields.Focus.join(', ')
+            : fields.Focus || '',
           status: fields.Status || '',
-          url: fields.URL || '#',
-          lastModified: fields['Last Modified'] || null,
+          url: fields.Link || '#',
         })
       }
 
       offset = data.offset || null
     } while (offset)
 
-    return NextResponse.json({
+    return jsonWithCache({
       records: allRecords,
       count: allRecords.length,
     })

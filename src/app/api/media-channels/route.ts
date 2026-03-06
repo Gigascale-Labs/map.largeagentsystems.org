@@ -1,21 +1,21 @@
 import { NextResponse } from 'next/server'
+import { jsonWithCache } from '@/lib/api'
 
 const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN
 const BASE_ID = process.env.AIRTABLE_BASE_ID
-const TABLE_ID = 'TBD' // TODO: Replace with actual media channels table ID
+const TABLE_ID = 'tblCTOMzyH3vILL5I'
 
 interface AirtableRecord {
   id: string
   fields: {
     Name?: string
     Description?: string
-    Logo?: Array<{
+    Image?: Array<{
       url: string
       thumbnails?: { large?: { url: string } }
     }>
     Type?: string
-    URL?: string
-    'Last Modified'?: string
+    Link?: string
   }
 }
 
@@ -26,7 +26,6 @@ export interface MediaChannel {
   logo: string | null
   type: string
   url: string
-  lastModified: string | null
 }
 
 export async function GET() {
@@ -76,8 +75,8 @@ export async function GET() {
         if (!fields.Name) continue
 
         let logo: string | null = null
-        if (fields.Logo && fields.Logo.length > 0) {
-          logo = fields.Logo[0].url
+        if (fields.Image && fields.Image.length > 0) {
+          logo = fields.Image[0].url
         }
 
         allRecords.push({
@@ -86,15 +85,14 @@ export async function GET() {
           description: fields.Description || '',
           logo,
           type: fields.Type || '',
-          url: fields.URL || '#',
-          lastModified: fields['Last Modified'] || null,
+          url: fields.Link || '#',
         })
       }
 
       offset = data.offset || null
     } while (offset)
 
-    return NextResponse.json({
+    return jsonWithCache({
       records: allRecords,
       count: allRecords.length,
     })

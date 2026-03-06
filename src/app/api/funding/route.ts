@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server'
+import { jsonWithCache } from '@/lib/api'
 
 const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN
 const BASE_ID = process.env.AIRTABLE_BASE_ID
-const TABLE_ID = 'TBD' // TODO: Replace with actual funding table ID
+const TABLE_ID = 'tblzMTLDZWZKqTxrq'
 
 interface AirtableRecord {
   id: string
@@ -13,11 +14,10 @@ interface AirtableRecord {
       url: string
       thumbnails?: { large?: { url: string } }
     }>
-    Type?: string
-    'Recipient type'?: string
-    'Accepting applications'?: string
-    URL?: string
-    'Last Modified'?: string
+    Type?: string[]
+    'Recipient type'?: string[]
+    'Accepting applications?'?: string
+    Website?: string
   }
 }
 
@@ -30,7 +30,6 @@ export interface Funder {
   recipientType: string
   acceptingApplications: string
   url: string
-  lastModified: string | null
 }
 
 export async function GET() {
@@ -89,18 +88,21 @@ export async function GET() {
           name: fields.Name,
           description: fields.Description || '',
           logo,
-          type: fields.Type || '',
-          recipientType: fields['Recipient type'] || '',
-          acceptingApplications: fields['Accepting applications'] || '',
-          url: fields.URL || '#',
-          lastModified: fields['Last Modified'] || null,
+          type: Array.isArray(fields.Type)
+            ? fields.Type.join(', ')
+            : fields.Type || '',
+          recipientType: Array.isArray(fields['Recipient type'])
+            ? fields['Recipient type'].join(', ')
+            : fields['Recipient type'] || '',
+          acceptingApplications: fields['Accepting applications?'] || '',
+          url: fields.Website || '#',
         })
       }
 
       offset = data.offset || null
     } while (offset)
 
-    return NextResponse.json({
+    return jsonWithCache({
       records: allRecords,
       count: allRecords.length,
     })

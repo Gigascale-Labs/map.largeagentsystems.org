@@ -38,7 +38,6 @@ interface Funder {
   recipientType: string
   acceptingApplications: string
   url: string
-  lastModified: string | null
 }
 
 export default function FundingPage() {

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { jsonWithCache } from '@/lib/api'
 
 const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN
 const BASE_ID = process.env.AIRTABLE_BASE_ID
@@ -35,6 +36,7 @@ interface AirtableRecord {
       thumbnails?: { large?: { url: string } }
     }>
     Link?: string
+    'Short URL'?: string
     'Date added'?: string
     x?: number
     y?: number
@@ -52,6 +54,7 @@ interface MapOrg {
   logo: string | null
   mapLogo: string | null
   link: string
+  shortUrl: string | null
   lastModified: string | null
   x: number | null
   y: number | null
@@ -76,6 +79,25 @@ export async function GET() {
     do {
       const url = new URL(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}`)
       url.searchParams.set('view', VIEW_ID)
+      // Only fetch fields we actually use to reduce payload size
+      const fields = [
+        'Long name',
+        'Long name for cards',
+        'Short name',
+        'Description',
+        'Category (text)',
+        'Category',
+        'Status',
+        'Logo (for cards)',
+        'Logo (for map)',
+        'Link',
+        'Short URL',
+        'Date added',
+        'x',
+        'y',
+        'Scale',
+      ]
+      fields.forEach(f => url.searchParams.append('fields[]', f))
       if (offset) {
         url.searchParams.set('offset', offset)
       }
@@ -154,6 +176,7 @@ export async function GET() {
           logo,
           mapLogo,
           link: fields.Link || '#',
+          shortUrl: fields['Short URL'] || null,
           lastModified: fields['Date added'] || null,
           x: fields.x ?? null,
           y: fields.y ?? null,
@@ -165,7 +188,7 @@ export async function GET() {
       offset = data.offset || null
     } while (offset)
 
-    return NextResponse.json({
+    return jsonWithCache({
       records: allRecords,
       lastUpdated: lastUpdatedFromMagicRow,
       count: allRecords.length,

@@ -1,24 +1,25 @@
 import { NextResponse } from 'next/server'
+import { jsonWithCache } from '@/lib/api'
 
 const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN
 const BASE_ID = process.env.AIRTABLE_BASE_ID
-const TABLE_ID = 'TBD' // TODO: Replace with actual self-study table ID
-const VIEW_ID = 'TBD' // TODO: Replace with actual self-study view ID
+const TABLE_ID = 'tblRNYJ0m1cmJXKKk'
+const VIEW_ID = 'viwblgaia3x1gsqBo'
 
 interface AirtableRecord {
   id: string
   fields: {
     Name?: string
     Description?: string
-    Category?: string
-    'Course type'?: string
-    Organizer?: string
-    URL?: string
-    Image?: Array<{
+    Category?: string | string[]
+    Type?: string | string[]
+    'Created by'?: string
+    Link?: string
+    Logo?: Array<{
       url: string
       thumbnails?: { large?: { url: string } }
     }>
-    'Last Modified'?: string
+    'Publish?'?: boolean
   }
 }
 
@@ -31,7 +32,6 @@ export interface Course {
   organizer: string
   url: string
   image: string | null
-  lastModified: string | null
 }
 
 export async function GET() {
@@ -50,6 +50,9 @@ export async function GET() {
     do {
       const url = new URL(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}`)
       url.searchParams.set('view', VIEW_ID)
+      url.searchParams.set('filterByFormula', '{Publish?} = TRUE()')
+      url.searchParams.set('sort[0][field]', 'Sort')
+      url.searchParams.set('sort[0][direction]', 'asc')
       if (offset) {
         url.searchParams.set('offset', offset)
       }
@@ -81,27 +84,30 @@ export async function GET() {
         if (!name) continue
 
         let image: string | null = null
-        if (fields.Image && fields.Image.length > 0) {
-          image = fields.Image[0].url
+        if (fields.Logo && fields.Logo.length > 0) {
+          image = fields.Logo[0].url
         }
 
         allRecords.push({
           id: record.id,
           name,
           description: fields.Description || '',
-          category: fields.Category || '',
-          courseType: fields['Course type'] || '',
-          organizer: fields.Organizer || '',
-          url: fields.URL || '#',
+          category: Array.isArray(fields.Category)
+            ? fields.Category.join(', ')
+            : fields.Category || '',
+          courseType: Array.isArray(fields.Type)
+            ? fields.Type.join(', ')
+            : fields.Type || '',
+          organizer: fields['Created by'] || '',
+          url: fields.Link || '#',
           image,
-          lastModified: fields['Last Modified'] || null,
         })
       }
 
       offset = data.offset || null
     } while (offset)
 
-    return NextResponse.json({
+    return jsonWithCache({
       records: allRecords,
       count: allRecords.length,
     })

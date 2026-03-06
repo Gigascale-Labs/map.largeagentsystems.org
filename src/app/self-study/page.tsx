@@ -26,7 +26,6 @@ interface Course {
   organizer: string
   url: string
   image: string | null
-  lastModified: string | null
 }
 
 export default function SelfStudyPage() {
