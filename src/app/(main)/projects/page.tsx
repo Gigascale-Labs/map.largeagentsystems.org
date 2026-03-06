@@ -1,94 +1,12 @@
 import LastUpdated from '@/components/LastUpdated'
 import FeaturedCard from '@/components/FeaturedCard'
 import ProjectsClient from './ProjectsClient'
-import { Project } from '../../api/projects/route'
+import { getProjects } from '@/lib/data/projects'
 
 export const metadata = {
   title: 'Volunteer Projects – AISafety.com',
   description:
     'Initiatives seeking your volunteer help, focused on supporting and improving the AI safety field.',
-}
-
-const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN
-const BASE_ID = process.env.AIRTABLE_BASE_ID
-const TABLE_ID = 'tblHT29QNgMYKB8iW'
-
-interface AirtableRecord {
-  id: string
-  fields: {
-    'Project Name'?: string
-    'Description (short)'?: string
-    Status?: string | string[]
-    Website?: string
-    'Contact name'?: string
-  }
-}
-
-async function getProjects(): Promise<Project[]> {
-  if (!AIRTABLE_TOKEN || !BASE_ID) {
-    console.error('Airtable credentials not configured')
-    return []
-  }
-
-  try {
-    const allRecords: Project[] = []
-    let offset: string | null = null
-
-    do {
-      const url = new URL(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}`)
-      url.searchParams.set('filterByFormula', '{Publish?} = TRUE()')
-      url.searchParams.set('sort[0][field]', 'Sort')
-      url.searchParams.set('sort[0][direction]', 'asc')
-      if (offset) {
-        url.searchParams.set('offset', offset)
-      }
-
-      let response = await fetch(url.toString(), {
-        headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}` },
-        next: { revalidate: 300 },
-      })
-
-      if (!response.ok) {
-        await new Promise(r => setTimeout(r, 1000))
-        response = await fetch(url.toString(), {
-          headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}` },
-          next: { revalidate: 300 },
-        })
-      }
-
-      if (!response.ok) {
-        console.warn('Airtable API error:', response.status)
-        return []
-      }
-
-      const data = await response.json()
-
-      for (const record of data.records as AirtableRecord[]) {
-        const fields = record.fields
-        if (!fields['Project Name']) continue
-
-        allRecords.push({
-          id: record.id,
-          name: fields['Project Name'],
-          description: fields['Description (short)'] || '',
-          logo: null,
-          contact: fields['Contact name'] || '',
-          status: Array.isArray(fields.Status)
-            ? fields.Status.join(', ')
-            : fields.Status || '',
-          url: fields.Website || '#',
-          lastModified: null,
-        })
-      }
-
-      offset = data.offset || null
-    } while (offset)
-
-    return allRecords
-  } catch (error) {
-    console.error('Error fetching projects:', error)
-    return []
-  }
 }
 
 export default async function ProjectsPage() {
