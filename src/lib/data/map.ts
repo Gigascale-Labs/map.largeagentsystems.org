@@ -22,7 +22,6 @@ interface AirtableRecord {
     'Logo (for cards)'?: Array<{ url: string }>
     'Logo (for map)'?: Array<{ url: string }>
     Link?: string
-    'Short URL'?: string
     'Date added'?: string
     x?: number
     y?: number
@@ -64,7 +63,6 @@ const FIELD_LIST = [
   'Logo (for cards)',
   'Logo (for map)',
   'Link',
-  'Short URL',
   'Date added',
   'x',
   'y',

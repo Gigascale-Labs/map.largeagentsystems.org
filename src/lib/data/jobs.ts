@@ -15,7 +15,6 @@ interface AirtableRecord {
     'Role type text'?: string | string[]
     'Work location'?: string | string[]
     "Org's vacancies page"?: string
-    '!Date it closes'?: string
     'Date published'?: string
   }
 }
@@ -31,7 +30,6 @@ const FIELDS = [
   'Role type text',
   'Work location',
   "Org's vacancies page",
-  '!Date it closes',
   'Date published',
 ]
 
@@ -47,7 +45,6 @@ export interface Job {
   roleType: string
   workLocation: string
   url: string
-  lastModified: string | null
   datePublished: string | null
 }
 
@@ -95,7 +92,6 @@ export async function getJobs(): Promise<Job[]> {
         ? fields['Work location'].join(', ')
         : fields['Work location'] || '',
       url: fields["Org's vacancies page"] || '#',
-      lastModified: fields['!Date it closes'] || null,
       datePublished: fields['Date published'] || null,
     })
   }

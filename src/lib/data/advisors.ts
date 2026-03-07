@@ -21,7 +21,6 @@ export interface Advisor {
   focus: string
   status: string
   url: string
-  lastModified: string | null
 }
 
 export async function getAdvisors(): Promise<Advisor[]> {
@@ -53,7 +52,6 @@ export async function getAdvisors(): Promise<Advisor[]> {
         ? fields.Status.join(', ')
         : fields.Status || '',
       url: fields.Link || '#',
-      lastModified: null,
     })
   }
 

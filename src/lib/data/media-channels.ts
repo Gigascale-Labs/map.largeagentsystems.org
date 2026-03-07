@@ -19,7 +19,6 @@ export interface MediaChannel {
   logo: string | null
   type: string
   url: string
-  lastModified: string | null
 }
 
 export async function getMediaChannels(): Promise<MediaChannel[]> {
@@ -48,7 +47,6 @@ export async function getMediaChannels(): Promise<MediaChannel[]> {
         ? fields.Type.join(', ')
         : fields.Type || '',
       url: fields.Link || '#',
-      lastModified: null,
     })
   }
 

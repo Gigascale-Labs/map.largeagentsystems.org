@@ -23,7 +23,6 @@ export interface Funder {
   recipientType: string
   acceptingApplications: string
   url: string
-  lastModified: string | null
 }
 
 export async function getFunders(): Promise<Funder[]> {
@@ -58,7 +57,6 @@ export async function getFunders(): Promise<Funder[]> {
         ? fields['Accepting applications?'].join(', ')
         : fields['Accepting applications?'] || '',
       url: fields.Website || '#',
-      lastModified: null,
     })
   }
 

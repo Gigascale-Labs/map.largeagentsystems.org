@@ -24,7 +24,6 @@ export interface Course {
   organizer: string
   url: string
   image: string | null
-  lastModified: string | null
 }
 
 export async function getCourses(): Promise<Course[]> {
@@ -58,7 +57,6 @@ export async function getCourses(): Promise<Course[]> {
       organizer: fields['Created by'] || '',
       url: fields.Link || '#',
       image,
-      lastModified: null,
     })
   }
 

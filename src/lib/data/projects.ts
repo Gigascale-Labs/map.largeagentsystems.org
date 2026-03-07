@@ -20,7 +20,6 @@ export interface Project {
   contact: string
   status: string
   url: string
-  lastModified: string | null
 }
 
 export async function getProjects(): Promise<Project[]> {
@@ -45,7 +44,6 @@ export async function getProjects(): Promise<Project[]> {
         ? fields.Status.join(', ')
         : fields.Status || '',
       url: fields.Website || '#',
-      lastModified: null,
     })
   }
 
