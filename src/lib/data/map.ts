@@ -1,5 +1,5 @@
-const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN
-const BASE_ID = process.env.AIRTABLE_BASE_ID
+import { fetchAirtableRecords } from './airtable'
+
 const TABLE_ID = 'tblvzbGL9q9dOO9Nc'
 const VIEW_ID = 'viwJgtDFDmaP8PyoI'
 
@@ -11,7 +11,6 @@ const MAGIC_ROW_NAMES = [
 ]
 
 interface AirtableRecord {
-  id: string
   fields: {
     'Long name'?: string
     'Long name for cards'?: string
@@ -73,127 +72,73 @@ const FIELD_LIST = [
 ]
 
 export async function getMapData(): Promise<MapData> {
-  if (!AIRTABLE_TOKEN || !BASE_ID) {
-    console.error('Airtable credentials not configured')
-    return {
-      records: [],
-      lastUpdated: null,
-      suggestEntryLink: '/map/suggest',
-      suggestCorrectionLink: '#',
+  const raw = await fetchAirtableRecords({
+    tableId: TABLE_ID,
+    viewId: VIEW_ID,
+    fields: FIELD_LIST,
+  })
+
+  const allRecords: MapOrg[] = []
+  let lastUpdated: string | null = null
+  let suggestEntryLink = '/map/suggest'
+  let suggestCorrectionLink = '#'
+
+  for (const record of raw) {
+    const fields = record.fields as AirtableRecord['fields']
+
+    const title = fields['Long name for cards'] || fields['Long name']
+    if (!title || !fields.Description) continue
+
+    const isMagic = MAGIC_ROW_NAMES.includes(title)
+
+    if (title === 'Last updated' && fields.Description) {
+      lastUpdated = fields.Description
     }
+
+    if (title === 'Suggest entry' && fields.Link) {
+      suggestEntryLink = fields.Link
+    } else if (title === 'Suggest correction' && fields.Link) {
+      suggestCorrectionLink = fields.Link
+    }
+
+    let category = ''
+    if (fields['Category (text)']) {
+      category = fields['Category (text)']
+    } else if (Array.isArray(fields.Category)) {
+      category = fields.Category.join(', ')
+    }
+
+    let logo: string | null = null
+    if (fields['Logo (for cards)'] && fields['Logo (for cards)'].length > 0) {
+      logo = fields['Logo (for cards)'][0].url
+    }
+
+    let mapLogo: string | null = null
+    if (fields['Logo (for map)'] && fields['Logo (for map)'].length > 0) {
+      mapLogo = fields['Logo (for map)'][0].url
+    }
+
+    allRecords.push({
+      id: record.id,
+      title,
+      shortName: fields['Short name'] || null,
+      description: fields.Description,
+      category,
+      status: fields.Status || 'Active',
+      logo,
+      mapLogo,
+      link: fields.Link || '#',
+      x: fields.x ?? null,
+      y: fields.y ?? null,
+      scale: fields.Scale || null,
+      isMagic,
+    })
   }
 
-  try {
-    const allRecords: MapOrg[] = []
-    let offset: string | null = null
-    let lastUpdated: string | null = null
-    let suggestEntryLink = '/map/suggest'
-    let suggestCorrectionLink = '#'
-
-    do {
-      const url = new URL(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}`)
-      url.searchParams.set('view', VIEW_ID)
-      FIELD_LIST.forEach(f => url.searchParams.append('fields[]', f))
-      if (offset) {
-        url.searchParams.set('offset', offset)
-      }
-
-      let response = await fetch(url.toString(), {
-        headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}` },
-        next: { revalidate: 300 },
-      })
-
-      if (!response.ok) {
-        await new Promise(r => setTimeout(r, 1000))
-        response = await fetch(url.toString(), {
-          headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}` },
-          next: { revalidate: 300 },
-        })
-      }
-
-      if (!response.ok) {
-        console.warn('Airtable API error:', response.status)
-        return {
-          records: [],
-          lastUpdated: null,
-          suggestEntryLink: '/map/suggest',
-          suggestCorrectionLink: '#',
-        }
-      }
-
-      const data = await response.json()
-
-      for (const record of data.records as AirtableRecord[]) {
-        const fields = record.fields
-
-        const title = fields['Long name for cards'] || fields['Long name']
-        if (!title || !fields.Description) continue
-
-        const isMagic = MAGIC_ROW_NAMES.includes(title)
-
-        if (title === 'Last updated' && fields.Description) {
-          lastUpdated = fields.Description
-        }
-
-        if (title === 'Suggest entry' && fields.Link) {
-          suggestEntryLink = fields.Link
-        } else if (title === 'Suggest correction' && fields.Link) {
-          suggestCorrectionLink = fields.Link
-        }
-
-        let category = ''
-        if (fields['Category (text)']) {
-          category = fields['Category (text)']
-        } else if (Array.isArray(fields.Category)) {
-          category = fields.Category.join(', ')
-        }
-
-        let logo: string | null = null
-        if (
-          fields['Logo (for cards)'] &&
-          fields['Logo (for cards)'].length > 0
-        ) {
-          logo = fields['Logo (for cards)'][0].url
-        }
-
-        let mapLogo: string | null = null
-        if (fields['Logo (for map)'] && fields['Logo (for map)'].length > 0) {
-          mapLogo = fields['Logo (for map)'][0].url
-        }
-
-        allRecords.push({
-          id: record.id,
-          title,
-          shortName: fields['Short name'] || null,
-          description: fields.Description,
-          category,
-          status: fields.Status || 'Active',
-          logo,
-          mapLogo,
-          link: fields.Link || '#',
-          x: fields.x ?? null,
-          y: fields.y ?? null,
-          scale: fields.Scale || null,
-          isMagic,
-        })
-      }
-
-      offset = data.offset || null
-    } while (offset)
-
-    return {
-      records: allRecords,
-      lastUpdated,
-      suggestEntryLink,
-      suggestCorrectionLink,
-    }
-  } catch (error) {
-    console.error('Error fetching map data:', error)
-    return {
-      records: [],
-      lastUpdated: null,
-      suggestEntryLink: '/map/suggest',
-      suggestCorrectionLink: '#',
-    }
+  return {
+    records: allRecords,
+    lastUpdated,
+    suggestEntryLink,
+    suggestCorrectionLink,
   }
 }
