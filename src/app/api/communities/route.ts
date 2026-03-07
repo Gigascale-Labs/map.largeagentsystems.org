@@ -6,13 +6,6 @@ export type { Community } from '@/lib/data/communities'
 export async function GET() {
   const communities = await getCommunities()
 
-  if (communities.length === 0) {
-    return NextResponse.json(
-      { error: 'Failed to fetch communities' },
-      { status: 500 }
-    )
-  }
-
   return NextResponse.json({
     communities,
     count: communities.length,
