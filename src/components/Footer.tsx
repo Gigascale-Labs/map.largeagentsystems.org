@@ -46,7 +46,7 @@ export default function Footer() {
               </Link>
               <Link href="/feedback">Give anonymous feedback</Link>
               <Link
-                href="https://www.every.org/alignment-ecosystem-development"
+                href="https://www.every.org/alignment-ecosystem-development#/donate/card"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -75,7 +75,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                AI Safety Funding (coming soon)
+                AI Safety Funding
               </Link>
               <Link
                 href="https://aisafetycom.substack.com/"
@@ -102,7 +102,7 @@ export default function Footer() {
             </p>
           </div>
           <p className="paragraph-xs color-teal-300 opacity-80">
-            (ɔ) 2025 · This site is released under a CC BY-SA license
+            (ɔ) 2026 · This site is released under a CC BY-SA license
           </p>
         </div>
       </div>

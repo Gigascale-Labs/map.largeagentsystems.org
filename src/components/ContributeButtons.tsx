@@ -10,6 +10,8 @@ interface ContributeButtonsProps {
   suggestEntryUrl: string
   suggestCorrectionUrl: string
   noun: string
+  suggestEntryDescription?: string
+  suggestCorrectionDescription?: string
   extraLinks?: ExtraLink[]
 }
 
@@ -17,6 +19,8 @@ export default function ContributeButtons({
   suggestEntryUrl,
   suggestCorrectionUrl,
   noun,
+  suggestEntryDescription,
+  suggestCorrectionDescription,
   extraLinks,
 }: ContributeButtonsProps) {
   return (
@@ -26,7 +30,7 @@ export default function ContributeButtons({
           Suggest entry <span className="color-teal-300">&rarr;</span>
         </p>
         <p className="paragraph-small color-teal-300">
-          Suggest a {noun} to be listed here
+          {suggestEntryDescription || `Suggest a ${noun} to be listed here`}
         </p>
       </a>
       <a href={suggestCorrectionUrl} target="_blank" rel="noopener noreferrer">
@@ -34,7 +38,8 @@ export default function ContributeButtons({
           Suggest correction <span className="color-teal-300">&rarr;</span>
         </p>
         <p className="paragraph-small color-teal-300">
-          Let us know of changes to a {noun}
+          {suggestCorrectionDescription ||
+            `Let us know of changes to a ${noun}`}
         </p>
       </a>
       {extraLinks?.map(link => (

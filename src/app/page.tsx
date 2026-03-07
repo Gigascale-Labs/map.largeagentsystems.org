@@ -64,16 +64,18 @@ export default function Home() {
             width={24}
             height={32}
           />
-          <h3 className="shadow-text padding-bottom-8px">EAGxAmsterdam 2025</h3>
+          <h3 className="shadow-text padding-bottom-8px">
+            Technical AI Safety Conference (TAIS)
+          </h3>
           <p className="paragraph-small-bold shadow-text padding-bottom-16px">
-            12–14 Dec 2025
+            14 May 2026 – Oxford, UK
           </p>
           <p className="padding-bottom-40px">
-            A high‑signal weekend to explore clear paths to AI safety impact and
-            meet researchers, funders, and organizations.
+            Free event covering a broad range of topics, from agent foundations
+            to evals. Attendees are welcome regardless of prior experience.
           </p>
           <a
-            href="https://www.effectivealtruism.org/ea-global/events/eagxamsterdam"
+            href="https://tais2026.cc/"
             target="_blank"
             rel="noopener noreferrer"
             className="button-secondary"
@@ -156,7 +158,7 @@ export default function Home() {
             opportunities, and connect.
           </p>
           <a
-            href="https://join.slack.com/t/ai-alignment/shared_invite/zt-3jqiicbfr-u1lLvDWy6E5WL7uucV~opw"
+            href="https://join.slack.com/t/ai-alignment/shared_invite/zt-3oytsoq2q-nzMwWJqs5fl4H~VXA6FQTA"
             target="_blank"
             rel="noopener noreferrer"
             className="button-secondary"
@@ -216,7 +218,7 @@ export default function Home() {
             </p>
             <div className="block">
               <a
-                href="https://bluedot.org/courses"
+                href="https://bluedot.org/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="button-secondary"

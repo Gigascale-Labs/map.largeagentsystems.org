@@ -111,12 +111,12 @@ export default function MediaChannelsPage() {
       <div className="flex flex-col-mobile gap-56px padding-bottom-80px">
         <div className="flex flex-col-mobile gap-40px">
           <FeaturedCard
-            href="https://www.transformernews.ai/"
-            tagline="Top newsletter recommendation"
-            name="Transformer"
-            description="Aims to help decision-makers understand what's happening in AI and why it matters, through news roundups, explainers, features, and opinion pieces."
+            href="https://thezvi.substack.com/"
+            tagline="Top blog recommendation"
+            name="Don't Worry About the Vase"
+            description="Zvi Mowshowitz's blog covering AI developments, policy, and safety with detailed analysis and commentary."
             logo="/images/blue-dot-impact.svg"
-            metadata={[{ label: 'Type', value: 'Newsletter' }]}
+            metadata={[{ label: 'Type', value: 'Blog' }]}
           />
           <FeaturedCard
             href="https://www.youtube.com/playlist?list=PLWQikawCP4UFM_ziLf9X2rcOLCSbqisRE"
@@ -130,21 +130,8 @@ export default function MediaChannelsPage() {
 
         <aside className="hide-mobile">
           <p className="paragraph-small-bold padding-bottom-32px">
-            Related resources
+            Related resource
           </p>
-          <a
-            href="https://aisafetyfeed.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block padding-bottom-40px hover-opacity-80"
-          >
-            <h3 className="padding-bottom-16px">
-              AI Safety Feed <span className="color-teal-400">&rarr;</span>
-            </h3>
-            <p className="paragraph-small color-teal-300">
-              Web app curating content from various sources
-            </p>
-          </a>
           <a
             href="https://aisafety.info"
             target="_blank"
@@ -239,6 +226,8 @@ export default function MediaChannelsPage() {
             suggestEntryUrl="https://airtable.com/appF8XfZUGXtfi40E/pagBI1UdaBbFplw20/form"
             suggestCorrectionUrl="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
             noun="media source"
+            suggestEntryDescription="Suggest an information source to be listed here"
+            suggestCorrectionDescription="Let us know of changes to an entry"
           />
         </div>
       </div>
