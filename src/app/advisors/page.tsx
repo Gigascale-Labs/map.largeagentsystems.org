@@ -177,7 +177,7 @@ export default function AdvisorsPage() {
               <span className="color-teal-400">&rarr;</span>
             </h3>
             <p className="paragraph-small color-teal-300">
-              Upcoming fellowships, conferences, facilitated courses etc.
+              AI safety events and training programs, both online and in-person
             </p>
           </Link>
         </aside>
@@ -273,6 +273,16 @@ export default function AdvisorsPage() {
             suggestEntryUrl="https://airtable.com/appF8XfZUGXtfi40E/pagBI1UdaBbFplw20/form"
             suggestCorrectionUrl="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
             noun="advisor"
+            suggestEntryDescription="Suggest an advisor to be listed here"
+            suggestCorrectionDescription="Let us know of changes that should be made"
+            extraLinks={[
+              {
+                label: 'Review an advisor',
+                description:
+                  'Help determine the inclusion and ranking of advisors on this page',
+                url: '/advisors/review',
+              },
+            ]}
           />
         </div>
       </div>

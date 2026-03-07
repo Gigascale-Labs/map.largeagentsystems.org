@@ -108,7 +108,7 @@ export default function ProjectsPage() {
             href="https://huggingface.co/datasets/StampyAI/alignment-research-dataset"
             tagline="Seeking maintainer"
             name="Alignment Research Dataset"
-            description='Regularly scrapes all major sources of alignment data for use by the AI Safety Chatbot and other projects. Currently needs someone to maintain it. Search "alignment research dataset" on Hugging Face for details.'
+            description="Regularly scrapes all major sources of alignment data for use by the Stampy chatbot and other projects. Currently needs someone to maintain it."
             logo="/images/blue-dot-impact.svg"
             metadata={[
               { label: 'Contact', value: 'Olivier Coutu' },
@@ -119,7 +119,7 @@ export default function ProjectsPage() {
             href="https://aisafetyfeed.com/"
             tagline="Content curation platform"
             name="AI Safety Feed"
-            description="A curated stream for AI safety content, gathering posts and research from key sources. AI helps summarize, tag, and rate content for novelty, letting users quickly find what's important and relevant to them."
+            description="Curated stream for AI safety content, gathering posts and research from key sources. AI helps summarize, tag, and rate the novelty of content."
             logo="/images/blue-dot-impact.svg"
             metadata={[
               { label: 'Contact', value: 'Matt Brooks' },
@@ -139,7 +139,8 @@ export default function ProjectsPage() {
             className="block hover-opacity-80"
           >
             <h3 className="padding-bottom-16px">
-              AED Discord <span className="color-teal-400">&rarr;</span>
+              Alignment Ecosystem Development (AED) Discord{' '}
+              <span className="color-teal-400">&rarr;</span>
             </h3>
             <p className="paragraph-small color-teal-300">
               A hub connecting AI safety volunteers and projects
@@ -231,6 +232,7 @@ export default function ProjectsPage() {
             suggestEntryUrl="https://airtable.com/appF8XfZUGXtfi40E/pagudvyKXZISztcOI/form"
             suggestCorrectionUrl="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
             noun="project"
+            suggestCorrectionDescription="Propose changes to a project listing"
           />
         </div>
       </div>

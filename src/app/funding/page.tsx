@@ -196,18 +196,21 @@ export default function FundingPage() {
             logo="/images/blue-dot-impact.svg"
             metadata={[
               { label: 'Type', value: 'Fund' },
-              { label: 'Accepting applications', value: 'Yes' },
+              { label: 'Accepting applications', value: 'Yes – rolling basis' },
             ]}
           />
           <FeaturedCard
             href="https://survivalandflourishing.fund/"
             tagline="Best for mid- to large-scale projects"
             name="Survival and Flourishing Fund"
-            description="Provides financial support to organizations working to improve humanity's long-term prospects for survival and flourishing."
+            description="Funds organizations working on humanity's long-term survival and flourishing. Speculation Grants are rolling; the full S-Process runs annually and is currently open."
             logo="/images/blue-dot-impact.svg"
             metadata={[
               { label: 'Type', value: 'Fund' },
-              { label: 'Accepting applications', value: 'Yes' },
+              {
+                label: 'Accepting applications',
+                value: 'Yes – closes 22 April 2026',
+              },
             ]}
           />
         </div>
@@ -229,6 +232,20 @@ export default function FundingPage() {
             <p className="paragraph-small color-teal-300">
               An analysis of the main funding sources in AI safety over time,
               last updated early 2025
+            </p>
+          </a>
+          <a
+            href="https://aisafetyfunding.substack.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block padding-top-40px hover-opacity-80"
+          >
+            <h3 className="padding-bottom-16px">
+              Funding newsletter <span className="color-teal-400">&rarr;</span>
+            </h3>
+            <p className="paragraph-small color-teal-300">
+              Receive a regular email summarizing all new funding opportunities
+              in AI safety
             </p>
           </a>
         </aside>
@@ -333,6 +350,7 @@ export default function FundingPage() {
             suggestEntryUrl="https://airtable.com/appF8XfZUGXtfi40E/pagBI1UdaBbFplw20/form"
             suggestCorrectionUrl="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
             noun="funder"
+            suggestCorrectionDescription="Let us know of any changes that should be made"
           />
         </div>
       </div>

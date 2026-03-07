@@ -312,6 +312,7 @@ export default function MapPage() {
               suggestEntryUrl={suggestEntryLink}
               suggestCorrectionUrl={suggestCorrectionLink}
               noun="listing"
+              suggestEntryDescription="Suggest something to be listed on the map"
               extraLinks={[
                 {
                   label: 'View raw data',
