@@ -280,7 +280,7 @@ export default function AdvisorsPage() {
                 label: 'Review an advisor',
                 description:
                   'Help determine the inclusion and ranking of advisors on this page',
-                url: '/advisors/review',
+                url: 'https://airtable.com/appF8XfZUGXtfi40E/pagPIJgReOkrd1kEU/form',
               },
             ]}
           />
