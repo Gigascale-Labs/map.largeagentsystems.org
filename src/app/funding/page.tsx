@@ -193,7 +193,7 @@ export default function FundingPage() {
             tagline="Largest funder in x-risk reduction"
             name="Coefficient Giving"
             description="Most funding is done via proactive research, but there are frequent requests for proposals in certain areas. Previously called Open Philanthropy."
-            logo="/images/download-2-1.svg"
+            logo="/images/blue-dot-impact.svg"
             metadata={[
               { label: 'Type', value: 'Fund' },
               { label: 'Accepting applications', value: 'Yes' },
@@ -204,7 +204,7 @@ export default function FundingPage() {
             tagline="Best for mid- to large-scale projects"
             name="Survival and Flourishing Fund"
             description="Provides financial support to organizations working to improve humanity's long-term prospects for survival and flourishing."
-            logo="/images/download-2-1.svg"
+            logo="/images/blue-dot-impact.svg"
             metadata={[
               { label: 'Type', value: 'Fund' },
               { label: 'Accepting applications', value: 'Yes' },

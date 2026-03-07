@@ -21,7 +21,7 @@ export default function Home() {
               height={32}
               loading="lazy"
               alt="Community thumbnails"
-              src="/images/thumbnails.png"
+              src="/images/team-thumbnails.png"
               className="margin-bottom-12px"
             />
             <p className="paragraph-xs">
@@ -143,7 +143,7 @@ export default function Home() {
           <div className={`${styles['icon-row']} padding-bottom-24px`}>
             <Image
               loading="lazy"
-              src="/images/1-1-2.png"
+              src="/images/ai-alignment-slack.png"
               alt=""
               className={styles['icon-homepage']}
               width={56}
@@ -203,7 +203,7 @@ export default function Home() {
             <div className={`${styles['icon-row']} padding-bottom-24px`}>
               <Image
                 loading="lazy"
-                src="/images/download-2-1.svg"
+                src="/images/blue-dot-impact.svg"
                 alt=""
                 width={56}
                 height={56}
@@ -305,7 +305,7 @@ export default function Home() {
             <div className={`${styles['icon-row']} padding-bottom-24px`}>
               <Image
                 loading="lazy"
-                src="/images/1-22-1.png"
+                src="/images/sff.png"
                 alt=""
                 className={styles['icon-homepage']}
                 width={32}

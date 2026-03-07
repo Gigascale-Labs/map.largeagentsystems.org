@@ -226,7 +226,7 @@ export default function AboutPage() {
           <div>
             <div className={styles.iconCircle}>
               <Image
-                src="/images/speechBubble.svg"
+                src="/images/speech-bubble.svg"
                 alt=""
                 width={16}
                 height={16}
@@ -247,7 +247,7 @@ export default function AboutPage() {
 
         <div className="width-4-col-narrow">
           <div className={styles.iconCircle}>
-            <Image src="/images/addDoc.svg" alt="" width={16} height={16} />
+            <Image src="/images/add-doc.svg" alt="" width={16} height={16} />
           </div>
           <p className="paragraph-small color-teal-300 padding-top-24px padding-bottom-24px">
             We consider AISafety.com a community project, and encourage
