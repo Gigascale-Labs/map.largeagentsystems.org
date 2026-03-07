@@ -95,7 +95,7 @@ export default function Footer() {
               width={80}
               height={32}
               alt="Community thumbnails"
-              src="/images/thumbnails.png"
+              src="/images/team-thumbnails.png"
             />
             <p className="paragraph-xs color-teal-300">
               Maintained by AI safety community-builders

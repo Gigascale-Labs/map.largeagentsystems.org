@@ -41,7 +41,7 @@
 .card-full-width-2 {
   position: relative;
   height: 375px;
-  background-image: url('/images/map-1.png');
+  background-image: url('/images/map.png');
   background-position: 40%;
   background-repeat: repeat;
   background-size: 1400px;
@@ -110,7 +110,7 @@
   min-height: 680px;
   padding: 56px;
   background-image:
-    url('/images/handshape-compressed-better.webp'),
+    url('/images/handshake.webp'),
     radial-gradient(circle at 20% 0, #094141, #073536);
   background-position:
     50% 82%,
@@ -127,7 +127,7 @@
   height: 680px;
   padding: 56px;
   background-image:
-    url('/images/phone-COMPRESSED.png'),
+    url('/images/phone-podcast.png'),
     radial-gradient(circle at 20% 0, #094141, #073536);
   background-position:
     50% 100%,
@@ -179,7 +179,7 @@
   position: relative;
   height: 510px;
   padding: 40px;
-  background-image: url('/images/advising-call-EDITED.webp');
+  background-image: url('/images/advising-call.webp');
   background-position: 50% 100%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -207,7 +207,7 @@
   height: 510px;
   padding: 40px;
   background-image:
-    url('/images/hands-COMPRESSED.webp'),
+    url('/images/open-hands.webp'),
     radial-gradient(circle at 20% 0, #094141, #073536);
   background-position:
     100% 89%,
