@@ -78,7 +78,7 @@ export default async function AdvisorsPage() {
               <span className="color-teal-400">&rarr;</span>
             </h3>
             <p className="paragraph-small color-teal-300">
-              Upcoming fellowships, conferences, facilitated courses etc.
+              AI safety events and training programs, both online and in-person
             </p>
           </Link>
         </aside>

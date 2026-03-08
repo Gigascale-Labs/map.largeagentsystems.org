@@ -41,9 +41,9 @@ export default async function SelfStudyPage() {
             ]}
           />
           <FeaturedCard
-            href="https://bluedot.org/courses"
+            href="https://bluedot.org/"
             tagline="Standard introductory courses"
-            name="BlueDot Impact: Technical & Governance"
+            name="BlueDot Impact: Technical & Frontier AI Governance"
             description="Covers key concepts and research perspectives in AI safety, split into two main streams: Technical AI Safety and AI Governance."
             logo="/images/download-2.svg"
             metadata={[

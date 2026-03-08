@@ -12,13 +12,13 @@ interface CommunitiesClientProps {
 }
 
 // Filter options based on Airtable data
-const typeOptions = ['Online', 'In person']
+const typeOptions = ['Online', 'In-person']
 const platformOptions = [
   'Discord',
   'Facebook',
   'Forum',
   'Gather',
-  'Local',
+  'Other',
   'Reddit',
   'Slack',
   'Telegram',

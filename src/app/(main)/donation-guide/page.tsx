@@ -931,7 +931,7 @@ function Tab4Content() {
         </p>
         <p className="padding-bottom-12px">
           Consider engaging with researchers in the comments sections of their
-          research posts{' '}
+          research posts on{' '}
           <Link
             href="https://www.lesswrong.com/w/ai"
             target="_blank"
