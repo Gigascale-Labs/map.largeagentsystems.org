@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import FilterGroup from '@/components/FilterGroup'
 import ContributeButtons from '@/components/ContributeButtons'
-import { FounderResource } from '../../api/founders/route'
+import { FounderResource } from '@/lib/data/founders'
 
 interface FoundersClientProps {
   resources: FounderResource[]

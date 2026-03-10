@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import FilterGroup from '@/components/FilterGroup'
 import ContributeButtons from '@/components/ContributeButtons'
-import { Advisor } from '../../api/advisors/route'
+import { Advisor } from '@/lib/data/advisors'
 
 interface AdvisorsClientProps {
   advisors: Advisor[]

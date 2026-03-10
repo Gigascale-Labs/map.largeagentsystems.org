@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import FilterGroup from '@/components/FilterGroup'
 import ContributeButtons from '@/components/ContributeButtons'
-import { Job } from '../../api/jobs/route'
+import { Job } from '@/lib/data/jobs'
 
 interface JobsClientProps {
   jobs: Job[]

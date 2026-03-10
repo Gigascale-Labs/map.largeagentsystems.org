@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react'
 import Script from 'next/script'
 import Image from 'next/image'
 import styles from './page.module.css'
-import { Community } from '../../api/communities/route'
+import { Community } from '@/lib/data/communities'
 
 interface CommunitiesMapProps {
   communities: Community[]

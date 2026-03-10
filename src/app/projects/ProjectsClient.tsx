@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react'
 import FilterGroup from '@/components/FilterGroup'
 import ContributeButtons from '@/components/ContributeButtons'
-import { Project } from '../../api/projects/route'
+import { Project } from '@/lib/data/projects'
 
 interface ProjectsClientProps {
   projects: Project[]

@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import FilterGroup from '@/components/FilterGroup'
 import ContributeButtons from '@/components/ContributeButtons'
-import { Funder } from '../../api/funding/route'
+import { Funder } from '@/lib/data/funding'
 
 interface FundingClientProps {
   funders: Funder[]

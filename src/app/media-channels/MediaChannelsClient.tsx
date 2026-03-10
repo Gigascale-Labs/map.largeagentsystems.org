@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import FilterGroup from '@/components/FilterGroup'
 import ContributeButtons from '@/components/ContributeButtons'
-import { MediaChannel } from '../../api/media-channels/route'
+import { MediaChannel } from '@/lib/data/media-channels'
 
 interface MediaChannelsClientProps {
   channels: MediaChannel[]

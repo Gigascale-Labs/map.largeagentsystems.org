@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import FilterGroup from '@/components/FilterGroup'
 import ContributeButtons from '@/components/ContributeButtons'
-import { Course } from '../../api/self-study/route'
+import { Course } from '@/lib/data/self-study'
 
 interface SelfStudyClientProps {
   courses: Course[]
