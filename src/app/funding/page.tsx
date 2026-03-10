@@ -33,7 +33,7 @@ export default async function FundingPage() {
             tagline="Largest funder in x-risk reduction"
             name="Coefficient Giving"
             description="Most funding is done via proactive research, but there are frequent requests for proposals in certain areas. Previously called Open Philanthropy."
-            logo="/images/CG-LOGO.webp"
+            logo="/images/coefficient-giving.webp"
             metadata={[
               { label: 'Type', value: 'Fund' },
               { label: 'Accepting applications', value: 'Yes – rolling basis' },
