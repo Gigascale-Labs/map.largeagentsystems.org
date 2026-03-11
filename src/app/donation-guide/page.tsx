@@ -1,7 +1,8 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import { DONATION_GUIDE_LAST_UPDATED } from '@/lib/donation-guide-date'
 import styles from './page.module.css'
 
 const tabs = [
@@ -12,6 +13,14 @@ const tabs = [
 ] as const
 
 type TabKey = (typeof tabs)[number]['key']
+
+const donationGuideDate = new Date(
+  DONATION_GUIDE_LAST_UPDATED
+).toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+})
 
 export default function DonationGuidePage() {
   const [activeTab, setActiveTab] = useState<TabKey>('tab1')
@@ -34,7 +43,7 @@ export default function DonationGuidePage() {
       <div className="container-default">
         <h1 className="padding-top-56px padding-bottom-8px">Donation guide</h1>
         <div className="padding-bottom-40px paragraph-small color-teal-300">
-          Last updated: 12 June 2025
+          Last updated: {donationGuideDate}
         </div>
         <h2 className="width-7-col padding-bottom-56px">
           This guide can help you determine the most effective way to{' '}

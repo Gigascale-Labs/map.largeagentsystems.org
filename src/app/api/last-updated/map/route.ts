@@ -36,9 +36,17 @@ export async function GET() {
     }
 
     const record = await response.json()
-    const lastUpdated = record.fields?.Description || null
+    const dateStr = record.fields?.Description || null
 
-    return NextResponse.json({ lastUpdated })
+    if (dateStr) {
+      const date = new Date(dateStr)
+      return NextResponse.json({
+        lastUpdated: date.toISOString(),
+        formattedDate: dateStr,
+      })
+    }
+
+    return NextResponse.json({ lastUpdated: null, formattedDate: null })
   } catch (error) {
     console.error('Error fetching map last updated date:', error)
     return NextResponse.json(

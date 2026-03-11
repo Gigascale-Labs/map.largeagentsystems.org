@@ -5,7 +5,7 @@ import styles from './Footer.module.css'
 
 export default function Footer() {
   return (
-    <footer className="margin-top-128px padding-bottom-24px">
+    <footer className="margin-top-192px padding-bottom-24px">
       <div className="container-default">
         <div className="flex flex-col-mobile gap-56px margin-bottom-128px">
           {/* First footer column */}
@@ -35,7 +35,7 @@ export default function Footer() {
               Help us out
             </h4>
             <div
-              className={`color-teal-300 paragraph-small flex flex-col gap-8px ${styles.links}`}
+              className={`paragraph-small flex flex-col gap-8px opacity-80 ${styles.links}`}
             >
               <Link
                 href="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
@@ -44,7 +44,13 @@ export default function Footer() {
               >
                 Suggest a correction
               </Link>
-              <Link href="/feedback">Give anonymous feedback</Link>
+              <Link
+                href="https://airtable.com/appF8XfZUGXtfi40E/pageXZp18w3Sqm1Z7/form"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Give anonymous feedback
+              </Link>
               <Link
                 href="https://www.every.org/alignment-ecosystem-development#/donate/card"
                 target="_blank"
@@ -61,7 +67,7 @@ export default function Footer() {
               Newsletters
             </h4>
             <div
-              className={`color-teal-300 paragraph-small flex flex-col gap-8px ${styles.links}`}
+              className={`paragraph-small flex flex-col gap-8px opacity-80 ${styles.links}`}
             >
               <Link
                 href="https://aisafetyeventsandtraining.substack.com/"
@@ -97,11 +103,11 @@ export default function Footer() {
               alt="Community thumbnails"
               src="/images/team-thumbnails.png"
             />
-            <p className="paragraph-xs color-teal-300">
+            <p className="paragraph-xs">
               Maintained by AI safety community-builders
             </p>
           </div>
-          <p className="paragraph-xs color-teal-300 opacity-80">
+          <p className="paragraph-xs opacity-80">
             (ɔ) 2026 · This site is released under a CC BY-SA license
           </p>
         </div>

@@ -192,7 +192,7 @@ label {
 
 /* Text effects */
 .shadow-text {
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 0 12px rgba(0, 25, 27, 0.8);
 }
 
 /* ===============================
@@ -1121,6 +1121,18 @@ label {
   }
 
   /* Padding Bottom - responsive */
+  .padding-bottom-8px {
+    padding-bottom: 6px;
+  }
+
+  .padding-bottom-12px {
+    padding-bottom: 8px;
+  }
+
+  .padding-bottom-16px {
+    padding-bottom: 12px;
+  }
+
   .padding-bottom-24px {
     padding-bottom: 16px;
   }
@@ -1138,7 +1150,7 @@ label {
   }
 
   .padding-bottom-80px {
-    padding-bottom: 48px;
+    padding-bottom: 40px;
   }
 
   .padding-bottom-104px {
@@ -1208,7 +1220,7 @@ label {
   }
 
   .margin-bottom-128px {
-    margin-bottom: 80px;
+    margin-bottom: 56px;
   }
 
   .margin-bottom-192px {
@@ -1345,7 +1357,7 @@ label {
   }
 
   .gap-56px {
-    gap: 40px;
+    gap: 24px;
   }
 
   .gap-80px {

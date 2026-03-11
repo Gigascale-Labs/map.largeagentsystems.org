@@ -32,19 +32,19 @@ export default function LastUpdated({
           const lastUpdatedDate = new Date(data.lastUpdated)
           const now = new Date()
 
-          // Compare just the date parts, not time
-          const lastUpdatedDateOnly = new Date(
-            lastUpdatedDate.getFullYear(),
-            lastUpdatedDate.getMonth(),
-            lastUpdatedDate.getDate()
+          // Compare just the date parts in UTC, not local time
+          const lastUpdatedDateOnly = Date.UTC(
+            lastUpdatedDate.getUTCFullYear(),
+            lastUpdatedDate.getUTCMonth(),
+            lastUpdatedDate.getUTCDate()
           )
-          const nowDateOnly = new Date(
-            now.getFullYear(),
-            now.getMonth(),
-            now.getDate()
+          const nowDateOnly = Date.UTC(
+            now.getUTCFullYear(),
+            now.getUTCMonth(),
+            now.getUTCDate()
           )
 
-          const diffTime = nowDateOnly.getTime() - lastUpdatedDateOnly.getTime()
+          const diffTime = nowDateOnly - lastUpdatedDateOnly
           const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
 
           if (format === 'relative') {

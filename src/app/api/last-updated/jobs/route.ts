@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN
 const BASE_ID = process.env.AIRTABLE_BASE_ID
 const TABLE_ID = 'tblyLelYCQjP6w3nV'
+const VIEW_ID = 'viwDXZcviPykFzt4g'
 
 export async function GET() {
   if (!AIRTABLE_TOKEN || !BASE_ID) {
@@ -14,11 +15,11 @@ export async function GET() {
 
   try {
     const url = new URL(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}`)
-    url.searchParams.set('filterByFormula', '{Publish?} = TRUE()')
-    url.searchParams.set('sort[0][field]', 'Last Modified')
+    url.searchParams.set('view', VIEW_ID)
+    url.searchParams.set('sort[0][field]', 'Date published')
     url.searchParams.set('sort[0][direction]', 'desc')
     url.searchParams.set('maxRecords', '1')
-    url.searchParams.set('fields[]', 'Last Modified')
+    url.searchParams.set('fields[]', 'Date published')
 
     const response = await fetch(url.toString(), {
       headers: {
@@ -38,7 +39,7 @@ export async function GET() {
 
     let lastUpdatedDate: Date | null = null
     if (data.records && data.records.length > 0) {
-      const modified = data.records[0].fields['Last Modified']
+      const modified = data.records[0].fields['Date published']
       if (modified) {
         lastUpdatedDate = new Date(modified)
       }

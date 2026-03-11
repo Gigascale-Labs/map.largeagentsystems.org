@@ -16,10 +16,10 @@ export async function GET() {
     // Fetch the most recently added community to determine last updated date
     const url = new URL(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}`)
     url.searchParams.set('filterByFormula', '{Publish?} = TRUE()')
-    url.searchParams.set('sort[0][field]', 'Date Added')
+    url.searchParams.set('sort[0][field]', 'Last Modified')
     url.searchParams.set('sort[0][direction]', 'desc')
     url.searchParams.set('maxRecords', '1')
-    url.searchParams.set('fields[]', 'Date Added')
+    url.searchParams.set('fields[]', 'Last Modified')
 
     const response = await fetch(url.toString(), {
       headers: {
@@ -45,7 +45,7 @@ export async function GET() {
     let lastUpdatedDate: Date | null = null
 
     if (data.records && data.records.length > 0) {
-      const dateAdded = data.records[0].fields['Date Added']
+      const dateAdded = data.records[0].fields['Last Modified']
       if (dateAdded) {
         lastUpdatedDate = new Date(dateAdded)
       }
