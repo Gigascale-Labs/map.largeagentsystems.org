@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import * as d3 from 'd3'
+import QRCode from 'qrcode'
 import styles from './page.module.css'
 
 interface MapOrg {
@@ -11,13 +12,14 @@ interface MapOrg {
   description: string
   category: string
   link: string
+  shortUrl: string | null
   mapLogo: string | null
   x: number | null
   y: number | null
   scale: string | null
 }
 
-interface D3MapProps {
+interface D3PosterMapProps {
   orgs: MapOrg[]
 }
 
@@ -31,7 +33,7 @@ const GRID_SIZE = MAP_WIDTH / 60
 const BACKGROUND_IMAGE_URL =
   'https://cdn.prod.website-files.com/65380b51b01b69a63d681e04/67e5dce03ad758280cd8367c_Map%201.5.1.svg'
 
-// Logo size scales (handle both cases)
+// Logo size scales
 const SIZE_TO_SCALE: Record<string, number> = {
   small: 0.4,
   Small: 0.4,
@@ -42,6 +44,13 @@ const SIZE_TO_SCALE: Record<string, number> = {
 }
 const BASE_LOGO_SIZE = 64
 const LOGO_GLOBAL_SCALE = 1.0
+const PILL_GLOBAL_SCALE = 1.5
+
+// QR code sizing: 5mm on a 160cm poster
+const QR_SIZE_MM = 5
+const POSTER_WIDTH_MM = 1600
+const PIXELS_PER_MM = MAP_WIDTH / POSTER_WIDTH_MM
+const QR_SIZE = QR_SIZE_MM * PIXELS_PER_MM // ~7.8 pixels
 
 // Area labels from WebFlow
 const AREA_LABELS = [
@@ -65,16 +74,8 @@ const AREA_LABELS = [
   { label: 'Gone Graveyard', x: 56, y: 30 },
 ]
 
-export default function D3Map({ orgs }: D3MapProps) {
+export default function D3PosterMap({ orgs }: D3PosterMapProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const svgRef = useRef<SVGSVGElement | null>(null)
-  const [tooltip, setTooltip] = useState<{
-    visible: boolean
-    x: number
-    y: number
-    title: string
-    description: string
-  }>({ visible: false, x: 0, y: 0, title: '', description: '' })
 
   useEffect(() => {
     if (!containerRef.current || orgs.length === 0) return
@@ -89,13 +90,11 @@ export default function D3Map({ orgs }: D3MapProps) {
       .attr('width', '100%')
       .attr('height', '100%')
       .attr('viewBox', `0 0 ${PADDED_WIDTH} ${PADDED_HEIGHT}`)
-      .attr('preserveAspectRatio', 'xMidYMin meet')
+      .attr('preserveAspectRatio', 'xMidYMid meet')
 
-    svgRef.current = svg.node()
-
-    // Create main group with offset
+    // Create main group with offset (centered, matching poster backup)
     const offsetX = (PADDED_WIDTH - MAP_WIDTH) / 2
-    const offsetY = (PADDED_HEIGHT - MAP_HEIGHT) / 20
+    const offsetY = (PADDED_HEIGHT - MAP_HEIGHT) / 2
     const svgGroup = svg
       .append('g')
       .attr('transform', `translate(${offsetX}, ${offsetY})`)
@@ -115,8 +114,6 @@ export default function D3Map({ orgs }: D3MapProps) {
           'transform',
           `translate(${newX}, ${newY}) scale(${event.transform.k})`
         )
-        // Hide tooltip on zoom/pan
-        setTooltip(t => ({ ...t, visible: false }))
       })
 
     svg.call(zoom)
@@ -140,8 +137,8 @@ export default function D3Map({ orgs }: D3MapProps) {
       .attr('text-anchor', 'middle')
       .attr('font-family', 'Inter, sans-serif')
       .attr('font-weight', 400)
-      .attr('font-size', 72)
-      .style('letter-spacing', '-2.16px')
+      .attr('font-size', 75)
+      .style('letter-spacing', '-0.64px')
       .attr('fill', '#fff')
       .text('Map of AI Existential Safety')
 
@@ -170,9 +167,9 @@ export default function D3Map({ orgs }: D3MapProps) {
         .attr('y', 0)
         .attr('text-anchor', 'middle')
         .attr('font-family', 'Inter, sans-serif')
-        .attr('font-weight', 600)
+        .attr('font-weight', 500)
         .attr('font-size', finalFontSize)
-        .style('letter-spacing', '-0.01em')
+        .style('letter-spacing', '-0.02em')
         .attr('fill', '#fff')
         .text(label)
 
@@ -190,29 +187,31 @@ export default function D3Map({ orgs }: D3MapProps) {
       }
     })
 
-    // Render organization logos
-    orgs.forEach(org => {
+    // Render organization logos with QR codes
+    orgs.forEach((org, i) => {
       if (org.x === null || org.y === null) return
 
       const xPos = org.x * GRID_SIZE
       const yPos = org.y * GRID_SIZE
 
-      // Calculate logo size based on scale (matching WebFlow)
-      const rawScale = SIZE_TO_SCALE[org.scale || 'Medium'] || 0.6
-      const iconSize = BASE_LOGO_SIZE * rawScale * LOGO_GLOBAL_SCALE
+      // Calculate logo size based on scale
+      const sizeValue = (org.scale || 'Medium').toLowerCase()
+      const rawScale = SIZE_TO_SCALE[sizeValue] || 0.6
+      const combinedPillScale = rawScale * PILL_GLOBAL_SCALE
+      const combinedLogoScale = rawScale * LOGO_GLOBAL_SCALE
+      const iconSize = BASE_LOGO_SIZE * combinedLogoScale
       const padding = 2
       const contentSize = iconSize - 2 * padding
 
-      // Create item group with translate, then link inside (matching Webflow structure)
+      // Create link group (no hover effects for poster)
       const itemGroup = svgGroup
         .append('g')
         .attr('transform', `translate(${xPos}, ${yPos})`)
+
       const linkEl = itemGroup
         .append('a')
         .attr('xlink:href', org.link)
         .attr('target', '_blank')
-        .attr('class', 'mapItem')
-        .style('cursor', 'pointer')
 
       // White circle background
       linkEl
@@ -222,7 +221,7 @@ export default function D3Map({ orgs }: D3MapProps) {
         .attr('cy', 0)
         .attr('fill', '#fff')
 
-      // Logo image - copied directly from WebFlow implementation
+      // Logo image
       if (org.mapLogo) {
         const uniqueId = `logo-pattern-${Math.random().toString(36).substring(2, 11)}`
         const patternId = `pattern-${uniqueId}`
@@ -234,10 +233,9 @@ export default function D3Map({ orgs }: D3MapProps) {
           const scaleFactor = contentSize / Math.max(width, height)
           const finalWidth = width * scaleFactor
           const finalHeight = height * scaleFactor
-          const offsetX = (contentSize - finalWidth) / 2
-          const offsetY = (contentSize - finalHeight) / 2
+          const oX = (contentSize - finalWidth) / 2
+          const oY = (contentSize - finalHeight) / 2
 
-          // Create defs inside linkEl (as per WebFlow)
           const localDefs = linkEl.append('defs')
           const pattern = localDefs
             .append('pattern')
@@ -251,8 +249,8 @@ export default function D3Map({ orgs }: D3MapProps) {
             .attr('xlink:href', org.mapLogo)
             .attr('width', finalWidth)
             .attr('height', finalHeight)
-            .attr('x', offsetX)
-            .attr('y', offsetY)
+            .attr('x', oX)
+            .attr('y', oY)
 
           linkEl
             .append('circle')
@@ -279,16 +277,17 @@ export default function D3Map({ orgs }: D3MapProps) {
           .attr('fill', 'red')
       }
 
-      // Add label below logo
+      // Add label with QR code below logo
       const labelName = org.shortName || org.title
-      const labelOffset = 11 * rawScale * 1.5
+      const labelOffset = 5.5 + 5 * combinedPillScale
       const labelY = iconSize / 2 + labelOffset
-      const fontSize = 6 * rawScale * 1.5
+      const fontSize = 6 * combinedPillScale
 
       const labelG = linkEl
         .append('g')
         .attr('transform', `translate(0, ${labelY})`)
 
+      // Create text element
       const textEl = labelG
         .append('text')
         .attr('text-anchor', 'middle')
@@ -299,14 +298,29 @@ export default function D3Map({ orgs }: D3MapProps) {
         .attr('fill', '#000')
         .text(labelName)
 
-      // Get text bounding box and add background pill
       const bbox = textEl.node()?.getBBox()
       if (bbox) {
-        const padX = 6 * rawScale * 1.5
-        const padY = 3 * rawScale * 1.5
-        const rectW = bbox.width + padX * 2
-        const rectH = bbox.height + padY * 2
+        const padX = 6 * combinedPillScale
+        const padY = 3 * combinedPillScale
+        const gapBetweenTextAndQR = 3 * combinedPillScale
+        const hasLink = org.link && org.link !== '#'
 
+        const totalContentWidth = hasLink
+          ? bbox.width + gapBetweenTextAndQR + QR_SIZE
+          : bbox.width
+
+        const rectW = totalContentWidth + padX * 2
+        const rectH = Math.max(bbox.height + padY * 2, QR_SIZE + padY * 2)
+
+        // Position text to the left if QR code will be added
+        if (hasLink) {
+          const textX = -totalContentWidth / 2 + bbox.width / 2
+          textEl.attr('x', textX)
+        }
+
+        textEl.attr('y', bbox.height * 0.35)
+
+        // Draw pill background
         labelG
           .insert('rect', 'text')
           .attr('x', -rectW / 2)
@@ -317,38 +331,62 @@ export default function D3Map({ orgs }: D3MapProps) {
           .attr('ry', rectH / 2)
           .attr('fill', '#fff')
 
-        textEl.attr('y', bbox.height * 0.35)
+        // Add QR code if URL exists
+        if (hasLink) {
+          const qrX =
+            -totalContentWidth / 2 +
+            bbox.width +
+            gapBetweenTextAndQR +
+            QR_SIZE / 2
+
+          const qrGroup = labelG
+            .append('g')
+            .attr('transform', `translate(${qrX}, 0)`)
+
+          // Use short URL if available, fall back to full URL
+          const urlForQR = org.shortUrl || org.link
+
+          // Generate QR code as data URL
+          QRCode.toDataURL(urlForQR, {
+            errorCorrectionLevel: 'L',
+            margin: 0,
+            width: 256,
+            color: {
+              dark: '#000000',
+              light: '#00000000', // transparent background
+            },
+          })
+            .then((dataUrl: string) => {
+              qrGroup
+                .append('image')
+                .attr('xlink:href', dataUrl)
+                .attr('x', -QR_SIZE / 2)
+                .attr('y', -QR_SIZE / 2)
+                .attr('width', QR_SIZE)
+                .attr('height', QR_SIZE)
+                .attr('preserveAspectRatio', 'xMidYMid meet')
+            })
+            .catch((err: Error) => {
+              console.error(`QR code error for ${labelName}:`, err)
+            })
+        }
       }
 
-      // Tooltip events
+      // Invisible gap rect between logo and label for click area
       linkEl
-        .on('mouseenter', event => {
-          const [mouseX, mouseY] = d3.pointer(event, document.body)
-          setTooltip({
-            visible: true,
-            x: mouseX + 10,
-            y: mouseY + 10,
-            title: org.title,
-            description: org.description,
-          })
-        })
-        .on('mousemove', event => {
-          const [mouseX, mouseY] = d3.pointer(event, document.body)
-          setTooltip(t => ({
-            ...t,
-            x: mouseX + 10,
-            y: mouseY + 10,
-          }))
-        })
-        .on('mouseleave', () => {
-          setTooltip(t => ({ ...t, visible: false }))
-        })
+        .append('rect')
+        .attr('x', -iconSize / 2)
+        .attr('y', iconSize / 2)
+        .attr('width', iconSize)
+        .attr('height', labelOffset)
+        .attr('fill', 'rgba(0,0,0,0)')
+        .style('pointer-events', 'all')
     })
 
     // Setup zoom controls
-    const zoomIn = document.getElementById('zoom-in')
-    const zoomOut = document.getElementById('zoom-out')
-    const recenter = document.getElementById('recenter')
+    const zoomIn = document.getElementById('poster-zoom-in')
+    const zoomOut = document.getElementById('poster-zoom-out')
+    const recenter = document.getElementById('poster-recenter')
 
     if (zoomIn) {
       zoomIn.onclick = () => {
@@ -378,11 +416,11 @@ export default function D3Map({ orgs }: D3MapProps) {
     <>
       <div ref={containerRef} className={styles['map-container']} />
 
-      {/* Zoom controls - styled to match communities map */}
+      {/* Zoom controls - pink themed */}
       <div className={styles['map-controls']}>
         <div className={styles['map-control-group']}>
           <button
-            id="zoom-in"
+            id="poster-zoom-in"
             className={styles['map-control-button']}
             title="Zoom in"
           >
@@ -398,7 +436,7 @@ export default function D3Map({ orgs }: D3MapProps) {
             </svg>
           </button>
           <button
-            id="zoom-out"
+            id="poster-zoom-out"
             className={styles['map-control-button']}
             title="Zoom out"
           >
@@ -414,40 +452,23 @@ export default function D3Map({ orgs }: D3MapProps) {
             </svg>
           </button>
           <button
-            id="recenter"
+            id="poster-recenter"
             className={styles['map-control-button']}
             title="Reset view"
           >
             <svg
-              viewBox="0 0 16 16"
+              viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M8 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9ZM2.5 8a5.5 5.5 0 1 1 11 0 5.5 5.5 0 0 1-11 0Z"
+                d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"
                 fill="white"
               />
-              <circle cx="8" cy="8" r="1.5" fill="white" />
             </svg>
           </button>
         </div>
       </div>
-
-      {/* Tooltip */}
-      {tooltip.visible && (
-        <div
-          className={styles['map-tooltip']}
-          style={{
-            left: tooltip.x,
-            top: tooltip.y,
-          }}
-        >
-          <strong>{tooltip.title}</strong>
-          <span>{tooltip.description}</span>
-        </div>
-      )}
     </>
   )
 }

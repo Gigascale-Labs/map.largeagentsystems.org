@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import FilterGroup from '@/components/FilterGroup'
 import ContributeButtons from '@/components/ContributeButtons'
-import { Community } from '../api/communities/route'
+import { Community } from '@/lib/data/communities'
 
 interface CommunitiesClientProps {
   communities: Community[]
@@ -160,6 +160,10 @@ export default function CommunitiesClient({
                         height={64}
                         className="card-image"
                         unoptimized
+                        loading="eager"
+                        onError={e => {
+                          ;(e.target as HTMLImageElement).style.display = 'none'
+                        }}
                       />
                     </div>
                   )}

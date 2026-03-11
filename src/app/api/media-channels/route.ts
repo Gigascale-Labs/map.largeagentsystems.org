@@ -1,106 +1,21 @@
 import { NextResponse } from 'next/server'
 import { jsonWithCache } from '@/lib/api'
+import { getMediaChannels } from '@/lib/data/media-channels'
 
-const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN
-const BASE_ID = process.env.AIRTABLE_BASE_ID
-const TABLE_ID = 'tblCTOMzyH3vILL5I'
-
-interface AirtableRecord {
-  id: string
-  fields: {
-    Name?: string
-    Description?: string
-    Image?: Array<{
-      url: string
-      thumbnails?: { large?: { url: string } }
-    }>
-    Type?: string
-    Link?: string
-  }
-}
-
-export interface MediaChannel {
-  id: string
-  name: string
-  description: string
-  logo: string | null
-  type: string
-  url: string
-}
+export type { MediaChannel } from '@/lib/data/media-channels'
 
 export async function GET() {
-  if (!AIRTABLE_TOKEN || !BASE_ID) {
-    return NextResponse.json(
-      { error: 'Airtable credentials not configured' },
-      { status: 500 }
-    )
-  }
+  const records = await getMediaChannels()
 
-  try {
-    const allRecords: MediaChannel[] = []
-    let offset: string | null = null
-
-    do {
-      const url = new URL(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}`)
-      url.searchParams.set('filterByFormula', '{Publish?} = TRUE()')
-      url.searchParams.set('sort[0][field]', 'Sort')
-      url.searchParams.set('sort[0][direction]', 'asc')
-      if (offset) {
-        url.searchParams.set('offset', offset)
-      }
-
-      const response = await fetch(url.toString(), {
-        headers: {
-          Authorization: `Bearer ${AIRTABLE_TOKEN}`,
-        },
-        next: { revalidate: 300 },
-      })
-
-      if (!response.ok) {
-        const errorText = await response.text()
-        console.error(
-          `Airtable API error: ${response.status} ${response.statusText}`,
-          errorText
-        )
-        return NextResponse.json(
-          { error: `Airtable API error: ${response.status}` },
-          { status: response.status }
-        )
-      }
-
-      const data = await response.json()
-
-      for (const record of data.records as AirtableRecord[]) {
-        const fields = record.fields
-        if (!fields.Name) continue
-
-        let logo: string | null = null
-        if (fields.Image && fields.Image.length > 0) {
-          logo = fields.Image[0].url
-        }
-
-        allRecords.push({
-          id: record.id,
-          name: fields.Name,
-          description: fields.Description || '',
-          logo,
-          type: fields.Type || '',
-          url: fields.Link || '#',
-        })
-      }
-
-      offset = data.offset || null
-    } while (offset)
-
-    return jsonWithCache({
-      records: allRecords,
-      count: allRecords.length,
-    })
-  } catch (error) {
-    console.error('Error fetching media channels data:', error)
+  if (records.length === 0) {
     return NextResponse.json(
       { error: 'Failed to fetch media channels data' },
       { status: 500 }
     )
   }
+
+  return jsonWithCache({
+    records,
+    count: records.length,
+  })
 }

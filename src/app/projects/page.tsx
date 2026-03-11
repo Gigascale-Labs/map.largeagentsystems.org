@@ -1,89 +1,16 @@
-'use client'
-
-import Image from 'next/image'
-import { useEffect, useState } from 'react'
 import LastUpdated from '@/components/LastUpdated'
 import FeaturedCard from '@/components/FeaturedCard'
-import FilterGroup from '@/components/FilterGroup'
-import ContributeButtons from '@/components/ContributeButtons'
+import ProjectsClient from './ProjectsClient'
+import { getProjects } from '@/lib/data/projects'
 
-const statusOptions = ['Active', 'Paused', 'Seeking owner']
-
-interface Project {
-  id: string
-  name: string
-  description: string
-  logo: string | null
-  contact: string
-  status: string
-  url: string
+export const metadata = {
+  title: 'Volunteer Projects – AISafety.com',
+  description:
+    'Initiatives seeking your volunteer help, focused on supporting and improving the AI safety field.',
 }
 
-export default function ProjectsPage() {
-  const [projects, setProjects] = useState<Project[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedStatus, setSelectedStatus] = useState<Set<string>>(new Set())
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch('/api/projects')
-        if (!res.ok) throw new Error('Failed to fetch data')
-        const data = await res.json()
-        setProjects(data.records)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred')
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchData()
-  }, [])
-
-  const filteredProjects = projects.filter(project => {
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase()
-      if (
-        !project.name.toLowerCase().includes(query) &&
-        !project.description.toLowerCase().includes(query)
-      ) {
-        return false
-      }
-    }
-
-    if (selectedStatus.size > 0) {
-      const hasMatch = Array.from(selectedStatus).some(s =>
-        project.status.toLowerCase().includes(s.toLowerCase())
-      )
-      if (!hasMatch) return false
-    }
-
-    return true
-  })
-
-  const toggleStatus = (status: string) => {
-    const next = new Set(selectedStatus)
-    if (next.has(status)) {
-      next.delete(status)
-    } else {
-      next.add(status)
-    }
-    setSelectedStatus(next)
-  }
-
-  const statusCounts = projects.reduce(
-    (counts, project) => {
-      for (const option of statusOptions) {
-        if (project.status.toLowerCase().includes(option.toLowerCase())) {
-          counts[option] = (counts[option] || 0) + 1
-        }
-      }
-      return counts
-    },
-    {} as Record<string, number>
-  )
+export default async function ProjectsPage() {
+  const projects = await getProjects()
 
   return (
     <div className="container-default">
@@ -149,93 +76,8 @@ export default function ProjectsPage() {
         </aside>
       </div>
 
-      {/* Database Grid */}
-      <div className="database-outer-grid">
-        <div>
-          <div className="padding-bottom-40px">
-            <input
-              type="text"
-              className="text-field"
-              placeholder="Search projects by name or description"
-              maxLength={256}
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-            />
-          </div>
-
-          {loading ? (
-            <div className="padding-bottom-40px">
-              <p className="paragraph-small color-teal-300">Loading...</p>
-            </div>
-          ) : error ? (
-            <div className="padding-bottom-40px">
-              <p className="paragraph-small color-teal-300">Error: {error}</p>
-            </div>
-          ) : (
-            <div className="collection-list padding-bottom-40px">
-              {filteredProjects.map(project => (
-                <a
-                  key={project.id}
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="card"
-                >
-                  <div className="flex items-center gap-16px padding-bottom-24px">
-                    <div className="featured-img">
-                      {project.logo && (
-                        <Image
-                          src={project.logo}
-                          alt=""
-                          className="card-image"
-                          width={64}
-                          height={64}
-                          unoptimized
-                        />
-                      )}
-                    </div>
-                    <h3>{project.name}</h3>
-                  </div>
-                  <p className="paragraph-small padding-bottom-24px">
-                    {project.description}
-                  </p>
-                  <p className="paragraph-xs-bold padding-bottom-4px color-teal-400">
-                    Contact
-                  </p>
-                  <p className="paragraph-small padding-bottom-16px">
-                    {project.contact}
-                  </p>
-                  <p className="paragraph-xs-bold padding-bottom-4px color-teal-400">
-                    Status
-                  </p>
-                  <p className="paragraph-small">{project.status}</p>
-                </a>
-              ))}
-              {filteredProjects.length === 0 && (
-                <p className="paragraph-small color-teal-300">
-                  No items found.
-                </p>
-              )}
-            </div>
-          )}
-        </div>
-
-        <div className="hide-mobile">
-          <FilterGroup
-            title="Status"
-            options={statusOptions}
-            selected={Array.from(selectedStatus)}
-            counts={statusCounts}
-            onToggle={toggleStatus}
-          />
-          <ContributeButtons
-            suggestEntryUrl="https://airtable.com/appF8XfZUGXtfi40E/pagudvyKXZISztcOI/form"
-            suggestCorrectionUrl="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
-            noun="project"
-            suggestCorrectionDescription="Propose changes to a project listing"
-          />
-        </div>
-      </div>
+      {/* Main Content with Search, Cards, and Filters */}
+      <ProjectsClient projects={projects} />
     </div>
   )
 }
