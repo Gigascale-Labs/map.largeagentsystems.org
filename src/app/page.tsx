@@ -1,9 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import LastUpdated from '@/components/LastUpdated'
+import { fetchAllLastUpdated } from '@/lib/data/last-updated'
+import { formatRelativeDate } from '@/lib/format-date'
 import styles from './page.module.css'
 
-export default function Home() {
+export default async function Home() {
+  const dates = await fetchAllLastUpdated()
+
   return (
     <div className="container-default">
       <div className="flex flex-col-mobile items-start justify-between gap-40px padding-top-56px padding-bottom-80px">
@@ -49,11 +52,11 @@ export default function Home() {
           >
             View all events and programs
           </Link>
-          <LastUpdated
-            apiEndpoint="/api/last-updated/events"
-            className={`${styles.date} paragraph-xs shadow-text`}
-            format="relative"
-          />
+          {dates.events && (
+            <p className={`${styles.date} paragraph-xs shadow-text`}>
+              {formatRelativeDate(dates.events)}
+            </p>
+          )}
         </div>
         <div className={styles['card-full-width-1-right-card']}>
           <Image
@@ -99,11 +102,11 @@ export default function Home() {
           <Link href="/map" className="button-primary drop-shadow-light">
             View map
           </Link>
-          <LastUpdated
-            apiEndpoint="/api/last-updated/map"
-            className={`${styles.date} paragraph-xs shadow-text opacity-80`}
-            format="relative"
-          />
+          {dates.map && (
+            <p className={`${styles.date} paragraph-xs shadow-text opacity-80`}>
+              {formatRelativeDate(dates.map)}
+            </p>
+          )}
         </div>
       </div>
 
@@ -122,11 +125,11 @@ export default function Home() {
           >
             View all communities
           </Link>
-          <LastUpdated
-            apiEndpoint="/api/last-updated/communities"
-            className={`${styles.date} paragraph-xs`}
-            format="relative"
-          />
+          {dates.communities && (
+            <p className={`${styles.date} paragraph-xs`}>
+              {formatRelativeDate(dates.communities)}
+            </p>
+          )}
         </div>
         <div className={styles['card-full-width-3-right-card-light']}>
           <Image
@@ -179,11 +182,11 @@ export default function Home() {
             <Link href="/self-study" className="button-primary drop-shadow">
               View all self-study options
             </Link>
-            <LastUpdated
-              apiEndpoint="/api/last-updated/self-study"
-              className={`${styles['date-alt']} paragraph-xs`}
-              format="relative"
-            />
+            {dates['self-study'] && (
+              <p className={`${styles['date-alt']} paragraph-xs`}>
+                {formatRelativeDate(dates['self-study'])}
+              </p>
+            )}
           </div>
           <div
             className={`${styles['card-half-width-bottom-card']} backdrop-blur-md`}
@@ -236,11 +239,11 @@ export default function Home() {
           <Link href="/jobs" className="button-primary drop-shadow">
             View all jobs
           </Link>
-          <LastUpdated
-            apiEndpoint="/api/last-updated/jobs"
-            className={`${styles['date-alt']} paragraph-xs opacity-80`}
-            format="relative"
-          />
+          {dates.jobs && (
+            <p className={`${styles['date-alt']} paragraph-xs opacity-80`}>
+              {formatRelativeDate(dates.jobs)}
+            </p>
+          )}
         </div>
 
         <div className={styles['card-half-width-3']}>
@@ -255,11 +258,11 @@ export default function Home() {
             <Link href="/media-channels" className="button-primary drop-shadow">
               View all media channels
             </Link>
-            <LastUpdated
-              apiEndpoint="/api/last-updated/media-channels"
-              className={`${styles['date-alt']} paragraph-xs opacity-80`}
-              format="relative"
-            />
+            {dates['media-channels'] && (
+              <p className={`${styles['date-alt']} paragraph-xs opacity-80`}>
+                {formatRelativeDate(dates['media-channels'])}
+              </p>
+            )}
           </div>
         </div>
 
@@ -274,11 +277,11 @@ export default function Home() {
             <Link href="/funding" className="button-primary drop-shadow-light">
               View all funders
             </Link>
-            <LastUpdated
-              apiEndpoint="/api/last-updated/funding"
-              className={`${styles['date-alt']} paragraph-xs`}
-              format="relative"
-            />
+            {dates.funding && (
+              <p className={`${styles['date-alt']} paragraph-xs`}>
+                {formatRelativeDate(dates.funding)}
+              </p>
+            )}
           </div>
           <div className={styles['card-half-width-bottom-card-light']}>
             <Image
@@ -332,11 +335,11 @@ export default function Home() {
             <Link href="/advisors" className="button-primary drop-shadow">
               View all advisors
             </Link>
-            <LastUpdated
-              apiEndpoint="/api/last-updated/advisors"
-              className={`${styles['date-alt']} paragraph-xs shadow-text`}
-              format="relative"
-            />
+            {dates.advisors && (
+              <p className={`${styles['date-alt']} paragraph-xs shadow-text`}>
+                {formatRelativeDate(dates.advisors)}
+              </p>
+            )}
           </div>
         </div>
 
@@ -351,11 +354,11 @@ export default function Home() {
             <Link href="/projects" className="button-primary drop-shadow">
               View all projects
             </Link>
-            <LastUpdated
-              apiEndpoint="/api/last-updated/projects"
-              className={`${styles['date-alt']} paragraph-xs`}
-              format="relative"
-            />
+            {dates.projects && (
+              <p className={`${styles['date-alt']} paragraph-xs`}>
+                {formatRelativeDate(dates.projects)}
+              </p>
+            )}
           </div>
           <div className={styles['card-third-width-bottom-card']}>
             <Image
@@ -396,17 +399,17 @@ export default function Home() {
             <Link href="/donation-guide" className="button-primary drop-shadow">
               View guide
             </Link>
-            <LastUpdated
-              apiEndpoint="/api/last-updated/donation-guide"
-              className={`${styles['date-alt']} paragraph-xs opacity-80`}
-              format="relative"
-            />
+            {dates['donation-guide'] && (
+              <p className={`${styles['date-alt']} paragraph-xs opacity-80`}>
+                {formatRelativeDate(dates['donation-guide'])}
+              </p>
+            )}
           </div>
         </div>
       </div>
 
       <div className={styles['aisafety-info']}>
-        <div style={{ maxWidth: '480px' }}>
+        <div className={styles['aisafety-info-text']}>
           <p className="color-teal paragraph-small-bold padding-bottom-12px">
             Visit AISafety.info
           </p>

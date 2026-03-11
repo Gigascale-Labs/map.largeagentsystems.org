@@ -113,9 +113,12 @@ export default function Navigation() {
 
   useEffect(() => {
     fetch('/api/counts')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        return res.json()
+      })
       .then(data => setCounts(data))
-      .catch(() => {})
+      .catch(err => console.warn('Failed to load nav counts:', err))
   }, [])
 
   useEffect(() => {

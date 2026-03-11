@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import Link from 'next/link'
 import { DONATION_GUIDE_LAST_UPDATED } from '@/lib/donation-guide-date'
 import styles from './page.module.css'

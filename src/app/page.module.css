@@ -36,6 +36,7 @@
   background-color: rgba(5, 24, 26, 0.5);
   backdrop-filter: blur(16px);
   border-radius: 8px;
+  isolation: isolate;
 }
 
 .card-full-width-2 {
@@ -86,6 +87,7 @@
   background-color: rgba(5, 24, 26, 0.2);
   backdrop-filter: blur(16px);
   border-radius: 8px;
+  isolation: isolate;
 }
 
 /* Half-width cards */
@@ -160,6 +162,7 @@
   background-color: rgba(5, 24, 26, 0.4);
   border-radius: 8px;
   backdrop-filter: blur(16px);
+  isolation: isolate;
 }
 
 .card-half-width-bottom-card-light {
@@ -260,6 +263,10 @@
   flex-direction: row;
   align-items: center;
   gap: 8px;
+}
+
+.aisafety-info-text {
+  max-width: 480px;
 }
 
 /* AISafety.info section */

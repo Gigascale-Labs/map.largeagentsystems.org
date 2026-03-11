@@ -79,14 +79,13 @@ async function countRecords(
 }
 
 export async function GET() {
-  const results = await Promise.all(
-    resources.map(r => countRecords(r.tableId, r.viewId, r.field))
-  )
-
+  // Serialize requests to avoid hitting Airtable's 5 req/sec rate limit.
+  // This endpoint is cached (30 min) so cold-start latency is acceptable.
   const counts: Record<string, number> = {}
-  resources.forEach((r, i) => {
-    counts[r.path] = results[i] + (r.adjust ?? 0)
-  })
+  for (const r of resources) {
+    const count = await countRecords(r.tableId, r.viewId, r.field)
+    counts[r.path] = count + (r.adjust ?? 0)
+  }
 
   return jsonWithCache(counts)
 }
