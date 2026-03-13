@@ -23,16 +23,12 @@ type ConstantConfig = {
 
 type ResourceConfig = QueryConfig | RecordConfig | ConstantConfig
 
-// NOTE on sortField casing: Airtable field names are case-sensitive. The events
-// and founders tables use 'Last modified' (lowercase m) while other tables use
-// 'Last Modified' (uppercase M). This reflects how the fields are actually named
-// in Airtable — don't "fix" the casing or the queries will break.
 const configs: Record<string, ResourceConfig> = {
   events: {
     type: 'query',
     tableId: 'tblx0L8qJEaLBxJFS',
     viewId: 'viwHl72bJxCb2SfrL',
-    sortField: 'Last modified', // lowercase m — matches Airtable field name
+    sortField: 'Last modified',
   },
   map: {
     type: 'record',
@@ -44,13 +40,13 @@ const configs: Record<string, ResourceConfig> = {
     type: 'query',
     tableId: 'tbluI5Dll697WiSm8',
     filter: '{Publish?} = TRUE()',
-    sortField: 'Last Modified',
+    sortField: 'Last modified',
   },
   'self-study': {
     type: 'query',
     tableId: 'tblRNYJ0m1cmJXKKk',
     viewId: 'viwblgaia3x1gsqBo',
-    sortField: 'Last Modified',
+    sortField: 'Last modified',
   },
   jobs: {
     type: 'query',
@@ -62,32 +58,32 @@ const configs: Record<string, ResourceConfig> = {
     type: 'query',
     tableId: 'tblzMTLDZWZKqTxrq',
     filter: '{Publish?} = TRUE()',
-    sortField: 'Last Modified',
+    sortField: 'Last modified',
   },
   'media-channels': {
     type: 'query',
     tableId: 'tblCTOMzyH3vILL5I',
     filter: '{Publish?} = TRUE()',
-    sortField: 'Last Modified',
+    sortField: 'Last modified',
   },
   advisors: {
     type: 'query',
     tableId: 'tblf3KKYnmgcjVGhD',
     filter: '{Publish?} = TRUE()',
-    sortField: 'Last Modified',
+    sortField: 'Last modified',
   },
   projects: {
     type: 'query',
     tableId: 'tblHT29QNgMYKB8iW',
     filter: '{Publish?} = TRUE()',
-    sortField: 'Last Modified',
+    sortField: 'Last modified',
   },
   founders: {
     type: 'query',
     tableId: 'tbl59Ye8oxvPjoVJv',
     viewId: 'viwzMBhPBk1GpQXnn',
     filter: '{Publish?} = TRUE()',
-    sortField: 'Last modified', // lowercase m — matches Airtable field name
+    sortField: 'Last modified',
   },
   'donation-guide': {
     type: 'constant',
