@@ -14,7 +14,7 @@ const resources = [
     tableId: 'tblvzbGL9q9dOO9Nc',
     viewId: 'viwJgtDFDmaP8PyoI',
     field: 'Long name',
-    adjust: -4, // Grid view includes non-displayed header rows
+    adjust: -4, // Grid view includes 4 category header rows that aren't displayed on the site
   },
   {
     path: '/communities',
@@ -27,7 +27,7 @@ const resources = [
     tableId: 'tblRNYJ0m1cmJXKKk',
     viewId: 'viwblgaia3x1gsqBo',
     field: 'Name',
-    adjust: 1, // View excludes one published record
+    adjust: 1, // View excludes one published record that's shown on the site
   },
   {
     path: '/jobs',

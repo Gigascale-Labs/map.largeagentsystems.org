@@ -23,12 +23,16 @@ type ConstantConfig = {
 
 type ResourceConfig = QueryConfig | RecordConfig | ConstantConfig
 
+// NOTE on sortField casing: Airtable field names are case-sensitive. The events
+// and founders tables use 'Last modified' (lowercase m) while other tables use
+// 'Last Modified' (uppercase M). This reflects how the fields are actually named
+// in Airtable — don't "fix" the casing or the queries will break.
 const configs: Record<string, ResourceConfig> = {
   events: {
     type: 'query',
     tableId: 'tblx0L8qJEaLBxJFS',
     viewId: 'viwHl72bJxCb2SfrL',
-    sortField: 'Last modified',
+    sortField: 'Last modified', // lowercase m — matches Airtable field name
   },
   map: {
     type: 'record',
@@ -83,7 +87,7 @@ const configs: Record<string, ResourceConfig> = {
     tableId: 'tbl59Ye8oxvPjoVJv',
     viewId: 'viwzMBhPBk1GpQXnn',
     filter: '{Publish?} = TRUE()',
-    sortField: 'Last modified',
+    sortField: 'Last modified', // lowercase m — matches Airtable field name
   },
   'donation-guide': {
     type: 'constant',
