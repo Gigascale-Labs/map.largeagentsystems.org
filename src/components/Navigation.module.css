@@ -208,6 +208,11 @@
   }
 
   .mobile-menu-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 6.4vw;
+    overflow-y: auto;
     transform: translateY(-20px);
     opacity: 0;
     transition:
@@ -225,14 +230,6 @@
     justify-content: space-between;
     align-items: center;
     padding: 24px 6.4vw;
-  }
-
-  .mobile-menu-items {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 16px 6.4vw;
-    overflow-y: auto;
   }
 
   .mobile-menu .nav-item {

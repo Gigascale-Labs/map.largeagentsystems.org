@@ -1,15 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { fetchAllLastUpdated } from '@/lib/data/last-updated'
-import { formatRelativeDate } from '@/lib/format-date'
+import LastUpdated from '@/components/LastUpdated'
 import styles from './page.module.css'
 
-export default async function Home() {
-  const dates = await fetchAllLastUpdated()
-
+export default function Home() {
   return (
     <div className="container-default">
-      <div className="flex flex-col-mobile items-start justify-between gap-40px padding-top-56px padding-bottom-80px">
+      <div className="flex flex-col-mobile items-start gap-40px padding-top-56px padding-bottom-80px">
         <h1 className="width-8-col">
           Find your place in the AI safety ecosystem
         </h1>
@@ -52,11 +49,11 @@ export default async function Home() {
           >
             View all events and programs
           </Link>
-          {dates.events && (
-            <p className={`${styles.date} paragraph-xs shadow-text`}>
-              {formatRelativeDate(dates.events)}
-            </p>
-          )}
+          <LastUpdated
+            apiEndpoint="/api/last-updated/events"
+            className={`${styles.date} paragraph-xs shadow-text`}
+            format="relative"
+          />
         </div>
         <div className={styles['card-full-width-1-right-card']}>
           <Image
@@ -65,7 +62,7 @@ export default async function Home() {
             alt=""
             className={styles.bookmark}
             width={24}
-            height={36}
+            height={32}
           />
           <h3 className="shadow-text padding-bottom-8px">
             Technical AI Safety Conference (TAIS)
@@ -102,11 +99,12 @@ export default async function Home() {
           <Link href="/map" className="button-primary drop-shadow-light">
             View map
           </Link>
-          {dates.map && (
-            <p className={`${styles.date} paragraph-xs shadow-text opacity-80`}>
-              {formatRelativeDate(dates.map)}
-            </p>
-          )}
+          <p
+            className={`${styles.date} paragraph-xs shadow-text opacity-80`}
+            data-source-page="/map"
+          >
+            Updated 5 days ago
+          </p>
         </div>
       </div>
 
@@ -125,11 +123,12 @@ export default async function Home() {
           >
             View all communities
           </Link>
-          {dates.communities && (
-            <p className={`${styles.date} paragraph-xs`}>
-              {formatRelativeDate(dates.communities)}
-            </p>
-          )}
+          <p
+            className={`${styles.date} paragraph-xs`}
+            data-source-page="/communities"
+          >
+            Updated 3 days ago
+          </p>
         </div>
         <div className={styles['card-full-width-3-right-card-light']}>
           <Image
@@ -138,7 +137,7 @@ export default async function Home() {
             alt=""
             className={styles.bookmark}
             width={24}
-            height={36}
+            height={32}
           />
           <p className="paragraph-small-bold padding-bottom-12px">
             Largest real-time community
@@ -182,11 +181,12 @@ export default async function Home() {
             <Link href="/self-study" className="button-primary drop-shadow">
               View all self-study options
             </Link>
-            {dates['self-study'] && (
-              <p className={`${styles['date-alt']} paragraph-xs`}>
-                {formatRelativeDate(dates['self-study'])}
-              </p>
-            )}
+            <p
+              className={`${styles['date-alt']} paragraph-xs`}
+              data-source-page="/self-study"
+            >
+              Updated 2 days ago
+            </p>
           </div>
           <div
             className={`${styles['card-half-width-bottom-card']} backdrop-blur-md`}
@@ -197,7 +197,7 @@ export default async function Home() {
               alt=""
               className={styles.bookmark}
               width={24}
-              height={36}
+              height={32}
             />
             <p className="paragraph-small-bold padding-bottom-12px">
               Standard intro course
@@ -230,6 +230,12 @@ export default async function Home() {
         </div>
 
         <div className={styles['card-half-width-2']}>
+          <p
+            className={`${styles['date-alt']} paragraph-xs opacity-80`}
+            data-source-page="/jobs"
+          >
+            Updated 1 day ago
+          </p>
           <p className="paragraph-small-bold padding-bottom-12px opacity-80">
             Find a job
           </p>
@@ -239,11 +245,12 @@ export default async function Home() {
           <Link href="/jobs" className="button-primary drop-shadow">
             View all jobs
           </Link>
-          {dates.jobs && (
-            <p className={`${styles['date-alt']} paragraph-xs opacity-80`}>
-              {formatRelativeDate(dates.jobs)}
-            </p>
-          )}
+          <p
+            className={`${styles['date-alt']} paragraph-xs opacity-80`}
+            data-source-page="/jobs"
+          >
+            Updated 1 day ago
+          </p>
         </div>
 
         <div className={styles['card-half-width-3']}>
@@ -258,11 +265,12 @@ export default async function Home() {
             <Link href="/media-channels" className="button-primary drop-shadow">
               View all media channels
             </Link>
-            {dates['media-channels'] && (
-              <p className={`${styles['date-alt']} paragraph-xs opacity-80`}>
-                {formatRelativeDate(dates['media-channels'])}
-              </p>
-            )}
+            <p
+              className={`${styles['date-alt']} paragraph-xs opacity-80`}
+              data-source-page="/media-channels"
+            >
+              Updated 6 days ago
+            </p>
           </div>
         </div>
 
@@ -277,11 +285,12 @@ export default async function Home() {
             <Link href="/funding" className="button-primary drop-shadow-light">
               View all funders
             </Link>
-            {dates.funding && (
-              <p className={`${styles['date-alt']} paragraph-xs`}>
-                {formatRelativeDate(dates.funding)}
-              </p>
-            )}
+            <p
+              className={`${styles['date-alt']} paragraph-xs`}
+              data-source-page="/funders"
+            >
+              Updated 3 days ago
+            </p>
           </div>
           <div className={styles['card-half-width-bottom-card-light']}>
             <Image
@@ -290,7 +299,7 @@ export default async function Home() {
               alt=""
               className={styles.bookmark}
               width={24}
-              height={36}
+              height={32}
             />
             <p className="paragraph-small-bold padding-bottom-12px">
               Best for medium to large projects
@@ -301,8 +310,8 @@ export default async function Home() {
                 src="/images/sff.png"
                 alt=""
                 className={styles['icon-homepage']}
-                width={56}
-                height={56}
+                width={32}
+                height={32}
               />
               <h3>Survival and Flourishing Fund</h3>
             </div>
@@ -335,11 +344,12 @@ export default async function Home() {
             <Link href="/advisors" className="button-primary drop-shadow">
               View all advisors
             </Link>
-            {dates.advisors && (
-              <p className={`${styles['date-alt']} paragraph-xs shadow-text`}>
-                {formatRelativeDate(dates.advisors)}
-              </p>
-            )}
+            <p
+              className={`${styles['date-alt']} paragraph-xs shadow-text`}
+              data-source-page="/advisors"
+            >
+              Updated 4 days ago
+            </p>
           </div>
         </div>
 
@@ -354,11 +364,12 @@ export default async function Home() {
             <Link href="/projects" className="button-primary drop-shadow">
               View all projects
             </Link>
-            {dates.projects && (
-              <p className={`${styles['date-alt']} paragraph-xs`}>
-                {formatRelativeDate(dates.projects)}
-              </p>
-            )}
+            <p
+              className={`${styles['date-alt']} paragraph-xs`}
+              data-source-page="/projects"
+            >
+              Updated 2 days ago
+            </p>
           </div>
           <div className={styles['card-third-width-bottom-card']}>
             <Image
@@ -366,8 +377,8 @@ export default async function Home() {
               src="/images/bookmark-dark-small.svg"
               alt=""
               className={styles.bookmark}
-              width={16}
-              height={24}
+              width={24}
+              height={32}
             />
             <p className="paragraph-small-bold padding-bottom-12px">
               Featured project
@@ -399,17 +410,18 @@ export default async function Home() {
             <Link href="/donation-guide" className="button-primary drop-shadow">
               View guide
             </Link>
-            {dates['donation-guide'] && (
-              <p className={`${styles['date-alt']} paragraph-xs opacity-80`}>
-                {formatRelativeDate(dates['donation-guide'])}
-              </p>
-            )}
+            <p
+              className={`${styles['date-alt']} paragraph-xs opacity-80`}
+              data-source-page="/donation-guide"
+            >
+              Updated 1 week ago
+            </p>
           </div>
         </div>
       </div>
 
       <div className={styles['aisafety-info']}>
-        <div className={styles['aisafety-info-text']}>
+        <div className="width-6-col">
           <p className="color-teal paragraph-small-bold padding-bottom-12px">
             Visit AISafety.info
           </p>

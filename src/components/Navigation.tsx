@@ -11,32 +11,36 @@ import {
 } from 'react'
 import styles from './Navigation.module.css'
 
-const navItems = [
+const allNavItems = [
   {
     href: '/events-and-training',
     label: 'Events & training',
     icon: 'calendar.svg',
+    count: 48,
   },
-  { href: '/map', label: 'Field map', icon: 'map.svg' },
-  { href: '/communities', label: 'Communities', icon: 'globe.svg' },
-  { href: '/self-study', label: 'Self-study', icon: 'book.svg' },
-  { href: '/jobs', label: 'Jobs', icon: 'briefcase.svg' },
-  { href: '/funding', label: 'Funding', icon: 'coins.svg' },
+  { href: '/map', label: 'Field map', icon: 'map.svg', count: 323 },
+  { href: '/communities', label: 'Communities', icon: 'globe.svg', count: 196 },
+  { href: '/self-study', label: 'Self-study', icon: 'book.svg', count: 25 },
+  { href: '/jobs', label: 'Jobs', icon: 'briefcase.svg', count: 327 },
+  { href: '/funding', label: 'Funding', icon: 'coins.svg', count: 49 },
   {
     href: '/media-channels',
     label: 'Media channels',
     icon: 'megaphone.svg',
+    count: 75,
   },
-  { href: '/advisors', label: 'Advisors', icon: 'person.svg' },
+  { href: '/advisors', label: 'Advisors', icon: 'person.svg', count: 20 },
   {
     href: '/projects',
     label: 'Volunteer projects',
     icon: 'clipboard.svg',
+    count: 33,
   },
   {
     href: '/founders',
     label: 'Founder toolkit',
     icon: 'rocket.svg',
+    count: 35,
   },
   { href: '/donation-guide', label: 'Donation guide', icon: 'heart.svg' },
 ]
@@ -49,9 +53,8 @@ export default function Navigation() {
   const [hasBlur, setHasBlur] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [counts, setCounts] = useState<Record<string, number>>({})
   const [visibleCount, setVisibleCount] = useState(
-    navItems.length - MIN_OVERFLOW
+    allNavItems.length - MIN_OVERFLOW
   )
   const dropdownRef = useRef<HTMLDivElement>(null)
   const navRef = useRef<HTMLElement>(null)
@@ -63,9 +66,9 @@ export default function Navigation() {
     mode: 'top' as 'top' | 'scrolling' | 'hidden' | 'revealed',
   })
 
-  const overflowCount = navItems.length - visibleCount
-  const visibleItems = navItems.slice(0, visibleCount)
-  const overflowItems = navItems.slice(visibleCount)
+  const overflowCount = allNavItems.length - visibleCount
+  const visibleItems = allNavItems.slice(0, visibleCount)
+  const overflowItems = allNavItems.slice(visibleCount)
 
   const calculateFromCachedWidths = useCallback(() => {
     if (!navRef.current || itemWidths.current.length === 0) return
@@ -82,7 +85,7 @@ export default function Navigation() {
       count++
     }
 
-    const maxVisible = navItems.length - MIN_OVERFLOW
+    const maxVisible = allNavItems.length - MIN_OVERFLOW
     setVisibleCount(Math.min(count, maxVisible))
   }, [])
 
@@ -110,16 +113,6 @@ export default function Navigation() {
     if (navRef.current) observer.observe(navRef.current)
     return () => observer.disconnect()
   }, [calculateFromCachedWidths])
-
-  useEffect(() => {
-    fetch('/api/counts')
-      .then(res => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        return res.json()
-      })
-      .then(data => setCounts(data))
-      .catch(err => console.warn('Failed to load nav counts:', err))
-  }, [])
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -230,10 +223,8 @@ export default function Navigation() {
                   />
                 </div>
                 <p className="paragraph-small-bold">{item.label}</p>
-                {counts[item.href] && (
-                  <p className="paragraph-xs color-teal-300">
-                    {counts[item.href]}
-                  </p>
+                {item.count && (
+                  <p className="paragraph-xs color-teal-300">{item.count}</p>
                 )}
               </Link>
             ))}
@@ -263,9 +254,9 @@ export default function Navigation() {
                         />
                       </div>
                       <p className="paragraph-small-bold">{item.label}</p>
-                      {counts[item.href] && (
+                      {item.count && (
                         <p className="paragraph-xs color-teal-300">
-                          {counts[item.href]}
+                          {item.count}
                         </p>
                       )}
                     </Link>
@@ -317,7 +308,7 @@ export default function Navigation() {
           </button>
         </div>
         <nav className={styles['mobile-menu-items']}>
-          {navItems.map(item => (
+          {allNavItems.map(item => (
             <Link
               key={item.href}
               href={item.href}
@@ -332,11 +323,9 @@ export default function Navigation() {
                   src={`/images/${item.icon}`}
                 />
               </div>
-              <p className="paragraph-small-bold">{item.label}</p>
-              {counts[item.href] && (
-                <p className="paragraph-xs color-teal-300">
-                  {counts[item.href]}
-                </p>
+              <p className="paragraph-default-bold">{item.label}</p>
+              {item.count && (
+                <p className="paragraph-small color-teal-300">{item.count}</p>
               )}
             </Link>
           ))}
