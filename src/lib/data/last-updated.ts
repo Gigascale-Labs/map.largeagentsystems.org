@@ -174,14 +174,15 @@ export async function fetchLastUpdated(
   }
 }
 
+// Serialized to avoid hitting Airtable's 5 req/sec rate limit.
+// Called at build time (static generation) so latency doesn't matter.
 export async function fetchAllLastUpdated(): Promise<
   Record<string, string | null>
 > {
-  const entries = await Promise.all(
-    validResources.map(async name => {
-      const result = await fetchLastUpdated(name)
-      return [name, result.lastUpdated] as const
-    })
-  )
-  return Object.fromEntries(entries)
+  const result: Record<string, string | null> = {}
+  for (const name of validResources) {
+    const data = await fetchLastUpdated(name)
+    result[name] = data.lastUpdated
+  }
+  return result
 }

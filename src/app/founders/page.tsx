@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import LastUpdated from '@/components/LastUpdated'
+import { fetchLastUpdated } from '@/lib/data/last-updated'
 import FeaturedCard from '@/components/FeaturedCard'
 import FoundersClient from './FoundersClient'
 import { getFounderResources } from '@/lib/data/founders'
@@ -11,15 +11,19 @@ export const metadata = {
 }
 
 export default async function FoundersPage() {
-  const resources = await getFounderResources()
+  const [resources, lastUpdated] = await Promise.all([
+    getFounderResources(),
+    fetchLastUpdated('founders'),
+  ])
 
   return (
     <div className="container-default">
       <h1 className="padding-top-56px padding-bottom-8px">Founder Toolkit</h1>
-      <LastUpdated
-        apiEndpoint="/api/last-updated/founders"
-        className="paragraph-small color-teal-300 margin-bottom-40px"
-      />
+      {lastUpdated.formattedDate && (
+        <p className="paragraph-small color-teal-300 margin-bottom-40px">
+          Last updated: {lastUpdated.formattedDate}
+        </p>
+      )}
       <h2 className="width-7-col margin-bottom-56px">
         Resources for{' '}
         <span className="color-light-teal">starting and growing</span> an AI

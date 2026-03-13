@@ -1,9 +1,7 @@
-import { jsonWithCache } from '@/lib/api'
-import { fetchAirtableRecords } from '@/lib/data/airtable'
+import { fetchAirtableRecords } from './airtable'
 
 // Each resource's table ID, view to count from, and a minimal field to fetch.
-// Events uses "Table" (On site); Jobs uses "Jobs" (no Grid view);
-// all others use their Grid view.
+// adjust: manual correction for counts that don't match the live site exactly.
 const resources = [
   {
     path: '/events-and-training',
@@ -16,7 +14,7 @@ const resources = [
     tableId: 'tblvzbGL9q9dOO9Nc',
     viewId: 'viwJgtDFDmaP8PyoI',
     field: 'Long name',
-    adjust: -4,
+    adjust: -4, // Grid view includes non-displayed header rows
   },
   {
     path: '/communities',
@@ -29,7 +27,7 @@ const resources = [
     tableId: 'tblRNYJ0m1cmJXKKk',
     viewId: 'viwblgaia3x1gsqBo',
     field: 'Name',
-    adjust: 1,
+    adjust: 1, // View excludes one published record
   },
   {
     path: '/jobs',
@@ -69,23 +67,21 @@ const resources = [
   },
 ]
 
-async function countRecords(
-  tableId: string,
-  viewId: string,
-  field: string
-): Promise<number> {
-  const raw = await fetchAirtableRecords({ tableId, viewId, fields: [field] })
-  return raw.length
-}
-
-export async function GET() {
-  // Serialize requests to avoid hitting Airtable's 5 req/sec rate limit.
-  // This endpoint is cached (30 min) so cold-start latency is acceptable.
+// Fetches all resource counts from Airtable, serialized to avoid rate limits.
+// Called at build time (static generation) so latency doesn't matter.
+export async function fetchAllCounts(): Promise<Record<string, number>> {
   const counts: Record<string, number> = {}
   for (const r of resources) {
-    const count = await countRecords(r.tableId, r.viewId, r.field)
-    counts[r.path] = count + (r.adjust ?? 0)
+    try {
+      const raw = await fetchAirtableRecords({
+        tableId: r.tableId,
+        viewId: r.viewId,
+        fields: [r.field],
+      })
+      counts[r.path] = raw.length + (r.adjust ?? 0)
+    } catch (error) {
+      console.error(`Error fetching count for ${r.path}:`, error)
+    }
   }
-
-  return jsonWithCache(counts)
+  return counts
 }

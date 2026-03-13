@@ -45,11 +45,14 @@ const MIN_OVERFLOW = 5
 
 const SCROLL_THRESHOLD_BLUR = 50
 
-export default function Navigation() {
+export default function Navigation({
+  counts,
+}: {
+  counts: Record<string, number>
+}) {
   const [hasBlur, setHasBlur] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [counts, setCounts] = useState<Record<string, number>>({})
   const [visibleCount, setVisibleCount] = useState(
     navItems.length - MIN_OVERFLOW
   )
@@ -110,16 +113,6 @@ export default function Navigation() {
     if (navRef.current) observer.observe(navRef.current)
     return () => observer.disconnect()
   }, [calculateFromCachedWidths])
-
-  useEffect(() => {
-    fetch('/api/counts')
-      .then(res => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        return res.json()
-      })
-      .then(data => setCounts(data))
-      .catch(err => console.warn('Failed to load nav counts:', err))
-  }, [])
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {

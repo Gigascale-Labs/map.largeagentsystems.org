@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import LastUpdated from '@/components/LastUpdated'
+import { fetchLastUpdated } from '@/lib/data/last-updated'
 import FeaturedCard from '@/components/FeaturedCard'
 import CommunitiesClient from './CommunitiesClient'
 import CommunitiesMap from './CommunitiesMap'
@@ -42,7 +42,10 @@ const featuredCommunities = [
 ]
 
 export default async function CommunitiesPage() {
-  const communities = await getCommunities()
+  const [communities, lastUpdated] = await Promise.all([
+    getCommunities(),
+    fetchLastUpdated('communities'),
+  ])
 
   return (
     <div>
@@ -57,10 +60,11 @@ export default async function CommunitiesPage() {
           Communities
         </h1>
 
-        <LastUpdated
-          apiEndpoint="/api/last-updated/communities"
-          className="paragraph-small color-teal-300 margin-bottom-40px"
-        />
+        {lastUpdated.formattedDate && (
+          <p className="paragraph-small color-teal-300 margin-bottom-40px">
+            Last updated: {lastUpdated.formattedDate}
+          </p>
+        )}
 
         <h2 className="width-7-col margin-bottom-56px">
           There are many groups dedicated to discussing and contributing to AI

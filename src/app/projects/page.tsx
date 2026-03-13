@@ -1,4 +1,4 @@
-import LastUpdated from '@/components/LastUpdated'
+import { fetchLastUpdated } from '@/lib/data/last-updated'
 import FeaturedCard from '@/components/FeaturedCard'
 import ProjectsClient from './ProjectsClient'
 import { getProjects } from '@/lib/data/projects'
@@ -10,17 +10,21 @@ export const metadata = {
 }
 
 export default async function ProjectsPage() {
-  const projects = await getProjects()
+  const [projects, lastUpdated] = await Promise.all([
+    getProjects(),
+    fetchLastUpdated('projects'),
+  ])
 
   return (
     <div className="container-default">
       <h1 className="padding-top-56px padding-bottom-8px">
         Volunteer projects
       </h1>
-      <LastUpdated
-        apiEndpoint="/api/last-updated/projects"
-        className="paragraph-small color-teal-300 margin-bottom-40px"
-      />
+      {lastUpdated.formattedDate && (
+        <p className="paragraph-small color-teal-300 margin-bottom-40px">
+          Last updated: {lastUpdated.formattedDate}
+        </p>
+      )}
       <h2 className="width-7-col margin-bottom-56px">
         Initiatives{' '}
         <span className="color-light-teal">seeking your volunteer help</span>.

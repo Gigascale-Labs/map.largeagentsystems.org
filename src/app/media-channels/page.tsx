@@ -1,4 +1,4 @@
-import LastUpdated from '@/components/LastUpdated'
+import { fetchLastUpdated } from '@/lib/data/last-updated'
 import FeaturedCard from '@/components/FeaturedCard'
 import MediaChannelsClient from './MediaChannelsClient'
 import { getMediaChannels } from '@/lib/data/media-channels'
@@ -10,15 +10,19 @@ export const metadata = {
 }
 
 export default async function MediaChannelsPage() {
-  const channels = await getMediaChannels()
+  const [channels, lastUpdated] = await Promise.all([
+    getMediaChannels(),
+    fetchLastUpdated('media-channels'),
+  ])
 
   return (
     <div className="container-default">
       <h1 className="padding-top-56px padding-bottom-8px">Media channels</h1>
-      <LastUpdated
-        apiEndpoint="/api/last-updated/media-channels"
-        className="paragraph-small color-teal-300 margin-bottom-40px"
-      />
+      {lastUpdated.formattedDate && (
+        <p className="paragraph-small color-teal-300 margin-bottom-40px">
+          Last updated: {lastUpdated.formattedDate}
+        </p>
+      )}
       <h2 className="width-7-col margin-bottom-56px">
         <span className="color-light-teal">
           The AI safety space is changing rapidly.

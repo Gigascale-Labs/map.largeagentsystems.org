@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import LastUpdated from '@/components/LastUpdated'
+import { fetchLastUpdated } from '@/lib/data/last-updated'
 import FeaturedCard from '@/components/FeaturedCard'
 import AdvisorsClient from './AdvisorsClient'
 import { getAdvisors } from '@/lib/data/advisors'
@@ -11,15 +11,19 @@ export const metadata = {
 }
 
 export default async function AdvisorsPage() {
-  const advisors = await getAdvisors()
+  const [advisors, lastUpdated] = await Promise.all([
+    getAdvisors(),
+    fetchLastUpdated('advisors'),
+  ])
 
   return (
     <div className="container-default">
       <h1 className="padding-top-56px padding-bottom-8px">Advisors</h1>
-      <LastUpdated
-        apiEndpoint="/api/last-updated/advisors"
-        className="paragraph-small color-teal-300 margin-bottom-40px"
-      />
+      {lastUpdated.formattedDate && (
+        <p className="paragraph-small color-teal-300 margin-bottom-40px">
+          Last updated: {lastUpdated.formattedDate}
+        </p>
+      )}
       <h2 className="width-7-col margin-bottom-56px">
         <span className="color-light-teal">
           Connecting with human experts can be invaluable.

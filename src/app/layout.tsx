@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import LayoutShell from '@/components/LayoutShell'
+import { fetchAllCounts } from '@/lib/data/counts'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -34,15 +35,17 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const counts = await fetchAllCounts()
+
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased`}>
-        <LayoutShell>{children}</LayoutShell>
+        <LayoutShell counts={counts}>{children}</LayoutShell>
       </body>
     </html>
   )
