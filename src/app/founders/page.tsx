@@ -7,7 +7,7 @@ import { getFounderResources } from '@/lib/data/founders'
 export const metadata = {
   title: 'Founder Toolkit – AISafety.com',
   description:
-    'Resources for starting and growing an AI safety organization, including incubators, fiscal sponsors, venture capital, and practical guides.',
+    'Resources for starting and growing an AI safety organization, including incubators, fiscal sponsors, VCs, and practical tools.',
 }
 
 export default async function FoundersPage() {
@@ -23,8 +23,8 @@ export default async function FoundersPage() {
       <h2 className="width-7-col margin-bottom-56px">
         Resources for{' '}
         <span className="color-light-teal">starting and growing</span> an AI
-        safety organization – including incubators, fiscal sponsors, venture
-        capital, and practical guides.
+        safety organization – including incubators, fiscal sponsors, VCs, and
+        practical tools.
       </h2>
 
       {/* Featured Cards + Related Resources */}
