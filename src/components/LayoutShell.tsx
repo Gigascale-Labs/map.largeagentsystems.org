@@ -12,7 +12,7 @@ export default function LayoutShell({
   counts,
 }: {
   children: React.ReactNode
-  counts: Record<string, number>
+  counts: Partial<Record<string, number>>
 }) {
   const pathname = usePathname()
   const isStandalone = standaloneRoutes.some(route =>

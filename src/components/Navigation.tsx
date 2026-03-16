@@ -48,7 +48,7 @@ const SCROLL_THRESHOLD_BLUR = 50
 export default function Navigation({
   counts,
 }: {
-  counts: Record<string, number>
+  counts: Partial<Record<string, number>>
 }) {
   const [hasBlur, setHasBlur] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)

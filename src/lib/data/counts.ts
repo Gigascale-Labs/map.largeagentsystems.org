@@ -67,17 +67,18 @@ const resources = [
   },
 ]
 
-// Fetches all resource counts from Airtable, serialized to avoid rate limits.
-// Called at build time (static generation) so latency doesn't matter.
-export async function fetchAllCounts(): Promise<Record<string, number>> {
-  const counts: Record<string, number> = {}
-  for (const r of resources) {
-    const raw = await fetchAirtableRecords({
-      tableId: r.tableId,
-      viewId: r.viewId,
-      fields: [r.field],
+// Fetches all resource counts in parallel. Safe to parallelize because this
+// runs at build time (static generation), not at request time.
+export async function fetchAllCounts(): Promise<Partial<Record<string, number>>> {
+  const results = await Promise.all(
+    resources.map(async r => {
+      const raw = await fetchAirtableRecords({
+        tableId: r.tableId,
+        viewId: r.viewId,
+        fields: [r.field],
+      })
+      return [r.path, raw.length + (r.adjust ?? 0)] as const
     })
-    counts[r.path] = raw.length + (r.adjust ?? 0)
-  }
-  return counts
+  )
+  return Object.fromEntries(results)
 }
