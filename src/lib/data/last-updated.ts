@@ -118,7 +118,7 @@ export async function fetchLastUpdated(
       `https://api.airtable.com/v0/${baseId}/${config.tableId}/${config.recordId}`,
       {
         headers: { Authorization: `Bearer ${token}` },
-        next: { revalidate: 300 },
+        cache: 'no-store',
       }
     )
     if (!response.ok)

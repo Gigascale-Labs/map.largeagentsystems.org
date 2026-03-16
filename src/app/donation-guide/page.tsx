@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react'
 import Link from 'next/link'
 import { DONATION_GUIDE_LAST_UPDATED } from '@/lib/donation-guide-date'
+import { formatDate } from '@/lib/format-date'
 import styles from './page.module.css'
 
 const tabs = [
@@ -14,13 +15,7 @@ const tabs = [
 
 type TabKey = (typeof tabs)[number]['key']
 
-const donationGuideDate = new Date(
-  DONATION_GUIDE_LAST_UPDATED
-).toLocaleDateString('en-GB', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-})
+const donationGuideDate = formatDate(new Date(DONATION_GUIDE_LAST_UPDATED))
 
 export default function DonationGuidePage() {
   const [activeTab, setActiveTab] = useState<TabKey>('tab1')
