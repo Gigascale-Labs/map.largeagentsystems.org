@@ -72,16 +72,12 @@ const resources = [
 export async function fetchAllCounts(): Promise<Record<string, number>> {
   const counts: Record<string, number> = {}
   for (const r of resources) {
-    try {
-      const raw = await fetchAirtableRecords({
-        tableId: r.tableId,
-        viewId: r.viewId,
-        fields: [r.field],
-      })
-      counts[r.path] = raw.length + (r.adjust ?? 0)
-    } catch (error) {
-      console.error(`Error fetching count for ${r.path}:`, error)
-    }
+    const raw = await fetchAirtableRecords({
+      tableId: r.tableId,
+      viewId: r.viewId,
+      fields: [r.field],
+    })
+    counts[r.path] = raw.length + (r.adjust ?? 0)
   }
   return counts
 }

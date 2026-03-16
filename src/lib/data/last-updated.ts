@@ -102,7 +102,7 @@ export async function fetchLastUpdated(
   resource: string
 ): Promise<LastUpdatedResult> {
   const config = configs[resource]
-  if (!config) return { lastUpdated: null, formattedDate: null }
+  if (!config) throw new Error(`Unknown resource: '${resource}'`)
 
   if (config.type === 'constant') {
     const date = new Date(config.value)
@@ -111,67 +111,69 @@ export async function fetchLastUpdated(
 
   const token = process.env.AIRTABLE_TOKEN
   const baseId = process.env.AIRTABLE_BASE_ID
-  if (!token || !baseId) return { lastUpdated: null, formattedDate: null }
+  if (!token || !baseId) throw new Error('Missing AIRTABLE_TOKEN or AIRTABLE_BASE_ID')
 
-  try {
-    if (config.type === 'record') {
-      const response = await fetch(
-        `https://api.airtable.com/v0/${baseId}/${config.tableId}/${config.recordId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-          next: { revalidate: 300 },
-        }
-      )
-      if (!response.ok) return { lastUpdated: null, formattedDate: null }
-
-      const record = await response.json()
-      const dateStr = record.fields?.[config.dateField]
-      if (dateStr) {
-        const date = new Date(dateStr as string)
-        return {
-          lastUpdated: date.toISOString(),
-          formattedDate: dateStr as string,
-        }
+  if (config.type === 'record') {
+    const response = await fetch(
+      `https://api.airtable.com/v0/${baseId}/${config.tableId}/${config.recordId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        next: { revalidate: 300 },
       }
-      return { lastUpdated: null, formattedDate: null }
-    }
-
-    // type === 'query'
-    const url = new URL(
-      `https://api.airtable.com/v0/${baseId}/${config.tableId}`
     )
-    if (config.viewId) url.searchParams.set('view', config.viewId)
-    if (config.filter) url.searchParams.set('filterByFormula', config.filter)
-    url.searchParams.set('sort[0][field]', config.sortField)
-    url.searchParams.set('sort[0][direction]', 'desc')
-    url.searchParams.set('maxRecords', '1')
-    url.searchParams.set('fields[]', config.sortField)
+    if (!response.ok)
+      throw new Error(`Airtable fetch failed for '${resource}': ${response.status} ${response.statusText}`)
 
-    const response = await fetch(url.toString(), {
-      headers: { Authorization: `Bearer ${token}` },
-      next: { revalidate: 300 },
-    })
-    if (!response.ok) return { lastUpdated: null, formattedDate: null }
+    const record = await response.json()
+    const dateStr = record.fields?.[config.dateField]
+    if (!dateStr) return { lastUpdated: null, formattedDate: null }
 
-    const data = await response.json()
-    if (data.records?.length > 0) {
-      const dateValue = data.records[0].fields[config.sortField]
-      if (dateValue) {
-        const date = new Date(dateValue as string)
-        if (!isNaN(date.getTime())) {
-          return {
-            lastUpdated: date.toISOString(),
-            formattedDate: formatDate(date),
-          }
-        }
+    const date = new Date(dateStr as string)
+    if (isNaN(date.getTime()))
+      throw new Error(
+        `Invalid date in Airtable field '${config.dateField}' for resource '${resource}': "${dateStr}"`
+      )
+    return {
+      lastUpdated: date.toISOString(),
+      formattedDate: formatDate(date),
+    }
+  }
+
+  // type === 'query'
+  const url = new URL(
+    `https://api.airtable.com/v0/${baseId}/${config.tableId}`
+  )
+  if (config.viewId) url.searchParams.set('view', config.viewId)
+  if (config.filter) url.searchParams.set('filterByFormula', config.filter)
+  url.searchParams.set('sort[0][field]', config.sortField)
+  url.searchParams.set('sort[0][direction]', 'desc')
+  url.searchParams.set('maxRecords', '1')
+  url.searchParams.set('fields[]', config.sortField)
+
+  const response = await fetch(url.toString(), {
+    headers: { Authorization: `Bearer ${token}` },
+    next: { revalidate: 300 },
+  })
+  if (!response.ok)
+    throw new Error(`Airtable fetch failed for '${resource}': ${response.status} ${response.statusText}`)
+
+  const data = await response.json()
+  if (data.records?.length > 0) {
+    const dateValue = data.records[0].fields[config.sortField]
+    if (dateValue) {
+      const date = new Date(dateValue as string)
+      if (isNaN(date.getTime()))
+        throw new Error(
+          `Invalid date in Airtable field '${config.sortField}' for resource '${resource}': "${dateValue}"`
+        )
+      return {
+        lastUpdated: date.toISOString(),
+        formattedDate: formatDate(date),
       }
     }
-
-    return { lastUpdated: null, formattedDate: null }
-  } catch (error) {
-    console.error(`Error fetching last updated for ${resource}:`, error)
-    return { lastUpdated: null, formattedDate: null }
   }
+
+  return { lastUpdated: null, formattedDate: null }
 }
 
 // Serialized to avoid hitting Airtable's 5 req/sec rate limit.
