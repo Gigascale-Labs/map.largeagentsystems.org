@@ -152,7 +152,6 @@ export async function fetchLastUpdated(
 
   const response = await fetch(url.toString(), {
     headers: { Authorization: `Bearer ${token}` },
-    next: { revalidate: 300 },
   })
   if (!response.ok)
     throw new Error(
