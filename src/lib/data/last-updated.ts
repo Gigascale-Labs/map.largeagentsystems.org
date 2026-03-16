@@ -111,18 +111,20 @@ export async function fetchLastUpdated(
 
   const token = process.env.AIRTABLE_TOKEN
   const baseId = process.env.AIRTABLE_BASE_ID
-  if (!token || !baseId) throw new Error('Missing AIRTABLE_TOKEN or AIRTABLE_BASE_ID')
+  if (!token || !baseId)
+    throw new Error('Missing AIRTABLE_TOKEN or AIRTABLE_BASE_ID')
 
   if (config.type === 'record') {
     const response = await fetch(
       `https://api.airtable.com/v0/${baseId}/${config.tableId}/${config.recordId}`,
       {
         headers: { Authorization: `Bearer ${token}` },
-        cache: 'no-store',
       }
     )
     if (!response.ok)
-      throw new Error(`Airtable fetch failed for '${resource}': ${response.status} ${response.statusText}`)
+      throw new Error(
+        `Airtable fetch failed for '${resource}': ${response.status} ${response.statusText}`
+      )
 
     const record = await response.json()
     const dateStr = record.fields?.[config.dateField]
@@ -140,9 +142,7 @@ export async function fetchLastUpdated(
   }
 
   // type === 'query'
-  const url = new URL(
-    `https://api.airtable.com/v0/${baseId}/${config.tableId}`
-  )
+  const url = new URL(`https://api.airtable.com/v0/${baseId}/${config.tableId}`)
   if (config.viewId) url.searchParams.set('view', config.viewId)
   if (config.filter) url.searchParams.set('filterByFormula', config.filter)
   url.searchParams.set('sort[0][field]', config.sortField)
@@ -155,7 +155,9 @@ export async function fetchLastUpdated(
     next: { revalidate: 300 },
   })
   if (!response.ok)
-    throw new Error(`Airtable fetch failed for '${resource}': ${response.status} ${response.statusText}`)
+    throw new Error(
+      `Airtable fetch failed for '${resource}': ${response.status} ${response.statusText}`
+    )
 
   const data = await response.json()
   if (data.records?.length > 0) {
