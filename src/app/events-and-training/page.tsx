@@ -61,7 +61,7 @@ export default async function EventsAndTrainingPage() {
             href="https://airtable.com/appF8XfZUGXtfi40E/pagyqtPZ2BFcKU6ys/form"
             target="_blank"
             rel="noopener noreferrer"
-            className="action-link hide-mobile"
+            className={`${styles['action-link']} hide-mobile`}
           >
             <p className="paragraph-default-bold padding-bottom-16px">
               Suggest entry <span className="color-teal-400">&rarr;</span>
@@ -76,7 +76,7 @@ export default async function EventsAndTrainingPage() {
             href="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
             target="_blank"
             rel="noopener noreferrer"
-            className="action-link hide-mobile"
+            className={`${styles['action-link']} hide-mobile`}
           >
             <p className="paragraph-default-bold padding-bottom-16px">
               Suggest correction <span className="color-teal-400">&rarr;</span>

@@ -16,15 +16,6 @@
   color: inherit;
 }
 
-.action-title {
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 160%;
-  letter-spacing: -0.45px;
-  color: var(--white);
-  margin: 0 0 8px 0;
-}
-
 .action-description {
   font-size: 18px;
   line-height: 160%;
