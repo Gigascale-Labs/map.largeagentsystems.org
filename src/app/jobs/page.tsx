@@ -16,7 +16,8 @@ export default async function JobsPage() {
 
   return (
     <div className="container-default">
-      <h1 className="padding-top-56px padding-bottom-8px">Jobs</h1>
+      {/* QA: live site has no bottom padding on this h1 (unlike most other resource pages) */}
+      <h1 className="padding-top-56px">Jobs</h1>
       {lastUpdated.formattedDate && (
         <p className="paragraph-small color-teal-300 margin-bottom-40px">
           Last updated: {lastUpdated.formattedDate}

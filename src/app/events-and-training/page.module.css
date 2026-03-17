@@ -2,11 +2,13 @@
    EVENTS & TRAINING PAGE STYLES
    =============================== */
 
+/* QA: changed from grid (1fr 1fr 1fr) to flex to match live site.
+   Grid forced equal-width columns, making text wrap too early.
+   Live site uses Webflow's flex-gap-56px class. */
 .action-links-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
   gap: 56px;
-  margin: 0 0 56px 0;
+  padding-bottom: 56px;
 }
 
 .action-link {
@@ -30,9 +32,10 @@
   color: var(--teal-300);
 }
 
+/* QA: removed margin (was 24px 0) which created extra gap between h2 headers
+   and Airtable embeds. Live site uses container-wide with no margin. */
 .airtable-section {
   width: 100%;
-  margin: 24px 0;
   padding: 0 64px;
 }
 
@@ -75,7 +78,7 @@
   }
 
   .action-links-grid {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     gap: 24px;
   }
 }
