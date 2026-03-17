@@ -1100,8 +1100,9 @@ label {
     padding-top: 28px;
   }
 
+  /* QA: live site's padding-top-56px reduces to 32px at mobile, not 40px */
   .padding-top-56px {
-    padding-top: 40px;
+    padding-top: 32px;
   }
 
   .padding-top-80px {
@@ -1116,8 +1117,9 @@ label {
     padding-top: 80px;
   }
 
+  /* QA: live site uses 80px at mobile, not 96px */
   .padding-top-192px {
-    padding-top: 96px;
+    padding-top: 80px;
   }
 
   /* Padding Bottom - responsive */
@@ -1190,8 +1192,9 @@ label {
     margin-top: 80px;
   }
 
+  /* QA: live site's 192px top spacing reduces to 80px at mobile */
   .margin-top-192px {
-    margin-top: 96px;
+    margin-top: 80px;
   }
 
   /* Margin Bottom - responsive */
@@ -1207,8 +1210,9 @@ label {
     margin-bottom: 28px;
   }
 
+  /* QA: live site's 56px spacing reduces to 32px at mobile, not 40px */
   .margin-bottom-56px {
-    margin-bottom: 40px;
+    margin-bottom: 32px;
   }
 
   .margin-bottom-80px {

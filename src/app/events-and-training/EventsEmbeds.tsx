@@ -5,9 +5,11 @@ import styles from './page.module.css'
 
 const EMBEDS = [
   {
+    // QA: uses airtable-embed-mobile class to reduce height to 600px on mobile
+    // (matching live site's .airtable-embed-mobile-1 override)
     src: 'https://airtable.com/embed/appF8XfZUGXtfi40E/shrLgl03tMK4q6cyc?viewControls=on',
     height: 2300,
-    className: `${styles['airtable-embed']} margin-bottom-40px`,
+    className: `${styles['airtable-embed']} ${styles['airtable-embed-mobile']} margin-bottom-40px`,
   },
   {
     // QA: margin-bottom-40px matches live site's padding-40px class spacing.
@@ -92,19 +94,22 @@ export default function EventsEmbeds() {
 
   return (
     <>
-      <div className={styles['airtable-section']}>
-        {renderEmbed(0)}
+      <div className={styles['airtable-section']}>{renderEmbed(0)}</div>
+      {/* QA: second embed is desktop-only, separate wrapper so it hides fully on mobile */}
+      <div className={`${styles['airtable-section']} hide-mobile`}>
         {renderEmbed(1)}
       </div>
 
-      <div className="container-default">
-        {/* QA: added padding-bottom-24px to match live site's padding-24px class */}
-        <h2 className="hide-mobile padding-bottom-24px">
+      {/* QA: entire "Open for application" section is desktop-only on live site */}
+      <div className="container-default hide-mobile">
+        <h2 className="padding-bottom-24px">
           Open for application/registration
         </h2>
       </div>
 
-      <div className={styles['airtable-section']}>{renderEmbed(2)}</div>
+      <div className={`${styles['airtable-section']} hide-mobile`}>
+        {renderEmbed(2)}
+      </div>
     </>
   )
 }
