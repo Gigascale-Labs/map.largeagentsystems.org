@@ -12,17 +12,14 @@ const EMBEDS = [
     className: `${styles['airtable-embed']} ${styles['airtable-embed-mobile']} margin-bottom-40px`,
   },
   {
-    // QA: margin-bottom-40px matches live site's padding-40px class spacing.
-    // Uses margin (not padding) so the space is outside the white embed background.
     src: 'https://airtable.com/embed/appF8XfZUGXtfi40E/shrZ4Uh9OsbUryfjp',
     height: 2880,
-    className: `${styles['airtable-embed']} hide-mobile margin-bottom-40px`,
+    className: `${styles['airtable-embed']} margin-bottom-40px`,
   },
   {
-    // QA: margin-bottom-40px creates space above "Self-study courses" link
     src: 'https://airtable.com/embed/appF8XfZUGXtfi40E/shrbap2hy8Yd3xojA',
     height: 1000,
-    className: `${styles['airtable-embed']} hide-mobile margin-bottom-40px`,
+    className: `${styles['airtable-embed']} margin-bottom-40px`,
   },
 ]
 

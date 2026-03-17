@@ -51,9 +51,7 @@ export default async function EventsAndTrainingPage() {
               Subscribe to newsletter{' '}
               <span className="color-teal-400">&rarr;</span>
             </p>
-            {/* QA: use color-teal-300 utility instead of action-description module class,
-                so font-size inherits body's mobile 15px instead of staying at 18px */}
-            <p className="color-teal-300">
+            <p className={styles['action-description']}>
               Receive a weekly email summarizing all new events and training
               programs
             </p>
@@ -68,9 +66,7 @@ export default async function EventsAndTrainingPage() {
             <p className="paragraph-default-bold padding-bottom-16px">
               Suggest entry <span className="color-teal-400">&rarr;</span>
             </p>
-            {/* QA: use color-teal-300 utility instead of action-description module class,
-                so font-size inherits body's mobile 15px instead of staying at 18px */}
-            <p className="color-teal-300">
+            <p className={styles['action-description']}>
               Suggest an event or training program to be listed here and in the
               newsletter
             </p>
@@ -85,9 +81,7 @@ export default async function EventsAndTrainingPage() {
             <p className="paragraph-default-bold padding-bottom-16px">
               Suggest correction <span className="color-teal-400">&rarr;</span>
             </p>
-            {/* QA: use color-teal-300 utility instead of action-description module class,
-                so font-size inherits body's mobile 15px instead of staying at 18px */}
-            <p className="color-teal-300">
+            <p className={styles['action-description']}>
               Let us know of any updates that should be made to the database
             </p>
           </Link>
@@ -104,12 +98,10 @@ export default async function EventsAndTrainingPage() {
       {/* Link to self-study */}
       <div className="container-default">
         <Link href="/self-study">
-          {/* QA: use standard h3 + padding-bottom-8px instead of custom module classes,
-              so font sizes reduce on mobile via globals.css responsive rules */}
           <h3 className="padding-bottom-8px">
             Self-study courses <span className="color-teal-400">→</span>
           </h3>
-          <p className="color-teal-300">
+          <p className={styles['self-study-description']}>
             Courses with freely available materials for independent learning
           </p>
         </Link>
