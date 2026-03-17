@@ -9,8 +9,10 @@ const standaloneRoutes = ['/poster-map']
 
 export default function LayoutShell({
   children,
+  counts,
 }: {
   children: React.ReactNode
+  counts: Partial<Record<string, number>>
 }) {
   const pathname = usePathname()
   const isStandalone = standaloneRoutes.some(route =>
@@ -23,7 +25,7 @@ export default function LayoutShell({
 
   return (
     <>
-      <Navigation />
+      <Navigation counts={counts} />
       {children}
       <Footer />
     </>

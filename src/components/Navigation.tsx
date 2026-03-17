@@ -11,36 +11,32 @@ import {
 } from 'react'
 import styles from './Navigation.module.css'
 
-const allNavItems = [
+const navItems = [
   {
     href: '/events-and-training',
     label: 'Events & training',
     icon: 'calendar.svg',
-    count: 48,
   },
-  { href: '/map', label: 'Field map', icon: 'map.svg', count: 323 },
-  { href: '/communities', label: 'Communities', icon: 'globe.svg', count: 196 },
-  { href: '/self-study', label: 'Self-study', icon: 'book.svg', count: 25 },
-  { href: '/jobs', label: 'Jobs', icon: 'briefcase.svg', count: 327 },
-  { href: '/funding', label: 'Funding', icon: 'coins.svg', count: 49 },
+  { href: '/map', label: 'Field map', icon: 'map.svg' },
+  { href: '/communities', label: 'Communities', icon: 'globe.svg' },
+  { href: '/self-study', label: 'Self-study', icon: 'book.svg' },
+  { href: '/jobs', label: 'Jobs', icon: 'briefcase.svg' },
+  { href: '/funding', label: 'Funding', icon: 'coins.svg' },
   {
     href: '/media-channels',
     label: 'Media channels',
     icon: 'megaphone.svg',
-    count: 75,
   },
-  { href: '/advisors', label: 'Advisors', icon: 'person.svg', count: 20 },
+  { href: '/advisors', label: 'Advisors', icon: 'person.svg' },
   {
     href: '/projects',
     label: 'Volunteer projects',
     icon: 'clipboard.svg',
-    count: 33,
   },
   {
     href: '/founders',
     label: 'Founder toolkit',
     icon: 'rocket.svg',
-    count: 35,
   },
   { href: '/donation-guide', label: 'Donation guide', icon: 'heart.svg' },
 ]
@@ -49,12 +45,16 @@ const MIN_OVERFLOW = 5
 
 const SCROLL_THRESHOLD_BLUR = 50
 
-export default function Navigation() {
+export default function Navigation({
+  counts,
+}: {
+  counts: Partial<Record<string, number>>
+}) {
   const [hasBlur, setHasBlur] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [visibleCount, setVisibleCount] = useState(
-    allNavItems.length - MIN_OVERFLOW
+    navItems.length - MIN_OVERFLOW
   )
   const dropdownRef = useRef<HTMLDivElement>(null)
   const navRef = useRef<HTMLElement>(null)
@@ -66,9 +66,9 @@ export default function Navigation() {
     mode: 'top' as 'top' | 'scrolling' | 'hidden' | 'revealed',
   })
 
-  const overflowCount = allNavItems.length - visibleCount
-  const visibleItems = allNavItems.slice(0, visibleCount)
-  const overflowItems = allNavItems.slice(visibleCount)
+  const overflowCount = navItems.length - visibleCount
+  const visibleItems = navItems.slice(0, visibleCount)
+  const overflowItems = navItems.slice(visibleCount)
 
   const calculateFromCachedWidths = useCallback(() => {
     if (!navRef.current || itemWidths.current.length === 0) return
@@ -85,7 +85,7 @@ export default function Navigation() {
       count++
     }
 
-    const maxVisible = allNavItems.length - MIN_OVERFLOW
+    const maxVisible = navItems.length - MIN_OVERFLOW
     setVisibleCount(Math.min(count, maxVisible))
   }, [])
 
@@ -223,8 +223,10 @@ export default function Navigation() {
                   />
                 </div>
                 <p className="paragraph-small-bold">{item.label}</p>
-                {item.count && (
-                  <p className="paragraph-xs color-teal-300">{item.count}</p>
+                {counts[item.href] && (
+                  <p className="paragraph-xs color-teal-300">
+                    {counts[item.href]}
+                  </p>
                 )}
               </Link>
             ))}
@@ -254,9 +256,9 @@ export default function Navigation() {
                         />
                       </div>
                       <p className="paragraph-small-bold">{item.label}</p>
-                      {item.count && (
+                      {counts[item.href] && (
                         <p className="paragraph-xs color-teal-300">
-                          {item.count}
+                          {counts[item.href]}
                         </p>
                       )}
                     </Link>
@@ -308,7 +310,7 @@ export default function Navigation() {
           </button>
         </div>
         <nav className={styles['mobile-menu-items']}>
-          {allNavItems.map(item => (
+          {navItems.map(item => (
             <Link
               key={item.href}
               href={item.href}
@@ -324,8 +326,10 @@ export default function Navigation() {
                 />
               </div>
               <p className="paragraph-default-bold">{item.label}</p>
-              {item.count && (
-                <p className="paragraph-small color-teal-300">{item.count}</p>
+              {counts[item.href] && (
+                <p className="paragraph-small color-teal-300">
+                  {counts[item.href]}
+                </p>
               )}
             </Link>
           ))}

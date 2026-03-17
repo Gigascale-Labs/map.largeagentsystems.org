@@ -50,7 +50,6 @@ export async function fetchAirtableRecords(
 
     let response = await fetch(url.toString(), {
       headers: { Authorization: `Bearer ${token}` },
-      next: { revalidate: 300 },
     })
 
     if (!response.ok) {
@@ -58,7 +57,6 @@ export async function fetchAirtableRecords(
       await new Promise(r => setTimeout(r, 1000))
       response = await fetch(url.toString(), {
         headers: { Authorization: `Bearer ${token}` },
-        next: { revalidate: 300 },
       })
     }
 

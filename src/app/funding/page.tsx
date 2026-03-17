@@ -1,4 +1,4 @@
-import LastUpdated from '@/components/LastUpdated'
+import { fetchLastUpdated } from '@/lib/data/last-updated'
 import FeaturedCard from '@/components/FeaturedCard'
 import FundingClient from './FundingClient'
 import { getFunders } from '@/lib/data/funding'
@@ -10,15 +10,19 @@ export const metadata = {
 }
 
 export default async function FundingPage() {
-  const funders = await getFunders()
+  const [funders, lastUpdated] = await Promise.all([
+    getFunders(),
+    fetchLastUpdated('funding'),
+  ])
 
   return (
     <div className="container-default">
       <h1 className="padding-top-56px padding-bottom-8px">Funding</h1>
-      <LastUpdated
-        apiEndpoint="/api/last-updated/funding"
-        className="paragraph-small color-teal-300 margin-bottom-40px"
-      />
+      {lastUpdated.formattedDate && (
+        <p className="paragraph-small color-teal-300 margin-bottom-40px">
+          Last updated: {lastUpdated.formattedDate}
+        </p>
+      )}
       <h2 className="width-7-col margin-bottom-56px">
         These organizations offer{' '}
         <span className="color-light-teal">financial support</span> to

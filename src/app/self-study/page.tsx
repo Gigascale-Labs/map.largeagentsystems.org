@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import LastUpdated from '@/components/LastUpdated'
+import { fetchLastUpdated } from '@/lib/data/last-updated'
 import FeaturedCard from '@/components/FeaturedCard'
 import SelfStudyClient from './SelfStudyClient'
 import { getCourses } from '@/lib/data/self-study'
@@ -11,15 +11,19 @@ export const metadata = {
 }
 
 export default async function SelfStudyPage() {
-  const courses = await getCourses()
+  const [courses, lastUpdated] = await Promise.all([
+    getCourses(),
+    fetchLastUpdated('self-study'),
+  ])
 
   return (
     <div className="container-default">
       <h1 className="padding-top-56px padding-bottom-8px">Self-study</h1>
-      <LastUpdated
-        apiEndpoint="/api/last-updated/self-study"
-        className="paragraph-small color-teal-300 margin-bottom-40px"
-      />
+      {lastUpdated.formattedDate && (
+        <p className="paragraph-small color-teal-300 margin-bottom-40px">
+          Last updated: {lastUpdated.formattedDate}
+        </p>
+      )}
       <h2 className="width-7-col margin-bottom-56px">
         These curricula and reading lists enable you to{' '}
         <span className="color-light-teal">dive deeper into AI safety </span>

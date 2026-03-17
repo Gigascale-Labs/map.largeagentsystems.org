@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import LastUpdated from '@/components/LastUpdated'
+import { fetchLastUpdated } from '@/lib/data/last-updated'
 import EventsEmbeds from './EventsEmbeds'
 import styles from './page.module.css'
 
@@ -9,7 +9,9 @@ export const metadata = {
     'AI safety events and training programs, both online and in-person.',
 }
 
-export default function EventsAndTrainingPage() {
+export default async function EventsAndTrainingPage() {
+  const lastUpdated = await fetchLastUpdated('events')
+
   return (
     <div>
       {/* Preconnect to Airtable so embeds load faster */}
@@ -21,10 +23,11 @@ export default function EventsAndTrainingPage() {
           Events &amp; training
         </h1>
 
-        <LastUpdated
-          apiEndpoint="/api/last-updated/events"
-          className="paragraph-small color-teal-300 margin-bottom-40px"
-        />
+        {lastUpdated.formattedDate && (
+          <p className="paragraph-small color-teal-300 margin-bottom-40px">
+            Last updated: {lastUpdated.formattedDate}
+          </p>
+        )}
 
         <h2 className="width-7-col margin-bottom-56px">
           There&apos;s a wide range of events and training programs in AI
