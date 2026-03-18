@@ -35,11 +35,11 @@ export default async function FoundersPage() {
       <div className="flex flex-col-mobile gap-56px padding-bottom-80px">
         <div className="flex flex-col-mobile gap-40px">
           <FeaturedCard
-            href="https://beacongcr.org/"
+            href="https://www.ashgro.org/"
             tagline="Featured fiscal sponsor"
-            name="Beacon"
-            description="Fiscal sponsorship, administrative support, and bureaucracy shielding for researchers safeguarding humanity from catastrophic risk."
-            logo="/images/beacon-logo.webp"
+            name="Ashgro"
+            description="Providing fiscal sponsorship to AI safety projects, saving them time and allowing them to access more funding."
+            logo="/images/ashgro-logo.png"
             metadata={[{ label: 'Type', value: 'Fiscal sponsor' }]}
           />
           <FeaturedCard
