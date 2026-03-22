@@ -16,27 +16,3 @@
   background-color: var(--teal-800);
   border-radius: 16px;
 }
-
-/* Down-arrow icon circle — matches nav-item-icon styling */
-.arrowCircle {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 32px;
-  height: 32px;
-  background-color: var(--white);
-  border-radius: 16px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  margin: 24px auto 0;
-  animation: bounce 2s ease-in-out infinite;
-}
-
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(3px);
-  }
-}
