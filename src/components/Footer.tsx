@@ -19,9 +19,10 @@ export default function Footer() {
                 className="margin-bottom-24px"
               />
               <p className="paragraph-small padding-bottom-32px">
-                We&apos;re a global team of volunteers and professionals from
-                various disciplines who believe AI poses a grave risk of
-                extinction to humanity.
+                We&apos;re a small nonprofit driven by 1.25 salaried employees
+                and lots of volunteers. We aim to multiply global AI safety
+                efforts through a centralized, comprehensive, and up-to-date
+                resource hub.
               </p>
               <Link href="/about" className="button-secondary">
                 Learn more about us
