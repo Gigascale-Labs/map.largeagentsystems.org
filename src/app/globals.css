@@ -43,6 +43,7 @@
   /* Accent Colors */
   --bright-teal-300: #a6dad9;
   --bright-teal-500: #6cbdbb;
+  --bright-green: #7affb2;
   --white: white;
   --off-white: #f3f3f3;
 
@@ -210,7 +211,7 @@ label {
   color: var(--bright-teal-500);
 }
 .color-light-teal {
-  color: var(--bright-teal-300);
+  color: var(--bright-green);
 }
 .color-white {
   color: #fff;
@@ -218,6 +219,7 @@ label {
 .color-grey {
   color: #8e999a;
 }
+
 .underline {
   text-decoration: underline;
   text-decoration-color: rgba(122, 255, 178, 0.3);

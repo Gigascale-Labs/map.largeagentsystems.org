@@ -100,10 +100,12 @@ export default function AboutPage() {
               </div>
             </div>
             <p className="paragraph-small color-teal-300 padding-bottom-16px">
-              Søren got into AI Safety in 2016 by reading
-              &quot;Superintelligence&quot; by Nick Bostrom. Lorem ipsum dolor
-              sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua.
+              Søren read the Sequences in 2014 and set out to verify whether AI
+              risk was real. He founded AI Safety Danmark in 2016, bought the
+              AISafety.com domain in 2017 (he&apos;s had some major bidders
+              since, and always turns them down), and runs a reading group now
+              past 337 sessions. As a father of two, protecting his family is
+              his greatest motivation.
             </p>
             <a
               href="mailto:soeren@aisafety.com"
@@ -172,9 +174,10 @@ export default function AboutPage() {
               </div>
             </div>
             <p className="paragraph-small color-teal-300">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation.
+              Melissa found AI safety through Effective Altruism and Animal
+              Welfare. She is inspired by the good AI could do to advance human
+              and animal flourishing, if it can be developed with extreme
+              responsibility.
             </p>
           </div>
 
