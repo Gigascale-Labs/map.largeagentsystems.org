@@ -89,7 +89,7 @@
   height: 40px;
   padding-left: 4px;
   padding-right: 16px;
-  border: 1px solid rgba(166, 218, 217, 0.3);
+  border: 1px solid rgba(122, 255, 178, 0.3);
   border-radius: 20px;
   flex: none;
   max-width: 100%;
@@ -103,7 +103,7 @@
   gap: 8px;
   height: 40px;
   padding: 0 16px;
-  border: 1px solid rgba(166, 218, 217, 0.3);
+  border: 1px solid rgba(122, 255, 178, 0.3);
   border-radius: 20px;
   transition: all var(--hover-transition);
   position: relative;
@@ -129,7 +129,7 @@
   height: 40px;
   padding-left: 4px;
   padding-right: 16px;
-  border: 1px solid rgba(166, 218, 217, 0.3);
+  border: 1px solid rgba(122, 255, 178, 0.3);
   border-radius: 20px;
   max-width: 100%;
   transition: all var(--hover-transition);
