@@ -91,11 +91,9 @@ export default function EventsEmbeds() {
 
   return (
     <>
-      <div className={styles['airtable-section']}>{renderEmbed(0)}</div>
+      <div className="container-wide">{renderEmbed(0)}</div>
       {/* QA: second embed is desktop-only, separate wrapper so it hides fully on mobile */}
-      <div className={`${styles['airtable-section']} hide-mobile`}>
-        {renderEmbed(1)}
-      </div>
+      <div className="container-wide hide-mobile">{renderEmbed(1)}</div>
 
       {/* QA: entire "Open for application" section is desktop-only on live site */}
       <div className="container-default hide-mobile">
@@ -104,9 +102,7 @@ export default function EventsEmbeds() {
         </h2>
       </div>
 
-      <div className={`${styles['airtable-section']} hide-mobile`}>
-        {renderEmbed(2)}
-      </div>
+      <div className="container-wide hide-mobile">{renderEmbed(2)}</div>
     </>
   )
 }

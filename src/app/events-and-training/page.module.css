@@ -21,13 +21,6 @@
   color: var(--teal-300);
 }
 
-/* QA: removed margin (was 24px 0) which created extra gap between h2 headers
-   and Airtable embeds. Live site uses container-wide with no margin. */
-.airtable-section {
-  width: 100%;
-  padding: 0 64px;
-}
-
 .airtable-embed {
   width: 100%;
   border: none;
@@ -60,11 +53,6 @@
     flex-direction: column;
     gap: 24px;
     padding-bottom: 32px;
-  }
-
-  /* QA: match container-wide mobile padding (24px) instead of desktop 64px */
-  .airtable-section {
-    padding: 0 24px;
   }
 
   /* Override inline height on mobile — !important is needed because
