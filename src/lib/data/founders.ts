@@ -28,7 +28,8 @@ export async function getFounderResources(): Promise<FounderResource[]> {
   const raw = await fetchAirtableRecords({
     tableId: TABLE_ID,
     viewId: VIEW_ID,
-    filterByFormula: '{Publish?} = TRUE()',
+    // QA: Exclude records where Hide? is checked
+    filterByFormula: 'AND({Publish?} = TRUE(), {Hide?} = FALSE())',
     sort: [
       { field: 'Sort', direction: 'asc' },
       { field: 'Name', direction: 'asc' },

@@ -26,7 +26,8 @@ export interface Advisor {
 export async function getAdvisors(): Promise<Advisor[]> {
   const raw = await fetchAirtableRecords({
     tableId: TABLE_ID,
-    filterByFormula: '{Publish?} = TRUE()',
+    // QA: Exclude records where Hide? is checked
+    filterByFormula: 'AND({Publish?} = TRUE(), {Hide?} = FALSE())',
     sort: [{ field: 'Sort', direction: 'asc' }],
   })
 
