@@ -5,19 +5,21 @@ import styles from './page.module.css'
 
 const EMBEDS = [
   {
+    // QA: uses airtable-embed-mobile class to reduce height to 600px on mobile
+    // (matching live site's .airtable-embed-mobile-1 override)
     src: 'https://airtable.com/embed/appF8XfZUGXtfi40E/shrLgl03tMK4q6cyc?viewControls=on',
-    height: 2300,
-    className: `${styles['airtable-embed']} margin-bottom-40px`,
+    height: 2600,
+    className: `${styles['airtable-embed']} ${styles['airtable-embed-mobile']} margin-bottom-40px`,
   },
   {
     src: 'https://airtable.com/embed/appF8XfZUGXtfi40E/shrZ4Uh9OsbUryfjp',
-    height: 2880,
-    className: `${styles['airtable-embed']} hide-mobile`,
+    height: 3100,
+    className: `${styles['airtable-embed']} margin-bottom-40px`,
   },
   {
     src: 'https://airtable.com/embed/appF8XfZUGXtfi40E/shrbap2hy8Yd3xojA',
-    height: 1000,
-    className: `${styles['airtable-embed']} hide-mobile`,
+    height: 1350,
+    className: `${styles['airtable-embed']} margin-bottom-40px`,
   },
 ]
 
@@ -89,16 +91,18 @@ export default function EventsEmbeds() {
 
   return (
     <>
-      <div className={styles['airtable-section']}>
-        {renderEmbed(0)}
-        {renderEmbed(1)}
+      <div className="container-wide">{renderEmbed(0)}</div>
+      {/* QA: second embed is desktop-only, separate wrapper so it hides fully on mobile */}
+      <div className="container-wide hide-mobile">{renderEmbed(1)}</div>
+
+      {/* QA: entire "Open for application" section is desktop-only on live site */}
+      <div className="container-default hide-mobile">
+        <h2 className="padding-bottom-24px">
+          Open for application/registration
+        </h2>
       </div>
 
-      <div className="container-default">
-        <h2 className="hide-mobile">Open for application/registration</h2>
-      </div>
-
-      <div className={styles['airtable-section']}>{renderEmbed(2)}</div>
+      <div className="container-wide hide-mobile">{renderEmbed(2)}</div>
     </>
   )
 }

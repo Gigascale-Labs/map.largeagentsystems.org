@@ -547,8 +547,9 @@ label {
 }
 
 .container-wide {
-  max-width: 100%;
-  margin: 0 auto;
+  width: 90vw;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .container-narrow {

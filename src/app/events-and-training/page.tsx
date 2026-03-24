@@ -37,7 +37,9 @@ export default async function EventsAndTrainingPage() {
           </span>
         </h2>
 
-        {/* Action Links */}
+        {/* Action Links — QA: changed from <h3> to <p> with paragraph-default-bold
+            and padding-bottom-16px to match live Webflow site structure.
+            Arrow uses color-teal-400 span to match live site's color-grey-old class. */}
         <div className={styles['action-links-grid']}>
           <Link
             href="https://aisafetyeventsandtraining.substack.com/"
@@ -45,9 +47,10 @@ export default async function EventsAndTrainingPage() {
             rel="noopener noreferrer"
             className={styles['action-link']}
           >
-            <h3 className={styles['action-title']}>
-              Subscribe to newsletter →
-            </h3>
+            <p className="paragraph-default-bold padding-bottom-16px">
+              Subscribe to newsletter{' '}
+              <span className="color-teal-400">&rarr;</span>
+            </p>
             <p className={styles['action-description']}>
               Receive a weekly email summarizing all new events and training
               programs
@@ -58,9 +61,11 @@ export default async function EventsAndTrainingPage() {
             href="https://airtable.com/appF8XfZUGXtfi40E/pagyqtPZ2BFcKU6ys/form"
             target="_blank"
             rel="noopener noreferrer"
-            className="action-link hide-mobile"
+            className={`${styles['action-link']} hide-mobile`}
           >
-            <h3 className={styles['action-title']}>Suggest entry →</h3>
+            <p className="paragraph-default-bold padding-bottom-16px">
+              Suggest entry <span className="color-teal-400">&rarr;</span>
+            </p>
             <p className={styles['action-description']}>
               Suggest an event or training program to be listed here and in the
               newsletter
@@ -71,9 +76,11 @@ export default async function EventsAndTrainingPage() {
             href="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
             target="_blank"
             rel="noopener noreferrer"
-            className="action-link hide-mobile"
+            className={`${styles['action-link']} hide-mobile`}
           >
-            <h3 className={styles['action-title']}>Suggest correction →</h3>
+            <p className="paragraph-default-bold padding-bottom-16px">
+              Suggest correction <span className="color-teal-400">&rarr;</span>
+            </p>
             <p className={styles['action-description']}>
               Let us know of any updates that should be made to the database
             </p>
@@ -91,7 +98,7 @@ export default async function EventsAndTrainingPage() {
       {/* Link to self-study */}
       <div className="container-default">
         <Link href="/self-study">
-          <h3 className={styles['self-study-heading']}>
+          <h3 className="padding-bottom-8px">
             Self-study courses <span className="color-teal-400">→</span>
           </h3>
           <p className={styles['self-study-description']}>

@@ -2,11 +2,13 @@
    EVENTS & TRAINING PAGE STYLES
    =============================== */
 
+/* QA: changed from grid (1fr 1fr 1fr) to flex to match live site.
+   Grid forced equal-width columns, making text wrap too early.
+   Live site uses Webflow's flex-gap-56px class. */
 .action-links-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
   gap: 56px;
-  margin: 0 0 56px 0;
+  padding-bottom: 56px;
 }
 
 .action-link {
@@ -14,26 +16,9 @@
   color: inherit;
 }
 
-.action-title {
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 160%;
-  letter-spacing: -0.45px;
-  color: var(--white);
-  margin: 0 0 8px 0;
-}
-
 .action-description {
-  font-size: 18px;
   line-height: 160%;
-  letter-spacing: -0.45px;
   color: var(--teal-300);
-}
-
-.airtable-section {
-  width: 100%;
-  margin: 24px 0;
-  padding: 0 64px;
 }
 
 .airtable-embed {
@@ -49,19 +34,8 @@
   color: inherit;
 }
 
-.self-study-heading {
-  font-size: 22px;
-  font-weight: 300;
-  line-height: 125%;
-  letter-spacing: -1.1px;
-  color: var(--white);
-  margin: 0 0 8px 0;
-}
-
 .self-study-description {
-  font-size: 18px;
   line-height: 160%;
-  letter-spacing: -0.45px;
   color: var(--teal-300);
 }
 
@@ -74,8 +48,16 @@
     max-width: 100%;
   }
 
+  /* QA: live site's padding-56px reduces to 32px at mobile breakpoint */
   .action-links-grid {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     gap: 24px;
+    padding-bottom: 32px;
+  }
+
+  /* Override inline height on mobile — !important is needed because
+     the height is set inline (data-driven, different per embed) */
+  .airtable-embed-mobile {
+    height: 600px !important;
   }
 }

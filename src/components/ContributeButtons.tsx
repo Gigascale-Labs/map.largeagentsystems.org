@@ -15,6 +15,8 @@ interface ContributeButtonsProps {
   extraLinks?: ExtraLink[]
 }
 
+// QA: arrow spans changed from color-teal-300 to color-teal-400
+// to match live site's color-grey-old class (which maps to var(--teal-400)).
 export default function ContributeButtons({
   suggestEntryUrl,
   suggestCorrectionUrl,
@@ -27,7 +29,7 @@ export default function ContributeButtons({
     <div className={styles.wrapper}>
       <a href={suggestEntryUrl} target="_blank" rel="noopener noreferrer">
         <p className="paragraph-default-bold padding-bottom-8px">
-          Suggest entry <span className="color-teal-300">&rarr;</span>
+          Suggest entry <span className="color-teal-400">&rarr;</span>
         </p>
         <p className="paragraph-small color-teal-300">
           {suggestEntryDescription || `Suggest a ${noun} to be listed here`}
@@ -35,7 +37,7 @@ export default function ContributeButtons({
       </a>
       <a href={suggestCorrectionUrl} target="_blank" rel="noopener noreferrer">
         <p className="paragraph-default-bold padding-bottom-8px">
-          Suggest correction <span className="color-teal-300">&rarr;</span>
+          Suggest correction <span className="color-teal-400">&rarr;</span>
         </p>
         <p className="paragraph-small color-teal-300">
           {suggestCorrectionDescription ||
@@ -50,7 +52,7 @@ export default function ContributeButtons({
           rel="noopener noreferrer"
         >
           <p className="paragraph-default-bold padding-bottom-8px">
-            {link.label} <span className="color-teal-300">&rarr;</span>
+            {link.label} <span className="color-teal-400">&rarr;</span>
           </p>
           <p className="paragraph-small color-teal-300">{link.description}</p>
         </a>
