@@ -8,17 +8,17 @@ const EMBEDS = [
     // QA: uses airtable-embed-mobile class to reduce height to 600px on mobile
     // (matching live site's .airtable-embed-mobile-1 override)
     src: 'https://airtable.com/embed/appF8XfZUGXtfi40E/shrLgl03tMK4q6cyc?viewControls=on',
-    height: 2300,
+    height: 2600,
     className: `${styles['airtable-embed']} ${styles['airtable-embed-mobile']} margin-bottom-40px`,
   },
   {
     src: 'https://airtable.com/embed/appF8XfZUGXtfi40E/shrZ4Uh9OsbUryfjp',
-    height: 2880,
+    height: 3100,
     className: `${styles['airtable-embed']} margin-bottom-40px`,
   },
   {
     src: 'https://airtable.com/embed/appF8XfZUGXtfi40E/shrbap2hy8Yd3xojA',
-    height: 1000,
+    height: 1350,
     className: `${styles['airtable-embed']} margin-bottom-40px`,
   },
 ]
