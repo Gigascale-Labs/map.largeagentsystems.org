@@ -12,9 +12,7 @@ interface CommunitiesClientProps {
 }
 
 // Filter options based on Airtable data
-// QA: Airtable uses "In person" (no hyphen), not "In-person"
 const typeOptions = ['Online', 'In person']
-// QA: "Other" goes last rather than alphabetical
 const platformOptions = [
   'Discord',
   'Facebook',
@@ -26,7 +24,6 @@ const platformOptions = [
   'WhatsApp',
   'Other',
 ]
-// QA: Added "Inactive" option at the bottom
 const activityOptions = ['Very active', 'Active', 'Semi-active', 'Inactive']
 const focusOptions = ['Main focus is AI safety', 'Partial focus on AI safety']
 
@@ -89,8 +86,6 @@ export default function CommunitiesClient({
     focusFilters,
   ])
 
-  // QA: Counts should always reflect totals, not change dynamically
-  // as filters are applied. Use the full communities list, not filteredCommunities.
   const filterCounts = useMemo(() => {
     const counts = {
       type: {} as Record<string, number>,

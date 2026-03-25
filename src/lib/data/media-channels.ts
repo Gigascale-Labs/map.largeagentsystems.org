@@ -24,7 +24,6 @@ export interface MediaChannel {
 export async function getMediaChannels(): Promise<MediaChannel[]> {
   const raw = await fetchAirtableRecords({
     tableId: TABLE_ID,
-    // QA: Exclude records where Hide? is checked
     filterByFormula: 'AND({Publish?} = TRUE(), {Hide?} = FALSE())',
     sort: [{ field: 'Sort', direction: 'asc' }],
   })
