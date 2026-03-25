@@ -12,19 +12,19 @@ interface CommunitiesClientProps {
 }
 
 // Filter options based on Airtable data
-const typeOptions = ['Online', 'In-person']
+const typeOptions = ['Online', 'In person']
 const platformOptions = [
   'Discord',
   'Facebook',
   'Forum',
   'Gather',
-  'Other',
   'Reddit',
   'Slack',
   'Telegram',
   'WhatsApp',
+  'Other',
 ]
-const activityOptions = ['Very active', 'Active', 'Semi-active']
+const activityOptions = ['Very active', 'Active', 'Semi-active', 'Inactive']
 const focusOptions = ['Main focus is AI safety', 'Partial focus on AI safety']
 
 export default function CommunitiesClient({
@@ -93,7 +93,7 @@ export default function CommunitiesClient({
       activity: {} as Record<string, number>,
       focus: {} as Record<string, number>,
     }
-    for (const community of filteredCommunities) {
+    for (const community of communities) {
       for (const t of community.type) {
         counts.type[t] = (counts.type[t] || 0) + 1
       }
@@ -109,7 +109,7 @@ export default function CommunitiesClient({
       }
     }
     return counts
-  }, [filteredCommunities])
+  }, [communities])
 
   const toggleFilter = (
     value: string,
