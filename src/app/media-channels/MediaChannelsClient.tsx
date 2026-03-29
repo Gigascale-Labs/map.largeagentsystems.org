@@ -138,7 +138,7 @@ export default function MediaChannelsClient({
           onToggle={toggleType}
         />
         <ContributeButtons
-          suggestEntryUrl="https://airtable.com/appF8XfZUGXtfi40E/pagBI1UdaBbFplw20/form"
+          suggestEntryUrl="https://airtable.com/appF8XfZUGXtfi40E/pagSZ7vJj9MHyYmtS/form"
           suggestCorrectionUrl="https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form"
           noun="media source"
           suggestEntryDescription="Suggest an information source to be listed here"
