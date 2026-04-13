@@ -58,11 +58,10 @@ export default async function EventsAndTrainingPage() {
             className={`${styles['action-link']} hide-mobile`}
           >
             <p className="paragraph-default-bold padding-bottom-16px">
-              Suggest entry <span className="color-teal-400">&rarr;</span>
+              Suggest listing <span className="color-teal-400">&rarr;</span>
             </p>
             <p className={styles['action-description']}>
-              Suggest an event or training program to be listed here and in the
-              newsletter
+              Suggest a resource to be published here
             </p>
           </Link>
 
