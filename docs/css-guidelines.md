@@ -224,8 +224,7 @@ The site uses **one breakpoint: `991px`**. Do not introduce other breakpoints. `
 Only create a new class when:
 
 - You need component-specific styling that utility classes can't provide
-- The styling involves complex selectors, pseudo-elements, or animations
-- Multiple CSS properties need to work together as a unit
+- The styling involves complex selectors or pseudo-elements (if you don't know what this means, just ignore this line)
 
 Where to put new classes:
 
