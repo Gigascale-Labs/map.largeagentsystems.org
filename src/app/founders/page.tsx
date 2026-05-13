@@ -40,7 +40,7 @@ export default async function FoundersPage() {
             href="https://www.ashgro.org/"
             tagline="Featured fiscal sponsor"
             name="Ashgro"
-            description="Providing fiscal sponsorship to AI safety projects, saving them time and allowing them to access more funding."
+            description="Providing fiscal sponsorship to AI safety projects, saving them time and allowing them to access more funding. Fee: 5–10%."
             logo="/images/ashgro-logo.png"
             metadata={[{ label: 'Type', value: 'Fiscal sponsor' }]}
             trackingPage="Founders"
