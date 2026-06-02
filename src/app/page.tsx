@@ -170,7 +170,7 @@ export default async function Home() {
             opportunities, and connect.
           </p>
           <TrackedLink
-            href="https://join.slack.com/t/ai-alignment/shared_invite/zt-3oytsoq2q-nzMwWJqs5fl4H~VXA6FQTA"
+            href="https://join.slack.com/t/ai-alignment/shared_invite/zt-3zncuyguu-fO8vQTa6d7jEFomFZ9qZXA"
             target="_blank"
             rel="noopener noreferrer"
             className="button-secondary"
