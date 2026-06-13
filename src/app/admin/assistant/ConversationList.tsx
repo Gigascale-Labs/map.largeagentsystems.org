@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import styles from '../admin.module.css'
+import TranscriptMessage, { plainPreview } from './TranscriptMessage'
 
 interface HistoryTurn {
   role: 'user' | 'assistant'
@@ -35,7 +36,69 @@ interface Conversation {
 
 function geoString(geo: ConversationData['geo']): string {
   if (!geo) return ''
-  return [geo.city, geo.region, geo.country].filter(Boolean).join(', ')
+  return [geo.city ?? geo.region, geo.country].filter(Boolean).join(', ')
+}
+
+/** "12 June 2026" — site-wide DATE MONTH YEAR convention. */
+function formatDay(iso: string): string {
+  const d = new Date(iso)
+  if (Number.isNaN(d.getTime())) return iso
+  return d.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
+}
+
+function formatTime(iso: string): string {
+  const d = new Date(iso)
+  if (Number.isNaN(d.getTime())) return ''
+  return d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+}
+
+function formatLatency(ms: number): string {
+  return ms < 1000 ? `${ms}ms` : `${(ms / 1000).toFixed(1)}s`
+}
+
+interface ToolCallEntry {
+  name?: string
+  input?: unknown
+  ok?: boolean
+}
+
+/** The Data column stores one tool-call array per turn; flatten across
+ *  turns and drop anything that isn't a call object. */
+function flattenToolCalls(tools: unknown[]): ToolCallEntry[] {
+  const out: ToolCallEntry[] = []
+  for (const entry of tools) {
+    const calls = Array.isArray(entry) ? entry : [entry]
+    for (const call of calls) {
+      if (call && typeof call === 'object' && 'name' in call) {
+        out.push(call as ToolCallEntry)
+      }
+    }
+  }
+  return out
+}
+
+/** {type:"job", filters:{skillSet:"X"}} → "type: job · skillSet: X" */
+function describeToolInput(input: unknown): string {
+  if (!input || typeof input !== 'object') return ''
+  const parts: string[] = []
+  const walk = (obj: Record<string, unknown>) => {
+    for (const [key, value] of Object.entries(obj)) {
+      if (value == null || value === '') continue
+      if (Array.isArray(value)) {
+        parts.push(`${key}: ${value.join(', ')}`)
+      } else if (typeof value === 'object') {
+        walk(value as Record<string, unknown>)
+      } else {
+        parts.push(`${key}: ${String(value)}`)
+      }
+    }
+  }
+  walk(input as Record<string, unknown>)
+  return parts.join(' · ')
 }
 
 export default function ConversationList() {
@@ -79,39 +142,46 @@ export default function ConversationList() {
   return (
     <div>
       <div className={styles.convFilters}>
-        <label>
+        <label title="Show only conversations where the chatbot searched the directory and found nothing — useful for spotting gaps in the listings">
           <input
             type="checkbox"
             checked={zeroOnly}
             onChange={e => setZeroOnly(e.target.checked)}
           />
-          Zero-match only
+          Only chats with no results
         </label>
         <button
           type="button"
-          className={styles.promptToolbarReset}
+          className={styles.editorButton}
           onClick={() => void load(zeroOnly)}
         >
           Refresh
         </button>
         {loading && <span className={styles.convStatus}>loading…</span>}
-        {error && (
-          <span className={styles.convStatus} style={{ color: '#ff8b8b' }}>
-            {error}
-          </span>
-        )}
+        {error && <span className={styles.convError}>{error}</span>}
       </div>
 
       <div className={styles.convList}>
-        {conversations.map(c => (
-          <ConversationRow
-            key={c.id}
-            conv={c}
-            expanded={expandedId === c.id}
-            onToggle={() => setExpandedId(expandedId === c.id ? null : c.id)}
-            onUpdate={handleUpdate}
-          />
-        ))}
+        {conversations.map((c, i) => {
+          const day = formatDay(c.createdAt)
+          const prevDay =
+            i > 0 ? formatDay(conversations[i - 1].createdAt) : null
+          return (
+            <Fragment key={c.id}>
+              {day !== prevDay && (
+                <div className={styles.convDayDivider}>{day}</div>
+              )}
+              <ConversationRow
+                conv={c}
+                expanded={expandedId === c.id}
+                onToggle={() =>
+                  setExpandedId(expandedId === c.id ? null : c.id)
+                }
+                onUpdate={handleUpdate}
+              />
+            </Fragment>
+          )
+        })}
         {conversations.length === 0 && !loading && (
           <div className={styles.convStatus}>No conversations yet.</div>
         )}
@@ -138,6 +208,7 @@ function ConversationRow({
   const data = conv.data
   const turnCount = data?.history.filter(t => t.role === 'user').length ?? 0
   const geo = data ? geoString(data.geo) : ''
+  const toolCalls = data ? flattenToolCalls(data.tools) : []
 
   const persist = async (patch: { notes?: string; tags?: string[] }) => {
     setSaveStatus('saving…')
@@ -184,25 +255,33 @@ function ConversationRow({
         aria-expanded={expanded}
       >
         <div className={styles.convRowHeader}>
-          <span>
-            {new Date(conv.createdAt).toLocaleString()} · {conv.page}
-            {turnCount > 1 && ` · ${turnCount} turns`}
-            {geo && ` · ${geo}`}
-            {conv.promptVersion && ` · v${conv.promptVersion}`}
+          <span className={styles.convRowMeta}>
+            <span className={styles.convRowDate}>
+              {formatTime(conv.createdAt)}
+            </span>
+            <span className={styles.convRowPage}>{conv.page}</span>
+            {turnCount > 1 && <span>{turnCount} turns</span>}
+            {geo && <span>{geo}</span>}
             {data?.zeroMatches && (
-              <>
-                {' · '}
-                <span className={styles.convRowZero}>NO MATCH</span>
-              </>
+              <span className={styles.convRowZero}>NO MATCH</span>
             )}
           </span>
-          <span>
-            {conv.latencyMs ? `${conv.latencyMs}ms` : ''}
-            {conv.tags.length > 0 && ` · ${conv.tags.join(', ')}`}
+          <span className={styles.convRowMeta}>
+            {conv.tags.length > 0 && <span>{conv.tags.join(', ')}</span>}
+            {conv.promptVersion && (
+              <span title="Prompt version">v{conv.promptVersion}</span>
+            )}
+            {conv.latencyMs ? (
+              <span title="Response time of the latest reply">
+                {formatLatency(conv.latencyMs)}
+              </span>
+            ) : null}
           </span>
         </div>
         <div className={styles.convRowQuery}>{data?.user ?? ''}</div>
-        <div className={styles.convRowResponse}>{data?.response ?? ''}</div>
+        <div className={styles.convRowResponse}>
+          {data ? plainPreview(data.response) : ''}
+        </div>
       </button>
 
       {expanded && data && (
@@ -222,29 +301,54 @@ function ConversationRow({
                         : styles.convTurnAssistant
                     }
                   >
-                    <div className={styles.convTurnRole}>{t.role}</div>
-                    <div className={styles.convTurnContent}>{t.content}</div>
+                    <div className={styles.convTurnRole}>
+                      {t.role === 'user' ? 'Visitor' : 'Chatbot'}
+                    </div>
+                    {t.role === 'user' ? (
+                      <div className={styles.convTurnContent}>{t.content}</div>
+                    ) : (
+                      <TranscriptMessage text={t.content} />
+                    )}
                   </div>
                 ))
               ) : (
-                <div className={styles.convDetailValue}>{data.response}</div>
+                <TranscriptMessage text={data.response} />
               )}
             </div>
           </div>
 
-          {data.tools.length > 0 && (
+          {toolCalls.length > 0 && (
             <div className={styles.convDetailField}>
-              <div className={styles.convDetailLabel}>Tool calls</div>
-              <div className={styles.convDetailValueMono}>
-                {JSON.stringify(data.tools, null, 2)}
+              <div className={styles.convDetailLabel}>
+                Searches the chatbot ran ({toolCalls.length})
+              </div>
+              <div className={styles.convToolCalls}>
+                {toolCalls.map((call, i) => (
+                  <span
+                    key={i}
+                    className={
+                      call.ok === false
+                        ? styles.convToolCallFailed
+                        : styles.convToolCall
+                    }
+                  >
+                    <span className={styles.convToolCallName}>
+                      {call.name ?? 'unknown'}
+                    </span>
+                    {describeToolInput(call.input)}
+                    {call.ok === false && ' — failed'}
+                  </span>
+                ))}
               </div>
             </div>
           )}
 
           {data.citations.length > 0 && (
             <div className={styles.convDetailField}>
-              <div className={styles.convDetailLabel}>Citations</div>
-              <div className={styles.convDetailValue}>
+              <div className={styles.convDetailLabel}>
+                Listings shown or searched ({data.citations.length})
+              </div>
+              <div className={styles.convCitations}>
                 {data.citations.join(', ')}
               </div>
             </div>
@@ -261,7 +365,7 @@ function ConversationRow({
 
           {data.referrer && (
             <div className={styles.convDetailField}>
-              <div className={styles.convDetailLabel}>Referrer</div>
+              <div className={styles.convDetailLabel}>Came from</div>
               <div className={styles.convDetailValue}>{data.referrer}</div>
             </div>
           )}
