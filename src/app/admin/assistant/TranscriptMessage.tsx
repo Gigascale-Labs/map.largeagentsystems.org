@@ -4,8 +4,38 @@
 // stored history has no resolvable citation objects, so card pills are
 // label-driven (the text after the | in the token).
 
-import { Fragment, ReactNode } from 'react'
+import { createContext, Fragment, ReactNode, useContext, useState } from 'react'
 import styles from '../admin.module.css'
+
+export interface ListingInfo {
+  name: string
+  logo?: string
+  /** External listing URL (the live card's destination). */
+  url?: string
+  /** AISafety.com resource-page link, used when there's no external URL. */
+  pageUrl?: string
+}
+
+/** id → listing {name, logo}, supplied by the conversations API so card pills
+ *  can show which listing they are (the stored token only has the id + note). */
+export const ListingInfoContext = createContext<Record<string, ListingInfo>>({})
+
+/** Set of listing ids (full and bare-rec forms) whose cards the visitor
+ *  clicked in this conversation, so the viewer can badge them. */
+export const ClickedCardsContext = createContext<Set<string>>(new Set())
+
+/** Resolve a card token's id to its listing info: try the full id, then the
+ *  bare rec id (handles tokens written without a type prefix). */
+function resolveListing(
+  listings: Record<string, ListingInfo>,
+  id: string
+): ListingInfo | null {
+  const cleaned = id.replace(/\s+/g, '')
+  if (listings[cleaned]) return listings[cleaned]
+  const rec = /rec[A-Za-z0-9]+/.exec(cleaned)?.[0]
+  if (rec && listings[rec]) return listings[rec]
+  return null
+}
 
 const THINKING_RE = /\[\[\s*\/?\s*thinking\s*\]\]/i
 const CHIP_RE = /\[\[\s*chip\s*:([^\]\n]*)\]\]/gi
@@ -23,14 +53,19 @@ function cardType(rawId: string): string | null {
   return m ? m[1].toLowerCase() : null
 }
 
-/** Human label for an inline card/id token: prefer the |label, then the
- *  type prefix, then the bare rec id. */
-function inlineCardLabel(token: string): string {
+/** Human label for an inline card/id token: prefer the resolved listing
+ *  name, then the |label, then the type prefix, then the bare rec id. */
+function inlineCardLabel(
+  token: string,
+  listings: Record<string, ListingInfo>
+): string {
   const m =
     /^\[\[\s*(?:card|id)\s*:\s*([^\]|\n]+?)(?:\s*\|([^\]\n]*))?\s*\]\]$/i.exec(
       token
     )
   if (!m) return ''
+  const info = resolveListing(listings, m[1])
+  if (info) return info.name
   if (m[2]?.trim()) return m[2].trim()
   const type = cardType(m[1])
   const rec = /rec[A-Za-z0-9]+/.exec(m[1])?.[0] ?? m[1].trim()
@@ -82,7 +117,10 @@ export function plainPreview(text: string): string {
     .trim()
 }
 
-function renderInline(text: string): ReactNode[] {
+function renderInline(
+  text: string,
+  listings: Record<string, ListingInfo>
+): ReactNode[] {
   const parts: ReactNode[] = []
   let lastIndex = 0
   let key = 0
@@ -98,7 +136,7 @@ function renderInline(text: string): ReactNode[] {
       // directive is malformed or already handled — drop it silently rather
       // than leaking raw brackets.
       const label = /^\[\[\s*(?:card|id)\s*:/i.test(token)
-        ? inlineCardLabel(token)
+        ? inlineCardLabel(token, listings)
         : ''
       if (label) {
         parts.push(
@@ -137,7 +175,8 @@ function renderInline(text: string): ReactNode[] {
 
 interface CardSpec {
   type: string | null
-  label: string
+  id: string
+  note: string
 }
 
 type Block =
@@ -176,10 +215,10 @@ function parseBlocks(text: string): Block[] {
         flush()
         current = { kind: 'cards', cards: [] }
       }
-      const rec = /rec[A-Za-z0-9]+/.exec(cardMatch[1])?.[0]
       current.cards.push({
         type: cardType(cardMatch[1]),
-        label: cardMatch[2]?.trim() || rec || cardMatch[1].trim(),
+        id: cardMatch[1].replace(/\s+/g, ''),
+        note: cardMatch[2]?.trim() ?? '',
       })
     } else if (ulMatch) {
       if (current?.kind !== 'ul') {
@@ -205,8 +244,61 @@ function parseBlocks(text: string): Block[] {
   return blocks
 }
 
+function CardPill({ card }: { card: CardSpec }) {
+  const listings = useContext(ListingInfoContext)
+  const clicked = useContext(ClickedCardsContext)
+  const [imgFailed, setImgFailed] = useState(false)
+  const info = resolveListing(listings, card.id)
+  const rec = /rec[A-Za-z0-9]+/.exec(card.id)?.[0] ?? card.id
+  // Prefer the real listing name; fall back to the note, then the raw id, so
+  // a card is never blank.
+  const primary = info?.name ?? (card.note || rec)
+  const showNote = Boolean(card.note) && card.note !== primary
+  const showLogo = Boolean(info?.logo) && !imgFailed
+  const wasClicked = clicked.has(card.id) || clicked.has(rec)
+  // Link to the listing's external URL (what the live card opens); fall back
+  // to its AISafety.com resource page when there's no usable external URL.
+  const href =
+    info?.url && /^https?:\/\//.test(info.url) ? info.url : info?.pageUrl
+  const className = `${styles.convCard}${wasClicked ? ` ${styles.convCardClickedRow}` : ''}${href ? ` ${styles.convCardLink}` : ''}`
+  const inner = (
+    <>
+      {showLogo ? (
+        // Plain <img>: logos are tiny favicons/cdn URLs from third-party
+        // hosts, so next/image's pipeline buys us nothing here.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={info!.logo}
+          alt=""
+          width={18}
+          height={18}
+          className={styles.convCardLogo}
+          onError={() => setImgFailed(true)}
+        />
+      ) : null}
+      {card.type && <span className={styles.convCardType}>{card.type}</span>}
+      <span className={styles.convCardName}>{primary}</span>
+      {showNote && <span className={styles.convCardNote}>{card.note}</span>}
+      {wasClicked && <span className={styles.convCardClicked}>✓ clicked</span>}
+    </>
+  )
+  return href ? (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={className}
+    >
+      {inner}
+    </a>
+  ) : (
+    <span className={className}>{inner}</span>
+  )
+}
+
 function MessageBody({ text }: { text: string }) {
   const blocks = parseBlocks(text)
+  const listings = useContext(ListingInfoContext)
   return (
     <>
       {blocks.map((block, i) => {
@@ -214,25 +306,20 @@ function MessageBody({ text }: { text: string }) {
           return (
             <div key={i} className={styles.convCards}>
               {block.cards.map((card, j) => (
-                <span key={j} className={styles.convCard}>
-                  {card.type && (
-                    <span className={styles.convCardType}>{card.type}</span>
-                  )}
-                  {card.label}
-                </span>
+                <CardPill key={j} card={card} />
               ))}
             </div>
           )
         }
         if (block.kind === 'paragraph') {
-          return <p key={i}>{renderInline(block.lines.join(' '))}</p>
+          return <p key={i}>{renderInline(block.lines.join(' '), listings)}</p>
         }
         const Tag = block.kind === 'ul' ? 'ul' : 'ol'
         return (
           <Tag key={i}>
             {block.lines.map((item, j) => (
               <li key={j}>
-                <Fragment>{renderInline(item)}</Fragment>
+                <Fragment>{renderInline(item, listings)}</Fragment>
               </li>
             ))}
           </Tag>

@@ -1,8 +1,12 @@
 'use client'
 
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
 import styles from '../admin.module.css'
-import TranscriptMessage, { plainPreview } from './TranscriptMessage'
+import TranscriptMessage, {
+  ClickedCardsContext,
+  ListingInfoContext,
+  type ListingInfo,
+} from './TranscriptMessage'
 
 interface HistoryTurn {
   role: 'user' | 'assistant'
@@ -15,6 +19,7 @@ interface ConversationData {
   history: HistoryTurn[]
   tools: unknown[]
   citations: string[]
+  citationRefs?: { id: string; name: string; url: string; logo?: string }[]
   geo: { city?: string; region?: string; country?: string } | null
   referrer: string | null
   utm: Record<string, string> | null
@@ -32,11 +37,28 @@ interface Conversation {
   notes: string
   tags: string[]
   data: ConversationData | null
+  clickedCitations: string[]
+}
+
+/** "United States" for an ISO-3166 alpha-2 code, US English spelling. */
+const regionNames = new Intl.DisplayNames(['en-US'], { type: 'region' })
+
+/** ISO-3166 alpha-2 → "United States 🇺🇸". Falls back to the raw value when
+ *  it isn't a recognisable two-letter country code. */
+function countryLabel(code: string): string {
+  const cc = code.trim().toUpperCase()
+  if (!/^[A-Z]{2}$/.test(cc)) return code
+  const flag = String.fromCodePoint(
+    ...[...cc].map(c => 0x1f1e6 + c.charCodeAt(0) - 65)
+  )
+  const name = regionNames.of(cc)
+  return `${name && name !== cc ? name : cc} ${flag}`
 }
 
 function geoString(geo: ConversationData['geo']): string {
   if (!geo) return ''
-  return [geo.city ?? geo.region, geo.country].filter(Boolean).join(', ')
+  const country = geo.country ? countryLabel(geo.country) : undefined
+  return [geo.city ?? geo.region, country].filter(Boolean).join(', ')
 }
 
 /** "12 June 2026" — site-wide DATE MONTH YEAR convention. */
@@ -103,6 +125,7 @@ function describeToolInput(input: unknown): string {
 
 export default function ConversationList() {
   const [conversations, setConversations] = useState<Conversation[]>([])
+  const [listings, setListings] = useState<Record<string, ListingInfo>>({})
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [zeroOnly, setZeroOnly] = useState(false)
@@ -122,8 +145,12 @@ export default function ConversationList() {
           (data as { error?: string }).error ?? `HTTP ${res.status}`
         )
       }
-      const data = (await res.json()) as { conversations: Conversation[] }
+      const data = (await res.json()) as {
+        conversations: Conversation[]
+        listings?: Record<string, ListingInfo>
+      }
       setConversations(data.conversations)
+      setListings(data.listings ?? {})
     } catch (err) {
       setError(err instanceof Error ? err.message : 'unknown error')
     } finally {
@@ -140,7 +167,7 @@ export default function ConversationList() {
   }
 
   return (
-    <div>
+    <ListingInfoContext.Provider value={listings}>
       <div className={styles.convFilters}>
         <label title="Show only conversations where the chatbot searched the directory and found nothing — useful for spotting gaps in the listings">
           <input
@@ -186,7 +213,7 @@ export default function ConversationList() {
           <div className={styles.convStatus}>No conversations yet.</div>
         )}
       </div>
-    </div>
+    </ListingInfoContext.Provider>
   )
 }
 
@@ -209,6 +236,22 @@ function ConversationRow({
   const turnCount = data?.history.filter(t => t.role === 'user').length ?? 0
   const geo = data ? geoString(data.geo) : ''
   const toolCalls = data ? flattenToolCalls(data.tools) : []
+  // Collapsed row previews the visitor's OPENING message (how they first
+  // arrived), not the most recent turn. Fall back to the latest-turn field
+  // for old rows that have no stored history.
+  const firstUser =
+    data?.history.find(t => t.role === 'user')?.content ?? data?.user ?? ''
+  // Cards the visitor clicked, keyed by both full id and bare rec so the
+  // transcript can badge them regardless of how the token was written.
+  const clickedSet = useMemo(() => {
+    const s = new Set<string>()
+    for (const id of conv.clickedCitations) {
+      s.add(id)
+      const rec = /rec[A-Za-z0-9]+/.exec(id)?.[0]
+      if (rec) s.add(rec)
+    }
+    return s
+  }, [conv.clickedCitations])
 
   const persist = async (patch: { notes?: string; tags?: string[] }) => {
     setSaveStatus('saving…')
@@ -278,152 +321,155 @@ function ConversationRow({
             ) : null}
           </span>
         </div>
-        <div className={styles.convRowQuery}>{data?.user ?? ''}</div>
-        <div className={styles.convRowResponse}>
-          {data ? plainPreview(data.response) : ''}
-        </div>
+        <div className={styles.convRowQuery}>{firstUser}</div>
       </button>
 
       {expanded && data && (
-        <div className={styles.convDetail}>
-          <div className={styles.convDetailField}>
-            <div className={styles.convDetailLabel}>
-              Transcript ({turnCount} turn{turnCount === 1 ? '' : 's'})
-            </div>
-            <div className={styles.convTranscript}>
-              {data.history.length > 0 ? (
-                data.history.map((t, i) => (
-                  <div
-                    key={i}
-                    className={
-                      t.role === 'user'
-                        ? styles.convTurnUser
-                        : styles.convTurnAssistant
-                    }
-                  >
-                    <div className={styles.convTurnRole}>
-                      {t.role === 'user' ? 'Visitor' : 'Chatbot'}
-                    </div>
-                    {t.role === 'user' ? (
-                      <div className={styles.convTurnContent}>{t.content}</div>
-                    ) : (
-                      <TranscriptMessage text={t.content} />
-                    )}
-                  </div>
-                ))
-              ) : (
-                <TranscriptMessage text={data.response} />
-              )}
-            </div>
-          </div>
-
-          {toolCalls.length > 0 && (
+        <ClickedCardsContext.Provider value={clickedSet}>
+          <div className={styles.convDetail}>
             <div className={styles.convDetailField}>
               <div className={styles.convDetailLabel}>
-                Searches the chatbot ran ({toolCalls.length})
+                Transcript ({turnCount} turn{turnCount === 1 ? '' : 's'})
               </div>
-              <div className={styles.convToolCalls}>
-                {toolCalls.map((call, i) => (
-                  <span
-                    key={i}
-                    className={
-                      call.ok === false
-                        ? styles.convToolCallFailed
-                        : styles.convToolCall
-                    }
-                  >
-                    <span className={styles.convToolCallName}>
-                      {call.name ?? 'unknown'}
+              <div className={styles.convTranscript}>
+                {data.history.length > 0 ? (
+                  data.history.map((t, i) => (
+                    <div
+                      key={i}
+                      className={
+                        t.role === 'user'
+                          ? styles.convTurnUser
+                          : styles.convTurnAssistant
+                      }
+                    >
+                      <div className={styles.convTurnRole}>
+                        {t.role === 'user' ? 'Visitor' : 'Chatbot'}
+                      </div>
+                      {t.role === 'user' ? (
+                        <div className={styles.convTurnContent}>
+                          {t.content}
+                        </div>
+                      ) : (
+                        <TranscriptMessage text={t.content} />
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <TranscriptMessage text={data.response} />
+                )}
+              </div>
+            </div>
+
+            {toolCalls.length > 0 && (
+              <div className={styles.convDetailField}>
+                <div className={styles.convDetailLabel}>
+                  Searches the chatbot ran ({toolCalls.length})
+                </div>
+                <div className={styles.convToolCalls}>
+                  {toolCalls.map((call, i) => (
+                    <span
+                      key={i}
+                      className={
+                        call.ok === false
+                          ? styles.convToolCallFailed
+                          : styles.convToolCall
+                      }
+                    >
+                      <span className={styles.convToolCallName}>
+                        {call.name ?? 'unknown'}
+                      </span>
+                      {describeToolInput(call.input)}
+                      {call.ok === false && ' — failed'}
                     </span>
-                    {describeToolInput(call.input)}
-                    {call.ok === false && ' — failed'}
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {data.citations.length > 0 && (
+              <div className={styles.convDetailField}>
+                <div className={styles.convDetailLabel}>
+                  Listings shown or searched ({data.citations.length})
+                </div>
+                <div className={styles.convCitations}>
+                  {data.citations.join(', ')}
+                </div>
+              </div>
+            )}
+
+            {data.pageState && (
+              <div className={styles.convDetailField}>
+                <div className={styles.convDetailLabel}>Page state</div>
+                <div className={styles.convDetailValueMono}>
+                  {JSON.stringify(data.pageState, null, 2)}
+                </div>
+              </div>
+            )}
+
+            {data.referrer && (
+              <div className={styles.convDetailField}>
+                <div className={styles.convDetailLabel}>Came from</div>
+                <div className={styles.convDetailValue}>{data.referrer}</div>
+              </div>
+            )}
+
+            {data.utm && (
+              <div className={styles.convDetailField}>
+                <div className={styles.convDetailLabel}>UTM</div>
+                <div className={styles.convDetailValueMono}>
+                  {JSON.stringify(data.utm, null, 2)}
+                </div>
+              </div>
+            )}
+
+            <div className={styles.convDetailField}>
+              <div className={styles.convDetailLabel}>Tags</div>
+              <div className={styles.convTagInput}>
+                {tags.map(t => (
+                  <span key={t} className={styles.convTag}>
+                    {t}
+                    <button
+                      type="button"
+                      onClick={() => removeTag(t)}
+                      aria-label={`Remove ${t}`}
+                    >
+                      ×
+                    </button>
                   </span>
                 ))}
+                <input
+                  className={styles.convTagAdd}
+                  value={tagInput}
+                  onChange={e => setTagInput(e.target.value)}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' || e.key === ',') {
+                      e.preventDefault()
+                      addTag(tagInput)
+                    }
+                  }}
+                  placeholder="Add tag, Enter"
+                />
               </div>
             </div>
-          )}
 
-          {data.citations.length > 0 && (
             <div className={styles.convDetailField}>
-              <div className={styles.convDetailLabel}>
-                Listings shown or searched ({data.citations.length})
-              </div>
-              <div className={styles.convCitations}>
-                {data.citations.join(', ')}
-              </div>
-            </div>
-          )}
-
-          {data.pageState && (
-            <div className={styles.convDetailField}>
-              <div className={styles.convDetailLabel}>Page state</div>
-              <div className={styles.convDetailValueMono}>
-                {JSON.stringify(data.pageState, null, 2)}
-              </div>
-            </div>
-          )}
-
-          {data.referrer && (
-            <div className={styles.convDetailField}>
-              <div className={styles.convDetailLabel}>Came from</div>
-              <div className={styles.convDetailValue}>{data.referrer}</div>
-            </div>
-          )}
-
-          {data.utm && (
-            <div className={styles.convDetailField}>
-              <div className={styles.convDetailLabel}>UTM</div>
-              <div className={styles.convDetailValueMono}>
-                {JSON.stringify(data.utm, null, 2)}
-              </div>
-            </div>
-          )}
-
-          <div className={styles.convDetailField}>
-            <div className={styles.convDetailLabel}>Tags</div>
-            <div className={styles.convTagInput}>
-              {tags.map(t => (
-                <span key={t} className={styles.convTag}>
-                  {t}
-                  <button
-                    type="button"
-                    onClick={() => removeTag(t)}
-                    aria-label={`Remove ${t}`}
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
-              <input
-                className={styles.convTagAdd}
-                value={tagInput}
-                onChange={e => setTagInput(e.target.value)}
-                onKeyDown={e => {
-                  if (e.key === 'Enter' || e.key === ',') {
-                    e.preventDefault()
-                    addTag(tagInput)
-                  }
+              <div className={styles.convDetailLabel}>Notes</div>
+              <textarea
+                className={styles.convNotes}
+                value={notes}
+                onChange={e => setNotes(e.target.value)}
+                onBlur={() => {
+                  if (notes !== conv.notes) void persist({ notes })
                 }}
-                placeholder="Add tag, Enter"
+                placeholder="Notes for this conversation…"
               />
             </div>
-          </div>
 
-          <div className={styles.convDetailField}>
-            <div className={styles.convDetailLabel}>Notes</div>
-            <textarea
-              className={styles.convNotes}
-              value={notes}
-              onChange={e => setNotes(e.target.value)}
-              onBlur={() => {
-                if (notes !== conv.notes) void persist({ notes })
-              }}
-              placeholder="Notes for this conversation…"
-            />
+            {saveStatus && (
+              <div className={styles.convStatus}>{saveStatus}</div>
+            )}
           </div>
-
-          {saveStatus && <div className={styles.convStatus}>{saveStatus}</div>}
-        </div>
+        </ClickedCardsContext.Provider>
       )}
     </div>
   )

@@ -5,9 +5,22 @@ import {
   listConversations,
   updateConversation,
 } from '@/lib/admin/airtable'
+import { getCatalog } from '@/lib/assistant/catalog'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
+
+/** Pulls the listing ids out of every [[card:ID|note]] token in a reply. */
+const CARD_ID_RE = /\[\[\s*card\s*:\s*([^\]|\n]+?)(?:\s*\|[^\]\n]*)?\s*\]\]/gi
+function collectCardIds(text: string, into: Set<string>): void {
+  CARD_ID_RE.lastIndex = 0
+  let m: RegExpExecArray | null
+  while ((m = CARD_ID_RE.exec(text)) !== null) {
+    into.add(m[1].replace(/\s+/g, ''))
+  }
+}
+
+const REC_RE = /rec[A-Za-z0-9]+/
 
 async function ensureAuth(): Promise<Response | null> {
   if (!(await isAdmin())) {
@@ -40,7 +53,68 @@ export async function GET(req: NextRequest) {
   const filtered = zeroOnly
     ? conversations.filter(c => c.data?.zeroMatches === true)
     : conversations
-  return Response.json({ conversations: filtered })
+
+  // Card tokens store only the listing id + inline note, not the listing's
+  // name or logo, so the transcript viewer can't tell which listing a card
+  // actually is. Resolve the referenced ids against the catalog and ship a
+  // {name, logo} lookup map alongside the conversations.
+  const referencedIds = new Set<string>()
+  for (const c of filtered) {
+    if (!c.data) continue
+    collectCardIds(c.data.response, referencedIds)
+    for (const turn of c.data.history) {
+      if (turn.role === 'assistant') collectCardIds(turn.content, referencedIds)
+    }
+    for (const id of c.data.citations) referencedIds.add(id)
+    for (const id of c.clickedCitations) referencedIds.add(id)
+  }
+
+  type ListingInfo = {
+    name: string
+    logo?: string
+    url?: string
+    pageUrl?: string
+  }
+  const listings: Record<string, ListingInfo> = {}
+  if (referencedIds.size > 0) {
+    const catalog = await getCatalog()
+    const byId = new Map<string, ListingInfo>()
+    const byRec = new Map<string, ListingInfo>()
+    for (const l of catalog.listings) {
+      const info = {
+        name: l.name,
+        logo: l.logo,
+        url: l.url,
+        pageUrl: l.pageUrl,
+      }
+      byId.set(l.id, info)
+      const rec = REC_RE.exec(l.id)?.[0]
+      if (rec) byRec.set(rec, info)
+    }
+    for (const id of referencedIds) {
+      const rec = REC_RE.exec(id)?.[0]
+      const info = byId.get(id) ?? (rec ? byRec.get(rec) : undefined)
+      if (info) {
+        listings[id] = info
+        if (rec) listings[rec] = info
+      }
+    }
+  }
+
+  // Fall back to the name/url snapshot stored at log time for any listing the
+  // live catalog no longer has (e.g. an event deleted after it ended). Only
+  // fills gaps – the live catalog wins when the listing still exists.
+  for (const c of filtered) {
+    for (const ref of c.data?.citationRefs ?? []) {
+      if (listings[ref.id]) continue
+      const info: ListingInfo = { name: ref.name, logo: ref.logo, url: ref.url }
+      listings[ref.id] = info
+      const rec = REC_RE.exec(ref.id)?.[0]
+      if (rec && !listings[rec]) listings[rec] = info
+    }
+  }
+
+  return Response.json({ conversations: filtered, listings })
 }
 
 export async function PATCH(req: NextRequest) {

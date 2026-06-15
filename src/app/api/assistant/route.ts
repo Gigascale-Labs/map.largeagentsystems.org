@@ -124,10 +124,33 @@ export async function POST(req: NextRequest) {
       signal,
     })
     send('done', {})
-    if (signal.aborted) return
 
     const zeroMatches =
       result.citations.length === 0 && /\[\[suggest:/.test(result.assistantText)
+
+    // Snapshot name/url ONLY for listings actually carded in the reply (a
+    // handful), not every searched listing – result.citations can be the whole
+    // result set (e.g. 400+ jobs), which would blow past Airtable's cell limit.
+    // The viewer only needs refs for [[card:...]] ids anyway.
+    const citedById = new Map(result.citations.map(c => [c.id, c]))
+    const cardedIds = new Set<string>()
+    const cardRe = /\[\[\s*card\s*:\s*([^\]|\n]+?)(?:\s*\|[^\]\n]*)?\s*\]\]/gi
+    let cardMatch: RegExpExecArray | null
+    while ((cardMatch = cardRe.exec(result.assistantText)) !== null) {
+      cardedIds.add(cardMatch[1].replace(/\s+/g, ''))
+    }
+    const citationRefs = [...cardedIds]
+      .map(id => citedById.get(id))
+      .filter((c): c is (typeof result.citations)[number] => Boolean(c))
+      .map(c => ({ id: c.id, name: c.name, url: c.url, logo: c.logo }))
+    // Log the turn even when the visitor has already disconnected. after()
+    // outlives the response by design, so the write still completes. Gating
+    // it on signal.aborted (as we used to) silently dropped every
+    // conversation where the visitor closed the tab the moment the answer
+    // finished streaming — the generation was complete, but it never reached
+    // Airtable. Skip only when generation produced nothing at all, e.g. an
+    // abort before the first token.
+    if (!result.assistantText && result.toolCalls.length === 0) return
     // after() keeps the serverless function alive until the write completes.
     // A bare fire-and-forget promise gets frozen (and usually lost) the moment
     // the response stream closes, so conversations were never reaching
@@ -151,6 +174,7 @@ export async function POST(req: NextRequest) {
         toolCalls: result.toolCalls,
         response: result.assistantText,
         citations: result.citations.map(c => c.id),
+        citationRefs,
         zeroMatches,
         latencyMs: Date.now() - startedAt,
         promptVersion: PROMPT_VERSION,
