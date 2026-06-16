@@ -594,6 +594,12 @@
   margin-top: 0;
 }
 
+.convLoadMore {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
 .convRow {
   display: flex;
   flex-direction: column;
@@ -872,6 +878,27 @@
   white-space: nowrap;
 }
 
+/* Card whose id didn't resolve to a listing (fabricated by the model). Dimmed
+   with a dashed border so it reads as broken, not a real card. */
+.convCardUnresolved {
+  border-style: dashed;
+  border-color: var(--teal-600);
+  opacity: 0.65;
+}
+
+.convCardUnresolvedTag {
+  padding: 1px 7px;
+  background-color: rgba(255, 170, 90, 0.15);
+  border: 1px solid rgba(255, 170, 90, 0.4);
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #ffb96b;
+  white-space: nowrap;
+}
+
 .convCardInline {
   display: inline;
   padding: 0 5px;
@@ -1018,6 +1045,13 @@
 .convStatus {
   font-size: 11px;
   color: var(--teal-400);
+}
+
+.convTzNote {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--teal-400);
+  cursor: default;
 }
 
 /* ─── Empty / disabled state notice ───────────────────────────────────── */

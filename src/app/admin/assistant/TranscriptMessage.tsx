@@ -37,13 +37,34 @@ function resolveListing(
   return null
 }
 
-const THINKING_RE = /\[\[\s*\/?\s*thinking\s*\]\]/i
+// Boundary between the model's reasoning (the dimmed "search trail") and its
+// answer. Require the slash and use the LAST occurrence, mirroring the live
+// streaming renderer (ChatBody): if the model drafts a reply, searches again,
+// and restarts, everything up to the final [[/thinking]] is reasoning and only
+// the text after it is the answer — so an abandoned first draft doesn't double
+// up in the body.
+const THINKING_DONE_RE = /\[\[\s*\/\s*thinking\s*\]\]/gi
+
+function lastThinkingDone(
+  text: string
+): { index: number; length: number } | null {
+  THINKING_DONE_RE.lastIndex = 0
+  let last: RegExpExecArray | null = null
+  for (
+    let m = THINKING_DONE_RE.exec(text);
+    m;
+    m = THINKING_DONE_RE.exec(text)
+  ) {
+    last = m
+  }
+  return last ? { index: last.index, length: last[0].length } : null
+}
 const CHIP_RE = /\[\[\s*chip\s*:([^\]\n]*)\]\]/gi
 const SUGGEST_RE = /\[\[\s*suggest\s*:[^\]\n]*\]\]/gi
 const CARD_LINE_RE =
   /^\s*\[\[\s*card\s*:\s*([^\]|\n]+?)(?:\s*\|([^\]\n]*))?\s*\]\]\s*$/i
 const INLINE_RE =
-  /(\[\[[^\]\n]*\]\])|(\[[^\]\n]+\]\(\/?[^)\n]+\))|(\*\*[^*\n]+\*\*)|(\*[^*\n]+\*)/g
+  /(\[\[[^\]\n]*\]\])|(\[[^\]\n]+\]\(\/?[^)\n]+\))|(\*\*[^*\n]+\*\*)|(\*[^*\n]+\*)|(\baisafety\.info(?:\/[^\s<>),]*)?)/gi
 const ANY_DIRECTIVE_RE = /\[\[[^\]]*\]\]/g
 
 /** "job:recXXX" → "job"; bare rec ids have no type. */
@@ -80,13 +101,9 @@ interface ParsedMessage {
 }
 
 function parseMessage(text: string): ParsedMessage {
-  const thinkingMatch = THINKING_RE.exec(text)
-  const thinking = thinkingMatch
-    ? text.slice(0, thinkingMatch.index).trim() || null
-    : null
-  let body = thinkingMatch
-    ? text.slice(thinkingMatch.index + thinkingMatch[0].length)
-    : text
+  const marker = lastThinkingDone(text)
+  const thinking = marker ? text.slice(0, marker.index).trim() || null : null
+  let body = marker ? text.slice(marker.index + marker.length) : text
 
   const chips: string[] = []
   body = body.replace(CHIP_RE, (_, label: string) => {
@@ -164,6 +181,20 @@ function renderInline(
       }
     } else if (token.startsWith('**')) {
       parts.push(<strong key={`b-${key++}`}>{token.slice(2, -2)}</strong>)
+    } else if (/^aisafety\.info/i.test(token)) {
+      // Auto-linkify bare aisafety.info mentions, matching the live renderer
+      // (the bot writes it as plain text rather than a markdown link).
+      parts.push(
+        <a
+          key={`u-${key++}`}
+          href={`https://${token}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.convLink}
+        >
+          {token}
+        </a>
+      )
     } else {
       parts.push(<em key={`i-${key++}`}>{token.slice(1, -1)}</em>)
     }
@@ -256,11 +287,15 @@ function CardPill({ card }: { card: CardSpec }) {
   const showNote = Boolean(card.note) && card.note !== primary
   const showLogo = Boolean(info?.logo) && !imgFailed
   const wasClicked = clicked.has(card.id) || clicked.has(rec)
+  // No resolvable listing for this id — the model fabricated/guessed it without
+  // a search, so the live renderer dropped this card entirely. Flag it so a
+  // reviewer can tell it apart from a real card (it can't be made clickable).
+  const unresolved = !info
   // Link to the listing's external URL (what the live card opens); fall back
   // to its AISafety.com resource page when there's no usable external URL.
   const href =
     info?.url && /^https?:\/\//.test(info.url) ? info.url : info?.pageUrl
-  const className = `${styles.convCard}${wasClicked ? ` ${styles.convCardClickedRow}` : ''}${href ? ` ${styles.convCardLink}` : ''}`
+  const className = `${styles.convCard}${wasClicked ? ` ${styles.convCardClickedRow}` : ''}${href ? ` ${styles.convCardLink}` : ''}${unresolved ? ` ${styles.convCardUnresolved}` : ''}`
   const inner = (
     <>
       {showLogo ? (
@@ -279,6 +314,14 @@ function CardPill({ card }: { card: CardSpec }) {
       {card.type && <span className={styles.convCardType}>{card.type}</span>}
       <span className={styles.convCardName}>{primary}</span>
       {showNote && <span className={styles.convCardNote}>{card.note}</span>}
+      {unresolved && (
+        <span
+          className={styles.convCardUnresolvedTag}
+          title="No listing matched this id — the model fabricated it without a search, so the live card was dropped"
+        >
+          unresolved
+        </span>
+      )}
       {wasClicked && <span className={styles.convCardClicked}>✓ clicked</span>}
     </>
   )

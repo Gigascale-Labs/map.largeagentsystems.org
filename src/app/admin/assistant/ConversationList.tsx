@@ -128,16 +128,26 @@ export default function ConversationList() {
   const [conversations, setConversations] = useState<Conversation[]>([])
   const [listings, setListings] = useState<Record<string, ListingInfo>>({})
   const [loading, setLoading] = useState(true)
+  const [loadingMore, setLoadingMore] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [zeroOnly, setZeroOnly] = useState(false)
   const [expandedId, setExpandedId] = useState<string | null>(null)
+  // Airtable cursor for the next, older batch — null once we've reached the
+  // very first conversation. Drives the "Load more" button.
+  const [offset, setOffset] = useState<string | null>(null)
+  // Label for the viewer's local timezone (e.g. "America/Bogota (GMT-5)").
+  // Resolved on the client so it matches the row times, which also render in
+  // the browser's local zone. Empty until mounted to avoid an SSR mismatch.
+  const [tzLabel, setTzLabel] = useState('')
+
+  const PAGE_SIZE = 200
 
   const load = async (zo: boolean) => {
     setLoading(true)
     setError(null)
     try {
       const params = new URLSearchParams()
-      params.set('limit', '50')
+      params.set('limit', String(PAGE_SIZE))
       if (zo) params.set('zeroOnly', '1')
       const res = await fetch(`/api/admin/conversations?${params}`)
       if (!res.ok) {
@@ -149,9 +159,11 @@ export default function ConversationList() {
       const data = (await res.json()) as {
         conversations: Conversation[]
         listings?: Record<string, ListingInfo>
+        offset?: string | null
       }
       setConversations(data.conversations)
       setListings(data.listings ?? {})
+      setOffset(data.offset ?? null)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'unknown error')
     } finally {
@@ -159,9 +171,53 @@ export default function ConversationList() {
     }
   }
 
+  const loadMore = async () => {
+    if (!offset || loadingMore) return
+    setLoadingMore(true)
+    setError(null)
+    try {
+      const params = new URLSearchParams()
+      params.set('limit', String(PAGE_SIZE))
+      params.set('offset', offset)
+      if (zeroOnly) params.set('zeroOnly', '1')
+      const res = await fetch(`/api/admin/conversations?${params}`)
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        throw new Error(
+          (data as { error?: string }).error ?? `HTTP ${res.status}`
+        )
+      }
+      const data = (await res.json()) as {
+        conversations: Conversation[]
+        listings?: Record<string, ListingInfo>
+        offset?: string | null
+      }
+      // Append older conversations, guarding against any id we already have
+      // (a record arriving at the page boundary between requests).
+      setConversations(prev => {
+        const seen = new Set(prev.map(c => c.id))
+        return [...prev, ...data.conversations.filter(c => !seen.has(c.id))]
+      })
+      setListings(prev => ({ ...prev, ...(data.listings ?? {}) }))
+      setOffset(data.offset ?? null)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'unknown error')
+    } finally {
+      setLoadingMore(false)
+    }
+  }
+
   useEffect(() => {
     void load(zeroOnly)
   }, [zeroOnly])
+
+  useEffect(() => {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+    const abbr = new Intl.DateTimeFormat('en-US', { timeZoneName: 'short' })
+      .formatToParts(new Date())
+      .find(p => p.type === 'timeZoneName')?.value
+    setTzLabel([tz, abbr && `(${abbr})`].filter(Boolean).join(' '))
+  }, [])
 
   const handleUpdate = (updated: Conversation) => {
     setConversations(prev => prev.map(c => (c.id === updated.id ? updated : c)))
@@ -187,6 +243,14 @@ export default function ConversationList() {
         </button>
         {loading && <span className={styles.convStatus}>loading…</span>}
         {error && <span className={styles.convError}>{error}</span>}
+        {tzLabel && (
+          <span
+            className={styles.convTzNote}
+            title="Times below are shown in your browser's local timezone"
+          >
+            times in {tzLabel}
+          </span>
+        )}
       </div>
 
       <div className={styles.convList}>
@@ -214,6 +278,19 @@ export default function ConversationList() {
           <div className={styles.convStatus}>No conversations yet.</div>
         )}
       </div>
+
+      {offset && !loading && (
+        <div className={styles.convLoadMore}>
+          <button
+            type="button"
+            className={styles.editorButton}
+            onClick={() => void loadMore()}
+            disabled={loadingMore}
+          >
+            {loadingMore ? 'Loading…' : 'Load more'}
+          </button>
+        </div>
+      )}
     </ListingInfoContext.Provider>
   )
 }
