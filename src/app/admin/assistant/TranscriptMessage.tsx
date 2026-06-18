@@ -65,7 +65,6 @@ const CARD_LINE_RE =
   /^\s*\[\[\s*card\s*:\s*([^\]|\n]+?)(?:\s*\|([^\]\n]*))?\s*\]\]\s*$/i
 const INLINE_RE =
   /(\[\[[^\]\n]*\]\])|(\[[^\]\n]+\]\(\/?[^)\n]+\))|(\*\*[^*\n]+\*\*)|(\*[^*\n]+\*)|(\baisafety\.info(?:\/[^\s<>),]*)?)/gi
-const ANY_DIRECTIVE_RE = /\[\[[^\]]*\]\]/g
 
 /** "job:recXXX" → "job"; bare rec ids have no type. */
 function cardType(rawId: string): string | null {
@@ -119,24 +118,40 @@ function parseMessage(text: string): ParsedMessage {
   return { thinking, body: body.trim(), chips, suggestedListing }
 }
 
-/** Plain-text one-liner for the collapsed row preview: search trail and
- *  directives removed, card tokens replaced by their labels, markdown
- *  markers stripped. */
-export function plainPreview(text: string): string {
-  const { body } = parseMessage(text)
-  return body
-    .replace(/\[\[\s*card\s*:[^\]|\n]*\|([^\]\n]*)\]\]/gi, '$1')
-    .replace(ANY_DIRECTIVE_RE, ' ')
-    .replace(/\[([^\]\n]+)\]\([^)\n]+\)/g, '$1')
-    .replace(/\*\*([^*\n]+)\*\*/g, '$1')
-    .replace(/\*([^*\n]+)\*/g, '$1')
-    .replace(/\s+/g, ' ')
-    .trim()
+/** Wraps an inline link with a "clicked" badge when the visitor opened it.
+ *  Link clicks are stored in the same Clicked set as cards, keyed `link:<href>`. */
+function inlineLink(
+  href: string,
+  text: ReactNode,
+  clicked: Set<string>,
+  key: string
+): ReactNode {
+  const wasClicked = clicked.has(`link:${href}`)
+  return (
+    <a
+      key={key}
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`${styles.convLink}${wasClicked ? ` ${styles.convLinkClicked}` : ''}`}
+    >
+      {text}
+      {wasClicked && (
+        <span
+          className={styles.convLinkClickedTag}
+          title="The visitor clicked this link"
+        >
+          ✓
+        </span>
+      )}
+    </a>
+  )
 }
 
 function renderInline(
   text: string,
-  listings: Record<string, ListingInfo>
+  listings: Record<string, ListingInfo>,
+  clicked: Set<string>
 ): ReactNode[] {
   const parts: ReactNode[] = []
   let lastIndex = 0
@@ -165,17 +180,7 @@ function renderInline(
     } else if (token.startsWith('[')) {
       const m = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(token)
       if (m) {
-        parts.push(
-          <a
-            key={`l-${key++}`}
-            href={m[2]}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.convLink}
-          >
-            {m[1]}
-          </a>
-        )
+        parts.push(inlineLink(m[2], m[1], clicked, `l-${key++}`))
       } else {
         parts.push(token)
       }
@@ -184,17 +189,7 @@ function renderInline(
     } else if (/^aisafety\.info/i.test(token)) {
       // Auto-linkify bare aisafety.info mentions, matching the live renderer
       // (the bot writes it as plain text rather than a markdown link).
-      parts.push(
-        <a
-          key={`u-${key++}`}
-          href={`https://${token}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.convLink}
-        >
-          {token}
-        </a>
-      )
+      parts.push(inlineLink(`https://${token}`, token, clicked, `u-${key++}`))
     } else {
       parts.push(<em key={`i-${key++}`}>{token.slice(1, -1)}</em>)
     }
@@ -362,6 +357,7 @@ function CardPill({ card }: { card: CardSpec }) {
 function MessageBody({ text }: { text: string }) {
   const blocks = parseBlocks(text)
   const listings = useContext(ListingInfoContext)
+  const clicked = useContext(ClickedCardsContext)
   return (
     <>
       {blocks.map((block, i) => {
@@ -375,14 +371,16 @@ function MessageBody({ text }: { text: string }) {
           )
         }
         if (block.kind === 'paragraph') {
-          return <p key={i}>{renderInline(block.lines.join(' '), listings)}</p>
+          return (
+            <p key={i}>{renderInline(block.lines.join(' '), listings, clicked)}</p>
+          )
         }
         const Tag = block.kind === 'ul' ? 'ul' : 'ol'
         return (
           <Tag key={i}>
             {block.lines.map((item, j) => (
               <li key={j}>
-                <Fragment>{renderInline(item, listings)}</Fragment>
+                <Fragment>{renderInline(item, listings, clicked)}</Fragment>
               </li>
             ))}
           </Tag>
@@ -393,15 +391,13 @@ function MessageBody({ text }: { text: string }) {
 }
 
 export default function TranscriptMessage({ text }: { text: string }) {
-  const { thinking, body, chips, suggestedListing } = parseMessage(text)
+  // The reasoning/search trail before the [[/thinking]] boundary is dropped
+  // here: it's never shown to visitors (the live chat hides it), and it adds
+  // noise to the admin transcript. parseMessage still splits it off so it
+  // stays out of the body below.
+  const { body, chips, suggestedListing } = parseMessage(text)
   return (
     <div className={styles.convMsg}>
-      {thinking && (
-        <div className={styles.convThinking}>
-          <span className={styles.convThinkingLabel}>Search trail</span>
-          {plainPreview(thinking)}
-        </div>
-      )}
       <MessageBody text={body} />
       {suggestedListing && (
         <div className={styles.convSuggestNote}>
