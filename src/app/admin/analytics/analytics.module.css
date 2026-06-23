@@ -110,9 +110,207 @@
   text-align: right;
 }
 
+/* Per-row share of the chart total — a secondary, dimmer column. */
+.pctCol {
+  text-align: right;
+  color: var(--teal-400);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  width: 1%;
+}
+
+.table th.pctCol {
+  text-align: right;
+}
+
+/* Total row: separated by the last body row's border, bold. */
+.table tfoot td {
+  padding-top: 8px;
+  font-weight: 600;
+}
+
+.totalLabel {
+  color: var(--teal-300);
+}
+
+/* Listing placement on the /funding page (F1/F2 featured, then 1, 2, 3…). */
+.rankCol {
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
+  color: var(--teal-400);
+  font-variant-numeric: tabular-nums;
+}
+
+.table th.rankCol {
+  text-align: right;
+}
+
+.table td.rankCol {
+  vertical-align: middle;
+}
+
+.rankFeatured {
+  color: var(--bright-teal-300);
+  font-weight: 600;
+}
+
 .dim {
   font-size: 13px;
   color: var(--teal-400);
+}
+
+.caption {
+  margin-top: 12px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--teal-400);
+}
+
+/* ─── Unique / total click toggle ─────────────────────────────────────── */
+
+.clickToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: -8px 0 24px;
+  font-size: 13px;
+}
+
+.clickToggleLabel {
+  color: var(--teal-400);
+  margin-right: 2px;
+}
+
+.clickToggleBtn {
+  padding: 4px 12px;
+  font-size: 13px;
+  color: var(--teal-300);
+  background-color: transparent;
+  border: 1px solid var(--teal-800);
+  border-radius: 6px;
+  text-decoration: none;
+  transition:
+    color var(--hover-transition),
+    background-color var(--hover-transition);
+}
+
+.clickToggleBtn:hover {
+  color: var(--white);
+  background-color: var(--teal-800);
+}
+
+.clickToggleBtnActive,
+.clickToggleBtnActive:hover {
+  color: var(--teal-900);
+  background-color: var(--bright-teal-300);
+  border-color: var(--bright-teal-300);
+}
+
+/* ─── Clicks-by-source split (map pages) ──────────────────────────────── */
+
+.sourceSplitWrap {
+  margin-bottom: 16px;
+}
+
+.sourceSplit {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.sourceSplitLabel {
+  color: var(--teal-400);
+  font-weight: 600;
+}
+
+.sourceStat {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 4px 10px;
+  background-color: var(--teal-900);
+  border: 1px solid var(--teal-800);
+  border-radius: 6px;
+}
+
+.sourceStatName {
+  color: var(--teal-300);
+}
+
+.sourceStatCount {
+  color: var(--white);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.sourceStatPct {
+  color: var(--teal-400);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Per-page drill-down ─────────────────────────────────────────────── */
+
+.pageSection {
+  margin-bottom: 20px;
+}
+
+.pageTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.pageTab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  /* Symmetric by default so text-only tabs (e.g. Home) stay centered. */
+  padding: 5px 12px;
+  font-size: 13px;
+  color: var(--teal-300);
+  background-color: transparent;
+  border: 1px solid var(--teal-800);
+  border-radius: 6px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    color var(--hover-transition),
+    background-color var(--hover-transition);
+}
+
+/* Tabs with an icon badge get a tighter left pad so the badge sits near the edge. */
+.pageTab:has(.pageTabIcon) {
+  padding-left: 6px;
+}
+
+/* White badge behind the nav icon, mirroring the site nav, so the glyph reads
+   on both the dark tabs and the light active tab. */
+.pageTabIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background-color: var(--white);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.pageTab:hover {
+  color: var(--white);
+  background-color: var(--teal-800);
+}
+
+.pageTabActive,
+.pageTabActive:hover {
+  color: var(--teal-900);
+  background-color: var(--bright-teal-300);
+  border-color: var(--bright-teal-300);
 }
 
 .empty {

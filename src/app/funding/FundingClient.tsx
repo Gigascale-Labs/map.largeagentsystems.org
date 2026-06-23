@@ -8,6 +8,7 @@ import ContributeButtons from '@/components/ContributeButtons'
 import SearchBar from '@/components/SearchBar'
 import { Funder } from '@/lib/data/funding'
 import { trackListingClick } from '@/lib/analytics'
+import { placementsById } from '@/lib/placements'
 
 interface FundingClientProps {
   funders: Funder[]
@@ -26,6 +27,10 @@ export default function FundingClient({ funders }: FundingClientProps) {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedAccepting, setSelectedAccepting] = useState<string[]>([])
   const [selectedTypes, setSelectedTypes] = useState<string[]>([])
+
+  // Each funder's slot in the full (unfiltered) page order, so a click is
+  // tagged with the rank Bryce set — not its position within an active filter.
+  const placements = useMemo(() => placementsById(funders), [funders])
 
   const filteredFunders = useMemo(() => {
     return funders.filter(funder => {
@@ -130,7 +135,13 @@ export default function FundingClient({ funders }: FundingClientProps) {
               rel="noopener noreferrer"
               className="card"
               onClick={() =>
-                trackListingClick('Funding', funder.name, funder.url, funder.id)
+                trackListingClick(
+                  'Funding',
+                  funder.name,
+                  funder.url,
+                  funder.id,
+                  placements.get(funder.id)
+                )
               }
             >
               <div className="flex items-center gap-16px padding-bottom-24px">
