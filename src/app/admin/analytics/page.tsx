@@ -16,6 +16,7 @@ import { getJobs } from '@/lib/data/jobs'
 import { getMapData } from '@/lib/data/map'
 import { getProjects } from '@/lib/data/projects'
 import DateRangePicker from './DateRangePicker'
+import ExcludeToggle from './ExcludeToggle'
 import Logo from './Logo'
 import admin from '../admin.module.css'
 import styles from './analytics.module.css'
@@ -31,21 +32,33 @@ const SOURCE_LABEL: Record<string, string> = {
   none: 'No data yet',
 }
 
-// Resource pages in the same order as the site nav, each with its nav icon.
-// Keyed by the analytics `page` value (the string passed to trackListingClick).
-// Drives the order and icons of the page tabs; pages not listed here (e.g.
-// Home) sort after these, keeping their by-clicks order.
-const PAGE_NAV: { name: string; icon: string }[] = [
-  { name: 'Map', icon: 'map.svg' },
-  { name: 'Communities', icon: 'globe.svg' },
-  { name: 'Self-study', icon: 'book.svg' },
-  { name: 'Jobs', icon: 'briefcase.svg' },
-  { name: 'Funding', icon: 'coins.svg' },
-  { name: 'Media channels', icon: 'megaphone.svg' },
-  { name: 'Advisors', icon: 'person.svg' },
-  { name: 'Projects', icon: 'clipboard.svg' },
-  { name: 'Founders', icon: 'rocket.svg' },
+// Resource pages in the same order as the site nav. `name` is the analytics
+// `page` value (the string passed to trackListingClick) and the tab key; `label`
+// is the page's name on the live site (from Navigation.tsx) so the tabs read the
+// way visitors see them — e.g. the 'Founders' page is labelled "Founder toolkit".
+// Drives the order, labels, and icons of the page tabs; every page listed here
+// always gets a tab (even with no clicks yet). Pages not listed (e.g. Home) sort
+// after these, keeping their by-clicks order and showing their raw name.
+const PAGE_NAV: { name: string; label: string; icon: string }[] = [
+  { name: 'Map', label: 'Field map', icon: 'map.svg' },
+  { name: 'Communities', label: 'Communities', icon: 'globe.svg' },
+  { name: 'Self-study', label: 'Self-study', icon: 'book.svg' },
+  { name: 'Jobs', label: 'Jobs', icon: 'briefcase.svg' },
+  { name: 'Funding', label: 'Funding', icon: 'coins.svg' },
+  { name: 'Media channels', label: 'Media channels', icon: 'megaphone.svg' },
+  { name: 'Advisors', label: 'Advisors', icon: 'person.svg' },
+  // Volunteer projects has no trackable clicks (its cards are plain text with no
+  // links), so it gets no tab. If it's ever tracked, add it back here.
+  { name: 'Founders', label: 'Founder toolkit', icon: 'rocket.svg' },
 ]
+
+// The two non-page tabs that lead the tab bar. Their keys are reserved, so a
+// resource page can never collide with them.
+const OVERVIEW_TABS: { key: string; label: string }[] = [
+  { key: 'pages', label: 'Overview' },
+  { key: 'funnel', label: 'Chatbot funnel' },
+]
+const OVERVIEW_KEYS = new Set(OVERVIEW_TABS.map(t => t.key))
 
 // Bryce is in Colombia — fixed UTC-5, no DST — so day boundaries use -05:00.
 const TZ_OFFSET = '-05:00'
@@ -216,19 +229,58 @@ export default async function AnalyticsPage({
   // Count each visitor once per listing per day by default; ?clicks=total counts
   // every click.
   const unique = first(sp.clicks) !== 'total'
+
+  // The dashboard is tabbed: two overview tabs (the funnel and the by-page
+  // table) plus one tab per resource page. `tab` holds the active tab — an
+  // overview key, or a resource page's analytics name. A resource tab is the
+  // page we ask the store to drill into; the overview tabs need no page.
+  const tabReq = first(sp.tab)
+  const onResourceTab = tabReq != null && !OVERVIEW_KEYS.has(tabReq)
+
   const [data, funders] = await Promise.all([
-    readDashboard(range, first(sp.page), unique),
+    readDashboard(
+      range,
+      onResourceTab ? tabReq : undefined,
+      unique,
+      first(sp.source)
+    ),
     getFunders().catch(() => []),
   ])
+
+  // Resource-page tabs: every page in PAGE_NAV always gets one (so quiet pages
+  // like Projects still appear), plus any other page that has clicks (e.g.
+  // Home). Ordered Home first, then site-nav order, then the rest.
+  const pageOrder = new Map(PAGE_NAV.map((p, i) => [p.name, i]))
+  const labelByPage = new Map(PAGE_NAV.map(p => [p.name, p.label]))
+  const iconByPage = new Map(PAGE_NAV.map(p => [p.name, p.icon]))
+  const orderOf = (name: string) =>
+    name === 'Home' ? -1 : (pageOrder.get(name) ?? 999)
+  const resourceNames = [
+    ...new Set([...PAGE_NAV.map(p => p.name), ...data.byPage.map(p => p.name)]),
+  ].sort((a, b) => orderOf(a) - orderOf(b))
+  const resourceTabs = resourceNames.map(name => ({
+    key: name,
+    label: labelByPage.get(name) ?? name,
+    icon: iconByPage.get(name),
+  }))
+
+  // Resolve the active tab: the requested one if it's a real tab, else the
+  // default overview ('pages'). onResourceView gates the per-page panels.
+  const tabKeys = new Set<string>([...OVERVIEW_KEYS, ...resourceNames])
+  const activeTab = tabReq && tabKeys.has(tabReq) ? tabReq : 'pages'
+  const onResourceView = !OVERVIEW_KEYS.has(activeTab)
+  const selectedLabel = data.selectedPage
+    ? (labelByPage.get(data.selectedPage) ?? data.selectedPage)
+    : null
 
   // logoById drives the recent-activity feed (funding listings, by record id).
   // logoByName drives the top-listings table for the selected page, fetched from
   // that page's Airtable data so every page shows real logos — not just funding.
-  // Funding reuses the already-fetched funders. Anything without a logo falls
-  // back to a favicon from the click url.
+  // Funding reuses the already-fetched funders. Only needed on a resource view.
   const logoById = new Map(funders.map(f => [f.id, f.logo]))
-  const logoByName =
-    data.selectedPage === 'Funding'
+  const logoByName = !onResourceView
+    ? new Map<string, string | null>()
+    : data.selectedPage === 'Funding'
       ? new Map<string, string | null>(funders.map(f => [f.name, f.logo]))
       : await logosForPage(data.selectedPage)
 
@@ -241,27 +293,23 @@ export default async function AnalyticsPage({
   )
   const urlByName = new Map(data.topListings.map(r => [r.name, r.url]))
 
-  // Page tabs: Home first, then the resource pages in site-nav order, then any
-  // other pages. Each carries its nav icon where it has one.
-  const pageOrder = new Map(PAGE_NAV.map((p, i) => [p.name, i]))
-  const iconByPage = new Map(PAGE_NAV.map(p => [p.name, p.icon]))
-  const orderOf = (name: string) =>
-    name === 'Home' ? -1 : (pageOrder.get(name) ?? 999)
-  const tabPages = data.byPage
-    .map(p => p.name)
-    .sort((a, b) => orderOf(a) - orderOf(b))
-    .map(name => ({ name, icon: iconByPage.get(name) }))
-
   // Chart totals (also the % denominators). The listings total is the selected
   // page's whole click count, not just the visible top-15 rows.
   const totalClicks = data.byPage.reduce((sum, r) => sum + r.count, 0)
   const pageTotal = data.byPage.find(p => p.name === data.selectedPage)?.count
+  // When the listings are filtered to one source, the top-listings table is a
+  // share of that source's clicks, not the page's whole. bySource carries the
+  // per-source totals, so read the active one from there.
+  const listingTotal = data.selectedSource
+    ? data.bySource.find(r => r.name.toLowerCase() === data.selectedSource)
+        ?.count
+    : pageTotal
   const positionTotal = data.byPosition.reduce((sum, r) => sum + r.count, 0)
 
   return (
     <div>
       <div className={styles.headerRow}>
-        <h1 className={admin.pageTitle}>Overview</h1>
+        <h1 className={admin.pageTitle}>Analytics</h1>
         <div className={styles.meta}>
           <span className={styles.badge}>
             {SOURCE_LABEL[data.source] ?? data.source}
@@ -269,6 +317,7 @@ export default async function AnalyticsPage({
           <span className={styles.total}>
             {data.totalEvents.toLocaleString()} events
           </span>
+          <ExcludeToggle />
         </div>
       </div>
 
@@ -288,94 +337,115 @@ export default async function AnalyticsPage({
         </div>
       ) : (
         <>
-          <Panel title="Chatbot funnel · unique users">
-            <Funnel funnel={data.funnel} />
-          </Panel>
+          <DashboardTabs
+            overview={OVERVIEW_TABS}
+            pages={resourceTabs}
+            active={activeTab}
+            params={sp}
+          />
 
-          <Panel title="Clicks by page">
-            <CountTable
-              rows={data.byPage}
-              labelHead="Page"
-              total={totalClicks}
-            />
-          </Panel>
+          {activeTab === 'funnel' && (
+            <Panel title="Chatbot funnel · unique users">
+              <Funnel funnel={data.funnel} />
+            </Panel>
+          )}
 
-          <div className={styles.pageSection}>
-            <PageTabs pages={tabPages} active={data.selectedPage} params={sp} />
-            <SourceSplit rows={data.bySource} />
-            <div className={styles.grid}>
-              <Panel
-                title={
-                  data.selectedPage
-                    ? `Top ${data.selectedPage} listings`
-                    : 'Top listings'
-                }
-              >
-                <CountTable
-                  rows={data.topListings}
-                  labelHead="Listing"
-                  rankHead="Slot"
-                  logoFor={name =>
-                    logoByName.get(name) ?? faviconFor(urlByName.get(name))
+          {activeTab === 'pages' && (
+            <Panel title="Clicks by page">
+              <CountTable
+                rows={data.byPage}
+                labelHead="Page"
+                total={totalClicks}
+              />
+            </Panel>
+          )}
+
+          {onResourceView && (
+            <div className={styles.pageSection}>
+              <SourceSplit
+                rows={data.bySource}
+                active={data.selectedSource}
+                params={sp}
+              />
+              <div className={styles.grid}>
+                <Panel
+                  title={
+                    selectedLabel
+                      ? `Top ${selectedLabel} listings`
+                      : 'Top listings'
                   }
-                  rankFor={name => positionByName.get(name)}
-                  total={pageTotal}
-                />
-                <p className={styles.caption}>
-                  Slot = where each listing was clicked this period (F1/F2 =
-                  featured cards). Blank for clicks logged before slot tracking.
-                </p>
-              </Panel>
-              <Panel title="Clicks by position">
-                <CountTable
-                  rows={data.byPosition}
-                  labelHead="Slot"
-                  total={positionTotal}
-                />
-                <p className={styles.caption}>
-                  Every click on this page counted at the slot it happened in —
-                  so a busy top slot shows up even as different listings rotate
-                  through it.
-                </p>
-              </Panel>
+                >
+                  <CountTable
+                    rows={data.topListings}
+                    labelHead="Listing"
+                    rankHead="Slot"
+                    logoFor={name =>
+                      logoByName.get(name) ?? faviconFor(urlByName.get(name))
+                    }
+                    linkFor={name => urlByName.get(name)}
+                    rankFor={name => positionByName.get(name)}
+                    total={listingTotal}
+                  />
+                  <p className={styles.caption}>
+                    Slot = where each listing was clicked this period (F1/F2 =
+                    featured cards). Blank for clicks logged before slot
+                    tracking.
+                  </p>
+                </Panel>
+                <Panel title="Clicks by position">
+                  <CountTable
+                    rows={data.byPosition}
+                    labelHead="Slot"
+                    total={positionTotal}
+                  />
+                  <p className={styles.caption}>
+                    Every click on this page counted at the slot it happened in
+                    — so a busy top slot shows up even as different listings
+                    rotate through it.
+                  </p>
+                </Panel>
+              </div>
             </div>
-          </div>
+          )}
 
-          <Panel title="Recent activity">
-            {data.recent.length === 0 ? (
-              <p className={styles.dim}>No recent events.</p>
-            ) : (
-              <ul className={styles.recent}>
-                {data.recent.map((e, i) => (
-                  <li key={i} className={styles.recentItem}>
-                    <span className={styles.recentTime}>
-                      {formatTime(e.ts)}
-                    </span>
-                    {pillFor(e) && (
-                      <span className={styles.pill}>{pillFor(e)}</span>
-                    )}
-                    <Logo
-                      src={
-                        (e.listingId ? logoById.get(e.listingId) : undefined) ??
-                        faviconFor(e.url)
-                      }
-                    />
-                    <span className={styles.recentLabel}>{labelFor(e)}</span>
-                    {e.url && e.url !== '#' && (
-                      <a
-                        className={styles.recentUrl}
-                        href={e.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {prettyUrl(e.url)}
-                      </a>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </Panel>
+          {activeTab === 'pages' && (
+            <Panel title="Recent activity">
+              {data.recent.length === 0 ? (
+                <p className={styles.dim}>No recent events.</p>
+              ) : (
+                <ul className={styles.recent}>
+                  {data.recent.map((e, i) => (
+                    <li key={i} className={styles.recentItem}>
+                      <span className={styles.recentTime}>
+                        {formatTime(e.ts)}
+                      </span>
+                      {pillFor(e) && (
+                        <span className={styles.pill}>{pillFor(e)}</span>
+                      )}
+                      <Logo
+                        src={
+                          (e.listingId
+                            ? logoById.get(e.listingId)
+                            : undefined) ?? faviconFor(e.url)
+                        }
+                      />
+                      <span className={styles.recentLabel}>{labelFor(e)}</span>
+                      {e.url && e.url !== '#' && (
+                        <a
+                          className={styles.recentUrl}
+                          href={e.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {prettyUrl(e.url)}
+                        </a>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </Panel>
+          )}
         </>
       )}
     </div>
@@ -426,36 +496,71 @@ function ClickModeToggle({
 }
 
 /** For pages with a map, shows how the selected page's clicks split between the
- *  map and the cards. Renders nothing for pages without a map. */
-function SourceSplit({ rows }: { rows: Counted[] }) {
+ *  map and the cards. Each split is a link that filters the listing panels below
+ *  to that source; "Total" clears the filter. Renders nothing for pages without
+ *  a map. */
+function SourceSplit({
+  rows,
+  active,
+  params,
+}: {
+  rows: Counted[]
+  active: string | null
+  params: SearchParams
+}) {
   if (rows.length === 0) return null
   const total = rows.reduce((sum, r) => sum + r.count, 0)
   const hasUntracked = rows.some(r => r.name === 'Untracked')
+  // Preserve every other query param; only the `source` filter is swapped.
+  const base = new URLSearchParams()
+  for (const [k, v] of Object.entries(params)) {
+    if (k === 'source' || v == null) continue
+    base.set(k, Array.isArray(v) ? (v[0] ?? '') : v)
+  }
+  const totalHref = base.toString() ? `?${base.toString()}` : '?'
   return (
     <div className={styles.sourceSplitWrap}>
       <div className={styles.sourceSplit}>
         <span className={styles.sourceSplitLabel}>Clicks by source</span>
         {rows.length > 1 && (
-          <span className={styles.sourceStat}>
+          <Link
+            href={totalHref}
+            scroll={false}
+            className={`${styles.sourceStat} ${styles.sourceStatLink}${
+              active == null ? ` ${styles.sourceStatActive}` : ''
+            }`}
+          >
             <span className={styles.sourceStatName}>Total</span>
             <span className={styles.sourceStatCount}>
               {total.toLocaleString()}
             </span>
-          </span>
+          </Link>
         )}
-        {rows.map(r => (
-          <span key={r.name} className={styles.sourceStat}>
-            <span className={styles.sourceStatName}>{r.name}</span>
-            <span className={styles.sourceStatCount}>
-              {r.count.toLocaleString()}
-            </span>
-            {total > 0 && (
-              <span className={styles.sourceStatPct}>
-                {pct1(r.count, total)}
+        {rows.map(r => {
+          const key = r.name.toLowerCase()
+          const q = new URLSearchParams(base)
+          q.set('source', key)
+          return (
+            <Link
+              key={r.name}
+              href={`?${q.toString()}`}
+              scroll={false}
+              className={`${styles.sourceStat} ${styles.sourceStatLink}${
+                active === key ? ` ${styles.sourceStatActive}` : ''
+              }`}
+            >
+              <span className={styles.sourceStatName}>{r.name}</span>
+              <span className={styles.sourceStatCount}>
+                {r.count.toLocaleString()}
               </span>
-            )}
-          </span>
-        ))}
+              {total > 0 && (
+                <span className={styles.sourceStatPct}>
+                  {pct1(r.count, total)}
+                </span>
+              )}
+            </Link>
+          )
+        })}
       </div>
       {hasUntracked && (
         <p className={styles.caption}>
@@ -469,44 +574,63 @@ function SourceSplit({ rows }: { rows: Counted[] }) {
 
 /** Tabs that pick which resource page the listing panels drill into. Each tab
  *  preserves the current date range and swaps only the `page` query param. */
-function PageTabs({
+/** The dashboard's top tab bar: two overview tabs (the funnel and the by-page
+ *  table), a divider, then one tab per resource page. Each tab swaps the `tab`
+ *  query param (and drops any active source filter) while preserving the date
+ *  range and count mode. Resource tabs show the site's page name and nav icon. */
+function DashboardTabs({
+  overview,
   pages,
   active,
   params,
 }: {
-  pages: { name: string; icon?: string }[]
-  active: string | null
+  overview: { key: string; label: string }[]
+  pages: { key: string; label: string; icon?: string }[]
+  active: string
   params: SearchParams
 }) {
-  if (pages.length <= 1) return null
+  // Preserve everything except the tab itself and the per-page source filter
+  // (which is meaningless once you switch tabs); `page` is the old param name.
   const base = new URLSearchParams()
   for (const [k, v] of Object.entries(params)) {
-    if (k === 'page' || v == null) continue
+    if (k === 'tab' || k === 'source' || k === 'page' || v == null) continue
     base.set(k, Array.isArray(v) ? (v[0] ?? '') : v)
   }
+  const hrefFor = (key: string) => {
+    const q = new URLSearchParams(base)
+    q.set('tab', key)
+    return `?${q.toString()}`
+  }
+  const tabClass = (key: string) =>
+    `${styles.pageTab}${key === active ? ` ${styles.pageTabActive}` : ''}`
   return (
     <div className={styles.pageTabs}>
-      {pages.map(({ name, icon }) => {
-        const q = new URLSearchParams(base)
-        q.set('page', name)
-        return (
-          <Link
-            key={name}
-            href={`?${q.toString()}`}
-            scroll={false}
-            className={`${styles.pageTab}${
-              name === active ? ` ${styles.pageTabActive}` : ''
-            }`}
-          >
-            {icon && (
-              <span className={styles.pageTabIcon}>
-                <Image src={`/images/${icon}`} alt="" width={12} height={12} />
-              </span>
-            )}
-            {name}
-          </Link>
-        )
-      })}
+      {overview.map(t => (
+        <Link
+          key={t.key}
+          href={hrefFor(t.key)}
+          scroll={false}
+          className={tabClass(t.key)}
+        >
+          {t.label}
+        </Link>
+      ))}
+      <span className={styles.tabDivider} aria-hidden />
+      {pages.map(t => (
+        <Link
+          key={t.key}
+          href={hrefFor(t.key)}
+          scroll={false}
+          className={tabClass(t.key)}
+        >
+          {t.icon && (
+            <span className={styles.pageTabIcon}>
+              <Image src={`/images/${t.icon}`} alt="" width={12} height={12} />
+            </span>
+          )}
+          {t.label}
+        </Link>
+      ))}
     </div>
   )
 }
@@ -531,6 +655,7 @@ function CountTable({
   labelHead,
   rankHead = '#',
   logoFor,
+  linkFor,
   rankFor,
   total,
 }: {
@@ -538,6 +663,10 @@ function CountTable({
   labelHead: string
   rankHead?: string
   logoFor?: (name: string) => string | undefined
+  /** Destination url for a row's logo. When set, the logo becomes a link to the
+   *  listing; the name text is deliberately left unlinked so it stays
+   *  selectable/copyable. */
+  linkFor?: (name: string) => string | undefined
   rankFor?: (name: string) => string | undefined
   /** When set, adds a % column (each row's share of this total) and a Total
    *  footer row. The total is the denominator, so for a sliced "top N" table it
@@ -560,6 +689,7 @@ function CountTable({
         {rows.map((r, i) => {
           const rank = rankFor?.(r.name)
           const featured = rank?.startsWith('F')
+          const href = linkFor?.(r.name)
           return (
             <tr key={i}>
               {rankFor && (
@@ -572,7 +702,20 @@ function CountTable({
                 </td>
               )}
               <td className={styles.nameCell}>
-                {logoFor && <Logo src={logoFor(r.name)} />}
+                {logoFor &&
+                  (href && href !== '#' ? (
+                    <a
+                      className={styles.logoLink}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title={`Open ${r.name}`}
+                    >
+                      <Logo src={logoFor(r.name)} />
+                    </a>
+                  ) : (
+                    <Logo src={logoFor(r.name)} />
+                  ))}
                 <span>{r.name}</span>
               </td>
               <td className={styles.numCol}>{r.count.toLocaleString()}</td>

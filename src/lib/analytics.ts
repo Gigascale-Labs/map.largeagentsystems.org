@@ -31,6 +31,41 @@ interface TrackPayload {
 }
 
 const VID_KEY = 'aisafety_vid'
+const OPTOUT_KEY = 'aisafety_no_track'
+
+/** Raw opt-out marker for this browser: the ISO timestamp it was excluded from
+ *  the stats, or '' when it isn't excluded (a legacy '1' may exist from before
+ *  the date was stored). The flag lives in localStorage rather than being
+ *  matched on IP, because the owner is a nomad whose IP changes monthly; a
+ *  per-browser flag sticks regardless of location. The dashboard control reads
+ *  this directly as its reactive snapshot. */
+export function getTrackingOptOut(): string {
+  try {
+    if (typeof localStorage === 'undefined') return ''
+    return localStorage.getItem(OPTOUT_KEY) ?? ''
+  } catch {
+    return ''
+  }
+}
+
+/** True when this browser has opted out of first-party analytics — used to keep
+ *  the site owner's own clicks out of the dashboard. */
+export function isTrackingOptedOut(): boolean {
+  return getTrackingOptOut() !== ''
+}
+
+/** Turn first-party tracking off (true) or back on (false) for this browser.
+ *  When turning off we record the moment, so the dashboard can show that the
+ *  exclusion only applies from then on — earlier visits stay counted. */
+export function setTrackingOptOut(optOut: boolean): void {
+  try {
+    if (typeof localStorage === 'undefined') return
+    if (optOut) localStorage.setItem(OPTOUT_KEY, new Date().toISOString())
+    else localStorage.removeItem(OPTOUT_KEY)
+  } catch {
+    // Storage unavailable (private mode); nothing to persist.
+  }
+}
 
 /** A stable, anonymous per-browser id (random UUID in localStorage) so the
  *  dashboard can count UNIQUE users — e.g. not double-counting one person who
@@ -57,6 +92,8 @@ function getVisitorId(): string | undefined {
 /** Fire a first-party event to /api/track. Prefers sendBeacon so it survives the
  *  navigation a click triggers; falls back to keepalive fetch. */
 function sendTrackEvent(payload: TrackPayload): void {
+  // The owner can exclude their own browser from the stats.
+  if (isTrackingOptedOut()) return
   try {
     const body = JSON.stringify({ ...payload, vid: getVisitorId() })
     if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
@@ -95,6 +132,8 @@ export function trackListingClick(
   source?: string
 ): void {
   if (typeof window === 'undefined') return
+  // Opted-out browsers skip Matomo too, so the owner's clicks stay out of both.
+  if (isTrackingOptedOut()) return
   window._paq?.push(['trackEvent', `Listings - ${page}`, name, url])
   sendTrackEvent({
     type: 'listing_click',
