@@ -318,7 +318,7 @@ export default async function Home() {
               height={32}
             />
             <p className="paragraph-small-bold padding-bottom-12px">
-              New funding platform
+              Best for small, quick grants
             </p>
             <div className={`${styles['icon-row']} padding-bottom-24px`}>
               <Image
