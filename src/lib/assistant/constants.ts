@@ -2,7 +2,7 @@
  *  page, used to UPDATE or fix an EXISTING listing (a wrong date, a dead link,
  *  changed details) — as opposed to submitting a brand-new listing, which uses
  *  the per-type forms below. Also the catch-all when the bot named no type or
- *  an unrecognised one. Same form linked site-wide in the footer. */
+ *  an unrecognized one. Same form linked site-wide in the footer. */
 const CORRECTION_FORM =
   'https://airtable.com/appF8XfZUGXtfi40E/pagndDvdya1DSqoxN/form'
 
@@ -51,7 +51,7 @@ const SUGGEST_FORMS: Record<string, string> = {
 
 /** Every listing type the bot may name in a [[suggest:TYPE:query]] token — the
  *  search_listings `type` values. `job` has no form of its own and resolves to
- *  the fallback below; it's still listed so the parser recognises it. */
+ *  the fallback below; it's still listed so the parser recognizes it. */
 export const SUGGEST_TYPES = [
   'community',
   'event',
@@ -64,7 +64,7 @@ export const SUGGEST_TYPES = [
   'org',
   'job',
   // Pseudo-types (not listing types) for the update / contact / feedback
-  // intents, so the parser recognises them and the button can label itself
+  // intents, so the parser recognizes them and the button can label itself
   // "Suggest a correction" / "Contact the team" / "Send feedback".
   'correction',
   'contact',
@@ -73,7 +73,7 @@ export const SUGGEST_TYPES = [
 
 /** The "Suggest a listing" Airtable form for the listing type the bot is
  *  inviting the visitor to submit. Falls back to the shared correction form
- *  when the bot named no type, an unrecognised one, or one without its own
+ *  when the bot named no type, an unrecognized one, or one without its own
  *  listing form (`job`). */
 export function suggestFormUrl(type: string | null | undefined): string {
   if (!type) return CORRECTION_FORM
