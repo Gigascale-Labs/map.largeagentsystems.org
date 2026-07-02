@@ -225,6 +225,15 @@ export default function Assistant() {
     return () => document.removeEventListener('keydown', onKey)
   }, [isOpen, handleClose])
 
+  // Focus the message field on open so the user can start typing right away.
+  // Desktop only — on touch devices the on-screen keyboard would pop up and
+  // cover the greeting and suggestion chips.
+  useEffect(() => {
+    if (!isOpen) return
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+    chatRef.current?.focusInput()
+  }, [isOpen])
+
   return (
     <>
       <button

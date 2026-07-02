@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
 import styles from './Assistant.module.css'
 
 const MAX_TEXTAREA_HEIGHT_PX = 120
@@ -15,16 +15,17 @@ interface Props {
   onStop?: () => void
 }
 
-export default function Composer({
-  value,
-  onChange,
-  onSubmit,
-  disabled,
-  placeholder,
-  isStreaming,
-  onStop,
-}: Props) {
+const Composer = forwardRef<HTMLTextAreaElement, Props>(function Composer(
+  { value, onChange, onSubmit, disabled, placeholder, isStreaming, onStop },
+  forwardedRef
+) {
   const ref = useRef<HTMLTextAreaElement>(null)
+
+  useImperativeHandle(
+    forwardedRef,
+    () => ref.current as HTMLTextAreaElement,
+    []
+  )
 
   useEffect(() => {
     const el = ref.current
@@ -99,4 +100,6 @@ export default function Composer({
       </div>
     </div>
   )
-}
+})
+
+export default Composer

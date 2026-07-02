@@ -121,6 +121,8 @@ export interface UIMessage {
 
 export interface ChatBodyHandle {
   clear: () => void
+  /** Focus the composer input so the user can start typing immediately. */
+  focusInput: () => void
 }
 
 interface AssistantMessageViewProps {
@@ -287,6 +289,7 @@ const ChatBody = forwardRef<ChatBodyHandle, Props>(function ChatBody(
   const [isWaiting, setIsWaiting] = useState(false)
   const abortRef = useRef<AbortController | null>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
+  const composerRef = useRef<HTMLTextAreaElement>(null)
   // Latest onUserSend in a ref so send() can call it without it being a dep.
   const onUserSendRef = useRef(onUserSend)
   useEffect(() => {
@@ -371,7 +374,14 @@ const ChatBody = forwardRef<ChatBodyHandle, Props>(function ChatBody(
     setIsWaiting(false)
   }, [])
 
-  useImperativeHandle(ref, () => ({ clear: handleClear }), [handleClear])
+  useImperativeHandle(
+    ref,
+    () => ({
+      clear: handleClear,
+      focusInput: () => composerRef.current?.focus(),
+    }),
+    [handleClear]
+  )
 
   const handleStop = useCallback(() => {
     abortRef.current?.abort()
@@ -755,6 +765,7 @@ const ChatBody = forwardRef<ChatBodyHandle, Props>(function ChatBody(
       </div>
 
       <Composer
+        ref={composerRef}
         value={input}
         onChange={setInput}
         onSubmit={handleSubmit}
