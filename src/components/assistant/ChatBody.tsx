@@ -590,7 +590,9 @@ const ChatBody = forwardRef<ChatBodyHandle, Props>(function ChatBody(
         // clear retry prompt instead of leaving a silent blank bubble.
         const answer =
           streamingText.split(/\[\[\s*\/\s*thinking\s*\]\]/i).pop() ?? ''
-        const followUp = extractChips(streamingText)
+        // Chips come from the visible answer only — a redone draft (before the
+        // last [[/thinking]] marker) may carry its own, now-stale chips.
+        const followUp = extractChips(answer)
         setMessages(prev =>
           prev.map(m =>
             m.id === asstId
@@ -679,6 +681,10 @@ const ChatBody = forwardRef<ChatBodyHandle, Props>(function ChatBody(
             {greeting && (
               <div className={styles.greetingBubble}>{greeting}</div>
             )}
+            <div className={styles.privacyNote}>
+              This conversation may be reviewed by the AISafety.com team and
+              trusted partners to improve the chatbot.
+            </div>
             {chips && chips.length > 0 && (
               <div className={styles.chipsRow}>
                 {chips.map(chip => (

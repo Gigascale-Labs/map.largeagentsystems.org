@@ -21,6 +21,16 @@ const MAX_PAGE_READS_PER_TURN = 5
 
 export type SseSend = (event: string, data: unknown) => void
 
+/** Corrective message injected when the model's finished answer carded ids
+ *  that exist neither in this turn's tool results nor anywhere in the catalog.
+ *  Sent as a user turn so the model regenerates; the widget renders only what
+ *  follows the LAST [[/thinking]] marker, so the visitor never sees the draft. */
+function fabricationRedoMessage(ids: string[]): string {
+  return `[AUTOMATED CARD AUDIT — this is a server-side check, not the visitor. The visitor will not see your previous draft, so never reference it.]
+Your draft carded listing id(s) that do not exist in the catalog: ${ids.join(', ')}. No tool result in this turn returned these ids, so they are fabricated and their cards would render broken.
+Redo the answer from scratch: run the search_listings call(s) you skipped, card ONLY ids copied verbatim from those fresh results, and if nothing fitting comes back, recommend what search DID return or link the relevant resource page in prose instead of carding anything. Format as always: any reasoning ends with [[/thinking]], then the visible answer, then follow-up chips. Do not apologize for or mention this correction — just deliver the corrected answer.`
+}
+
 /** Encodes a single SSE frame. */
 function sseEvent(event: string, data: unknown): string {
   return `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`
@@ -91,7 +101,12 @@ export function validateMessages(messages: unknown): ChatMessage[] {
     const msg = m as { role?: unknown; content?: unknown }
     if (msg.role !== 'user' && msg.role !== 'assistant') continue
     if (typeof msg.content !== 'string') continue
-    if (msg.content.length === 0 || msg.content.length > 4000) continue
+    if (msg.content.length === 0) continue
+    // User messages are bounded by the composer (4000 chars); assistant
+    // history is the bot's own raw replies (reasoning + tokens included),
+    // which routinely exceed 4000 — dropping those silently deleted long
+    // replies from the bot's memory and from the stored transcript.
+    if (msg.content.length > (msg.role === 'user' ? 4000 : 12000)) continue
     out.push({ role: msg.role, content: msg.content })
   }
   if (out.length === 0) throw new Error('no valid messages')
@@ -160,6 +175,7 @@ export async function runAssistantStream(
   let assistantText = ''
   const cited: Listing[] = []
   const toolCalls: ToolCallLogEntry[] = []
+  let redoneFabrication = false
 
   for (let iter = 0; iter < MAX_TOOL_ITERATIONS; iter++) {
     if (signal?.aborted) return { assistantText, toolCalls, citations: [] }
@@ -260,7 +276,49 @@ export async function runAssistantStream(
     }
 
     apiMessages.push({ role: 'assistant', content: blocks })
-    if (stopReason !== 'tool_use') break
+    if (stopReason !== 'tool_use') {
+      // The model considers its answer finished. Before accepting it, audit
+      // the [[card:...]] ids it wrote: an id matching neither a tool result
+      // from this turn nor any catalog listing is fabricated, and its card
+      // would render broken. Send the model back to redo the answer — once
+      // per turn, and only with enough iteration budget left for the search
+      // it skipped plus the regenerated answer. If the redo fabricates again,
+      // fall through to the existing graceful degradation (fallback link in
+      // the widget, UNRESOLVED badge in the admin).
+      const refsSoFar = new Map<string, CitationRef>()
+      for (const l of cited) refsSoFar.set(l.id, toCitationRef(l))
+      for (const c of extractCitations(assistantText, catalog)) {
+        refsSoFar.set(c.id, c)
+      }
+      const { fabricated } = auditCardCitations(
+        assistantText,
+        Array.from(refsSoFar.values()),
+        catalog
+      )
+      if (
+        fabricated.length > 0 &&
+        !redoneFabrication &&
+        iter < MAX_TOOL_ITERATIONS - 2
+      ) {
+        redoneFabrication = true
+        console.warn(
+          `[assistant] fabricated card id(s) ${fabricated.join(', ')} — sending the model back to redo the answer`
+        )
+        // Surfaces in the admin log's tool list, so redone turns are visible
+        // when skimming conversations.
+        toolCalls.push({
+          name: 'redo_after_fabricated_cards',
+          input: { fabricated },
+          ok: true,
+        })
+        apiMessages.push({
+          role: 'user',
+          content: fabricationRedoMessage(fabricated),
+        })
+        continue
+      }
+      break
+    }
 
     const toolUseBlocks = blocks.filter(
       (b): b is Anthropic.ToolUseBlockParam => b.type === 'tool_use'
@@ -320,13 +378,18 @@ export async function runAssistantStream(
   for (const l of cited) byId.set(l.id, toCitationRef(l))
   for (const c of extractCitations(assistantText, catalog)) byId.set(c.id, c)
 
-  // Audit the [[card:...]] ids the model wrote. A card naming a REAL listing it
-  // never tool-surfaced is backfilled so the stored snapshot carries it; a card
-  // naming NOTHING in the catalog is fabricated — log it (the live renderer
-  // shows a "Browse X" link, the admin flags it UNRESOLVED) rather than letting
-  // the invention pass silently.
+  // The visible answer is whatever follows the last [[/thinking]] marker — a
+  // redone draft sits before its marker, so it drops out here.
+  const answer = assistantText.split(/\[\[\s*\/\s*thinking\s*\]\]/i).pop() ?? ''
+
+  // Audit the [[card:...]] ids in the visible answer. A card naming a REAL
+  // listing the model never tool-surfaced is backfilled so the stored snapshot
+  // carries it; a card naming NOTHING in the catalog is fabricated.
+  // Fabrications normally trigger the in-loop redo above, so anything still
+  // flagged here survived (or had no budget for) that redo — log it; the live
+  // renderer shows a "Browse X" link and the admin flags it UNRESOLVED.
   const { backfill, fabricated } = auditCardCitations(
-    assistantText,
+    answer,
     Array.from(byId.values()),
     catalog
   )
@@ -337,11 +400,24 @@ export async function runAssistantStream(
     )
   }
 
+  // Telemetry: a reply should carry exactly one [[/thinking]] marker (two when
+  // the fabrication redo above injected a second generation). More than that
+  // means the model re-entered thinking mid-answer — the renderer keeps only
+  // what follows the LAST marker, so everything the model wrote before its
+  // spurious re-emission was hidden from the visitor.
+  const markerCount =
+    assistantText.match(/\[\[\s*\/\s*thinking\s*\]\]/gi)?.length ?? 0
+  const expectedMarkers = redoneFabrication ? 2 : 1
+  if (markerCount > expectedMarkers) {
+    console.warn(
+      `[assistant] re-emitted [[/thinking]] mid-answer (${markerCount} markers, expected ${expectedMarkers}) — earlier answer text was hidden from the visitor`
+    )
+  }
+
   // Telemetry: a turn that finishes with no user-facing answer (truly empty, or
   // only a reasoning trail before [[/thinking]]) leaves the visitor with a blank
   // reply. Log it so we can measure how often it happens instead of letting it
   // pass silently. The client surfaces a retry prompt for the same condition.
-  const answer = assistantText.split(/\[\[\s*\/\s*thinking\s*\]\]/i).pop() ?? ''
   if (!answer.trim()) {
     console.warn(
       `[assistant] blank answer — no user-facing text produced (chars=${assistantText.length}, toolCalls=${toolCalls.length})`
