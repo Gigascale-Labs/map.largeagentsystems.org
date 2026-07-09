@@ -251,8 +251,11 @@ interface Props {
    *  matches its index in the stored conversation history — so the admin can
    *  badge the exact card the visitor opened. */
   onCitationClick?: (c: CitationRef, turnIndex: number) => void
-  /** Fires when the visitor clicks an inline markdown link in a reply. */
-  onLinkClick?: (href: string, label: string) => void
+  /** Fires when the visitor clicks an inline markdown link in a reply.
+   *  `turnIndex` is the reply's position in the message list (matching its
+   *  index in the stored history), so the admin can badge the one link the
+   *  visitor clicked instead of every copy of that href across the chat. */
+  onLinkClick?: (href: string, label: string, turnIndex?: number) => void
   /** Fires when the user sends a message (typed or via a chip), excluding
    *  retries — lets the public chatbot count engagement while the admin
    *  playground (which doesn't pass this) stays out of the numbers. */
@@ -478,6 +481,10 @@ const ChatBody = forwardRef<ChatBodyHandle, Props>(function ChatBody(
         const decoder = new TextDecoder()
         let buffer = ''
         let streamingText = ''
+        // Text length when the last tool call started — everything before it
+        // is reasoning. Used below to repair a reply whose [[/thinking]]
+        // marker never arrived.
+        let lastToolTextOffset = 0
 
         while (true) {
           const { done, value } = await reader.read()
@@ -508,6 +515,7 @@ const ChatBody = forwardRef<ChatBodyHandle, Props>(function ChatBody(
                 })
               )
             } else if (eventType === 'tool_call_start') {
+              lastToolTextOffset = streamingText.length
               const newCall: UIToolCall = {
                 id: data.id,
                 name: data.name,
@@ -584,6 +592,20 @@ const ChatBody = forwardRef<ChatBodyHandle, Props>(function ChatBody(
             // server emits 'done' or just closes the stream.
           }
         }
+        // A reply that ran tools but never emitted [[/thinking]] after its
+        // last tool call leaves reasoning narration ("I'll search for…")
+        // glued to the answer in the flat content string. The rendered view
+        // already hides it (its boundary falls back to the last tool call),
+        // but `content` is what gets sent back as history on later turns —
+        // and stored in the conversation log — so repair it the same way:
+        // inject the marker where the last tool call sat. Mirrors the
+        // identical repair in runAssistantStream.
+        if (
+          lastToolTextOffset > 0 &&
+          !THINKING_DONE_RE.test(streamingText.slice(lastToolTextOffset))
+        ) {
+          streamingText = `${streamingText.slice(0, lastToolTextOffset).trimEnd()}\n[[/thinking]]\n${streamingText.slice(lastToolTextOffset).trimStart()}`
+        }
         // The visible answer is whatever follows the last [[/thinking]] marker
         // (or the whole reply if there's no marker). If that's empty, the turn
         // produced no answer — a transient hiccup or an empty completion. Show a
@@ -599,10 +621,16 @@ const ChatBody = forwardRef<ChatBodyHandle, Props>(function ChatBody(
               ? answer.trim() === ''
                 ? {
                     ...m,
+                    content: streamingText,
                     isStreaming: false,
                     error: 'Sorry, something went wrong. Please try again.',
                   }
-                : { ...m, isStreaming: false, followUpChips: followUp }
+                : {
+                    ...m,
+                    content: streamingText,
+                    isStreaming: false,
+                    followUpChips: followUp,
+                  }
               : m
           )
         )
@@ -739,7 +767,12 @@ const ChatBody = forwardRef<ChatBodyHandle, Props>(function ChatBody(
                       ? (c: CitationRef) => onCitationClick(c, turnIndex)
                       : undefined
                   }
-                  onLinkClick={onLinkClick}
+                  onLinkClick={
+                    onLinkClick
+                      ? (href: string, label: string) =>
+                          onLinkClick(href, label, turnIndex)
+                      : undefined
+                  }
                 />
                 {!m.isStreaming && m.followUpChips.length > 0 && (
                   <div className={styles.followUpRow}>

@@ -140,6 +140,12 @@ export interface AssistantRunResult {
   assistantText: string
   toolCalls: ToolCallLogEntry[]
   citations: CitationRef[]
+  /** Card ids in the visible answer that the live widget degraded to a
+   *  generic "Browse X" fallback link (or dropped entirely) instead of a real
+   *  card — the model wrote them without a tool having returned the listing.
+   *  Logged per turn so the admin transcript can show the same degraded state
+   *  the visitor saw rather than a full card the model only pretended to have. */
+  fallbackCardIds: string[]
 }
 
 interface RunOptions {
@@ -176,9 +182,16 @@ export async function runAssistantStream(
   const cited: Listing[] = []
   const toolCalls: ToolCallLogEntry[] = []
   let redoneFabrication = false
+  // Where the final answer can begin at the earliest: the text length after
+  // the last tool round (or fabrication redo). Text before this point is
+  // definitionally reasoning — it preceded a tool call — which lets us
+  // repair a reply whose [[/thinking]] marker never arrived.
+  let answerStartOffset = 0
 
   for (let iter = 0; iter < MAX_TOOL_ITERATIONS; iter++) {
-    if (signal?.aborted) return { assistantText, toolCalls, citations: [] }
+    if (signal?.aborted) {
+      return { assistantText, toolCalls, citations: [], fallbackCardIds: [] }
+    }
     const response = await client.messages.create(
       {
         model,
@@ -315,6 +328,7 @@ export async function runAssistantStream(
           role: 'user',
           content: fabricationRedoMessage(fabricated),
         })
+        answerStartOffset = assistantText.length
         continue
       }
       break
@@ -370,6 +384,7 @@ export async function runAssistantStream(
       })
     }
     apiMessages.push({ role: 'user', content: toolResults })
+    answerStartOffset = assistantText.length
   }
 
   // Citations come from the listings the model actually used (via tools).
@@ -377,6 +392,39 @@ export async function runAssistantStream(
   const byId = new Map<string, CitationRef>()
   for (const l of cited) byId.set(l.id, toCitationRef(l))
   for (const c of extractCitations(assistantText, catalog)) byId.set(c.id, c)
+
+  // Telemetry: a reply should carry exactly one [[/thinking]] marker (two when
+  // the fabrication redo above injected a second generation). More than that
+  // means the model re-entered thinking mid-answer — the renderer keeps only
+  // what follows the LAST marker, so everything the model wrote before its
+  // spurious re-emission was hidden from the visitor. Counted before the
+  // missing-marker repair below so it reflects what the model actually wrote.
+  const markerCount =
+    assistantText.match(/\[\[\s*\/\s*thinking\s*\]\]/gi)?.length ?? 0
+  const expectedMarkers = redoneFabrication ? 2 : 1
+  if (markerCount > expectedMarkers) {
+    console.warn(
+      `[assistant] re-emitted [[/thinking]] mid-answer (${markerCount} markers, expected ${expectedMarkers}) — earlier answer text was hidden from the visitor`
+    )
+  }
+
+  // The opposite failure: the model ran tools but never emitted [[/thinking]]
+  // after its last tool round, leaving pre-search narration ("I'll search
+  // for…") glued to the answer. The live widget hides that (its boundary
+  // falls back to the last tool call), but the stored transcript is a flat
+  // string with no tool positions, so the admin log — and the model reading
+  // its own history next turn — would see the leak. The server knows where
+  // the last tool round ended, which is exactly where the marker belongs, so
+  // repair the transcript by injecting it there.
+  if (
+    answerStartOffset > 0 &&
+    !/\[\[\s*\/\s*thinking\s*\]\]/i.test(assistantText.slice(answerStartOffset))
+  ) {
+    console.warn(
+      '[assistant] missing [[/thinking]] after the last tool call — injected the marker so the reasoning trail stays out of the stored answer'
+    )
+    assistantText = `${assistantText.slice(0, answerStartOffset).trimEnd()}\n[[/thinking]]\n${assistantText.slice(answerStartOffset).trimStart()}`
+  }
 
   // The visible answer is whatever follows the last [[/thinking]] marker — a
   // redone draft sits before its marker, so it drops out here.
@@ -400,19 +448,27 @@ export async function runAssistantStream(
     )
   }
 
-  // Telemetry: a reply should carry exactly one [[/thinking]] marker (two when
-  // the fabrication redo above injected a second generation). More than that
-  // means the model re-entered thinking mid-answer — the renderer keeps only
-  // what follows the LAST marker, so everything the model wrote before its
-  // spurious re-emission was hidden from the visitor.
-  const markerCount =
-    assistantText.match(/\[\[\s*\/\s*thinking\s*\]\]/gi)?.length ?? 0
-  const expectedMarkers = redoneFabrication ? 2 : 1
-  if (markerCount > expectedMarkers) {
-    console.warn(
-      `[assistant] re-emitted [[/thinking]] mid-answer (${markerCount} markers, expected ${expectedMarkers}) — earlier answer text was hidden from the visitor`
-    )
-  }
+  // Which of the answer's cards did the live widget degrade to a "Browse X"
+  // fallback link? The widget resolves cards only against listings its tools
+  // returned during the conversation, so fabricated ids always degrade, and
+  // backfilled ids (real listings no tool surfaced this turn) degrade too —
+  // unless an earlier reply already carded the listing, in which case the
+  // widget still holds its citation and renders the real card. Prior replies
+  // are the history messages, whose content is a plain string (this run's own
+  // assistant turns were appended as content-block arrays).
+  const priorAssistantText = apiMessages
+    .filter(m => m.role === 'assistant' && typeof m.content === 'string')
+    .map(m => m.content as string)
+    .join('\n')
+  const fallbackCardIds = [
+    ...fabricated,
+    ...backfill
+      .map(ref => ref.id)
+      .filter(id => {
+        const rec = id.match(/rec[A-Za-z0-9]+$/)?.[0]
+        return !(rec && priorAssistantText.includes(rec))
+      }),
+  ]
 
   // Telemetry: a turn that finishes with no user-facing answer (truly empty, or
   // only a reasoning trail before [[/thinking]]) leaves the visitor with a blank
@@ -424,7 +480,12 @@ export async function runAssistantStream(
     )
   }
 
-  return { assistantText, toolCalls, citations: Array.from(byId.values()) }
+  return {
+    assistantText,
+    toolCalls,
+    citations: Array.from(byId.values()),
+    fallbackCardIds,
+  }
 }
 
 function toCitationRef(l: Listing): CitationRef {

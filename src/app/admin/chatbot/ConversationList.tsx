@@ -34,16 +34,24 @@ interface LoggedToolCall {
  *  backwards. A reply's tools sit at the entry of the user message it answers;
  *  a window that opens mid-turn (leading assistant message) resolves to the
  *  entry before the window's first user turn. */
+function turnEntryForMessage(
+  history: HistoryTurn[],
+  entries: unknown[],
+  msgIdx: number
+): unknown {
+  const totalUsers = history.filter(t => t.role === 'user').length
+  const usersUpToHere = history
+    .slice(0, msgIdx)
+    .filter(t => t.role === 'user').length
+  return entries[entries.length - 1 - (totalUsers - usersUpToHere)]
+}
+
 function toolCallsForMessage(
   history: HistoryTurn[],
   tools: unknown[],
   msgIdx: number
 ): LoggedToolCall[] {
-  const totalUsers = history.filter(t => t.role === 'user').length
-  const usersUpToHere = history
-    .slice(0, msgIdx)
-    .filter(t => t.role === 'user').length
-  const turn = tools[tools.length - 1 - (totalUsers - usersUpToHere)]
+  const turn = turnEntryForMessage(history, tools, msgIdx)
   if (!Array.isArray(turn)) return []
   return turn.filter(
     (t): t is LoggedToolCall =>
@@ -51,6 +59,30 @@ function toolCallsForMessage(
       typeof t === 'object' &&
       typeof (t as LoggedToolCall).name === 'string'
   )
+}
+
+/** Card ids in the reply at history index msgIdx that degraded to a generic
+ *  "Browse X" link (or nothing) in the visitor's chat. Undefined when the turn
+ *  predates fallback tracking, so the renderer can fall back to its
+ *  resolvability heuristic. The set carries each id plus its bare rec form,
+ *  since card tokens are sometimes written without the type prefix. */
+function fallbackCardsForMessage(
+  history: HistoryTurn[],
+  fallbackCards: unknown[] | undefined,
+  msgIdx: number
+): Set<string> | undefined {
+  if (!fallbackCards) return undefined
+  const turn = turnEntryForMessage(history, fallbackCards, msgIdx)
+  if (!Array.isArray(turn)) return undefined
+  const set = new Set<string>()
+  for (const id of turn) {
+    if (typeof id !== 'string') continue
+    const cleaned = id.replace(/\s+/g, '')
+    set.add(cleaned)
+    const rec = /rec[A-Za-z0-9]+/.exec(cleaned)?.[0]
+    if (rec) set.add(rec)
+  }
+  return set
 }
 
 /** Web visits (live page reads) the bot made while composing a reply — shown
@@ -88,6 +120,9 @@ interface ConversationData {
   response: string
   history: HistoryTurn[]
   tools: unknown[]
+  /** Per-turn (aligned with tools): card ids that degraded to a "Browse X"
+   *  link in the visitor's chat. Absent on rows from before this was logged. */
+  fallbackCards?: unknown[]
   citations: string[]
   citationRefs?: { id: string; name: string; url: string; logo?: string }[]
   geo: { city?: string; region?: string; country?: string } | null
@@ -382,14 +417,14 @@ function ConversationRow({
   // for old rows that have no stored history.
   const firstUser =
     data?.history.find(t => t.role === 'user')?.content ?? data?.user ?? ''
-  // Cards the visitor clicked. New clicks are stored turn-scoped as
-  // `<turnIndex>:<listing id>` so only the card the visitor actually opened is
-  // badged — a listing shown in three replies no longer looks like three
-  // clicks. We seed the set with each entry verbatim plus a `<turn>:<rec>`
-  // variant (tokens are sometimes written without the type prefix). Legacy
-  // entries have no leading `<turn>:` — for those we also add the bare rec, and
-  // CardPill falls back to matching every copy, preserving old rows' behaviour.
-  // `link:` entries pass through untouched for inline-link badging.
+  // Cards and links the visitor clicked. New clicks are stored turn-scoped as
+  // `<turnIndex>:<listing id>` / `<turnIndex>:link:<href>` so only the
+  // instance the visitor actually opened is badged — a listing or href shown
+  // in three replies no longer looks like three clicks. For card entries we
+  // seed the set with each entry verbatim plus a `<turn>:<rec>` variant
+  // (tokens are sometimes written without the type prefix). Legacy entries
+  // have no leading `<turn>:` — for those the renderers fall back to matching
+  // every copy, preserving old rows' behaviour.
   const clickedSet = useMemo(() => {
     const s = new Set<string>()
     for (const raw of conv.clickedCitations) {
@@ -397,8 +432,10 @@ function ConversationRow({
       const turnScoped = /^(\d+):(.+)$/.exec(raw)
       if (turnScoped) {
         const [, turn, id] = turnScoped
-        const rec = /rec[A-Za-z0-9]+/.exec(id)?.[0]
-        if (rec) s.add(`${turn}:${rec}`)
+        if (!id.startsWith('link:')) {
+          const rec = /rec[A-Za-z0-9]+/.exec(id)?.[0]
+          if (rec) s.add(`${turn}:${rec}`)
+        }
       } else if (!raw.startsWith('link:')) {
         const rec = /rec[A-Za-z0-9]+/.exec(raw)?.[0]
         if (rec) s.add(rec)
@@ -528,7 +565,15 @@ function ConversationRow({
                             {t.content}
                           </div>
                         ) : (
-                          <TranscriptMessage text={t.content} turnIndex={i} />
+                          <TranscriptMessage
+                            text={t.content}
+                            turnIndex={i}
+                            fallbackCardIds={fallbackCardsForMessage(
+                              data.history,
+                              data.fallbackCards,
+                              i
+                            )}
+                          />
                         )}
                       </div>
                     )
