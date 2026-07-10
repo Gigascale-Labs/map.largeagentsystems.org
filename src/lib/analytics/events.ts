@@ -2,16 +2,23 @@
 //
 // Two backends, chosen automatically at runtime:
 //   • Production: Upstash Redis — the same instance the chatbot rate-limiter
-//     already uses. Events are appended to one capped list.
+//     already uses. Events are stored in one list per calendar month
+//     (aisafety:analytics:events:2026-07, …), newest first, with a sorted set
+//     indexing which months exist. Nothing is ever deleted: a dashboard query
+//     reads only the months its date range touches, so reads stay fast and
+//     bounded no matter how much history accumulates. (The store originally
+//     kept a single list capped at 5,000 events, which silently deleted
+//     everything older than ~10 days — including all of 20–30 June 2026, the
+//     first stretch after launch. The migrate endpoint copied that list's
+//     survivors into their month lists on 10 July 2026.)
 //   • Local dev (no Redis env vars set): an append-only NDJSON file under
 //     .analytics-dev/ so the whole loop works on a laptop without touching
 //     production data.
 //
 // Aggregation happens per-query in JS over the raw events: this keeps storage
-// dead simple (one bounded list), makes the dashboard fully date-range aware
-// (every event carries a timestamp), and means dev and prod compute identically.
-// At the site's scale the event count is small; if it ever outgrows a single
-// capped list we'd move to per-day buckets or a real database.
+// simple, makes the dashboard fully date-range aware (every event carries a
+// timestamp), and means dev and prod compute identically. If a single month
+// ever outgrows a JS aggregation pass we'd add daily rollups on top.
 
 import { Redis } from '@upstash/redis'
 import { Ratelimit } from '@upstash/ratelimit'
@@ -79,8 +86,66 @@ const trackLimiter = store
     })
   : null
 
-const EVENTS_KEY = 'aisafety:analytics:events' // capped list of raw events, newest first
-const MAX_EVENTS = 5000 // keep the raw log bounded on the Upstash free tier
+// One list of raw events per calendar month (newest first), plus a sorted set
+// naming the months that exist so reads never have to scan the keyspace.
+const MONTH_KEY_PREFIX = 'aisafety:analytics:events:' // + 'YYYY-MM'
+const MONTHS_KEY = 'aisafety:analytics:months'
+// The original single-list store, retired 10 Jul 2026. Its contents were copied
+// into the month lists by migrateLegacyEvents(); the key itself is left in
+// place so a rolled-back deployment still finds its data.
+const LEGACY_EVENTS_KEY = 'aisafety:analytics:events'
+const MIGRATED_KEY = 'aisafety:analytics:legacy-migrated'
+// Backstop only — never reached by real traffic (~15k events/month, ~300 bytes
+// each, as of July 2026; this is ~3× headroom). It bounds what a scripted
+// abuser who stays under the per-IP rate limit can grow a month list to: at
+// the cap a month is ~15 MB of organic events, or ~90 MB if an attacker maxes
+// every length-capped field — either way comfortably inside the shared
+// free-tier database's 256 MB, which the chatbot rate limiter also lives in.
+// recordEvent warns in the logs whenever the cap actually trims, and the
+// dashboard shows a warning banner from MONTH_CAP_WARN_RATIO up — so organic
+// growth approaching the cap is visible well before data quietly disappears.
+const MONTH_CAP = 50_000
+// Share of MONTH_CAP at which the dashboard starts warning: early enough to
+// raise the cap (one constant, redeploy) before anything is actually trimmed.
+const MONTH_CAP_WARN_RATIO = 0.75
+// Month lists are read in slices of this many events, each slice as its OWN
+// REST request (a pipeline wouldn't help — the client sends a pipeline as one
+// HTTP call whose single response would still carry everything), so no
+// response can outgrow Upstash's response-size limits, however big a month
+// gets. ~300-byte events make a full slice ~1.5 MB.
+const READ_CHUNK = 5000
+
+/** 'YYYY-MM' (UTC) an event belongs to, from its server-stamped timestamp. */
+function monthOf(ts: string): string | null {
+  return /^\d{4}-\d{2}/.test(ts) ? ts.slice(0, 7) : null
+}
+
+/** Numeric sort score for a 'YYYY-MM' month, e.g. '2026-07' → 202607. */
+function monthScore(month: string): number {
+  return Number(month.replace('-', ''))
+}
+
+/** Epoch-ms bounds [start, end) of a 'YYYY-MM' month, in UTC. */
+function monthBounds(month: string): { startMs: number; endMs: number } {
+  const y = Number(month.slice(0, 4))
+  const m = Number(month.slice(5, 7))
+  return {
+    startMs: Date.UTC(y, m - 1, 1),
+    endMs: Date.UTC(y, m, 1), // Date.UTC rolls month 12 into January
+  }
+}
+
+/** The stored months (ascending) whose lists could hold events in the range.
+ *  Purely a read optimisation — the per-event date filter in aggregate() is
+ *  what actually enforces the bounds. */
+function monthsInRange(months: string[], range: DateRange): string[] {
+  return months.filter(m => {
+    const b = monthBounds(m)
+    if (range.startMs != null && b.endMs <= range.startMs) return false
+    if (range.endMs != null && b.startMs > range.endMs) return false
+    return true
+  })
+}
 
 // ─── Local-file backend (dev only) ───────────────────────────────────────────
 
@@ -134,10 +199,27 @@ export async function allowTrack(ip: string): Promise<boolean> {
 export async function recordEvent(event: AnalyticsEvent): Promise<void> {
   try {
     if (store) {
+      const month = monthOf(event.ts)
+      if (!month) {
+        console.warn(
+          `[analytics] dropping event with bad timestamp: ${event.ts}`
+        )
+        return
+      }
       const p = store.pipeline()
-      p.lpush(EVENTS_KEY, event) // upstash serializes the object to JSON
-      p.ltrim(EVENTS_KEY, 0, MAX_EVENTS - 1)
-      await p.exec()
+      p.lpush(MONTH_KEY_PREFIX + month, event) // upstash serializes to JSON
+      p.zadd(MONTHS_KEY, { score: monthScore(month), member: month })
+      const [len] = (await p.exec()) as [number, unknown]
+      // Abuse backstop, applied only when actually over the cap. Trimming the
+      // tail on every write would also destabilise readMonths' tail-anchored
+      // slices, so the common case must stay pure-LPUSH. Never silent: real
+      // data loss (an attack, or organic growth outgrowing the cap) is logged.
+      if (len > MONTH_CAP) {
+        console.warn(
+          `[analytics] month ${month} is over its ${MONTH_CAP}-event backstop cap (${len}) — trimming oldest events. If this is organic traffic, raise MONTH_CAP.`
+        )
+        await store.ltrim(MONTH_KEY_PREFIX + month, 0, MONTH_CAP - 1)
+      }
       return
     }
     // No Redis configured (local dev) — fall back to the on-disk log.
@@ -219,6 +301,15 @@ export interface DashboardData {
   selectedSource: string | null
   funnel: ChatbotFunnel
   recent: AnalyticsEvent[]
+  /** Timestamp of the oldest event in the WHOLE store (not just the selected
+   *  range) — lets the dashboard say how far back its data actually goes.
+   *  Undefined when the store is empty or the oldest event can't be read. */
+  oldestTs?: string
+  /** Months whose event count has reached MONTH_CAP_WARN_RATIO of the backstop
+   *  cap — the dashboard shows a warning so the cap can be raised before it
+   *  trims anything. Checked across the whole store, not just the selected
+   *  range. Normally empty. */
+  nearCap: { month: string; count: number; cap: number }[]
 }
 
 const EMPTY: Omit<DashboardData, 'source'> = {
@@ -233,6 +324,7 @@ const EMPTY: Omit<DashboardData, 'source'> = {
   selectedSource: null,
   funnel: { opened: 0, typed: 0, clicked: 0 },
   recent: [],
+  nearCap: [],
 }
 
 /** Source filters offered on map pages. 'untracked' = neither map nor cards. */
@@ -324,7 +416,7 @@ function aggregate(
   selectedPageReq?: string,
   unique = true,
   sourceReq?: string
-): Omit<DashboardData, 'source' | 'error'> {
+): Omit<DashboardData, 'source' | 'error' | 'oldestTs' | 'nearCap'> {
   const inRange = all.filter(e => {
     const t = Date.parse(e.ts)
     if (Number.isNaN(t)) return false
@@ -479,6 +571,57 @@ function uniqueUsers(events: AnalyticsEvent[]): number {
   return seen.size + anon
 }
 
+/** Every event in the given months, globally newest-first. Each month list is
+ *  read in READ_CHUNK slices addressed FROM THE TAIL: normal writes only ever
+ *  prepend at the head, so tail-relative indices stay stable and a read can't
+ *  double-count or skip events mid-way. Events arriving after the length
+ *  snapshot simply aren't part of this read — the next refresh has them. (The
+ *  one exception to head-only writes is the backstop trim on a month over
+ *  MONTH_CAP, which eats the tail; a trim landing mid-read can shift a few
+ *  seam events between slices. That's transient, per-read, abuse-only noise —
+ *  the stored data stays correct.)
+ *
+ *  Each slice is awaited as its OWN request, deliberately not pipelined: the
+ *  client sends a pipeline as a single HTTP call, whose one response would
+ *  carry every slice at once — recreating exactly the oversized response the
+ *  slicing exists to prevent. Sequential round trips are fine here: at organic
+ *  volume a dashboard range is a handful of slices. */
+async function readMonths(
+  db: Redis,
+  monthsNewestFirst: { month: string; len: number }[]
+): Promise<AnalyticsEvent[]> {
+  // Newest-first overall: months newest → oldest, and within a month the head
+  // (newest) slice first. In tail-relative terms the head slice is the DEEPEST
+  // tail offset, so iterate offsets downward.
+  const out: AnalyticsEvent[] = []
+  for (const { month, len } of monthsNewestFirst) {
+    const key = MONTH_KEY_PREFIX + month
+    const sliceCount = Math.ceil(len / READ_CHUNK)
+    for (let s = sliceCount - 1; s >= 0; s--) {
+      const fromTail = s * READ_CHUNK // events between this offset and the tail
+      out.push(
+        ...(await db.lrange<AnalyticsEvent>(
+          key,
+          Math.max(-len, -(fromTail + READ_CHUNK)),
+          -(fromTail + 1)
+        ))
+      )
+    }
+  }
+  return out
+}
+
+/** The months at or past the warn share of the backstop cap, given every
+ *  stored month's event count. Shared by both backends so the dashboard's
+ *  early warning behaves identically in dev and prod. */
+function nearCapMonths(
+  counts: { month: string; count: number }[]
+): DashboardData['nearCap'] {
+  return counts
+    .filter(c => c.count >= MONTH_CAP * MONTH_CAP_WARN_RATIO)
+    .map(c => ({ ...c, cap: MONTH_CAP }))
+}
+
 export async function readDashboard(
   range: DateRange,
   page?: string,
@@ -487,10 +630,36 @@ export async function readDashboard(
 ): Promise<DashboardData> {
   if (store) {
     try {
-      // Newest-first (lpush prepends); up to MAX_EVENTS.
-      const all = await store.lrange<AnalyticsEvent>(EVENTS_KEY, 0, -1)
+      // All stored months, oldest first. Every month's length is fetched (a
+      // pipeline of integers — cheap) so the near-cap warning covers the whole
+      // store; only the months the range touches have their events read. The
+      // oldest month also tells us how far back the data goes.
+      const months = (await store.zrange(MONTHS_KEY, 0, -1)) as string[]
+      let lens: number[] = []
+      if (months.length > 0) {
+        const lenPipe = store.pipeline()
+        for (const m of months) lenPipe.llen(MONTH_KEY_PREFIX + m)
+        lens = (await lenPipe.exec()) as number[]
+      }
+      const byMonth = months.map((month, i) => ({ month, len: lens[i] }))
+      const wanted = monthsInRange(months, range)
+        .map(m => byMonth.find(b => b.month === m)!)
+        .reverse() // newest first
+      const [all, oldestEvent] = await Promise.all([
+        readMonths(store, wanted),
+        months.length > 0
+          ? (store.lindex(
+              MONTH_KEY_PREFIX + months[0],
+              -1
+            ) as Promise<AnalyticsEvent | null>)
+          : null,
+      ])
       return {
         source: 'redis',
+        oldestTs: oldestEvent?.ts,
+        nearCap: nearCapMonths(
+          byMonth.map(b => ({ month: b.month, count: b.len }))
+        ),
         ...aggregate(all, range, page, unique, sourceFilter),
       }
     } catch (err) {
@@ -504,8 +673,118 @@ export async function readDashboard(
 
   const all = await readDevEvents()
   if (all.length === 0) return { source: 'none', ...EMPTY }
+  const devMonthCounts = new Map<string, number>()
+  for (const e of all) {
+    const month = monthOf(e.ts)
+    if (month) devMonthCounts.set(month, (devMonthCounts.get(month) ?? 0) + 1)
+  }
   return {
     source: 'local-file',
+    oldestTs: all[all.length - 1]?.ts, // newest-first, so the oldest is last
+    nearCap: nearCapMonths(
+      [...devMonthCounts.entries()].map(([month, count]) => ({ month, count }))
+    ),
     ...aggregate(all, range, page, unique, sourceFilter),
   }
+}
+
+export interface MigrationResult {
+  /** True when a previous run already did the copy, so this call was a no-op. */
+  alreadyMigrated: boolean
+  /** Events copied out of the legacy list, per month. Empty on a no-op. */
+  copied: Record<string, number>
+}
+
+/** One-time copy of the retired single-list store into the per-month lists.
+ *  COPIES rather than moves: the legacy list stays untouched so a rolled-back
+ *  deployment (which only knows the old key) still sees its data, while new
+ *  code never reads it — each event lives in exactly one place per code
+ *  version, so nothing double-counts.
+ *
+ *  A marker key claimed with SET NX makes a second call a no-op — two copies
+ *  would double every pre-migration event. The marker is claimed BEFORE the
+ *  copy and then updated with per-month progress after every copied batch, so
+ *  a mid-copy crash leaves an exact record of what landed. Recovery from such
+ *  a crash (never needed if the one POST succeeds): read the marker's copied
+ *  counts, then for each listed month LTRIM that many elements OFF THE TAIL of
+ *  its month list (copied legacy events always sit at the tail, and head
+ *  growth from live traffic doesn't disturb a trim expressed as "keep the
+ *  first llen − copied"), delete the marker, and POST again. Do NOT delete
+ *  whole month lists: they also hold every event recorded since the deploy,
+ *  which exists nowhere else.
+ *
+ *  Run it a minute or so AFTER the deploy settles: an old-code instance
+ *  draining its last requests can still append to the legacy list, and an
+ *  event landing there after this function has read the list would be missed
+ *  (visible in old dashboards, absent from new ones — recover as above, then
+ *  re-run). */
+export async function migrateLegacyEvents(): Promise<MigrationResult> {
+  if (!store) {
+    throw new Error(
+      'migrateLegacyEvents needs the Redis backend; the dev file store has no legacy list'
+    )
+  }
+  const claimed = await store.set(
+    MIGRATED_KEY,
+    { startedAt: new Date().toISOString(), copied: {} },
+    { nx: true }
+  )
+  if (claimed !== 'OK') return { alreadyMigrated: true, copied: {} }
+
+  // The legacy list is bounded (it was capped at 5,000), but read it in chunks
+  // anyway — same response-size caution as readMonths.
+  const len = await store.llen(LEGACY_EVENTS_KEY)
+  const events: AnalyticsEvent[] = []
+  for (let start = 0; start < len; start += READ_CHUNK) {
+    events.push(
+      ...(await store.lrange<AnalyticsEvent>(
+        LEGACY_EVENTS_KEY,
+        start,
+        start + READ_CHUNK - 1
+      ))
+    )
+  }
+
+  // Group by month, keeping each group newest-first (the list already is).
+  const byMonth = new Map<string, AnalyticsEvent[]>()
+  for (const e of events) {
+    const month = monthOf(e.ts)
+    if (!month) {
+      console.warn(`[analytics] migration skipping event with bad ts: ${e.ts}`)
+      continue
+    }
+    const group = byMonth.get(month) ?? []
+    group.push(e)
+    byMonth.set(month, group)
+  }
+
+  // Legacy events are all older than anything the new code has written (up to
+  // a few seconds of rolling-deploy overlap, which only bends ordering at the
+  // seam, never counts), so they belong at the TAIL of their month lists:
+  // rpush in newest-first order keeps each list newest-first overall. Batches
+  // are sent as separate sequential requests (not one pipeline, which would
+  // still be a single oversized REST call) so no request can outgrow Upstash's
+  // request-size limit, and the marker is updated after every batch so a crash
+  // leaves an exact recovery record (see the docstring).
+  const copied: Record<string, number> = {}
+  const startedAt = new Date().toISOString()
+  for (const [month, group] of byMonth) {
+    for (let start = 0; start < group.length; start += 500) {
+      await store.rpush(
+        MONTH_KEY_PREFIX + month,
+        ...group.slice(start, start + 500)
+      )
+      copied[month] = Math.min(start + 500, group.length)
+      await store.set(MIGRATED_KEY, { startedAt, copied })
+    }
+    await store.zadd(MONTHS_KEY, {
+      score: monthScore(month),
+      member: month,
+    })
+  }
+  await store.set(MIGRATED_KEY, {
+    doneAt: new Date().toISOString(),
+    copied,
+  })
+  return { alreadyMigrated: false, copied }
 }
