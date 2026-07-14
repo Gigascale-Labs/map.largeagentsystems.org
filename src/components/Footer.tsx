@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
 import UpButton from './UpButton'
 import styles from './Footer.module.css'
 
@@ -11,22 +11,12 @@ export default function Footer() {
           {/* First footer column */}
           <div className="width-6-col">
             <div className="width-4-col">
-              <Image
-                src="/images/logo.svg"
-                alt="AI Safety logo"
-                width={139}
-                height={24}
-                className="margin-bottom-24px"
-              />
-              <p className="paragraph-small padding-bottom-32px">
-                We&apos;re a small nonprofit driven by 1.25 salaried employees
-                and lots of volunteers. We aim to multiply global AI safety
-                efforts through a centralized, comprehensive, and up-to-date
-                resource hub.
+              <p className="paragraph-small-bold color-white margin-bottom-24px">
+                LargeAgentSystems.com
               </p>
-              <Link href="/about" className="button-secondary">
-                Learn more about us
-              </Link>
+              <p className="paragraph-small padding-bottom-32px">
+                LargeAgentSystems.org is a project of Gigascale Laboratories.
+              </p>
             </div>
           </div>
 
@@ -85,11 +75,11 @@ export default function Footer() {
                 AI Safety Funding
               </Link>
               <Link
-                href="https://aisafetycom.substack.com/"
+                href="https://www.LargeAgentSystems.org"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                AISafety.com Updates
+                Join the LargeAgentSystems.org Community
               </Link>
             </div>
           </div>
@@ -105,11 +95,12 @@ export default function Footer() {
               src="/images/team-thumbnails.png"
             />
             <p className="paragraph-xs">
-              Maintained by AI safety community-builders
+              Maintained by Gigascale Laboratories.
             </p>
           </div>
           <p className="paragraph-xs opacity-80">
-            (ɔ) 2026 · This site is released under a CC BY-SA license
+            (ɔ) 2026 · Released with permission from AISafety.com under the MIT
+            Licence.
           </p>
         </div>
       </div>

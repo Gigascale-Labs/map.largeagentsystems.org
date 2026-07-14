@@ -1,22 +1,8 @@
 import type { MetadataRoute } from 'next'
 
-const BASE_URL = 'https://aisafety.com'
+const BASE_URL = 'https://www.map.largeagentsystems.org'
 
-const ROUTES = [
-  '/',
-  '/about',
-  '/advisors',
-  '/communities',
-  '/donation-guide',
-  '/events-and-training',
-  '/founders',
-  '/funding',
-  '/jobs',
-  '/map',
-  '/media-channels',
-  '/projects',
-  '/self-study',
-] as const
+const ROUTES = ['/', '/map'] as const
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date()

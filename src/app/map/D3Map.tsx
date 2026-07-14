@@ -75,7 +75,7 @@ export default function D3Map({ orgs }: D3MapProps) {
   const tooltipRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!containerRef.current || orgs.length === 0) return
+    if (!containerRef.current) return
 
     // Clear any existing SVG
     d3.select(containerRef.current).select('svg').remove()
@@ -188,7 +188,7 @@ export default function D3Map({ orgs }: D3MapProps) {
       .attr('font-size', 72)
       .style('letter-spacing', '-2.16px')
       .attr('fill', '#fff')
-      .text('Map of AI Existential Safety')
+      .text('Map of Large Agent Systems')
 
     // Add area labels
     const labelScale = 1.75

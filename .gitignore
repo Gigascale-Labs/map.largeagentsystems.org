@@ -41,7 +41,7 @@ yarn-error.log*
 next-env.d.ts
 
 # generated at build time
-/public/images/airtable-cache/
+/public/images/logo-cache/
 
 # local-dev analytics event log (no Redis in dev)
 /.analytics-dev/

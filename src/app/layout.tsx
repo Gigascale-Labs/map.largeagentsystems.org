@@ -5,7 +5,6 @@ import { Suspense } from 'react'
 import './globals.css'
 import LayoutShell from '@/components/LayoutShell'
 import MatomoRouteTracker from '@/components/MatomoRouteTracker'
-import { fetchAllCounts } from '@/lib/data/counts'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -18,8 +17,8 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://aisafety.com'),
-  title: 'AISafety.com',
+  metadataBase: new URL('https://www.map.largeagentsystems.org'),
+  title: 'LargeAgentSystems.com',
   description:
     'The hub for AI existential safety, providing resources to help you learn about and help mitigate the risks from advanced AI.',
   icons: {
@@ -27,7 +26,7 @@ export const metadata: Metadata = {
     apple: '/images/webclip.png',
   },
   openGraph: {
-    title: 'AISafety.com',
+    title: 'LargeAgentSystems.com',
     description:
       'The hub for AI existential safety, providing resources to help you learn about and help mitigate the risks from advanced AI.',
     images: [{ url: '/images/link-preview.png' }],
@@ -35,20 +34,18 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AISafety.com',
+    title: 'LargeAgentSystems.com',
     description:
       'The hub for AI existential safety, providing resources to help you learn about and help mitigate the risks from advanced AI.',
     images: ['/images/link-preview.png'],
   },
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const counts = await fetchAllCounts()
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} antialiased`}>
@@ -75,7 +72,7 @@ export default async function RootLayout({
         <Suspense fallback={null}>
           <MatomoRouteTracker />
         </Suspense>
-        <LayoutShell counts={counts}>{children}</LayoutShell>
+        <LayoutShell>{children}</LayoutShell>
       </body>
     </html>
   )

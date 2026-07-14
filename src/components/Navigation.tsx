@@ -3,60 +3,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react'
-import { SearchButton, SearchProvider } from './SearchTrigger'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import styles from './Navigation.module.css'
-
-const navItems = [
-  {
-    href: '/events-and-training',
-    label: 'Events & training',
-    icon: 'calendar.svg',
-  },
-  { href: '/map', label: 'Field map', icon: 'map.svg' },
-  { href: '/communities', label: 'Communities', icon: 'globe.svg' },
-  { href: '/self-study', label: 'Self-study', icon: 'book.svg' },
-  { href: '/jobs', label: 'Jobs', icon: 'briefcase.svg' },
-  { href: '/funding', label: 'Funding', icon: 'coins.svg' },
-  {
-    href: '/media-channels',
-    label: 'Media channels',
-    icon: 'megaphone.svg',
-  },
-  { href: '/advisors', label: 'Advisors', icon: 'person.svg' },
-  {
-    href: '/projects',
-    label: 'Volunteer projects',
-    icon: 'clipboard.svg',
-  },
-  {
-    href: '/founders',
-    label: 'Founder toolkit',
-    icon: 'rocket.svg',
-  },
-  { href: '/donation-guide', label: 'Donation guide', icon: 'heart.svg' },
-]
-
-const MIN_OVERFLOW = 5
 
 const SCROLL_THRESHOLD_BLUR = 50
 
-export default function Navigation({
-  counts,
-}: {
-  counts: Partial<Record<string, number>>
-}) {
+export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [visibleCount, setVisibleCount] = useState(
-    navItems.length - MIN_OVERFLOW
-  )
   const pathname = usePathname()
 
   // Close the mobile menu only once the new route is actually active.
@@ -66,78 +19,12 @@ export default function Navigation({
     // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: react to route change driven by Link clicks outside this component
     setIsMenuOpen(false)
   }, [pathname])
-  const dropdownRef = useRef<HTMLDivElement>(null)
-  const navRef = useRef<HTMLElement>(null)
+
   const navOuterRef = useRef<HTMLDivElement>(null)
-  const itemRefs = useRef<(HTMLAnchorElement | null)[]>([])
-  const itemWidths = useRef<number[]>([])
   const scrollInfo = useRef({
     lastY: 0,
     mode: 'top' as 'top' | 'scrolling' | 'hidden' | 'revealed',
   })
-
-  const visibleItems = navItems.slice(0, visibleCount)
-  const overflowItems = navItems.slice(visibleCount)
-
-  const calculateFromCachedWidths = useCallback(() => {
-    if (!navRef.current || itemWidths.current.length === 0) return
-    const navWidth = navRef.current.offsetWidth
-    // Reserves space for both the +N pill and the standalone search icon.
-    const overflowButtonWidth = 110
-    const gap = 8
-    let usedWidth = 0
-    let count = 0
-
-    for (let i = 0; i < itemWidths.current.length; i++) {
-      const w = itemWidths.current[i] + gap
-      if (usedWidth + w + overflowButtonWidth > navWidth) break
-      usedWidth += w
-      count++
-    }
-
-    const maxVisible = navItems.length - MIN_OVERFLOW
-    setVisibleCount(Math.min(count, maxVisible))
-  }, [])
-
-  // Measure item widths and calculate before the browser paints — no jitter
-  useLayoutEffect(() => {
-    const widths: number[] = []
-    for (const el of itemRefs.current) {
-      if (!el) break
-      widths.push(el.offsetWidth)
-    }
-    if (widths.length > 0) {
-      itemWidths.current = widths
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: must set count before paint to prevent jitter
-      calculateFromCachedWidths()
-      // Reveal nav after correct count is set (CSS starts at opacity:0)
-      if (navRef.current) navRef.current.style.opacity = '1'
-    }
-  }, [calculateFromCachedWidths])
-
-  // Recalculate on resize using cached widths — no need to reset visibleCount
-  useEffect(() => {
-    const observer = new ResizeObserver(() => {
-      calculateFromCachedWidths()
-    })
-    if (navRef.current) observer.observe(navRef.current)
-    return () => observer.disconnect()
-  }, [calculateFromCachedWidths])
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
-      ) {
-        setIsDropdownOpen(false)
-      }
-    }
-    if (isDropdownOpen) {
-      document.addEventListener('click', handleClickOutside)
-    }
-    return () => document.removeEventListener('click', handleClickOutside)
-  }, [isDropdownOpen])
 
   useLayoutEffect(() => {
     const handleScroll = () => {
@@ -202,108 +89,29 @@ export default function Navigation({
     document.documentElement.classList.remove('is-reload')
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
   return (
-    <SearchProvider counts={counts}>
+    <>
       <div ref={navOuterRef} className={`${styles.nav} ${styles['nav-fixed']}`}>
         <div className={styles['nav-container']}>
           <Link href="/" className="padding-right-24px">
-            <Image
-              src="/images/logo.svg"
-              alt="AI Safety logo"
-              width={139}
-              height={24}
-              className="block"
-            />
+            <p className="paragraph-small-bold color-white">
+              LargeAgentSystems.com
+            </p>
           </Link>
 
-          <nav ref={navRef} className={styles['nav-menu']}>
-            {visibleItems.map((item, i) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={styles['nav-item']}
-                ref={el => {
-                  itemRefs.current[i] = el
-                }}
-              >
-                <div className={styles['nav-item-icon']}>
-                  <Image
-                    width={16}
-                    height={16}
-                    alt={`${item.label} icon`}
-                    src={`/images/${item.icon}`}
-                  />
-                </div>
-                <p className="paragraph-small-bold">{item.label}</p>
-                {counts[item.href] && (
-                  <p className="paragraph-xs color-teal-300">
-                    {counts[item.href]}
-                  </p>
-                )}
-              </Link>
-            ))}
-
-            <div
-              ref={dropdownRef}
-              className={styles['nav-item-last']}
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            >
-              <p className="paragraph-small-bold">+{overflowItems.length}</p>
-              {isDropdownOpen && (
-                <div className={styles['nav-dropdown']}>
-                  {overflowItems.map(item => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={styles['nav-dropdown-item']}
-                      style={{ marginBottom: '8px' }}
-                      onClick={() => setIsDropdownOpen(false)}
-                    >
-                      <div className={styles['nav-item-icon']}>
-                        <Image
-                          width={16}
-                          height={16}
-                          alt={`${item.label} icon`}
-                          src={`/images/${item.icon}`}
-                        />
-                      </div>
-                      <p className="paragraph-small-bold">{item.label}</p>
-                      {counts[item.href] && (
-                        <p className="paragraph-xs color-teal-300">
-                          {counts[item.href]}
-                        </p>
-                      )}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <SearchButton
-              className={`${styles['nav-search-button']} flex items-center justify-center color-white`}
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                aria-hidden="true"
-              >
-                <circle
-                  cx="9"
-                  cy="9"
-                  r="6"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
+          <nav className={styles['nav-menu']}>
+            <Link href="/map" className={styles['nav-item']}>
+              <div className={styles['nav-item-icon']}>
+                <Image
+                  width={16}
+                  height={16}
+                  alt="Field map icon"
+                  src="/images/map.svg"
                 />
-                <path
-                  d="M13.5 13.5L17 17"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </SearchButton>
+              </div>
+              <p className="paragraph-small-bold">Field map</p>
+            </Link>
           </nav>
 
           <button
@@ -327,13 +135,9 @@ export default function Navigation({
       >
         <div className={styles['mobile-menu-header']}>
           <Link href="/">
-            <Image
-              src="/images/logo.svg"
-              alt="AI Safety logo"
-              width={139}
-              height={24}
-              className="block"
-            />
+            <p className="paragraph-small-bold color-white">
+              LargeAgentSystems.com
+            </p>
           </Link>
           <button
             className={styles['menu-button']}
@@ -348,39 +152,19 @@ export default function Navigation({
           </button>
         </div>
         <nav className={styles['mobile-menu-items']}>
-          {navItems.map(item => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={styles['nav-item']}
-            >
-              <div className={styles['nav-item-icon']}>
-                <Image
-                  width={16}
-                  height={16}
-                  alt={`${item.label} icon`}
-                  src={`/images/${item.icon}`}
-                />
-              </div>
-              <p className="paragraph-default-bold">{item.label}</p>
-              {counts[item.href] && (
-                <p className="paragraph-small color-teal-300">
-                  {counts[item.href]}
-                </p>
-              )}
-            </Link>
-          ))}
-          <SearchButton
-            className={styles['nav-item']}
-            onClick={() => setIsMenuOpen(false)}
-          >
+          <Link href="/map" className={styles['nav-item']}>
             <div className={styles['nav-item-icon']}>
-              <Image width={16} height={16} alt="" src="/images/search.svg" />
+              <Image
+                width={16}
+                height={16}
+                alt="Field map icon"
+                src="/images/map.svg"
+              />
             </div>
-            <p className="paragraph-default-bold">Search</p>
-          </SearchButton>
+            <p className="paragraph-default-bold">Field map</p>
+          </Link>
         </nav>
       </div>
-    </SearchProvider>
+    </>
   )
 }

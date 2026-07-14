@@ -66,15 +66,13 @@ interface MapOrg {
 interface MapClientProps {
   orgs: MapOrg[]
   lastUpdated: string | null
-  suggestEntryLink: string
-  suggestCorrectionLink: string
+  suggestUrl: string
 }
 
 export default function MapClient({
   orgs,
   lastUpdated,
-  suggestEntryLink,
-  suggestCorrectionLink,
+  suggestUrl,
 }: MapClientProps) {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
@@ -220,6 +218,11 @@ export default function MapClient({
           operating in the AI safety space.
         </h2>
 
+        <p className="padding-bottom-56px paragraph-small color-teal-300">
+          Our thanks to AISafety.com for providing this map and related code
+          under an MIT licence.
+        </p>
+
         <div className="database-outer-grid">
           <div>
             <div className="padding-bottom-40px">
@@ -311,15 +314,13 @@ export default function MapClient({
               />
             </FilterSidebar>
             <ContributeButtons
-              suggestEntryUrl={suggestEntryLink}
-              suggestCorrectionUrl={suggestCorrectionLink}
-              noun="listing"
-              suggestEntryDescription="Suggest an org, project, or program to be published here"
+              suggestUrl={suggestUrl}
+              suggestDescription="Suggest a new org, project, or program to be published here, or let us know about a correction to an existing listing"
               extraLinks={[
                 {
                   label: 'View raw data',
-                  description: 'See the database in Airtable',
-                  url: 'https://airtable.com/appF8XfZUGXtfi40E/shrLojIEOsNCKg1BL',
+                  description: 'See the code and data on GitHub',
+                  url: 'https://github.com/Gigascale-Labs/map.largeagentaystems.org',
                 },
               ]}
             />

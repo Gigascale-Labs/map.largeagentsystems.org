@@ -65,7 +65,7 @@ export default function D3PosterMap({ orgs }: D3PosterMapProps) {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!containerRef.current || orgs.length === 0) return
+    if (!containerRef.current) return
 
     // Clear any existing SVG
     d3.select(containerRef.current).select('svg').remove()
@@ -127,7 +127,7 @@ export default function D3PosterMap({ orgs }: D3PosterMapProps) {
       .attr('font-size', 75)
       .style('letter-spacing', '-0.64px')
       .attr('fill', '#fff')
-      .text('Map of AI Existential Safety')
+      .text('Map of Large Agent Systems')
 
     // Add area labels
     const labelScale = 1.75

@@ -7,40 +7,24 @@ interface ExtraLink {
 }
 
 interface ContributeButtonsProps {
-  suggestEntryUrl: string
-  suggestCorrectionUrl: string
-  noun: string
-  suggestEntryDescription?: string
-  suggestCorrectionDescription?: string
+  suggestUrl: string
+  suggestDescription: string
   extraLinks?: ExtraLink[]
 }
 
 export default function ContributeButtons({
-  suggestEntryUrl,
-  suggestCorrectionUrl,
-  noun,
-  suggestEntryDescription,
-  suggestCorrectionDescription,
+  suggestUrl,
+  suggestDescription,
   extraLinks,
 }: ContributeButtonsProps) {
   return (
     <div className={styles.wrapper}>
-      <a href={suggestEntryUrl} target="_blank" rel="noopener noreferrer">
+      <a href={suggestUrl} target="_blank" rel="noopener noreferrer">
         <p className="paragraph-default-bold padding-bottom-8px">
-          Suggest listing <span className="color-teal-400">&rarr;</span>
+          Suggest listing or correction{' '}
+          <span className="color-teal-400">&rarr;</span>
         </p>
-        <p className="paragraph-small color-teal-300">
-          {suggestEntryDescription || 'Suggest a resource to be published here'}
-        </p>
-      </a>
-      <a href={suggestCorrectionUrl} target="_blank" rel="noopener noreferrer">
-        <p className="paragraph-default-bold padding-bottom-8px">
-          Suggest correction <span className="color-teal-400">&rarr;</span>
-        </p>
-        <p className="paragraph-small color-teal-300">
-          {suggestCorrectionDescription ||
-            `Let us know of changes to a ${noun}`}
-        </p>
+        <p className="paragraph-small color-teal-300">{suggestDescription}</p>
       </a>
       {extraLinks?.map(link => (
         <a

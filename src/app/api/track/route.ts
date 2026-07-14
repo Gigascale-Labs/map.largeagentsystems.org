@@ -5,7 +5,7 @@ import {
   ALLOWED_EVENT_TYPES,
   type AnalyticsEvent,
 } from '@/lib/analytics/events'
-import { getClientIp } from '@/lib/assistant/rate-limit'
+import { getClientIp } from '@/lib/rate-limit'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'

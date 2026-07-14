@@ -3,17 +3,14 @@
 import { usePathname } from 'next/navigation'
 import Navigation from './Navigation'
 import Footer from './Footer'
-import Assistant from './assistant/Assistant'
 
-// Routes that render without Navigation/Footer/Assistant
-const standaloneRoutes = ['/poster-map', '/admin']
+// /poster-map renders without Navigation/Footer (standalone print/embed view).
+const standaloneRoutes = ['/poster-map']
 
 export default function LayoutShell({
   children,
-  counts,
 }: {
   children: React.ReactNode
-  counts: Partial<Record<string, number>>
 }) {
   const pathname = usePathname()
   const isStandalone = standaloneRoutes.some(
@@ -26,10 +23,9 @@ export default function LayoutShell({
 
   return (
     <>
-      <Navigation counts={counts} />
+      <Navigation />
       {children}
       <Footer />
-      <Assistant />
     </>
   )
 }

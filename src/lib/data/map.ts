@@ -1,33 +1,29 @@
-import { fetchAirtableRecords } from './airtable'
+import fs from 'fs'
+import path from 'path'
+import { parse } from 'csv-parse/sync'
+import { unstable_cache } from 'next/cache'
+import { downloadAndCacheUrls } from './image-cache'
+import { mapMeta } from './map-config'
 
-const TABLE_ID = 'tblvzbGL9q9dOO9Nc'
-const VIEW_ID = 'viwJgtDFDmaP8PyoI'
+const DATA_FILE = path.join(process.cwd(), 'data', 'map.csv')
 
-const MAGIC_ROW_NAMES = [
-  'Merch',
-  'Last updated',
-  'Suggest correction',
-  'Suggest entry',
-]
-
-interface AirtableRecord {
-  fields: {
-    'Long name'?: string
-    'Long name for cards'?: string
-    'Short name'?: string
-    Description?: string
-    Category?: string[]
-    'Category (text)'?: string
-    Status?: string
-    'Logo (for cards)'?: Array<{ url: string }>
-    'Logo (for map)'?: Array<{ url: string }>
-    Link?: string
-    'Short URL'?: string
-    'Date added'?: string
-    x?: number
-    y?: number
-    Scale?: string
-  }
+interface MapCsvRow {
+  'Long name'?: string
+  'Long name for cards'?: string
+  'Short name'?: string
+  Description?: string
+  Category?: string
+  Status?: string
+  'Logo (for cards)'?: string
+  'Logo (for map)'?: string
+  Link?: string
+  'Short URL'?: string
+  'Date added'?: string
+  x?: string
+  y?: string
+  Scale?: string
+  'Publish?'?: string
+  'Hide?'?: string
 }
 
 export interface MapOrg {
@@ -51,29 +47,10 @@ export interface MapOrg {
 export interface MapData {
   records: MapOrg[]
   lastUpdated: string | null
-  suggestEntryLink: string
-  suggestCorrectionLink: string
+  suggestUrl: string
 }
 
-const FIELD_LIST = [
-  'Long name',
-  'Long name for cards',
-  'Short name',
-  'Description',
-  'Category (text)',
-  'Category',
-  'Status',
-  'Logo (for cards)',
-  'Logo (for map)',
-  'Link',
-  'Short URL',
-  'Date added',
-  'x',
-  'y',
-  'Scale',
-]
-
-// Sort order is hardcoded so the Airtable view sort can be changed freely
+// Sort order is hardcoded so the data file's row order can change freely
 // without affecting how cards are displayed on /map.
 const STATUS_ORDER = ['Active', 'Inactive']
 const SCALE_ORDER_LARGE_FIRST = ['Large', 'Medium', 'Small']
@@ -127,85 +104,108 @@ function compareCategoryIndices(a: number[], b: number[]): number {
   return a.length - b.length
 }
 
-export async function getMapData(): Promise<MapData> {
-  const raw = await fetchAirtableRecords({
-    tableId: TABLE_ID,
-    viewId: VIEW_ID,
-    // Explicit publish gate so we never depend on the view's filter config to
-    // keep unpublished orgs out of the data (and therefore out of the chatbot
-    // catalog). The page's magic control rows (Last updated, Suggest entry,
-    // etc.) are all published, so they pass this filter unaffected.
-    filterByFormula: 'AND({Publish?} = TRUE(), {Hide?} = FALSE())',
-    fields: FIELD_LIST,
-  })
+function parseBool(value: string | undefined, context: string): boolean {
+  const normalized = (value ?? '').trim().toUpperCase()
+  if (normalized === 'TRUE') return true
+  if (normalized === 'FALSE') return false
+  throw new Error(`${context} must be "TRUE" or "FALSE", got: "${value ?? ''}"`)
+}
 
-  const allRecords: MapOrg[] = []
-  let lastUpdated: string | null = null
-  let suggestEntryLink = '/map/suggest'
-  let suggestCorrectionLink = '#'
+function parseNumber(
+  value: string | undefined,
+  context: string
+): number | null {
+  const trimmed = (value ?? '').trim()
+  if (!trimmed) return null
+  const n = Number(trimmed)
+  if (!Number.isFinite(n)) {
+    throw new Error(`${context} must be a number, got: "${trimmed}"`)
+  }
+  return n
+}
 
-  for (const record of raw) {
-    const fields = record.fields as AirtableRecord['fields']
+// CSV can't reuse its own delimiter for multi-value cells, so Category is
+// semicolon-separated in data/map.csv. Re-join with ', ' so the resulting
+// MapOrg.category string still matches the comma-separated format every
+// consumer (categoryIndices above, MapClient's filters, search-index, etc.)
+// already expects.
+function parseCategory(value: string | undefined): string {
+  return (value ?? '')
+    .split(';')
+    .map(c => c.trim())
+    .filter(Boolean)
+    .join(', ')
+}
 
-    const title = fields['Long name for cards'] || fields['Long name']
-    if (!title || !fields.Description) continue
+function slugify(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
 
-    const isMagic = MAGIC_ROW_NAMES.includes(title)
-
-    if (title === 'Last updated' && fields.Description) {
-      lastUpdated = fields.Description
-    }
-
-    if (title === 'Suggest entry' && fields.Link) {
-      suggestEntryLink = fields.Link
-    } else if (title === 'Suggest correction' && fields.Link) {
-      suggestCorrectionLink = fields.Link
-    }
-
-    let category = ''
-    if (fields['Category (text)']) {
-      category = fields['Category (text)']
-    } else if (Array.isArray(fields.Category)) {
-      category = fields.Category.join(', ')
-    }
-
-    let logo: string | null = null
-    if (fields['Logo (for cards)'] && fields['Logo (for cards)'].length > 0) {
-      logo = fields['Logo (for cards)'][0].url
-    }
-
-    let mapLogo: string | null = null
-    if (fields['Logo (for map)'] && fields['Logo (for map)'].length > 0) {
-      mapLogo = fields['Logo (for map)'][0].url
-    }
-
-    // QA: 'Long name for cards' includes acronyms in brackets (e.g. "CARMA"),
-    // which is correct for card titles but not for the map tooltip. The tooltip
-    // should use 'Long name' (without brackets), matching the live site's LongLabel.
-    const tooltipTitle = fields['Long name'] || title
-
-    allRecords.push({
-      id: record.id,
-      title,
-      tooltipTitle,
-      shortName: fields['Short name'] || null,
-      description: fields.Description,
-      category,
-      status: fields.Status || 'Active',
-      logo,
-      mapLogo,
-      link: fields.Link || '#',
-      shortUrl: fields['Short URL'] || null,
-      x: fields.x ?? null,
-      y: fields.y ?? null,
-      scale: fields.Scale || null,
-      isMagic,
-    })
+async function getMapDataImpl(): Promise<MapData> {
+  if (!fs.existsSync(DATA_FILE)) {
+    throw new Error(`Map data file not found: ${DATA_FILE}`)
   }
 
-  allRecords.sort((a, b) => {
-    if (a.isMagic !== b.isMagic) return a.isMagic ? 1 : -1
+  const csvText = fs.readFileSync(DATA_FILE, 'utf-8')
+  const rows: MapCsvRow[] = parse(csvText, {
+    columns: true,
+    skip_empty_lines: true,
+    trim: true,
+  })
 
+  const published = rows.filter(row => {
+    const title =
+      row['Long name for cards'] || row['Long name'] || '(untitled row)'
+    const publish = parseBool(row['Publish?'], `"Publish?" for "${title}"`)
+    const hide = parseBool(row['Hide?'], `"Hide?" for "${title}"`)
+    return publish && !hide
+  })
+
+  const logoUrls = new Set<string>()
+  for (const row of published) {
+    if (row['Logo (for cards)']) logoUrls.add(row['Logo (for cards)'])
+    if (row['Logo (for map)']) logoUrls.add(row['Logo (for map)'])
+  }
+  const cachedLogoUrls = await downloadAndCacheUrls([...logoUrls])
+
+  const allRecords: MapOrg[] = published.map((row, index) => {
+    const title = row['Long name for cards'] || row['Long name']
+    if (!title) {
+      throw new Error(`Row ${index + 2} of ${DATA_FILE} is missing "Long name"`)
+    }
+    if (!row.Description) {
+      throw new Error(`Row ${index + 2} ("${title}") is missing "Description"`)
+    }
+
+    const tooltipTitle = row['Long name'] || title
+
+    return {
+      id: slugify(title),
+      title,
+      tooltipTitle,
+      shortName: row['Short name'] || null,
+      description: row.Description,
+      category: parseCategory(row.Category),
+      status: row.Status || 'Active',
+      logo: row['Logo (for cards)']
+        ? (cachedLogoUrls.get(row['Logo (for cards)']) ?? null)
+        : null,
+      mapLogo: row['Logo (for map)']
+        ? (cachedLogoUrls.get(row['Logo (for map)']) ?? null)
+        : null,
+      link: row.Link || '#',
+      shortUrl: row['Short URL'] || null,
+      x: parseNumber(row.x, `"x" for "${title}"`),
+      y: parseNumber(row.y, `"y" for "${title}"`),
+      scale: row.Scale || null,
+      isMagic: false,
+    }
+  })
+
+  allRecords.sort((a, b) => {
     const statusDiff =
       rankIn(a.status, STATUS_ORDER) - rankIn(b.status, STATUS_ORDER)
     if (statusDiff !== 0) return statusDiff
@@ -226,8 +226,11 @@ export async function getMapData(): Promise<MapData> {
 
   return {
     records: allRecords,
-    lastUpdated,
-    suggestEntryLink,
-    suggestCorrectionLink,
+    lastUpdated: mapMeta.lastUpdated,
+    suggestUrl: mapMeta.suggestUrl,
   }
 }
+
+export const getMapData = unstable_cache(getMapDataImpl, ['map-data', 'v1'], {
+  revalidate: 3600,
+})
