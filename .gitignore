@@ -40,8 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# generated at build time
-/public/images/logo-cache/
 
 # local-dev analytics event log (no Redis in dev)
 /.analytics-dev/

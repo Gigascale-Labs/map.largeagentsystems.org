@@ -2,7 +2,6 @@ import fs from 'fs'
 import path from 'path'
 import { parse } from 'csv-parse/sync'
 import { unstable_cache } from 'next/cache'
-import { downloadAndCacheUrls } from './image-cache'
 import { mapMeta } from './map-config'
 
 const DATA_FILE = path.join(process.cwd(), 'data', 'map.csv')
@@ -164,13 +163,6 @@ async function getMapDataImpl(): Promise<MapData> {
     return publish && !hide
   })
 
-  const logoUrls = new Set<string>()
-  for (const row of published) {
-    if (row['Logo (for cards)']) logoUrls.add(row['Logo (for cards)'])
-    if (row['Logo (for map)']) logoUrls.add(row['Logo (for map)'])
-  }
-  const cachedLogoUrls = await downloadAndCacheUrls([...logoUrls])
-
   const allRecords: MapOrg[] = published.map((row, index) => {
     const title = row['Long name for cards'] || row['Long name']
     if (!title) {
@@ -190,12 +182,8 @@ async function getMapDataImpl(): Promise<MapData> {
       description: row.Description,
       category: parseCategory(row.Category),
       status: row.Status || 'Active',
-      logo: row['Logo (for cards)']
-        ? (cachedLogoUrls.get(row['Logo (for cards)']) ?? null)
-        : null,
-      mapLogo: row['Logo (for map)']
-        ? (cachedLogoUrls.get(row['Logo (for map)']) ?? null)
-        : null,
+      logo: row['Logo (for cards)'] || null,
+      mapLogo: row['Logo (for map)'] || null,
       link: row.Link || '#',
       shortUrl: row['Short URL'] || null,
       x: parseNumber(row.x, `"x" for "${title}"`),
