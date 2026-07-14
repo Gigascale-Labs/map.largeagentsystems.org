@@ -94,9 +94,14 @@ export default function Navigation() {
     <>
       <div ref={navOuterRef} className={`${styles.nav} ${styles['nav-fixed']}`}>
         <div className={styles['nav-container']}>
-          <Link href="/" className="padding-right-24px">
+          <Link
+            href="https://www.LargeAgentSystems.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="padding-right-24px"
+          >
             <p className="paragraph-small-bold color-white">
-              LargeAgentSystems.com
+              LargeAgentSystems.org
             </p>
           </Link>
 
@@ -134,9 +139,13 @@ export default function Navigation() {
         className={`${styles['mobile-menu']} ${isMenuOpen ? styles['mobile-menu-visible'] : ''}`}
       >
         <div className={styles['mobile-menu-header']}>
-          <Link href="/">
+          <Link
+            href="https://www.LargeAgentSystems.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <p className="paragraph-small-bold color-white">
-              LargeAgentSystems.com
+              LargeAgentSystems.org
             </p>
           </Link>
           <button

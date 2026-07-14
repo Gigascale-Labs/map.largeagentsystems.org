@@ -1,4 +1,4 @@
-# Map of Large Agent Systems
+# Field Map of Large Agent Systems 
 
 > An interactive map of the organizations, projects, and programs working on Large Agent Systems (LAS) safety — decentralised systems of AI agents with high-speed, complex interactions.
 

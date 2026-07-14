@@ -127,7 +127,7 @@ export default function D3PosterMap({ orgs }: D3PosterMapProps) {
       .attr('font-size', 75)
       .style('letter-spacing', '-0.64px')
       .attr('fill', '#fff')
-      .text('Map of Large Agent Systems')
+      .text('Field Map of Large Agent Systems ')
 
     // Add area labels
     const labelScale = 1.75

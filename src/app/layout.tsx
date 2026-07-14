@@ -18,7 +18,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.map.largeagentsystems.org'),
-  title: 'LargeAgentSystems.com',
+  title: 'LargeAgentSystems.org',
   description:
     'The hub for AI existential safety, providing resources to help you learn about and help mitigate the risks from advanced AI.',
   icons: {
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     apple: '/images/webclip.png',
   },
   openGraph: {
-    title: 'LargeAgentSystems.com',
+    title: 'LargeAgentSystems.org',
     description:
       'The hub for AI existential safety, providing resources to help you learn about and help mitigate the risks from advanced AI.',
     images: [{ url: '/images/link-preview.png' }],
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'LargeAgentSystems.com',
+    title: 'LargeAgentSystems.org',
     description:
       'The hub for AI existential safety, providing resources to help you learn about and help mitigate the risks from advanced AI.',
     images: ['/images/link-preview.png'],

@@ -188,7 +188,7 @@ export default function D3Map({ orgs }: D3MapProps) {
       .attr('font-size', 72)
       .style('letter-spacing', '-2.16px')
       .attr('fill', '#fff')
-      .text('Map of Large Agent Systems')
+      .text('Field Map of Large Agent Systems ')
 
     // Add area labels
     const labelScale = 1.75
